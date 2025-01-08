@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35323.107
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedOptimizationApp", "FeedOptimizationApp.csproj", "{D003D2CC-7734-44CB-B6C8-A135FB198E3B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D003D2CC-7734-44CB-B6C8-A135FB198E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D003D2CC-7734-44CB-B6C8-A135FB198E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D003D2CC-7734-44CB-B6C8-A135FB198E3B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D003D2CC-7734-44CB-B6C8-A135FB198E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D003D2CC-7734-44CB-B6C8-A135FB198E3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D003D2CC-7734-44CB-B6C8-A135FB198E3B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A4773D3-5841-4D60-87B3-541A8CDE58BE}
+	EndGlobalSection
+EndGlobal
