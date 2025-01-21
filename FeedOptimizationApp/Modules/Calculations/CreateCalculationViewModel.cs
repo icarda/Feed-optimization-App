@@ -1,0 +1,517 @@
+﻿using DataLibrary.Models;
+using DataLibrary.Models.Enums;
+using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Services;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using static DataLibrary.Enums;
+
+namespace FeedOptimizationApp.Modules.Calculations
+{
+    public class CreateCalculationViewModel : BaseViewModel
+    {
+        private readonly BaseService _baseService;
+        private string? SelectedSpecies => SharedData.SelectedSpecies;
+
+        // Constructor
+        public CreateCalculationViewModel(BaseService baseService, SharedData sharedData) : base(sharedData)
+        {
+            _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
+
+            // Initialize commands
+            LoadFeedsCommand = new Command(async () => await LoadFeedsAsync());
+            LoadAnimalInformationCommand = new Command(async () => await LoadAnimalInformationAsync());
+
+            // Execute the commands to load data
+            LoadFeedsCommand.Execute(null);
+            LoadAnimalInformationCommand.Execute(null);
+
+            // Initialize tab commands
+            SetAnimalInfoActiveTab = new Command(() =>
+            {
+                AnimalInfoTabIsActive = true;
+                FeedInfoTabIsActive = false;
+                ResultsTabIsActive = false;
+            });
+
+            SetFeedInfoTabActive = new Command(() =>
+            {
+                AnimalInfoTabIsActive = false;
+                FeedInfoTabIsActive = true;
+                ResultsTabIsActive = false;
+            });
+
+            SetResultsTabActive = new Command(async () =>
+            {
+                AnimalInfoTabIsActive = false;
+                FeedInfoTabIsActive = false;
+                ResultsTabIsActive = true;
+
+                // Perform calculation
+                Calculation = GetAnimalInformationInputs();
+                CalculationHasFeeds = GetFeedInformationInputs();
+                await DoCalculationAsync(Calculation, CalculationHasFeeds);
+            });
+
+            // Initialize feed commands
+            ClearFeedCommand = new Command(ClearFeed);
+            AddFeedCommand = new Command(OnAddFeed);
+
+            // Initialize properties
+            SelectedType = null;
+            SelectedGrazing = null;
+            SelectedBodyWeight = null;
+            SelectedDietQualityEstimate = null;
+            SelectedNumberOfSucklingKidsLambs = null;
+            AnimalInfoTabIsActive = true;
+        }
+
+        // Commands for loading data and setting active tabs
+        public ICommand LoadFeedsCommand { get; private set; }
+
+        public ICommand LoadAnimalInformationCommand { get; private set; }
+        public ICommand SetAnimalInfoActiveTab { get; }
+        public ICommand SetFeedInfoTabActive { get; }
+        public ICommand SetResultsTabActive { get; }
+        public ICommand ClearFeedCommand { get; }
+        public ICommand AddFeedCommand { get; }
+
+        // Properties for controlling UI elements
+        private bool _isResultsButtonVisible = false;
+
+        public bool IsResultsButtonVisible
+        {
+            get => _isResultsButtonVisible;
+            set => SetProperty(ref _isResultsButtonVisible, value);
+        }
+
+        private bool _isNrSucklingsVisible;
+
+        public bool IsNrSucklingsVisible
+        {
+            get => _isNrSucklingsVisible;
+            set => SetProperty(ref _isNrSucklingsVisible, value);
+        }
+
+        private string _addFeedBoxText = "Add feed";
+
+        public string AddFeedBoxText
+        {
+            get => _addFeedBoxText;
+            set => SetProperty(ref _addFeedBoxText, value);
+        }
+
+        private bool _isAddFeedExpanded = false;
+
+        public bool IsAddFeedExpanded
+        {
+            get => _isAddFeedExpanded;
+            set => SetProperty(ref _isAddFeedExpanded, value);
+        }
+
+        private bool _animalInfoTabIsActive;
+
+        public bool AnimalInfoTabIsActive
+        {
+            get => _animalInfoTabIsActive;
+            set => SetProperty(ref _animalInfoTabIsActive, value);
+        }
+
+        private bool _resultsTabIsActive;
+
+        public bool ResultsTabIsActive
+        {
+            get => _resultsTabIsActive;
+            set => SetProperty(ref _resultsTabIsActive, value);
+        }
+
+        private bool _feedInfoTabIsActive;
+
+        public bool FeedInfoTabIsActive
+        {
+            get => _feedInfoTabIsActive;
+            set => SetProperty(ref _feedInfoTabIsActive, value);
+        }
+
+        private bool _isFeedSelected;
+
+        public bool IsFeedSelected
+        {
+            get => _isFeedSelected;
+            set => SetProperty(ref _isFeedSelected, value);
+        }
+
+        // Properties for holding selected values
+        private string? _selectedType;
+
+        public string? SelectedType
+        {
+            get => _selectedType;
+            set
+            {
+                if (SetProperty(ref _selectedType, value))
+                {
+                    IsNrSucklingsVisible = value == "Does" || value == "Ewes";
+                }
+            }
+        }
+
+        private GrazingSelection? _selectedGrazing;
+
+        public GrazingSelection? SelectedGrazing
+        {
+            get => _selectedGrazing;
+            set => SetProperty(ref _selectedGrazing, value);
+        }
+
+        private BodyWeightSelection? _selectedBodyWeight;
+
+        public BodyWeightSelection? SelectedBodyWeight
+        {
+            get => _selectedBodyWeight;
+            set => SetProperty(ref _selectedBodyWeight, value);
+        }
+
+        private decimal? _ADG;
+
+        public decimal? ADG
+        {
+            get => _ADG;
+            set => SetProperty(ref _ADG, value);
+        }
+
+        private DQESelection? _selectedDietQualityEstimate;
+
+        public DQESelection? SelectedDietQualityEstimate
+        {
+            get => _selectedDietQualityEstimate;
+            set => SetProperty(ref _selectedDietQualityEstimate, value);
+        }
+
+        private bool _isLast8WeeksOfGestation;
+
+        public bool IsLast8WeeksOfGestation
+        {
+            get => _isLast8WeeksOfGestation;
+            set => SetProperty(ref _isLast8WeeksOfGestation, value);
+        }
+
+        private decimal? _dailyMilkYieldValue;
+
+        public decimal? DailyMilkYieldValue
+        {
+            get => _dailyMilkYieldValue;
+            set => SetProperty(ref _dailyMilkYieldValue, value);
+        }
+
+        private decimal? _fatContentValue;
+
+        public decimal? FatContentValue
+        {
+            get => _fatContentValue;
+            set => SetProperty(ref _fatContentValue, value);
+        }
+
+        private FeedEntity _selectedFeed;
+
+        public FeedEntity SelectedFeed
+        {
+            get => _selectedFeed;
+            set
+            {
+                if (SetProperty(ref _selectedFeed, value))
+                {
+                    IsFeedSelected = value != null;
+                }
+            }
+        }
+
+        // Bindable properties for CalculationHasFeed fields
+        private decimal? _dm;
+
+        public decimal? DM
+        {
+            get => _dm;
+            set => SetProperty(ref _dm, value);
+        }
+
+        private decimal? _cpdm;
+
+        public decimal? CPDM
+        {
+            get => _cpdm;
+            set => SetProperty(ref _cpdm, value);
+        }
+
+        private decimal? _memjkgdm;
+
+        public decimal? MEMJKGDM
+        {
+            get => _memjkgdm;
+            set => SetProperty(ref _memjkgdm, value);
+        }
+
+        private decimal? _price;
+
+        public decimal? Price
+        {
+            get => _price;
+            set => SetProperty(ref _price, value);
+        }
+
+        private decimal? _intake;
+
+        public decimal? Intake
+        {
+            get => _intake;
+            set => SetProperty(ref _intake, value);
+        }
+
+        private decimal? _minLimit;
+
+        public decimal? MinLimit
+        {
+            get => _minLimit;
+            set => SetProperty(ref _minLimit, value);
+        }
+
+        private decimal? _maxLimit;
+
+        public decimal? MaxLimit
+        {
+            get => _maxLimit;
+            set => SetProperty(ref _maxLimit, value);
+        }
+
+        private NrSucklingKidsLambsSelection? _selectedNumberOfSucklingKidsLambs;
+
+        public NrSucklingKidsLambsSelection? SelectedNumberOfSucklingKidsLambs
+        {
+            get => _selectedNumberOfSucklingKidsLambs;
+            set => SetProperty(ref _selectedNumberOfSucklingKidsLambs, value);
+        }
+
+        private CalculationEntity? _calculation;
+
+        public CalculationEntity? Calculation
+        {
+            get => _calculation;
+            set => SetProperty(ref _calculation, value);
+        }
+
+        private List<CalculationHasFeedEntity>? _calculationHasFeeds;
+
+        public List<CalculationHasFeedEntity>? CalculationHasFeeds
+        {
+            get => _calculationHasFeeds;
+            set => SetProperty(ref _calculationHasFeeds, value);
+        }
+
+        private CalculationHasResultEntity? _calculationHasResult;
+
+        public CalculationHasResultEntity? CalculationHasResult
+        {
+            get => _calculationHasResult;
+            set => SetProperty(ref _calculationHasResult, value);
+        }
+
+        // Collections to hold options and feeds
+        public ObservableCollection<FeedEntity> Feeds { get; set; } = new ObservableCollection<FeedEntity>();
+
+        public ObservableCollection<string> Types { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<SheepTypeSelection> SheepTypes { get; set; } = new ObservableCollection<SheepTypeSelection>();
+        public ObservableCollection<GoatTypeSelection> GoatTypes { get; set; } = new ObservableCollection<GoatTypeSelection>();
+        public ObservableCollection<GrazingSelection> Grazings { get; set; } = new ObservableCollection<GrazingSelection>();
+        public ObservableCollection<BodyWeightSelection> BodyWeights { get; set; } = new ObservableCollection<BodyWeightSelection>();
+        public ObservableCollection<double> ADGs { get; set; } = new ObservableCollection<double>();
+        public ObservableCollection<DQESelection> DietQualityEstimates { get; set; } = new ObservableCollection<DQESelection>();
+        public ObservableCollection<NrSucklingKidsLambsSelection> NrSucklingKidsLambs { get; set; } = new ObservableCollection<NrSucklingKidsLambsSelection>();
+
+        // Method to load feeds asynchronously
+        private async Task LoadFeedsAsync()
+        {
+            try
+            {
+                /*var feeds = await _baseService.FeedService.GetFeedsAsync();
+                Feeds.Clear();
+                foreach (var feed in feeds)
+                {
+                    Feeds.Add(feed);
+                }*/
+            }
+            catch (Exception ex)
+            {
+                // Log or display the error
+            }
+        }
+
+        // Method to perform calculation asynchronously
+        private async Task DoCalculationAsync(CalculationEntity animalInformation, List<CalculationHasFeedEntity> feedInformation)
+        {
+            CalculationHasResult = await _baseService.CalculationService.CalculateResult(animalInformation, feedInformation);
+        }
+
+        // Method to load animal information asynchronously
+        private async Task LoadAnimalInformationAsync()
+        {
+            Types.Clear();
+            Grazings.Clear();
+            BodyWeights.Clear();
+            DietQualityEstimates.Clear();
+            NrSucklingKidsLambs.Clear();
+
+            /*if (SelectedSpecies == SheepTypeEntity)
+            {
+                foreach (SheepTypeSelection type in Enum.GetValues(typeof(SheepTypeSelection)))
+                {
+                    Types.Add(type.ToString());
+                }
+            }
+            else if (SelectedSpecies == SpeciesSelection.Goat)
+            {
+                foreach (GoatTypeSelection type in Enum.GetValues(typeof(GoatTypeSelection)))
+                {
+                    Types.Add(type.ToString());
+                }
+            }*/
+
+            foreach (GrazingSelection grazing in Enum.GetValues(typeof(GrazingSelection)))
+            {
+                Grazings.Add(grazing);
+            }
+
+            foreach (BodyWeightSelection bodyWeight in Enum.GetValues(typeof(BodyWeightSelection)))
+            {
+                BodyWeights.Add(bodyWeight);
+            }
+
+            foreach (DQESelection dietQualityEstimate in Enum.GetValues(typeof(DQESelection)))
+            {
+                DietQualityEstimates.Add(dietQualityEstimate);
+            }
+
+            foreach (NrSucklingKidsLambsSelection nrSucklingKidsLambs in Enum.GetValues(typeof(NrSucklingKidsLambsSelection)))
+            {
+                NrSucklingKidsLambs.Add(nrSucklingKidsLambs);
+            }
+        }
+
+        // Collection to hold stored feeds
+        public ObservableCollection<StoredFeed> StoredFeeds { get; set; } = new ObservableCollection<StoredFeed>();
+
+        // Method to add a feed to the stored feeds collection
+        private void OnAddFeed()
+        {
+            var storedFeed = new StoredFeed
+            {
+                FeedId = SelectedFeed.Id,
+                FeedName = SelectedFeed.Name,
+                DM = SelectedFeed.DryMatterPercentage,
+                CPDM = SelectedFeed.CPPercentage,
+                MEMJKGDM = SelectedFeed.MEMJKg,
+                Price = (decimal)Price,
+                Intake = (decimal)Intake,
+                MinLimit = MinLimit,
+                MaxLimit = MaxLimit
+            };
+
+            StoredFeeds.Insert(0, storedFeed); // Add new feed to the top of the list
+            ClearAddedFeedForm(); // Clear form for next entry
+            AddFeedBoxText = "Add additional feed";
+            IsAddFeedExpanded = false;
+
+            if (StoredFeeds.Count >= 3)
+            {
+                IsResultsButtonVisible = true;
+            }
+        }
+
+        // Method to clear the added feed form
+        private void ClearAddedFeedForm()
+        {
+            SelectedFeed = null;
+            DM = null;
+            CPDM = null;
+            MEMJKGDM = null;
+            Price = null;
+            Intake = null;
+            MinLimit = null;
+            MaxLimit = null;
+        }
+
+        // Method to clear current feed information
+        private void ClearFeed()
+        {
+            SelectedFeed = null;
+            DM = null;
+            CPDM = null;
+            MEMJKGDM = null;
+            Price = null;
+            Intake = null;
+            MinLimit = null;
+            MaxLimit = null;
+        }
+
+        // Method to get animal information inputs
+        private CalculationEntity GetAnimalInformationInputs()
+        {
+            /*var animalInformation = new CalculationEntity
+            {
+                Type = SelectedType,
+                Grazing = SelectedGrazing.Value.GetDisplayName(),
+                BodyWeight = SelectedBodyWeight.Value.GetDisplayName(),
+                ADG = ADG,
+                DietQualityEstimate = SelectedDietQualityEstimate.Value.GetDisplayName(),
+                Gestation = IsLast8WeeksOfGestation,
+                MilkYield = DailyMilkYieldValue,
+                FatContent = FatContentValue,
+                KidsLambs = (int?)SelectedNumberOfSucklingKidsLambs
+                //add species id
+            };
+
+            return animalInformation;*/
+            return new CalculationEntity();
+        }
+
+        // Method to get feed information inputs
+        private List<CalculationHasFeedEntity> GetFeedInformationInputs()
+        {
+            /*var feedInformationList = new List<CalculationHasFeedEntity>();
+
+            foreach (var storedFeed in StoredFeeds)
+            {
+                var feedInformation = new CalculationHasFeedEntity
+                {
+                    CalculationId = new Guid(),
+                    FeedId = storedFeed.FeedId,
+                    DM = (decimal)storedFeed.DM,
+                    CPDM = (decimal)storedFeed.CPDM,
+                    MEMJKGDM = (decimal)storedFeed.MEMJKGDM,
+                    Price = storedFeed.Price,
+                    Intake = storedFeed.Intake,
+                    MinLimit = (decimal)storedFeed.MinLimit,
+                    MaxLimit = (decimal)storedFeed.MaxLimit
+                };
+
+                feedInformationList.Add(feedInformation);
+            }
+
+            return feedInformationList;*/
+            return new List<CalculationHasFeedEntity>();
+        }
+
+        // Class to represent a stored feed
+        public class StoredFeed
+        {
+            public string FeedId { get; set; }
+            public string FeedName { get; set; }
+            public decimal? DM { get; set; }
+            public decimal? CPDM { get; set; }
+            public decimal? MEMJKGDM { get; set; }
+            public decimal Price { get; set; }
+            public decimal Intake { get; set; }
+            public decimal? MinLimit { get; set; }
+            public decimal? MaxLimit { get; set; }
+        }
+    }
+}

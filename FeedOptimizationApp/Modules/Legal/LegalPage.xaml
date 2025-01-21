@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FeedOptimizationApp.Modules.Legal.LegalPage">
+    <StackLayout Padding="20" Spacing="20">
+        <!-- Heading -->
+        <Label Text="Feed Optimization App"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               VerticalOptions="Start" />
+
+        <!-- ScrollView for terms and conditions -->
+        <ScrollView VerticalOptions="FillAndExpand">
+            <Label
+                   FontSize="14"
+                   VerticalOptions="Start" HorizontalTextAlignment="Justify">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed pretium nibh. Phasellus quis neque ac turpis tincidunt rhoncus vitae nec nunc. Phasellus aliquet nisi at nisi convallis venenatis. Nullam malesuada, odio sit amet mollis imperdiet, urna felis consequat libero, ut pretium mauris purus ut lorem. Ut et nibh congue leo vehicula bibendum a eu massa. Etiam sit amet ipsum quis neque placerat aliquet et malesuada erat. Vestibulum eu tellus ut nibh congue eleifend vitae ut ante. Donec semper, tellus quis viverra accumsan, quam tortor malesuada sem, ut pretium ex quam sed sapien.
+
+Cras semper purus sit amet purus sodales volutpat. Nunc vestibulum, mi nec ultrices tempor, diam leo scelerisque sem, sed finibus elit massa quis tortor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam fermentum volutpat est a malesuada. Donec vulputate diam in tellus blandit dapibus. Praesent eu molestie nisl. Mauris egestas nibh odio, sagittis luctus augue pharetra a. Cras accumsan quis dui a dictum. In non tempor nisi. Nullam lacus leo, vestibulum mattis imperdiet sit amet, gravida sit amet lorem. Mauris pulvinar sapien orci, sed efficitur sapien ullamcorper ut. "
+            </Label>
+        </ScrollView>
+
+        <!-- Switch control -->
+        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+            <Switch IsToggled="{Binding HasAgreed}" VerticalOptions="Center" />
+            <Label Text="I have read and agreed to the terms and conditions"
+                   VerticalOptions="Center" HorizontalOptions="EndAndExpand"
+                   FontSize="14"
+                   Margin="16,0,0,0" />
+        </StackLayout>
+
+        <!-- Buttons at the bottom -->
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,30,0,0">
+            <Button Text="Back"
+                    HorizontalOptions="CenterAndExpand"
+                    Command="{Binding BackCommand}" />
+            <Button Text="Agree"
+                    HorizontalOptions="CenterAndExpand"
+                    Command="{Binding AgreeCommand}" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

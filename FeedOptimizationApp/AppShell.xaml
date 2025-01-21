@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="FeedOptimizationApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:home="clr-namespace:FeedOptimizationApp.Modules.Home"
+    xmlns:calculations="clr-namespace:FeedOptimizationApp.Modules.Calculations"
+    xmlns:settings="clr-namespace:FeedOptimizationApp.Modules.Settings"
+    Shell.FlyoutBehavior="Disabled"
+    Title="FeedOptimizationApp">
+
+    <TabBar>
+        <ShellContent Title="Home" x:Name="homeTab"
+                ContentTemplate="{DataTemplate home:HomePage}"
+                Route="HomePage">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="{StaticResource IconHome}" FontFamily="FaSolid" Color="{StaticResource Tertiary}" />
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Create" x:Name="createCalculationTab"
+                ContentTemplate="{DataTemplate calculations:CreateCalculationPage}"
+                Route="CreateCalculationPage">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="{StaticResource IconPlusCircle}" FontFamily="FaSolid" Color="{StaticResource Tertiary}" />
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="View" x:Name="viewCalculationsTab"
+                ContentTemplate="{DataTemplate calculations:ViewCalculationsPage}"
+                Route="ViewCalculationsPage">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="{StaticResource IconTable}" FontFamily="FaSolid" Color="{StaticResource Tertiary}" />
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Settings" x:Name="settingsTab"
+                ContentTemplate="{DataTemplate settings:SettingsPage}"
+                Route="SettingsPage">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="{StaticResource IconGear}" FontFamily="FaSolid" Color="{StaticResource Tertiary}" />
+            </ShellContent.Icon>
+        </ShellContent>
+    </TabBar>
+</Shell>

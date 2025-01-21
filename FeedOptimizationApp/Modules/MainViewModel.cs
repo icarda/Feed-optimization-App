@@ -1,0 +1,162 @@
+﻿using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Modules.Legal;
+using FeedOptimizationApp.Services;
+using FeedOptimizationApp.Shared.DTOs;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Input;
+
+namespace FeedOptimizationApp.Modules;
+
+public class MainViewModel : BaseViewModel, INotifyPropertyChanged
+{
+    private readonly BaseService _baseService;
+
+    // Commands for the Next button and Picker selection change
+    public ICommand NextCommand { get; }
+
+    public ICommand PickerSelectionChangedCommand { get; }
+
+    // ObservableCollections to hold the enum values for the pickers
+    public ObservableCollection<string> Languages { get; set; } = new ObservableCollection<string>();
+
+    public ObservableCollection<string> Countries { get; set; } = new ObservableCollection<string>();
+    public ObservableCollection<string> SpeciesList { get; set; } = new ObservableCollection<string>();
+
+    // Constructor to initialize the ViewModel
+    public MainViewModel(BaseService baseService, SharedData sharedData)
+        : base(sharedData)
+    {
+        _baseService = baseService;
+        LoadEnumValues();
+        NextCommand = new Command(OnNextButtonClicked);
+    }
+
+    private bool _isLanguageSelected = false;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the language is selected.
+    /// </summary>
+    public bool IsLanguageSelected
+    {
+        get => _isLanguageSelected;
+        set => SetProperty(ref _isLanguageSelected, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the selected language.
+    /// </summary>
+    public string? SelectedLanguage
+    {
+        get => SharedData.SelectedLanguage;
+        set
+        {
+            if (SharedData.SelectedLanguage != value)
+            {
+                SharedData.SelectedLanguage = value;
+                Console.WriteLine($"SelectedLanguage changed to: {value}"); // Log the change
+                IsLanguageSelected = !string.IsNullOrEmpty(value?.ToString()); // Update IsLanguageSelected
+                OnPropertyChanged(nameof(SelectedLanguage));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the selected country.
+    /// </summary>
+    public string? SelectedCountry
+    {
+        get => SharedData.SelectedCountry;
+        set
+        {
+            if (SharedData.SelectedCountry != value)
+            {
+                SharedData.SelectedCountry = value;
+                OnPropertyChanged(nameof(SelectedCountry));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the selected species.
+    /// </summary>
+    public string? SelectedSpecies
+    {
+        get => SharedData.SelectedSpecies;
+        set
+        {
+            if (SharedData.SelectedSpecies != value)
+            {
+                SharedData.SelectedSpecies = value;
+                OnPropertyChanged(nameof(SelectedSpecies));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Handles the Next button click event.
+    /// Navigates to the LegalPage and clears the navigation stack.
+    /// </summary>
+    private async void OnNextButtonClicked()
+    {
+        if (SelectedCountry != null &&
+            SelectedLanguage != null &&
+            SelectedSpecies != null)
+        {
+            var userDto = new UserDTO
+            {
+                Id = Guid.NewGuid().ToString(),
+                CountryId = SelectedCountry,
+                LanguageId = SelectedLanguage,
+                SpeciesId = SelectedSpecies,
+                TermsAndConditions = false,
+                CreatedAt = DateTime.Now,
+                DeviceManufacturer = DeviceInfo.Manufacturer,
+                DeviceModel = DeviceInfo.Model,
+                DeviceName = DeviceInfo.Name,
+                DeviceVersionString = DeviceInfo.VersionString,
+                DevicePlatform = DeviceInfo.Platform.ToString(),
+                DeviceIdiom = DeviceInfo.Idiom.ToString(),
+                DeviceType = DeviceInfo.DeviceType.ToString()
+            };
+
+            var userEntity = Mappers.MapToUserEntity(userDto);
+
+            // Save user details
+            await _baseService.UserService.SaveAsync(userEntity);
+        }
+        else
+        {
+            // Show a message to the user to select all the options
+            Application.Current.MainPage.DisplayAlert("Error", "Please select all the options to continue.", "OK");
+        }
+
+        var viewModel = new LegalViewModel(_baseService, SharedData);
+        if (Application.Current != null && Application.Current.Windows.Count > 0)
+        {
+            Application.Current.Windows[0].Page = new NavigationPage(new LegalPage(viewModel));
+        }
+    }
+
+    private void LoadEnumValues()
+    {
+        Languages.Clear();
+        Countries.Clear();
+        SpeciesList.Clear();
+
+        /*foreach (LanguageSelection language in Enum.GetValues(typeof(LanguageSelection)))
+        {
+            Languages.Add(language);
+        }
+
+        foreach (CountrySelection country in Enum.GetValues(typeof(CountrySelection)))
+        {
+            Countries.Add(country);
+        }
+
+        foreach (SpeciesSelection species in Enum.GetValues(typeof(SpeciesSelection)))
+        {
+            SpeciesList.Add(species);
+        }*/
+    }
+}

@@ -1,0 +1,36 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FeedOptimizationApp"
+             x:Class="FeedOptimizationApp.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <x:String x:Key="IconSearch">&#xf002;</x:String>
+            <x:String x:Key="IconRecord">&#xf328;</x:String>
+            <x:String x:Key="IconSettings">&#xf085;</x:String>
+            <x:String x:Key="IconRefresh">&#xf021;</x:String>
+            <x:String x:Key="IconSend">&#xf1d8;</x:String>
+            <x:String x:Key="IconHome">&#xf015;</x:String>
+            <x:String x:Key="IconCalculator">&#xf1ec;</x:String>
+            <x:String x:Key="IconPen">&#xf044;</x:String>
+            <x:String x:Key="IconPlusCircle">&#xf055;</x:String>
+            <x:String x:Key="IconList">&#xf03a;</x:String>
+            <x:String x:Key="IconEye">&#xf06e;</x:String>
+            <x:String x:Key="IconGear">&#xf013;</x:String>
+            <x:String x:Key="IconChartLine">&#xf201;</x:String>
+            <x:String x:Key="IconBalanceScale">&#xf24e;</x:String>
+            <x:String x:Key="IconPercentage">&#xf541;</x:String>
+            <x:String x:Key="IconRulerCombined">&#xf546;</x:String>
+            <x:String x:Key="IconResults">&#xf46d;</x:String>
+            <x:String x:Key="IconTable">&#xf0ce;</x:String>
+            <x:String x:Key="IconList2">&#xf00b;</x:String>
+            <x:String x:Key="IconCheckCircle">&#xf058;</x:String>
+            <x:String x:Key="IconTrophy">&#xf091;</x:String>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

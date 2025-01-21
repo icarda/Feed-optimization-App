@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FeedOptimizationApp.Modules.Settings.SettingsPage">
+
+    <StackLayout Padding="20" Spacing="20">
+        <Label Text="Feed Optimization App" FontSize="24" HorizontalOptions="Center" Margin="0,0,0,20" />
+
+        <!-- First pair of Label and Picker -->
+        <Label Text="Language" FontSize="18" />
+        <Picker x:Name="LanguagePicker" Title="Select an option" SelectedItem="{Binding SelectedLanguage}">
+            <Picker.Items>
+                <x:String>English / Anglaise</x:String>
+                <x:String>French / Français</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <!-- Second pair of Label and Picker -->
+        <Label Text="Country" FontSize="18" />
+        <Picker x:Name="CountryPicker" Title="Select an option" SelectedItem="{Binding SelectedCountry}">
+            <Picker.Items>
+                <x:String>Ethiopia</x:String>
+                <x:String>Tunisia</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <!-- Third pair of Label and Picker -->
+        <Label Text="Species" FontSize="18" />
+        <Picker x:Name="SpeciesPicker" Title="Select an option" SelectedItem="{Binding SelectedSpecies}">
+            <Picker.Items>
+                <x:String>Goat</x:String>
+                <x:String>Sheep</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <!-- Buttons -->
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,30,0,0">
+            <Button Text="Cancel" Command="{Binding CancelCommand}" />
+            <Button Text="Save" Command="{Binding SaveCommand}" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
