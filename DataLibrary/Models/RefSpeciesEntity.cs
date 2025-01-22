@@ -10,13 +10,11 @@ public class RefSpeciesEntity
 
     public RefSpeciesEntity(int id, string name)
     {
-        _id = id;
-        _name = name;
+        Id = id;
+        Name = name;
     }
 
-    private int _id;
-    public int Id => _id; // Primary key
+    public int Id { get; private set; } // Primary key
 
-    private string _name;
-    public string Name => _name; // NOT NULL
+    public string Name { get; private set; } // NOT NULL
 }

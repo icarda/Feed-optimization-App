@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DataLibrary.Models;
+﻿namespace DataLibrary.Models;
 
 public class RefCountryEntity
 {
@@ -8,23 +6,19 @@ public class RefCountryEntity
     {
     }
 
-    public RefCountryEntity(int id, string country, string dateFormat, string currencyValue)
+    public RefCountryEntity(int id, int countryId, string dateFormat, string currencyValue)
     {
-        _id = id;
-        _country = country;
-        _dateFormat = dateFormat;
-        _currencyValue = currencyValue;
+        Id = id;
+        CountryId = countryId;
+        DateFormat = dateFormat;
+        CurrencyValue = currencyValue;
     }
 
-    private int _id;
-    public int Id => _id; // Primary key
+    public int Id { get; private set; } // Primary key
 
-    private string _country;
-    public string Country => _country; // NOT NULL
+    public int CountryId { get; private set; } // NOT NULL
 
-    private string _dateFormat;
-    public string DateFormat => _dateFormat; // NOT NULL
+    public string DateFormat { get; private set; } // NOT NULL
 
-    private string _currencyValue;
-    public string CurrencyValue => _currencyValue; // NOT NULL
+    public string CurrencyValue { get; private set; } // NOT NULL
 }

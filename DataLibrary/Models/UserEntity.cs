@@ -11,77 +11,63 @@ public class UserEntity
 
     public UserEntity(int id, int countryId, int languageId, int speciesId, bool termsAndConditions, DateTime createdAt, string deviceManufacturer, string deviceModel, string deviceName, string deviceVersionString, string devicePlatform, string deviceIdiom, string deviceType)
     {
-        _id = id;
-        _countryId = countryId;
-        _languageId = languageId;
-        _speciesId = speciesId;
-        _termsAndConditions = termsAndConditions;
-        _createdAt = createdAt;
-        _deviceManufacturer = deviceManufacturer;
-        _deviceModel = deviceModel;
-        _deviceName = deviceName;
-        _deviceVersionString = deviceVersionString;
-        _devicePlatform = devicePlatform;
-        _deviceIdiom = deviceIdiom;
-        _deviceType = deviceType;
+        Id = id;
+        CountryId = countryId;
+        LanguageId = languageId;
+        SpeciesId = speciesId;
+        TermsAndConditions = termsAndConditions;
+        CreatedAt = createdAt;
+        DeviceManufacturer = deviceManufacturer;
+        DeviceModel = deviceModel;
+        DeviceName = deviceName;
+        DeviceVersionString = deviceVersionString;
+        DevicePlatform = devicePlatform;
+        DeviceIdiom = deviceIdiom;
+        DeviceType = deviceType;
     }
 
     public void Set(int countryId, int languageId, int speciesId, bool termsAndConditions, DateTime createdAt, string deviceManufacturer, string deviceModel, string deviceName, string deviceVersionString, string devicePlatform, string deviceIdiom, string deviceType)
     {
-        _countryId = countryId;
-        _languageId = languageId;
-        _speciesId = speciesId;
-        _termsAndConditions = termsAndConditions;
-        _createdAt = createdAt;
-        _deviceManufacturer = deviceManufacturer;
-        _deviceModel = deviceModel;
-        _deviceName = deviceName;
-        _deviceVersionString = deviceVersionString;
-        _devicePlatform = devicePlatform;
-        _deviceIdiom = deviceIdiom;
-        _deviceType = deviceType;
+        CountryId = countryId;
+        LanguageId = languageId;
+        SpeciesId = speciesId;
+        TermsAndConditions = termsAndConditions;
+        CreatedAt = createdAt;
+        DeviceManufacturer = deviceManufacturer;
+        DeviceModel = deviceModel;
+        DeviceName = deviceName;
+        DeviceVersionString = deviceVersionString;
+        DevicePlatform = devicePlatform;
+        DeviceIdiom = deviceIdiom;
+        DeviceType = deviceType;
     }
 
-    private int _id;
-    public int Id => _id; // Primary key
+    public int Id { get; private set; } // Primary key
 
-    private int _countryId;
-    public int CountryId => _countryId; // Reference to Ref_Country.Id
+    public int CountryId { get; private set; } // Reference to Ref_Country.Id
 
-    private int _languageId;
-    public int LanguageId => _languageId; // Reference to Ref_Language.Id
+    public int LanguageId { get; private set; } // Reference to Ref_Language.Id
 
-    private int _speciesId;
-    public int SpeciesId => _speciesId; // Reference to Ref_Species.Id
+    public int SpeciesId { get; private set; } // Reference to Ref_Species.Id
 
-    private bool _termsAndConditions;
-    public bool TermsAndConditions => _termsAndConditions; // NOT NULL
+    public bool TermsAndConditions { get; private set; } // NOT NULL
 
-    private DateTime _createdAt;
-    public DateTime CreatedAt => _createdAt; // NOT NULL
+    public DateTime CreatedAt { get; private set; } // NOT NULL
 
     // New properties for device details
-    private string _deviceManufacturer;
+    public string DeviceManufacturer { get; private set; }
 
-    public string DeviceManufacturer => _deviceManufacturer;
+    public string DeviceModel { get; private set; }
 
-    private string _deviceModel;
-    public string DeviceModel => _deviceModel;
+    public string DeviceName { get; private set; }
 
-    private string _deviceName;
-    public string DeviceName => _deviceName;
+    public string DeviceVersionString { get; private set; }
 
-    private string _deviceVersionString;
-    public string DeviceVersionString => _deviceVersionString;
+    public string DevicePlatform { get; private set; }
 
-    private string _devicePlatform;
-    public string DevicePlatform => _devicePlatform;
+    public string DeviceIdiom { get; private set; }
 
-    private string _deviceIdiom;
-    public string DeviceIdiom => _deviceIdiom;
-
-    private string _deviceType;
-    public string DeviceType => _deviceType;
+    public string DeviceType { get; private set; }
 
     public LanguageEntity LanguageEntity { get; set; }
     public CountryEntity CountryEntity { get; set; }

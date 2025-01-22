@@ -8,40 +8,34 @@ public class CalculationHasResultEntity
 
     public CalculationHasResultEntity(int id, int calculationId, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
     {
-        _id = id;
-        _calculationId = calculationId;
-        _gFresh = gFresh;
-        _percentFresh = percentFresh;
-        _percentDryMatter = percentDryMatter;
-        _totalRation = totalRation;
+        Id = id;
+        CalculationId = calculationId;
+        GFresh = gFresh;
+        PercentFresh = percentFresh;
+        PercentDryMatter = percentDryMatter;
+        TotalRation = totalRation;
     }
 
     public void Set(int calculationId, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
     {
-        _calculationId = calculationId;
-        _gFresh = gFresh;
-        _percentFresh = percentFresh;
-        _percentDryMatter = percentDryMatter;
-        _totalRation = totalRation;
+        CalculationId = calculationId;
+        GFresh = gFresh;
+        PercentFresh = percentFresh;
+        PercentDryMatter = percentDryMatter;
+        TotalRation = totalRation;
     }
 
-    private int _id;
-    public int Id => _id; // Primary key
+    public int Id { get; private set; } // Primary key
 
-    private int _calculationId;
-    public int CalculationId => _calculationId; // Reference to Calculations.Id
+    public int CalculationId { get; private set; } // Reference to Calculations.Id
 
-    private decimal _gFresh;
-    public decimal GFresh => _gFresh; // NOT NULL
+    public decimal GFresh { get; private set; } // NOT NULL
 
-    private decimal _percentFresh;
-    public decimal PercentFresh => _percentFresh; // NOT NULL
+    public decimal PercentFresh { get; private set; } // NOT NULL
 
-    private decimal _percentDryMatter;
-    public decimal PercentDryMatter => _percentDryMatter; // NOT NULL
+    public decimal PercentDryMatter { get; private set; } // NOT NULL
 
-    private decimal _totalRation;
-    public decimal TotalRation => _totalRation; // NOT NULL
+    public decimal TotalRation { get; private set; } // NOT NULL
 
     public CalculationEntity Calculation { get; set; }
 }

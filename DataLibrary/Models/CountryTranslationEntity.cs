@@ -10,19 +10,16 @@ public class CountryTranslationEntity
 
     public CountryTranslationEntity(int countryId, string languageCode, string translatedDescription)
     {
-        _countryId = countryId;
-        _languageCode = languageCode;
-        _translatedDescription = translatedDescription;
+        CountryId = countryId;
+        LanguageCode = languageCode;
+        TranslatedDescription = translatedDescription;
     }
 
-    private int _countryId;
-    public int CountryId => _countryId; // Reference to Ref_Country.Id
+    public int CountryId { get; private set; } // Reference to Ref_Country.Id
 
-    private string _languageCode;
-    public string LanguageCode => _languageCode; // NOT NULL
+    public string LanguageCode { get; private set; } // NOT NULL
 
-    private string _translatedDescription;
-    public string TranslatedDescription => _translatedDescription; // NOT NULL
+    public string TranslatedDescription { get; private set; } // NOT NULL
 
     public CountryEntity Country { get; set; }
 }

@@ -10,19 +10,16 @@ public class FeedTranslationEntity
 
     public FeedTranslationEntity(int feedId, string languageCode, string translatedDescription)
     {
-        _feedId = feedId;
-        _languageCode = languageCode;
-        _translatedDescription = translatedDescription;
+        FeedId = feedId;
+        LanguageCode = languageCode;
+        TranslatedDescription = translatedDescription;
     }
 
-    private int _feedId;
-    public int FeedId => _feedId; // Reference to Feed.Id
+    public int FeedId { get; private set; } // Reference to Feed.Id
 
-    private string _languageCode;
-    public string LanguageCode => _languageCode; // NOT NULL
+    public string LanguageCode { get; private set; } // NOT NULL
 
-    private string _translatedDescription;
-    public string TranslatedDescription => _translatedDescription; // NOT NULL
+    public string TranslatedDescription { get; private set; } // NOT NULL
 
     public FeedEntity Feed { get; set; }
 }

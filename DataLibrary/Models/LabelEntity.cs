@@ -10,13 +10,11 @@ public class LabelEntity
 
     public LabelEntity(int id, string labelKey)
     {
-        _id = id;
-        _labelKey = labelKey;
+        Id = id;
+        LabelKey = labelKey;
     }
 
-    private int _id;
-    public int Id => _id; // Primary key
+    public int Id { get; private set; } // Primary key
 
-    private string _labelKey;
-    public string LabelKey => _labelKey; // NOT NULL
+    public string LabelKey { get; private set; } // NOT NULL
 }

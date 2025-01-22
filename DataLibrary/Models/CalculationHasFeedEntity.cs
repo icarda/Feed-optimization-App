@@ -1,64 +1,47 @@
-﻿namespace DataLibrary.Models;
-
-public class CalculationHasFeedEntity
+﻿namespace DataLibrary.Models
 {
-    public CalculationHasFeedEntity()
+    public class CalculationHasFeedEntity
     {
+        public CalculationHasFeedEntity()
+        { }
+
+        public CalculationHasFeedEntity(int calculationId, int feedId, decimal dm, decimal cpdm, decimal memjkgdm, decimal price, decimal intake, decimal minLimit, decimal maxLimit)
+        {
+            CalculationId = calculationId;
+            FeedId = feedId;
+            DM = dm;
+            CPDM = cpdm;
+            MEMJKGDM = memjkgdm;
+            Price = price;
+            Intake = intake;
+            MinLimit = minLimit;
+            MaxLimit = maxLimit;
+        }
+
+        public void Set(int calculationId, int feedId, decimal dm, decimal cpdm, decimal memjkgdm, decimal price, decimal intake, decimal minLimit, decimal maxLimit)
+        {
+            CalculationId = calculationId;
+            FeedId = feedId;
+            DM = dm;
+            CPDM = cpdm;
+            MEMJKGDM = memjkgdm;
+            Price = price;
+            Intake = intake;
+            MinLimit = minLimit;
+            MaxLimit = maxLimit;
+        }
+
+        public int CalculationId { get; private set; } // Reference to Calculations.Id
+        public int FeedId { get; private set; } // Reference to Feed.Id
+        public decimal DM { get; private set; } // NOT NULL
+        public decimal CPDM { get; private set; } // NOT NULL
+        public decimal MEMJKGDM { get; private set; } // NOT NULL
+        public decimal Price { get; private set; } // NOT NULL
+        public decimal Intake { get; private set; } // NOT NULL
+        public decimal MinLimit { get; private set; } // NOT NULL
+        public decimal MaxLimit { get; private set; } // NOT NULL
+
+        public CalculationEntity Calculation { get; set; }
+        public FeedEntity Feed { get; set; }
     }
-
-    public CalculationHasFeedEntity(int calculationId, int feedId, decimal dm, decimal cpdm, decimal memjkgdm, decimal price, decimal intake, decimal minLimit, decimal maxLimit)
-    {
-        _calculationId = calculationId;
-        _feedId = feedId;
-        _dm = dm;
-        _cpdm = cpdm;
-        _memjkgdm = memjkgdm;
-        _price = price;
-        _intake = intake;
-        _minLimit = minLimit;
-        _maxLimit = maxLimit;
-    }
-
-    public void Set(int calculationId, int feedId, decimal dm, decimal cpdm, decimal memjkgdm, decimal price, decimal intake, decimal minLimit, decimal maxLimit)
-    {
-        _calculationId = calculationId;
-        _feedId = feedId;
-        _dm = dm;
-        _cpdm = cpdm;
-        _memjkgdm = memjkgdm;
-        _price = price;
-        _intake = intake;
-        _minLimit = minLimit;
-        _maxLimit = maxLimit;
-    }
-
-    private int _calculationId;
-    public int CalculationId => _calculationId; // Reference to Calculations.Id
-
-    private int _feedId;
-    public int FeedId => _feedId; // Reference to Feed.Id
-
-    private decimal _dm;
-    public decimal DM => _dm; // NOT NULL
-
-    private decimal _cpdm;
-    public decimal CPDM => _cpdm; // NOT NULL
-
-    private decimal _memjkgdm;
-    public decimal MEMJKGDM => _memjkgdm; // NOT NULL
-
-    private decimal _price;
-    public decimal Price => _price; // NOT NULL
-
-    private decimal _intake;
-    public decimal Intake => _intake; // NOT NULL
-
-    private decimal _minLimit;
-    public decimal MinLimit => _minLimit; // NOT NULL
-
-    private decimal _maxLimit;
-    public decimal MaxLimit => _maxLimit; // NOT NULL
-
-    public CalculationEntity Calculation { get; set; }
-    public FeedEntity Feed { get; set; }
 }

@@ -10,17 +10,14 @@ public class RefLanguageEntity
 
     public RefLanguageEntity(int id, string languageCode, string name)
     {
-        _id = id;
-        _languageCode = languageCode;
-        _name = name;
+        Id = id;
+        LanguageCode = languageCode;
+        Name = name;
     }
 
-    private int _id;
-    public int Id => _id; // Primary key
+    public int Id { get; private set; } // Primary key
 
-    private string _languageCode;
-    public string LanguageCode => _languageCode; // NOT NULL
+    public string LanguageCode { get; private set; } // NOT NULL
 
-    private string _name;
-    public string Name => _name; // NOT NULL
+    public string Name { get; private set; } // NOT NULL
 }

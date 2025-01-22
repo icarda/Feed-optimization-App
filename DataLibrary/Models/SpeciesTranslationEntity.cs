@@ -11,23 +11,19 @@ public class SpeciesTranslationEntity
 
     public SpeciesTranslationEntity(int speciesId, string name, string languageCode, string translatedDescription)
     {
-        _speciesId = speciesId;
-        _name = name;
-        _languageCode = languageCode;
-        _translatedDescription = translatedDescription;
+        SpeciesId = speciesId;
+        Name = name;
+        LanguageCode = languageCode;
+        TranslatedDescription = translatedDescription;
     }
 
-    private int _speciesId;
-    public int SpeciesId => _speciesId; // Reference to Ref_Species.Id
+    public int SpeciesId { get; private set; } // Reference to Ref_Species.Id
 
-    private string _name;
-    public string Name => _name; // NOT NULL
+    public string Name { get; private set; } // NOT NULL
 
-    private string _languageCode;
-    public string LanguageCode => _languageCode; // NOT NULL
+    public string LanguageCode { get; private set; } // NOT NULL
 
-    private string _translatedDescription;
-    public string TranslatedDescription => _translatedDescription; // NOT NULL
+    public string TranslatedDescription { get; private set; } // NOT NULL
 
     public SpeciesEntity SpeciesEntity { get; set; }
 }

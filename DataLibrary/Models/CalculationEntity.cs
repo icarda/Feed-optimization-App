@@ -10,75 +10,64 @@ public class CalculationEntity
 
     public CalculationEntity(int id, int speciesId, string name, string description, string type, int grazingId, int bodyWeightId, decimal? adg, bool gestation, decimal? milkYield, decimal? fatContent, int dietQualityEstimateId, int kidsLambsId)
     {
-        _id = id;
-        _speciesId = speciesId;
-        _name = name;
-        _description = description;
-        _type = type;
-        _grazingId = grazingId;
-        _bodyWeightId = bodyWeightId;
-        _adg = adg;
-        _gestation = gestation;
-        _milkYield = milkYield;
-        _fatContent = fatContent;
-        _dietQualityEstimateId = dietQualityEstimateId;
-        _kidsLambsId = kidsLambsId;
+        Id = id;
+        SpeciesId = speciesId;
+        Name = name;
+        Description = description;
+        Type = type;
+        GrazingId = grazingId;
+        BodyWeightId = bodyWeightId;
+        ADG = adg;
+        Gestation = gestation;
+        MilkYield = milkYield;
+        FatContent = fatContent;
+        DietQualityEstimateId = dietQualityEstimateId;
+        KidsLambsId = kidsLambsId;
     }
 
     public void Set(int speciesId, string name, string description, string type, int grazingId, int bodyWeightId, decimal? adg, bool gestation, decimal? milkYield, decimal? fatContent, int dietQualityEstimateId, int kidsLambsId)
     {
-        _speciesId = speciesId;
-        _name = name;
-        _description = description;
-        _type = type;
-        _grazingId = grazingId;
-        _bodyWeightId = bodyWeightId;
-        _adg = adg;
-        _gestation = gestation;
-        _milkYield = milkYield;
-        _fatContent = fatContent;
-        _dietQualityEstimateId = dietQualityEstimateId;
-        _kidsLambsId = kidsLambsId;
+        SpeciesId = speciesId;
+        Name = name;
+        Description = description;
+        Type = type;
+        GrazingId = grazingId;
+        BodyWeightId = bodyWeightId;
+        ADG = adg;
+        Gestation = gestation;
+        MilkYield = milkYield;
+        FatContent = fatContent;
+        DietQualityEstimateId = dietQualityEstimateId;
+        KidsLambsId = kidsLambsId;
     }
 
-    private int _id;
-    public int Id => _id;
+    public int Id { get; private set; }
 
-    private int _speciesId;
-    public int SpeciesId => _speciesId; // Reference to Ref_Species.Id
+    public int SpeciesId { get; private set; } // Reference to Ref_Species.Id
 
-    private string _name;
-    public string Name => _name; // NOT NULL
+    public string Name { get; private set; } // NOT NULL
 
-    private string _description;
-    public string Description => _description; // NULL
+    public string Description { get; private set; } // NULL
 
-    private string _type;
-    public string Type => _type; // NULL
+    public string Type { get; private set; } // NULL
 
-    private int _grazingId;
-    public int GrazingId => _grazingId; // NOT NULL
+    public int GrazingId { get; private set; } // NOT NULL
 
-    private int _bodyWeightId;
-    public int BodyWeightId => _bodyWeightId; // NOT NULL
+    public int BodyWeightId { get; private set; } // NOT NULL
 
-    private decimal? _adg;
-    public decimal? ADG => _adg; // NOT NULL
-    private bool _gestation;
-    public bool Gestation => _gestation; // NOT NULL
+    public decimal? ADG { get; private set; } // NOT NULL
 
-    private decimal? _milkYield;
-    public decimal? MilkYield => _milkYield; // NULL
+    public bool Gestation { get; private set; } // NOT NULL
 
-    private decimal? _fatContent;
-    public decimal? FatContent => _fatContent; // NULL
+    public decimal? MilkYield { get; private set; } // NULL
 
-    private int _dietQualityEstimateId;
-    public int DietQualityEstimateId => _dietQualityEstimateId; // NOT NULL
+    public decimal? FatContent { get; private set; } // NULL
 
-    private int _kidsLambsId;
-    public int KidsLambsId => _kidsLambsId; // NOT NULL
-    public SpeciesEntity SpeciesEntity { get; set; } //
+    public int DietQualityEstimateId { get; private set; } // NOT NULL
+
+    public int KidsLambsId { get; private set; } // NOT NULL
+
+    public SpeciesEntity SpeciesEntity { get; set; } // NOT NULL
     public GrazingEntity GrazingEntity { get; set; } // NOT NULL
     public BodyWeightEntity BodyWeightEntity { get; set; } // NOT NULL
     public DietQualityEstimateEntity DietQualityEstimateEntity { get; set; } // NOT NULL
