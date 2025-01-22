@@ -15,8 +15,8 @@ public class FeedTranslationEntity
         _translatedDescription = translatedDescription;
     }
 
-    private string _feedId;
-    public string FeedId => _feedId; // Reference to Feed.Id
+    private int _feedId;
+    public int FeedId => _feedId; // Reference to Feed.Id
 
     private string _languageCode;
     public string LanguageCode => _languageCode; // NOT NULL

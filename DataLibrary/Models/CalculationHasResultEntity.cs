@@ -6,7 +6,7 @@ public class CalculationHasResultEntity
     {
     }
 
-    public CalculationHasResultEntity(string id, CalculationEntity calculation, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
+    public CalculationHasResultEntity(int id, CalculationEntity calculation, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
     {
         _id = id;
         _calculationId = calculation.Id;
@@ -25,11 +25,11 @@ public class CalculationHasResultEntity
         _totalRation = totalRation;
     }
 
-    private string _id;
-    public string Id => _id; // Primary key
+    private int _id;
+    public int Id => _id; // Primary key
 
-    private string _calculationId;
-    public string CalculationId => _calculationId; // Reference to Calculations.Id
+    private int _calculationId;
+    public int CalculationId => _calculationId; // Reference to Calculations.Id
 
     private decimal _gFresh;
     public decimal GFresh => _gFresh; // NOT NULL

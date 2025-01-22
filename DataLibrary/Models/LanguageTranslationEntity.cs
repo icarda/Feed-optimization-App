@@ -11,13 +11,13 @@ public class LanguageTranslationEntity
 
     public LanguageTranslationEntity(LanguageEntity language, string languageCode, string translatedDescription)
     {
-        _languageId = language.Id.ToString();
+        _languageId = language.Id;
         _languageCode = languageCode;
         _translatedDescription = translatedDescription;
     }
 
-    private string _languageId;
-    public string LanguageId => _languageId; // Reference to Ref_Language.Id
+    private int _languageId;
+    public int LanguageId => _languageId; // Reference to Ref_Language.Id
 
     private string _languageCode;
     public string LanguageCode => _languageCode; // NOT NULL

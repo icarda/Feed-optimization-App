@@ -40,10 +40,10 @@ public class CalculationService : ICalculationService
         };
 
         return result;*/
-        return new CalculationHasResultEntity(Guid.NewGuid().ToString(), animalInformation, 0, 0, 0, _totalcost);
+        return new CalculationHasResultEntity(1, animalInformation, 0, 0, 0, _totalcost);
     }
 
-    public async Task<Result<CalculationEntity>> GetCalculationById(string id)
+    public async Task<Result<CalculationEntity>> GetCalculationById(int id)
     {
         try
         {
@@ -71,7 +71,7 @@ public class CalculationService : ICalculationService
             if (existingCalculation != null)
                 throw new Exception("Calculation already exists. Please edit existing entry.");
             var calculation = new CalculationEntity(
-                Guid.NewGuid().ToString(),
+                request.Id,
                 request.SpeciesEntity,
                 request.Name,
                 request.Description,
@@ -128,7 +128,7 @@ public class CalculationService : ICalculationService
         }
     }
 
-    public async Task<Result<CalculationHasFeedEntity>> GetCalculationHasFeedById(string calculationId)
+    public async Task<Result<CalculationHasFeedEntity>> GetCalculationHasFeedById(int calculationId)
     {
         try
         {
@@ -202,7 +202,7 @@ public class CalculationService : ICalculationService
         }
     }
 
-    public async Task<Result<CalculationHasResultEntity>> GetCalculationHasResultById(string id)
+    public async Task<Result<CalculationHasResultEntity>> GetCalculationHasResultById(int id)
     {
         try
         {
@@ -228,7 +228,7 @@ public class CalculationService : ICalculationService
             if (existingCalculationHasResult != null)
                 throw new Exception("Calculation has result already exists. Please edit existing entry.");
             var calculationHasResult = new CalculationHasResultEntity(
-                Guid.NewGuid().ToString(),
+               request.Id,
                 request.Calculation,
                 request.GFresh,
                 request.PercentFresh,

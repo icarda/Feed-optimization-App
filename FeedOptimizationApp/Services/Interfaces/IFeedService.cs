@@ -5,7 +5,9 @@ namespace FeedOptimizationApp.Services.Interfaces;
 
 public interface IFeedService
 {
-    Task<Result<FeedEntity>> GetById(string id);
+    Task<Result<List<FeedEntity>>> GetAllAsync();
+
+    Task<Result<FeedEntity>> GetById(int id);
 
     Task<Result<FeedEntity>> GetByName(string name);
 

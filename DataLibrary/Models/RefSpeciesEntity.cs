@@ -8,14 +8,14 @@ public class RefSpeciesEntity
     {
     }
 
-    public RefSpeciesEntity(string id, string name)
+    public RefSpeciesEntity(int id, string name)
     {
         _id = id;
         _name = name;
     }
 
-    private string _id;
-    public string Id => _id; // Primary key
+    private int _id;
+    public int Id => _id; // Primary key
 
     private string _name;
     public string Name => _name; // NOT NULL

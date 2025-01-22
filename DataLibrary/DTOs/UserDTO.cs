@@ -1,8 +1,8 @@
-﻿namespace FeedOptimizationApp.Shared.DTOs;
+﻿namespace DataLibrary.DTOs;
 
 public class UserDTO
 {
-    public string Id { get; set; }
+    public int Id { get; set; }
     public string CountryId { get; set; }
     public string LanguageId { get; set; }
     public string SpeciesId { get; set; }

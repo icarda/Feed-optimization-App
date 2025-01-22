@@ -18,7 +18,7 @@ public class UserService : IUserService
         _deviceService = deviceService;
     }
 
-    public async Task<Result<UserEntity>> GetById(string id)
+    public async Task<Result<UserEntity>> GetById(int id)
     {
         try
         {
@@ -46,7 +46,7 @@ public class UserService : IUserService
                 throw new Exception("User already exists. Please edit existing entry.");
 
             var user = new UserEntity(
-                Guid.NewGuid().ToString(),
+                request.Id,
                 request.CountryEntity,
                 request.LanguageEntity,
                 request.SpeciesEntity,

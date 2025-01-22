@@ -5,7 +5,7 @@ namespace FeedOptimizationApp.Services.Interfaces;
 
 public interface IUserService
 {
-    Task<Result<UserEntity>> GetById(string id);
+    Task<Result<UserEntity>> GetById(int id);
 
     Task<Result<int>> SaveAsync(UserEntity request);
 

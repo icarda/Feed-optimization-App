@@ -6,9 +6,9 @@ public class FeedEntity
     {
     }
 
-    public FeedEntity(string id, string name, decimal dryMatterPercentage, decimal memcalKg, decimal memjKg, decimal tdnPercentage, decimal cpPercentage, decimal dcpPercentage)
+    public FeedEntity(int id, string name, decimal dryMatterPercentage, decimal memcalKg, decimal memjKg, decimal tdnPercentage, decimal cpPercentage, decimal dcpPercentage)
     {
-        _id = Guid.NewGuid().ToString();
+        _id = id;
         _name = name;
         _dryMatterPercentage = dryMatterPercentage;
         _memcalKg = memcalKg;
@@ -29,8 +29,8 @@ public class FeedEntity
         _dcpPercentage = dcpPercentage;
     }
 
-    private string _id;
-    public string Id => _id; // Primary key
+    private int _id;
+    public int Id => _id; // Primary key
 
     private string _name;
     public string Name => _name; // NOT NULL

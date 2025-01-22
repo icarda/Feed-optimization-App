@@ -15,7 +15,24 @@ public class FeedService : IFeedService
         _context = context;
     }
 
-    public async Task<Result<FeedEntity>> GetById(string id)
+    public async Task<Result<List<FeedEntity>>> GetAllAsync()
+    {
+        try
+        {
+            var feeds = await _context.Feeds
+            .IgnoreQueryFilters()
+            .AsNoTracking().ToListAsync();
+            if (feeds == null)
+                throw new Exception("No feeds found.");
+            return await Result<List<FeedEntity>>.SuccessAsync(feeds);
+        }
+        catch (Exception ex)
+        {
+            return await Result<List<FeedEntity>>.FailAsync(new List<string> { ex.Message });
+        }
+    }
+
+    public async Task<Result<FeedEntity>> GetById(int id)
     {
         try
         {
@@ -60,7 +77,7 @@ public class FeedService : IFeedService
             if (existingFeed != null)
                 throw new Exception("Feed already exists. Please edit existing entry.");
             var feed = new FeedEntity(
-                Guid.NewGuid().ToString(),
+                request.Id,
                 request.Name,
                 request.DryMatterPercentage,
                 request.MEMcalKg,

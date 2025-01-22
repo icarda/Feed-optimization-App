@@ -22,4 +22,8 @@
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11-pre20241216174303" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FeedOptimizationApp.Shared\FeedOptimizationApp.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

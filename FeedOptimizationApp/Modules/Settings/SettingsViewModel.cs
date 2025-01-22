@@ -1,6 +1,9 @@
-﻿using DataLibrary.Models;
+﻿using DataLibrary.DTOs;
+using DataLibrary.Models;
+using DataLibrary.Models.Enums;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
@@ -11,26 +14,56 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
 {
     private readonly BaseService _baseService;
 
-    private string _selectedLanguage;
-    private string _selectedCountry;
-    private string _selectedSpecies;
+    public ObservableCollection<LookupDTO> Languages { get; set; } = new ObservableCollection<LookupDTO>();
+    public ObservableCollection<LookupDTO> Countries { get; set; } = new ObservableCollection<LookupDTO>();
+    public ObservableCollection<LookupDTO> SpeciesList { get; set; } = new ObservableCollection<LookupDTO>();
 
-    public string SelectedLanguage
+    /// <summary>
+    /// Gets or sets the selected language.
+    /// </summary>
+    public LanguageEntity? SelectedLanguage
     {
-        get => _selectedLanguage;
-        set => SetProperty(ref _selectedLanguage, value);
+        get => SharedData.SelectedLanguage;
+        set
+        {
+            if (SharedData.SelectedLanguage != value)
+            {
+                SharedData.SelectedLanguage = value;
+                OnPropertyChanged(nameof(SelectedLanguage));
+            }
+        }
     }
 
-    public string SelectedCountry
+    /// <summary>
+    /// Gets or sets the selected country.
+    /// </summary>
+    public CountryEntity? SelectedCountry
     {
-        get => _selectedCountry;
-        set => SetProperty(ref _selectedCountry, value);
+        get => SharedData.SelectedCountry;
+        set
+        {
+            if (SharedData.SelectedCountry != value)
+            {
+                SharedData.SelectedCountry = value;
+                OnPropertyChanged(nameof(SelectedCountry));
+            }
+        }
     }
 
-    public string SelectedSpecies
+    /// <summary>
+    /// Gets or sets the selected species.
+    /// </summary>
+    public SpeciesEntity? SelectedSpecies
     {
-        get => _selectedSpecies;
-        set => SetProperty(ref _selectedSpecies, value);
+        get => SharedData.SelectedSpecies;
+        set
+        {
+            if (SharedData.SelectedSpecies != value)
+            {
+                SharedData.SelectedSpecies = value;
+                OnPropertyChanged(nameof(SelectedSpecies));
+            }
+        }
     }
 
     public ICommand CancelCommand { get; }
@@ -54,7 +87,7 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
     private async Task OnSaveButtonClicked()
     {
         // Handle the Save button click event
-        if (!string.IsNullOrEmpty(SelectedLanguage) && !string.IsNullOrEmpty(SelectedCountry) && !string.IsNullOrEmpty(SelectedSpecies))
+        if (SelectedLanguage != null && SelectedCountry != null && SelectedSpecies != null)
         {
             /*var user = new UserEntity
             {

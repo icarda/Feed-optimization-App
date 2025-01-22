@@ -8,15 +8,15 @@ public class RefLanguageEntity
     {
     }
 
-    public RefLanguageEntity(string id, string languageCode, string name)
+    public RefLanguageEntity(int id, string languageCode, string name)
     {
         _id = id;
         _languageCode = languageCode;
         _name = name;
     }
 
-    private string _id;
-    public string Id => _id; // Primary key
+    private int _id;
+    public int Id => _id; // Primary key
 
     private string _languageCode;
     public string LanguageCode => _languageCode; // NOT NULL

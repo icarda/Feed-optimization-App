@@ -11,14 +11,14 @@ public class SpeciesTranslationEntity
 
     public SpeciesTranslationEntity(SpeciesEntity species, string name, string languageCode, string translatedDescription)
     {
-        _speciesId = species.Id.ToString();
+        _speciesId = species.Id;
         _name = name;
         _languageCode = languageCode;
         _translatedDescription = translatedDescription;
     }
 
-    private string _speciesId;
-    public string SpeciesId => _speciesId; // Reference to Ref_Species.Id
+    private int _speciesId;
+    public int SpeciesId => _speciesId; // Reference to Ref_Species.Id
 
     private string _name;
     public string Name => _name; // NOT NULL

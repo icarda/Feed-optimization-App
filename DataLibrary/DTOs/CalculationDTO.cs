@@ -1,0 +1,18 @@
+﻿namespace DataLibrary.DTOs;
+
+public class CalculationDTO
+{
+    public int? Id { get; set; }
+    public string? SpeciesId { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public string? Type { get; set; }
+    public string? Grazing { get; set; }
+    public string? BodyWeight { get; set; }
+    public decimal? ADG { get; set; }
+    public string? DietQualityEstimate { get; set; }
+    public bool? Gestation { get; set; }
+    public decimal? MilkYield { get; set; }
+    public decimal? FatContent { get; set; }
+    public string? KidsLambs { get; set; }
+}

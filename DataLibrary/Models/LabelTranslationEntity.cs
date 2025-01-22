@@ -8,7 +8,7 @@ public class LabelTranslationEntity
     {
     }
 
-    public LabelTranslationEntity(string translationId, LabelEntity label, string languageCode, string translatedText)
+    public LabelTranslationEntity(int translationId, LabelEntity label, string languageCode, string translatedText)
     {
         _translationId = translationId;
         _labelId = label.Id;
@@ -16,11 +16,11 @@ public class LabelTranslationEntity
         _translatedText = translatedText;
     }
 
-    private string _translationId;
-    public string TranslationId => _translationId; // Primary key
+    private int _translationId;
+    public int TranslationId => _translationId; // Primary key
 
-    private string _labelId;
-    public string LabelId => _labelId; // Reference to Labels.Id
+    private int _labelId;
+    public int LabelId => _labelId; // Reference to Labels.Id
 
     private string _languageCode;
     public string LanguageCode => _languageCode; // NOT NULL

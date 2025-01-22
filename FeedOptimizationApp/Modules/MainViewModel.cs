@@ -1,7 +1,8 @@
-﻿using FeedOptimizationApp.Helpers;
+﻿using DataLibrary.DTOs;
+using DataLibrary.Models.Enums;
+using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Modules.Legal;
 using FeedOptimizationApp.Services;
-using FeedOptimizationApp.Shared.DTOs;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -17,11 +18,11 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
 
     public ICommand PickerSelectionChangedCommand { get; }
 
-    // ObservableCollections to hold the enum values for the pickers
-    public ObservableCollection<string> Languages { get; set; } = new ObservableCollection<string>();
+    //Add Languages, Countries, and Species properties
+    public ObservableCollection<LookupDTO> Languages { get; set; } = new ObservableCollection<LookupDTO>();
 
-    public ObservableCollection<string> Countries { get; set; } = new ObservableCollection<string>();
-    public ObservableCollection<string> SpeciesList { get; set; } = new ObservableCollection<string>();
+    public ObservableCollection<LookupDTO> Countries { get; set; } = new ObservableCollection<LookupDTO>();
+    public ObservableCollection<LookupDTO> SpeciesList { get; set; } = new ObservableCollection<LookupDTO>();
 
     // Constructor to initialize the ViewModel
     public MainViewModel(BaseService baseService, SharedData sharedData)
@@ -46,7 +47,7 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected language.
     /// </summary>
-    public string? SelectedLanguage
+    public LanguageEntity? SelectedLanguage
     {
         get => SharedData.SelectedLanguage;
         set
@@ -64,7 +65,7 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected country.
     /// </summary>
-    public string? SelectedCountry
+    public CountryEntity? SelectedCountry
     {
         get => SharedData.SelectedCountry;
         set
@@ -80,7 +81,7 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected species.
     /// </summary>
-    public string? SelectedSpecies
+    public SpeciesEntity? SelectedSpecies
     {
         get => SharedData.SelectedSpecies;
         set
@@ -106,9 +107,9 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
             var userDto = new UserDTO
             {
                 Id = Guid.NewGuid().ToString(),
-                CountryId = SelectedCountry,
-                LanguageId = SelectedLanguage,
-                SpeciesId = SelectedSpecies,
+                CountryId = SelectedCountry.Id.ToString(),
+                LanguageId = SelectedLanguage.Id.ToString(),
+                SpeciesId = SelectedSpecies.Id.ToString(),
                 TermsAndConditions = false,
                 CreatedAt = DateTime.Now,
                 DeviceManufacturer = DeviceInfo.Manufacturer,
@@ -138,25 +139,14 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
         }
     }
 
-    private void LoadEnumValues()
+    private async void LoadEnumValues()
     {
         Languages.Clear();
         Countries.Clear();
         SpeciesList.Clear();
 
-        /*foreach (LanguageSelection language in Enum.GetValues(typeof(LanguageSelection)))
-        {
-            Languages.Add(language);
-        }
-
-        foreach (CountrySelection country in Enum.GetValues(typeof(CountrySelection)))
-        {
-            Countries.Add(country);
-        }
-
-        foreach (SpeciesSelection species in Enum.GetValues(typeof(SpeciesSelection)))
-        {
-            SpeciesList.Add(species);
-        }*/
+        Languages = new ObservableCollection<LookupDTO>((await _baseService.EnumEntitiesService.GetLanguagesAsync()).Data);
+        Countries = new ObservableCollection<LookupDTO>((await _baseService.EnumEntitiesService.GetCountriesAsync()).Data);
+        SpeciesList = new ObservableCollection<LookupDTO>((await _baseService.EnumEntitiesService.GetSpeciesAsync()).Data);
     }
 }

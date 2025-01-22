@@ -1,17 +1,17 @@
-﻿using DataLibrary.Models;
+﻿using DataLibrary.DTOs;
+using DataLibrary.Models;
 using DataLibrary.Models.Enums;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using static DataLibrary.Enums;
 
 namespace FeedOptimizationApp.Modules.Calculations
 {
     public class CreateCalculationViewModel : BaseViewModel
     {
         private readonly BaseService _baseService;
-        private string? SelectedSpecies => SharedData.SelectedSpecies;
+        private SpeciesEntity? SelectedSpecies => SharedData.SelectedSpecies;
 
         // Constructor
         public CreateCalculationViewModel(BaseService baseService, SharedData sharedData) : base(sharedData)
@@ -63,6 +63,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             SelectedBodyWeight = null;
             SelectedDietQualityEstimate = null;
             SelectedNumberOfSucklingKidsLambs = null;
+            SelectedFeed = null; // Initialize SelectedFeed
             AnimalInfoTabIsActive = true;
         }
 
@@ -156,17 +157,17 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
         }
 
-        private GrazingSelection? _selectedGrazing;
+        private GrazingEntity? _selectedGrazing;
 
-        public GrazingSelection? SelectedGrazing
+        public GrazingEntity? SelectedGrazing
         {
             get => _selectedGrazing;
             set => SetProperty(ref _selectedGrazing, value);
         }
 
-        private BodyWeightSelection? _selectedBodyWeight;
+        private BodyWeightEntity? _selectedBodyWeight;
 
-        public BodyWeightSelection? SelectedBodyWeight
+        public BodyWeightEntity? SelectedBodyWeight
         {
             get => _selectedBodyWeight;
             set => SetProperty(ref _selectedBodyWeight, value);
@@ -180,9 +181,9 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _ADG, value);
         }
 
-        private DQESelection? _selectedDietQualityEstimate;
+        private DietQualityEstimateEntity? _selectedDietQualityEstimate;
 
-        public DQESelection? SelectedDietQualityEstimate
+        public DietQualityEstimateEntity? SelectedDietQualityEstimate
         {
             get => _selectedDietQualityEstimate;
             set => SetProperty(ref _selectedDietQualityEstimate, value);
@@ -212,9 +213,9 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _fatContentValue, value);
         }
 
-        private FeedEntity _selectedFeed;
+        private FeedEntity? _selectedFeed; // Declare as nullable
 
-        public FeedEntity SelectedFeed
+        public FeedEntity? SelectedFeed
         {
             get => _selectedFeed;
             set
@@ -283,9 +284,9 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _maxLimit, value);
         }
 
-        private NrSucklingKidsLambsSelection? _selectedNumberOfSucklingKidsLambs;
+        private KidsLambsEntity? _selectedNumberOfSucklingKidsLambs;
 
-        public NrSucklingKidsLambsSelection? SelectedNumberOfSucklingKidsLambs
+        public KidsLambsEntity? SelectedNumberOfSucklingKidsLambs
         {
             get => _selectedNumberOfSucklingKidsLambs;
             set => SetProperty(ref _selectedNumberOfSucklingKidsLambs, value);
@@ -319,29 +320,32 @@ namespace FeedOptimizationApp.Modules.Calculations
         public ObservableCollection<FeedEntity> Feeds { get; set; } = new ObservableCollection<FeedEntity>();
 
         public ObservableCollection<string> Types { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<SheepTypeSelection> SheepTypes { get; set; } = new ObservableCollection<SheepTypeSelection>();
-        public ObservableCollection<GoatTypeSelection> GoatTypes { get; set; } = new ObservableCollection<GoatTypeSelection>();
-        public ObservableCollection<GrazingSelection> Grazings { get; set; } = new ObservableCollection<GrazingSelection>();
-        public ObservableCollection<BodyWeightSelection> BodyWeights { get; set; } = new ObservableCollection<BodyWeightSelection>();
+        public ObservableCollection<string> SheepTypes { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> GoatTypes { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> Grazings { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> BodyWeights { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<double> ADGs { get; set; } = new ObservableCollection<double>();
-        public ObservableCollection<DQESelection> DietQualityEstimates { get; set; } = new ObservableCollection<DQESelection>();
-        public ObservableCollection<NrSucklingKidsLambsSelection> NrSucklingKidsLambs { get; set; } = new ObservableCollection<NrSucklingKidsLambsSelection>();
+        public ObservableCollection<string> DietQualityEstimates { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> NrSucklingKidsLambs { get; set; } = new ObservableCollection<string>();
 
         // Method to load feeds asynchronously
         private async Task LoadFeedsAsync()
         {
             try
             {
-                /*var feeds = await _baseService.FeedService.GetFeedsAsync();
                 Feeds.Clear();
-                foreach (var feed in feeds)
+                var feeds = await _baseService.FeedService.GetAllAsync();
+                if (feeds != null)
                 {
-                    Feeds.Add(feed);
-                }*/
+                    foreach (var feed in feeds.Data)
+                    {
+                        Feeds.Add(feed);
+                    }
+                }
             }
             catch (Exception ex)
             {
-                // Log or display the error
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -360,39 +364,46 @@ namespace FeedOptimizationApp.Modules.Calculations
             DietQualityEstimates.Clear();
             NrSucklingKidsLambs.Clear();
 
-            /*if (SelectedSpecies == SheepTypeEntity)
+            // Load types
+            if (SelectedSpecies?.Name == "Sheep")
             {
-                foreach (SheepTypeSelection type in Enum.GetValues(typeof(SheepTypeSelection)))
+                var types = await _baseService.EnumEntitiesService.GetSheepTypesAsync();
+                foreach (var type in types.Data)
                 {
-                    Types.Add(type.ToString());
+                    Types.Add(type.Name);
                 }
             }
-            else if (SelectedSpecies == SpeciesSelection.Goat)
+            else if (SelectedSpecies?.Name == "Goat")
             {
-                foreach (GoatTypeSelection type in Enum.GetValues(typeof(GoatTypeSelection)))
+                var types = await _baseService.EnumEntitiesService.GetGoatTypesAsync();
+                foreach (var type in types.Data)
                 {
-                    Types.Add(type.ToString());
+                    Types.Add(type.Name);
                 }
-            }*/
-
-            foreach (GrazingSelection grazing in Enum.GetValues(typeof(GrazingSelection)))
-            {
-                Grazings.Add(grazing);
             }
-
-            foreach (BodyWeightSelection bodyWeight in Enum.GetValues(typeof(BodyWeightSelection)))
+            // Load Grazings
+            var grazings = await _baseService.EnumEntitiesService.GetGrazingsAsync();
+            foreach (var grazing in grazings.Data)
             {
-                BodyWeights.Add(bodyWeight);
+                Grazings.Add(grazing.Name);
             }
-
-            foreach (DQESelection dietQualityEstimate in Enum.GetValues(typeof(DQESelection)))
+            // Load BodyWeights
+            var bodyWeights = await _baseService.EnumEntitiesService.GetBodyWeightsAsync();
+            foreach (var bodyWeight in bodyWeights.Data)
             {
-                DietQualityEstimates.Add(dietQualityEstimate);
+                BodyWeights.Add(bodyWeight.Name);
             }
-
-            foreach (NrSucklingKidsLambsSelection nrSucklingKidsLambs in Enum.GetValues(typeof(NrSucklingKidsLambsSelection)))
+            // Load kids/lambs
+            var kidsLambs = await _baseService.EnumEntitiesService.GetKidsLambsAsync();
+            foreach (var kidsLamb in kidsLambs.Data)
             {
-                NrSucklingKidsLambs.Add(nrSucklingKidsLambs);
+                NrSucklingKidsLambs.Add(kidsLamb.Name);
+            }
+            // Load DietQualityEstimates
+            var dietQualityEstimates = await _baseService.EnumEntitiesService.GetDietQualityEstimatesAsync();
+            foreach (var dietQualityEstimate in dietQualityEstimates.Data)
+            {
+                DietQualityEstimates.Add(dietQualityEstimate.Name);
             }
         }
 
@@ -404,13 +415,13 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             var storedFeed = new StoredFeed
             {
-                FeedId = SelectedFeed.Id,
-                FeedName = SelectedFeed.Name,
-                DM = SelectedFeed.DryMatterPercentage,
-                CPDM = SelectedFeed.CPPercentage,
-                MEMJKGDM = SelectedFeed.MEMJKg,
-                Price = (decimal)Price,
-                Intake = (decimal)Intake,
+                FeedId = SelectedFeed?.Id ?? string.Empty,
+                FeedName = SelectedFeed?.Name ?? string.Empty,
+                DM = SelectedFeed?.DryMatterPercentage,
+                CPDM = SelectedFeed?.CPPercentage,
+                MEMJKGDM = SelectedFeed?.MEMJKg,
+                Price = Price ?? 0,
+                Intake = Intake ?? 0,
                 MinLimit = MinLimit,
                 MaxLimit = MaxLimit
             };
@@ -455,56 +466,57 @@ namespace FeedOptimizationApp.Modules.Calculations
         // Method to get animal information inputs
         private CalculationEntity GetAnimalInformationInputs()
         {
-            /*var animalInformation = new CalculationEntity
+            var animalInformation = new CalculationDTO
             {
                 Type = SelectedType,
-                Grazing = SelectedGrazing.Value.GetDisplayName(),
-                BodyWeight = SelectedBodyWeight.Value.GetDisplayName(),
+                Grazing = SelectedGrazing?.Name ?? string.Empty,
+                BodyWeight = SelectedBodyWeight?.Name ?? string.Empty,
                 ADG = ADG,
-                DietQualityEstimate = SelectedDietQualityEstimate.Value.GetDisplayName(),
+                DietQualityEstimate = SelectedDietQualityEstimate?.Name ?? string.Empty,
                 Gestation = IsLast8WeeksOfGestation,
                 MilkYield = DailyMilkYieldValue,
                 FatContent = FatContentValue,
-                KidsLambs = (int?)SelectedNumberOfSucklingKidsLambs
-                //add species id
+                KidsLambs = SelectedNumberOfSucklingKidsLambs?.Name ?? string.Empty,
+                SpeciesId = SelectedSpecies?.Id.ToString() ?? string.Empty //check int or string
             };
 
-            return animalInformation;*/
-            return new CalculationEntity();
+            var calculation = Mappers.MapToCalculationEntity(animalInformation);
+
+            return calculation;
         }
 
         // Method to get feed information inputs
         private List<CalculationHasFeedEntity> GetFeedInformationInputs()
         {
-            /*var feedInformationList = new List<CalculationHasFeedEntity>();
+            var feedInformationList = new List<CalculationHasFeedEntity>();
 
             foreach (var storedFeed in StoredFeeds)
             {
-                var feedInformation = new CalculationHasFeedEntity
+                var feedInformation = new CalculationHasFeedDTO
                 {
-                    CalculationId = new Guid(),
+                    CalculationId = Guid.NewGuid().ToString(),
                     FeedId = storedFeed.FeedId,
-                    DM = (decimal)storedFeed.DM,
-                    CPDM = (decimal)storedFeed.CPDM,
-                    MEMJKGDM = (decimal)storedFeed.MEMJKGDM,
+                    DM = storedFeed.DM ?? 0,
+                    CPDM = storedFeed.CPDM ?? 0,
+                    MEMJKGDM = storedFeed.MEMJKGDM ?? 0,
                     Price = storedFeed.Price,
                     Intake = storedFeed.Intake,
-                    MinLimit = (decimal)storedFeed.MinLimit,
-                    MaxLimit = (decimal)storedFeed.MaxLimit
+                    MinLimit = storedFeed.MinLimit ?? 0,
+                    MaxLimit = storedFeed.MaxLimit ?? 0
                 };
 
-                feedInformationList.Add(feedInformation);
+                var feedInfo = Mappers.MapToCalculationHasFeedEntity(feedInformation);
+                feedInformationList.Add(feedInfo);
             }
 
-            return feedInformationList;*/
-            return new List<CalculationHasFeedEntity>();
+            return feedInformationList;
         }
 
         // Class to represent a stored feed
         public class StoredFeed
         {
-            public string FeedId { get; set; }
-            public string FeedName { get; set; }
+            public string FeedId { get; set; } = string.Empty;
+            public string FeedName { get; set; } = string.Empty;
             public decimal? DM { get; set; }
             public decimal? CPDM { get; set; }
             public decimal? MEMJKGDM { get; set; }

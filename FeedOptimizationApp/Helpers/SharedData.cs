@@ -1,10 +1,10 @@
-﻿using static DataLibrary.Enums;
+﻿using DataLibrary.Models.Enums;
 
 namespace FeedOptimizationApp.Helpers;
 
 public class SharedData
 {
-    public string? SelectedSpecies { get; set; }
-    public string? SelectedLanguage { get; set; }
-    public string? SelectedCountry { get; set; }
+    public SpeciesEntity? SelectedSpecies { get; set; }
+    public LanguageEntity? SelectedLanguage { get; set; }
+    public CountryEntity? SelectedCountry { get; set; }
 }

@@ -10,13 +10,13 @@ public class CountryTranslationEntity
 
     public CountryTranslationEntity(CountryEntity country, string languageCode, string translatedDescription)
     {
-        _countryId = country.Id.ToString();
+        _countryId = country.Id;
         _languageCode = languageCode;
         _translatedDescription = translatedDescription;
     }
 
-    private string _countryId;
-    public string CountryId => _countryId; // Reference to Ref_Country.Id
+    private int _countryId;
+    public int CountryId => _countryId; // Reference to Ref_Country.Id
 
     private string _languageCode;
     public string LanguageCode => _languageCode; // NOT NULL

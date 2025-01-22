@@ -47,6 +47,7 @@ namespace FeedOptimizationApp
             builder.Services.AddSingleton<IFeedService, FeedService>();
             builder.Services.AddSingleton<IUserService, UserService>();
             builder.Services.AddSingleton<ICalculationService, CalculationService>();
+            builder.Services.AddSingleton<IEnumEntitiesService, EnumEntitiesService>();
 
             // Register view models
             builder.Services.AddTransient<MainViewModel>();

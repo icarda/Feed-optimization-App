@@ -9,12 +9,12 @@ public class UserEntity
     {
     }
 
-    public UserEntity(string id, CountryEntity country, LanguageEntity language, SpeciesEntity species, bool termsAndConditions, DateTime createdAt, string deviceManufacturer, string deviceModel, string deviceName, string deviceVersionString, string devicePlatform, string deviceIdiom, string deviceType)
+    public UserEntity(int id, CountryEntity country, LanguageEntity language, SpeciesEntity species, bool termsAndConditions, DateTime createdAt, string deviceManufacturer, string deviceModel, string deviceName, string deviceVersionString, string devicePlatform, string deviceIdiom, string deviceType)
     {
         _id = id;
-        _countryId = country.Id.ToString();
-        _languageId = language.Id.ToString();
-        _speciesId = species.Id.ToString();
+        _countryId = country.Id;
+        _languageId = language.Id;
+        _speciesId = species.Id;
         _termsAndConditions = termsAndConditions;
         _createdAt = createdAt;
         _deviceManufacturer = deviceManufacturer;
@@ -28,9 +28,9 @@ public class UserEntity
 
     public void Set(CountryEntity country, LanguageEntity language, SpeciesEntity species, bool termsAndConditions, DateTime createdAt, string deviceManufacturer, string deviceModel, string deviceName, string deviceVersionString, string devicePlatform, string deviceIdiom, string deviceType)
     {
-        _countryId = country.Id.ToString();
-        _languageId = language.Id.ToString();
-        _speciesId = species.Id.ToString();
+        _countryId = country.Id;
+        _languageId = language.Id;
+        _speciesId = species.Id;
         _termsAndConditions = termsAndConditions;
         _createdAt = createdAt;
         _deviceManufacturer = deviceManufacturer;
@@ -42,17 +42,17 @@ public class UserEntity
         _deviceType = deviceType;
     }
 
-    private string _id;
-    public string Id => _id; // Primary key
+    private int _id;
+    public int Id => _id; // Primary key
 
-    private string _countryId;
-    public string CountryId => _countryId; // Reference to Ref_Country.Id
+    private int _countryId;
+    public int CountryId => _countryId; // Reference to Ref_Country.Id
 
-    private string _languageId;
-    public string LanguageId => _languageId; // Reference to Ref_Language.Id
+    private int _languageId;
+    public int LanguageId => _languageId; // Reference to Ref_Language.Id
 
-    private string _speciesId;
-    public string SpeciesId => _speciesId; // Reference to Ref_Species.Id
+    private int _speciesId;
+    public int SpeciesId => _speciesId; // Reference to Ref_Species.Id
 
     private bool _termsAndConditions;
     public bool TermsAndConditions => _termsAndConditions; // NOT NULL

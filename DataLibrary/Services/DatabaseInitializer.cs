@@ -1,9 +1,9 @@
 ﻿using CsvHelper.Configuration;
 using CsvHelper;
-using DataLibrary.Models;
 using System.Globalization;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using DataLibrary.DTOs;
 
 namespace DataLibrary.Services;
 
@@ -60,11 +60,14 @@ public class DatabaseInitializer
         });
 
         csv.Context.RegisterClassMap<FeedMap>();
-        var records = csv.GetRecords<FeedEntity>().ToList();
+        var records = csv.GetRecords<FeedDTO>().ToList();
         foreach (var record in records)
         {
-            //record.Id = Guid.NewGuid(); // Ensure each record has a unique Id
-            await _context.Feeds.AddAsync(record);
+            record.Id = Guid.NewGuid().ToString(); // Ensure each record has a unique Id
+
+            // Map the DTO to the Entity
+            var feedEntity = Mappers.MapToFeedEntity(record);
+            await _context.Feeds.AddAsync(feedEntity);
         }
         await _context.SaveChangesAsync();
         Console.WriteLine("Feeds imported successfully.");

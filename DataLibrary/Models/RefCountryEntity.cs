@@ -8,7 +8,7 @@ public class RefCountryEntity
     {
     }
 
-    public RefCountryEntity(string id, string country, string dateFormat, string currencyValue)
+    public RefCountryEntity(int id, string country, string dateFormat, string currencyValue)
     {
         _id = id;
         _country = country;
@@ -16,8 +16,8 @@ public class RefCountryEntity
         _currencyValue = currencyValue;
     }
 
-    private string _id;
-    public string Id => _id; // Primary key
+    private int _id;
+    public int Id => _id; // Primary key
 
     private string _country;
     public string Country => _country; // NOT NULL

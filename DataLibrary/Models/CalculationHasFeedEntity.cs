@@ -32,11 +32,11 @@ public class CalculationHasFeedEntity
         _maxLimit = maxLimit;
     }
 
-    private string _calculationId;
-    public string CalculationId => _calculationId; // Reference to Calculations.Id
+    private int _calculationId;
+    public int CalculationId => _calculationId; // Reference to Calculations.Id
 
-    private string _feedId;
-    public string FeedId => _feedId; // Reference to Feed.Id
+    private int _feedId;
+    public int FeedId => _feedId; // Reference to Feed.Id
 
     private decimal _dm;
     public decimal DM => _dm; // NOT NULL
