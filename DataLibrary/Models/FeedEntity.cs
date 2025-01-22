@@ -1,4 +1,6 @@
-﻿namespace DataLibrary.Models;
+﻿using DataLibrary.Models.Enums;
+
+namespace DataLibrary.Models;
 
 public class FeedEntity
 {
@@ -6,7 +8,7 @@ public class FeedEntity
     {
     }
 
-    public FeedEntity(int id, string name, decimal dryMatterPercentage, decimal memcalKg, decimal memjKg, decimal tdnPercentage, decimal cpPercentage, decimal dcpPercentage)
+    public FeedEntity(int id, string name, decimal dryMatterPercentage, decimal memcalKg, decimal memjKg, decimal tdnPercentage, decimal cpPercentage, decimal dcpPercentage, int countryId, int languageId)
     {
         _id = id;
         _name = name;
@@ -16,9 +18,11 @@ public class FeedEntity
         _tdnPercentage = tdnPercentage;
         _cpPercentage = cpPercentage;
         _dcpPercentage = dcpPercentage;
+        _countryId = countryId;
+        _languageId = languageId;
     }
 
-    public void Set(string name, decimal dryMatterPercentage, decimal memcalKg, decimal memjKg, decimal tdnPercentage, decimal cpPercentage, decimal dcpPercentage)
+    public void Set(string name, decimal dryMatterPercentage, decimal memcalKg, decimal memjKg, decimal tdnPercentage, decimal cpPercentage, decimal dcpPercentage, int countryId, int languageId)
     {
         _name = name;
         _dryMatterPercentage = dryMatterPercentage;
@@ -27,6 +31,8 @@ public class FeedEntity
         _tdnPercentage = tdnPercentage;
         _cpPercentage = cpPercentage;
         _dcpPercentage = dcpPercentage;
+        _countryId = countryId;
+        _languageId = languageId;
     }
 
     private int _id;
@@ -52,4 +58,13 @@ public class FeedEntity
 
     private decimal _dcpPercentage;
     public decimal DCPPercentage => _dcpPercentage; // NOT NULL
+
+    private int _countryId;
+    public int CountryId => _countryId;
+
+    private int _languageId;
+    public int LanguageId => _languageId;
+
+    public CountryEntity Country { get; set; }
+    public LanguageEntity Language { get; set; }
 }

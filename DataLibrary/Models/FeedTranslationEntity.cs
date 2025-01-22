@@ -8,9 +8,9 @@ public class FeedTranslationEntity
     {
     }
 
-    public FeedTranslationEntity(FeedEntity feed, string languageCode, string translatedDescription)
+    public FeedTranslationEntity(int feedId, string languageCode, string translatedDescription)
     {
-        _feedId = feed.Id;
+        _feedId = feedId;
         _languageCode = languageCode;
         _translatedDescription = translatedDescription;
     }

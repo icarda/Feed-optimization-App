@@ -9,9 +9,9 @@ public class SpeciesTranslationEntity
     {
     }
 
-    public SpeciesTranslationEntity(SpeciesEntity species, string name, string languageCode, string translatedDescription)
+    public SpeciesTranslationEntity(int speciesId, string name, string languageCode, string translatedDescription)
     {
-        _speciesId = species.Id;
+        _speciesId = speciesId;
         _name = name;
         _languageCode = languageCode;
         _translatedDescription = translatedDescription;

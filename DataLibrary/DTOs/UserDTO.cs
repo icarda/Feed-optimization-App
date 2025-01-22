@@ -3,9 +3,9 @@
 public class UserDTO
 {
     public int Id { get; set; }
-    public string CountryId { get; set; }
-    public string LanguageId { get; set; }
-    public string SpeciesId { get; set; }
+    public int CountryId { get; set; }
+    public int LanguageId { get; set; }
+    public int SpeciesId { get; set; }
     public bool TermsAndConditions { get; set; }
     public DateTime CreatedAt { get; set; }
     public string DeviceManufacturer { get; set; }

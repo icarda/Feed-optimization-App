@@ -9,12 +9,12 @@ public class UserEntity
     {
     }
 
-    public UserEntity(int id, CountryEntity country, LanguageEntity language, SpeciesEntity species, bool termsAndConditions, DateTime createdAt, string deviceManufacturer, string deviceModel, string deviceName, string deviceVersionString, string devicePlatform, string deviceIdiom, string deviceType)
+    public UserEntity(int id, int countryId, int languageId, int speciesId, bool termsAndConditions, DateTime createdAt, string deviceManufacturer, string deviceModel, string deviceName, string deviceVersionString, string devicePlatform, string deviceIdiom, string deviceType)
     {
         _id = id;
-        _countryId = country.Id;
-        _languageId = language.Id;
-        _speciesId = species.Id;
+        _countryId = countryId;
+        _languageId = languageId;
+        _speciesId = speciesId;
         _termsAndConditions = termsAndConditions;
         _createdAt = createdAt;
         _deviceManufacturer = deviceManufacturer;
@@ -26,11 +26,11 @@ public class UserEntity
         _deviceType = deviceType;
     }
 
-    public void Set(CountryEntity country, LanguageEntity language, SpeciesEntity species, bool termsAndConditions, DateTime createdAt, string deviceManufacturer, string deviceModel, string deviceName, string deviceVersionString, string devicePlatform, string deviceIdiom, string deviceType)
+    public void Set(int countryId, int languageId, int speciesId, bool termsAndConditions, DateTime createdAt, string deviceManufacturer, string deviceModel, string deviceName, string deviceVersionString, string devicePlatform, string deviceIdiom, string deviceType)
     {
-        _countryId = country.Id;
-        _languageId = language.Id;
-        _speciesId = species.Id;
+        _countryId = countryId;
+        _languageId = languageId;
+        _speciesId = speciesId;
         _termsAndConditions = termsAndConditions;
         _createdAt = createdAt;
         _deviceManufacturer = deviceManufacturer;

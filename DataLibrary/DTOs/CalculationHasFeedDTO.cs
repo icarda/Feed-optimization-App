@@ -2,8 +2,8 @@
 
 public class CalculationHasFeedDTO
 {
-    public string CalculationId { get; set; }
-    public string FeedId { get; set; }
+    public int CalculationId { get; set; }
+    public int FeedId { get; set; }
     public decimal DM { get; set; }
     public decimal CPDM { get; set; }
     public decimal MEMJKGDM { get; set; }

@@ -9,9 +9,9 @@ public class LanguageTranslationEntity
     {
     }
 
-    public LanguageTranslationEntity(LanguageEntity language, string languageCode, string translatedDescription)
+    public LanguageTranslationEntity(int languageId, string languageCode, string translatedDescription)
     {
-        _languageId = language.Id;
+        _languageId = languageId;
         _languageCode = languageCode;
         _translatedDescription = translatedDescription;
     }

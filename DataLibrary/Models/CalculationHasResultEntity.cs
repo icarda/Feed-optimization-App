@@ -6,19 +6,19 @@ public class CalculationHasResultEntity
     {
     }
 
-    public CalculationHasResultEntity(int id, CalculationEntity calculation, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
+    public CalculationHasResultEntity(int id, int calculationId, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
     {
         _id = id;
-        _calculationId = calculation.Id;
+        _calculationId = calculationId;
         _gFresh = gFresh;
         _percentFresh = percentFresh;
         _percentDryMatter = percentDryMatter;
         _totalRation = totalRation;
     }
 
-    public void Set(CalculationEntity calculation, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
+    public void Set(int calculationId, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
     {
-        _calculationId = calculation.Id;
+        _calculationId = calculationId;
         _gFresh = gFresh;
         _percentFresh = percentFresh;
         _percentDryMatter = percentDryMatter;

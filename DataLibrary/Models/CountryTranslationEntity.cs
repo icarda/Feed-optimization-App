@@ -8,9 +8,9 @@ public class CountryTranslationEntity
     {
     }
 
-    public CountryTranslationEntity(CountryEntity country, string languageCode, string translatedDescription)
+    public CountryTranslationEntity(int countryId, string languageCode, string translatedDescription)
     {
-        _countryId = country.Id;
+        _countryId = countryId;
         _languageCode = languageCode;
         _translatedDescription = translatedDescription;
     }

@@ -415,8 +415,8 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             var storedFeed = new StoredFeed
             {
-                FeedId = SelectedFeed?.Id ?? string.Empty,
-                FeedName = SelectedFeed?.Name ?? string.Empty,
+                FeedId = SelectedFeed.Id,
+                FeedName = SelectedFeed?.Name,
                 DM = SelectedFeed?.DryMatterPercentage,
                 CPDM = SelectedFeed?.CPPercentage,
                 MEMJKGDM = SelectedFeed?.MEMJKg,
@@ -469,15 +469,15 @@ namespace FeedOptimizationApp.Modules.Calculations
             var animalInformation = new CalculationDTO
             {
                 Type = SelectedType,
-                Grazing = SelectedGrazing?.Name ?? string.Empty,
-                BodyWeight = SelectedBodyWeight?.Name ?? string.Empty,
+                GrazingId = SelectedGrazing?.Id,
+                BodyWeightId = SelectedBodyWeight?.Id,
                 ADG = ADG,
-                DietQualityEstimate = SelectedDietQualityEstimate?.Name ?? string.Empty,
+                DietQualityEstimateId = SelectedDietQualityEstimate?.Id,
                 Gestation = IsLast8WeeksOfGestation,
                 MilkYield = DailyMilkYieldValue,
                 FatContent = FatContentValue,
-                KidsLambs = SelectedNumberOfSucklingKidsLambs?.Name ?? string.Empty,
-                SpeciesId = SelectedSpecies?.Id.ToString() ?? string.Empty //check int or string
+                KidsLambsId = SelectedNumberOfSucklingKidsLambs?.Id,
+                SpeciesId = SelectedSpecies?.Id
             };
 
             var calculation = Mappers.MapToCalculationEntity(animalInformation);
@@ -494,7 +494,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             {
                 var feedInformation = new CalculationHasFeedDTO
                 {
-                    CalculationId = Guid.NewGuid().ToString(),
+                    CalculationId = 0,
                     FeedId = storedFeed.FeedId,
                     DM = storedFeed.DM ?? 0,
                     CPDM = storedFeed.CPDM ?? 0,
@@ -515,8 +515,8 @@ namespace FeedOptimizationApp.Modules.Calculations
         // Class to represent a stored feed
         public class StoredFeed
         {
-            public string FeedId { get; set; } = string.Empty;
-            public string FeedName { get; set; } = string.Empty;
+            public int FeedId { get; set; }
+            public string FeedName { get; set; }
             public decimal? DM { get; set; }
             public decimal? CPDM { get; set; }
             public decimal? MEMJKGDM { get; set; }

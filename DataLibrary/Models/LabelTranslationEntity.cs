@@ -8,10 +8,10 @@ public class LabelTranslationEntity
     {
     }
 
-    public LabelTranslationEntity(int translationId, LabelEntity label, string languageCode, string translatedText)
+    public LabelTranslationEntity(int translationId, int labelId, string languageCode, string translatedText)
     {
         _translationId = translationId;
-        _labelId = label.Id;
+        _labelId = labelId;
         _languageCode = languageCode;
         _translatedText = translatedText;
     }

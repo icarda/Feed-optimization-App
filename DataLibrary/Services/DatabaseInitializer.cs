@@ -63,8 +63,6 @@ public class DatabaseInitializer
         var records = csv.GetRecords<FeedDTO>().ToList();
         foreach (var record in records)
         {
-            record.Id = Guid.NewGuid().ToString(); // Ensure each record has a unique Id
-
             // Map the DTO to the Entity
             var feedEntity = Mappers.MapToFeedEntity(record);
             await _context.Feeds.AddAsync(feedEntity);

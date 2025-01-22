@@ -1,4 +1,5 @@
 ﻿using DataLibrary;
+using DataLibrary.DTOs;
 using DataLibrary.Models;
 using FeedOptimizationApp.Services.Interfaces;
 using FeedOptimizationApp.Shared.Wrapper;
@@ -29,18 +30,19 @@ public class CalculationService : ICalculationService
             _totalcost += cost;
         }
 
-        /*var result = new CalculationHasResultEntity
+        var result = new CalculationHasResultDTO
         {
-            Id = Guid.NewGuid(),
-            CalculationId = Guid.NewGuid(),
+            Id = 0,
+            CalculationId = animalInformation.Id,
             GFresh = 0,
             PercentFresh = 0,
             PercentDryMatter = 0,
             TotalRation = _totalcost
         };
 
-        return result;*/
-        return new CalculationHasResultEntity(1, animalInformation, 0, 0, 0, _totalcost);
+        //map the result to the entity
+        var calculationResult = Mappers.MapToCalculationHasResultEntity(result);
+        return calculationResult;
     }
 
     public async Task<Result<CalculationEntity>> GetCalculationById(int id)
@@ -72,19 +74,18 @@ public class CalculationService : ICalculationService
                 throw new Exception("Calculation already exists. Please edit existing entry.");
             var calculation = new CalculationEntity(
                 request.Id,
-                request.SpeciesEntity,
+                request.SpeciesId,
                 request.Name,
                 request.Description,
-                request.SheepTypeEntity,
-                request.GoatTypeEntity,
-                request.GrazingEntity,
-                request.BodyWeightEntity,
+                request.Type,
+                request.GrazingId,
+                request.BodyWeightId,
                 request.ADG,
                 request.Gestation,
                 request.MilkYield,
                 request.FatContent,
-                request.DietQualityEstimateEntity,
-                request.KidsLambsEntity
+                request.DietQualityEstimateId,
+                request.KidsLambsId
             );
             await _context.Calculations.AddAsync(calculation);
             await _context.SaveChangesAsync();
@@ -104,19 +105,18 @@ public class CalculationService : ICalculationService
             if (calculation == null)
                 throw new Exception("Calculation does not exist.");
             calculation.Set(
-                request.SpeciesEntity,
+                request.SpeciesId,
                 request.Name,
                 request.Description,
-                request.SheepTypeEntity,
-                request.GoatTypeEntity,
-                request.GrazingEntity,
-                request.BodyWeightEntity,
+                request.Type,
+                request.GrazingId,
+                request.BodyWeightId,
                 request.ADG,
                 request.Gestation,
                 request.MilkYield,
                 request.FatContent,
-                request.DietQualityEstimateEntity,
-                request.KidsLambsEntity
+                request.DietQualityEstimateId,
+                request.KidsLambsId
             );
             _context.Calculations.Update(calculation);
             await _context.SaveChangesAsync();
@@ -154,8 +154,8 @@ public class CalculationService : ICalculationService
             if (existingCalculationHasFeed != null)
                 throw new Exception("Calculation has feed already exists. Please edit existing entry.");
             var calculationHasFeed = new CalculationHasFeedEntity(
-                request.Calculation,
-                request.Feed,
+                request.CalculationId,
+                request.FeedId,
                 request.DM,
                 request.CPDM,
                 request.MEMJKGDM,
@@ -182,8 +182,8 @@ public class CalculationService : ICalculationService
             if (calculationHasFeed == null)
                 throw new Exception("Calculation has feed does not exist.");
             calculationHasFeed.Set(
-                request.Calculation,
-                request.Feed,
+                request.CalculationId,
+                request.FeedId,
                 request.DM,
                 request.CPDM,
                 request.MEMJKGDM,
@@ -229,7 +229,7 @@ public class CalculationService : ICalculationService
                 throw new Exception("Calculation has result already exists. Please edit existing entry.");
             var calculationHasResult = new CalculationHasResultEntity(
                request.Id,
-                request.Calculation,
+                request.CalculationId,
                 request.GFresh,
                 request.PercentFresh,
                 request.PercentDryMatter,
@@ -253,7 +253,7 @@ public class CalculationService : ICalculationService
             if (calculationHasResult == null)
                 throw new Exception("Calculation has result does not exist.");
             calculationHasResult.Set(
-                request.Calculation,
+                request.CalculationId,
                 request.GFresh,
                 request.PercentFresh,
                 request.PercentDryMatter,

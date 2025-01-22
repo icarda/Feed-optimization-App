@@ -6,10 +6,10 @@ public class CalculationHasFeedEntity
     {
     }
 
-    public CalculationHasFeedEntity(CalculationEntity calculation, FeedEntity feed, decimal dm, decimal cpdm, decimal memjkgdm, decimal price, decimal intake, decimal minLimit, decimal maxLimit)
+    public CalculationHasFeedEntity(int calculationId, int feedId, decimal dm, decimal cpdm, decimal memjkgdm, decimal price, decimal intake, decimal minLimit, decimal maxLimit)
     {
-        _calculationId = calculation.Id;
-        _feedId = feed.Id;
+        _calculationId = calculationId;
+        _feedId = feedId;
         _dm = dm;
         _cpdm = cpdm;
         _memjkgdm = memjkgdm;
@@ -19,10 +19,10 @@ public class CalculationHasFeedEntity
         _maxLimit = maxLimit;
     }
 
-    public void Set(CalculationEntity calculation, FeedEntity feed, decimal dm, decimal cpdm, decimal memjkgdm, decimal price, decimal intake, decimal minLimit, decimal maxLimit)
+    public void Set(int calculationId, int feedId, decimal dm, decimal cpdm, decimal memjkgdm, decimal price, decimal intake, decimal minLimit, decimal maxLimit)
     {
-        _calculationId = calculation.Id;
-        _feedId = feed.Id;
+        _calculationId = calculationId;
+        _feedId = feedId;
         _dm = dm;
         _cpdm = cpdm;
         _memjkgdm = memjkgdm;

@@ -1,4 +1,6 @@
-﻿namespace DataLibrary.DTOs;
+﻿using DataLibrary.Models.Enums;
+
+namespace DataLibrary.DTOs;
 
 public class FeedDTO
 {
@@ -10,4 +12,6 @@ public class FeedDTO
     public decimal TDNPercentage { get; set; }
     public decimal CPPercentage { get; set; }
     public decimal DCPPercentage { get; set; }
+    public int CountryId { get; set; }
+    public int LanguageId { get; set; }
 }

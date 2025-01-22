@@ -47,9 +47,9 @@ public class UserService : IUserService
 
             var user = new UserEntity(
                 request.Id,
-                request.CountryEntity,
-                request.LanguageEntity,
-                request.SpeciesEntity,
+                request.CountryId,
+                request.LanguageId,
+                request.SpeciesId,
                 request.TermsAndConditions,
                 DateTime.UtcNow,
                 request.DeviceManufacturer,
@@ -80,9 +80,9 @@ public class UserService : IUserService
                 throw new Exception("User not found.");
 
             user.Set(
-                request.CountryEntity,
-                request.LanguageEntity,
-                request.SpeciesEntity,
+                request.CountryId,
+                request.LanguageId,
+                request.SpeciesId,
                 request.TermsAndConditions,
                 request.CreatedAt,
                 request.DeviceManufacturer,

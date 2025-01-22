@@ -18,7 +18,7 @@ public class EnumEntitiesService : IEnumEntitiesService
             var languages = await Task.Run(() =>
             {
                 return LanguageEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id.ToString(), Name = e.Name })
+                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
                     .ToList();
             });
             return Result<List<LookupDTO>>.Success(languages);
@@ -36,7 +36,7 @@ public class EnumEntitiesService : IEnumEntitiesService
             var countries = await Task.Run(() =>
             {
                 return CountryEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id.ToString(), Name = e.Name })
+                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
                     .ToList();
             });
             return Result<List<LookupDTO>>.Success(countries);
@@ -54,7 +54,7 @@ public class EnumEntitiesService : IEnumEntitiesService
             var species = await Task.Run(() =>
             {
                 return SpeciesEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id.ToString(), Name = e.Name })
+                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
                     .ToList();
             });
             return Result<List<LookupDTO>>.Success(species);
@@ -72,7 +72,7 @@ public class EnumEntitiesService : IEnumEntitiesService
             var grazing = await Task.Run(() =>
             {
                 return GrazingEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id.ToString(), Name = e.Name })
+                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
                     .ToList();
             });
             return Result<List<LookupDTO>>.Success(grazing);
@@ -90,7 +90,7 @@ public class EnumEntitiesService : IEnumEntitiesService
             var bodyWeights = await Task.Run(() =>
             {
                 return BodyWeightEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id.ToString(), Name = e.Name })
+                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
                     .ToList();
             });
             return Result<List<LookupDTO>>.Success(bodyWeights);
@@ -108,7 +108,7 @@ public class EnumEntitiesService : IEnumEntitiesService
             var goatTypes = await Task.Run(() =>
             {
                 return GoatTypeEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id.ToString(), Name = e.Name })
+                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
                     .ToList();
             });
             return Result<List<LookupDTO>>.Success(goatTypes);
@@ -126,7 +126,7 @@ public class EnumEntitiesService : IEnumEntitiesService
             var kidsLambs = await Task.Run(() =>
             {
                 return KidsLambsEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id.ToString(), Name = e.Name })
+                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
                     .ToList();
             });
             return Result<List<LookupDTO>>.Success(kidsLambs);
@@ -144,7 +144,7 @@ public class EnumEntitiesService : IEnumEntitiesService
             var sheepTypes = await Task.Run(() =>
             {
                 return SheepTypeEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id.ToString(), Name = e.Name })
+                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
                     .ToList();
             });
             return Result<List<LookupDTO>>.Success(sheepTypes);
@@ -162,7 +162,7 @@ public class EnumEntitiesService : IEnumEntitiesService
             var dietQualityEstimates = await Task.Run(() =>
             {
                 return DietQualityEstimateEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id.ToString(), Name = e.Name })
+                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
                     .ToList();
             });
             return Result<List<LookupDTO>>.Success(dietQualityEstimates);

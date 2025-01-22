@@ -106,10 +106,10 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
         {
             var userDto = new UserDTO
             {
-                Id = Guid.NewGuid().ToString(),
-                CountryId = SelectedCountry.Id.ToString(),
-                LanguageId = SelectedLanguage.Id.ToString(),
-                SpeciesId = SelectedSpecies.Id.ToString(),
+                Id = 0,
+                CountryId = SelectedCountry.Id,
+                LanguageId = SelectedLanguage.Id,
+                SpeciesId = SelectedSpecies.Id,
                 TermsAndConditions = false,
                 CreatedAt = DateTime.Now,
                 DeviceManufacturer = DeviceInfo.Manufacturer,

@@ -8,39 +8,37 @@ public class CalculationEntity
     {
     }
 
-    public CalculationEntity(int id, SpeciesEntity species, string name, string description, SheepTypeEntity sheepType, GoatTypeEntity goatType, GrazingEntity grazing, BodyWeightEntity bodyWeight, decimal? adg, bool gestation, decimal? milkYield, decimal? fatContent, DietQualityEstimateEntity dietQualityEstimate, KidsLambsEntity kidsLambs)
+    public CalculationEntity(int id, int speciesId, string name, string description, string type, int grazingId, int bodyWeightId, decimal? adg, bool gestation, decimal? milkYield, decimal? fatContent, int dietQualityEstimateId, int kidsLambsId)
     {
         _id = id;
-        _speciesId = species.Id;
+        _speciesId = speciesId;
         _name = name;
         _description = description;
-        _sheepTypeId = sheepType.Id;
-        _goatTypeId = goatType.Id;
-        _grazingId = grazing.Id;
-        _bodyWeightId = bodyWeight.Id;
+        _type = type;
+        _grazingId = grazingId;
+        _bodyWeightId = bodyWeightId;
         _adg = adg;
         _gestation = gestation;
         _milkYield = milkYield;
         _fatContent = fatContent;
-        _dietQualityEstimateId = dietQualityEstimate.Id;
-        _kidsLambsId = kidsLambs.Id;
+        _dietQualityEstimateId = dietQualityEstimateId;
+        _kidsLambsId = kidsLambsId;
     }
 
-    public void Set(SpeciesEntity species, string name, string description, SheepTypeEntity sheepType, GoatTypeEntity goatType, GrazingEntity grazing, BodyWeightEntity bodyWeight, decimal? adg, bool gestation, decimal? milkYield, decimal? fatContent, DietQualityEstimateEntity dietQualityEstimate, KidsLambsEntity kidsLambs)
+    public void Set(int speciesId, string name, string description, string type, int grazingId, int bodyWeightId, decimal? adg, bool gestation, decimal? milkYield, decimal? fatContent, int dietQualityEstimateId, int kidsLambsId)
     {
-        _speciesId = species.Id;
+        _speciesId = speciesId;
         _name = name;
         _description = description;
-        _sheepTypeId = sheepType.Id;
-        _goatTypeId = goatType.Id;
-        _grazingId = grazing.Id;
-        _bodyWeightId = bodyWeight.Id;
+        _type = type;
+        _grazingId = grazingId;
+        _bodyWeightId = bodyWeightId;
         _adg = adg;
         _gestation = gestation;
         _milkYield = milkYield;
         _fatContent = fatContent;
-        _dietQualityEstimateId = dietQualityEstimate.Id;
-        _kidsLambsId = kidsLambs.Id;
+        _dietQualityEstimateId = dietQualityEstimateId;
+        _kidsLambsId = kidsLambsId;
     }
 
     private int _id;
@@ -55,11 +53,8 @@ public class CalculationEntity
     private string _description;
     public string Description => _description; // NULL
 
-    private int _sheepTypeId;
-    public int SheepTypeId => _sheepTypeId; // NOT NULL
-
-    private int _goatTypeId;
-    public int GoatTypeId => _goatTypeId; // NOT NULL
+    private string _type;
+    public string Type => _type; // NULL
 
     private int _grazingId;
     public int GrazingId => _grazingId; // NOT NULL
@@ -84,8 +79,6 @@ public class CalculationEntity
     private int _kidsLambsId;
     public int KidsLambsId => _kidsLambsId; // NOT NULL
     public SpeciesEntity SpeciesEntity { get; set; } //
-    public SheepTypeEntity SheepTypeEntity { get; set; } // NOT NULL
-    public GoatTypeEntity GoatTypeEntity { get; set; } // NOT NULL
     public GrazingEntity GrazingEntity { get; set; } // NOT NULL
     public BodyWeightEntity BodyWeightEntity { get; set; } // NOT NULL
     public DietQualityEstimateEntity DietQualityEstimateEntity { get; set; } // NOT NULL

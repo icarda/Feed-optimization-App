@@ -41,7 +41,7 @@ public class FeedService : IFeedService
             .AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);
 
             if (feed == null)
-                throw new Exception($"Unable to return eed with id {id}.");
+                throw new Exception($"Unable to return feed with id {id}.");
 
             return await Result<FeedEntity>.SuccessAsync(feed);
         }
@@ -84,7 +84,9 @@ public class FeedService : IFeedService
                 request.MEMJKg,
                 request.TDNPercentage,
                 request.CPPercentage,
-                request.DCPPercentage
+                request.DCPPercentage,
+                request.CountryId,
+                request.LanguageId
             );
             await _context.Feeds.AddAsync(feed);
             await _context.SaveChangesAsync();
@@ -111,7 +113,9 @@ public class FeedService : IFeedService
                 request.MEMJKg,
                 request.TDNPercentage,
                 request.CPPercentage,
-                request.DCPPercentage
+                request.DCPPercentage,
+                request.CountryId,
+                request.LanguageId
             );
 
             _context.Feeds.Update(feed);
