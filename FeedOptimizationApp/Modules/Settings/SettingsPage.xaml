@@ -6,32 +6,40 @@
     <StackLayout Padding="20" Spacing="20">
         <Label Text="Feed Optimization App" FontSize="24" HorizontalOptions="Center" Margin="0,0,0,20" />
 
-        <!-- First pair of Label and Picker -->
-        <Label Text="Language" FontSize="18" />
-        <Picker x:Name="LanguagePicker" Title="Select an option" SelectedItem="{Binding SelectedLanguage}">
-            <Picker.Items>
-                <x:String>English / Anglaise</x:String>
-                <x:String>French / Français</x:String>
-            </Picker.Items>
-        </Picker>
+        <!-- Language Picker -->
+        <Label Text="Select a language"
+       FontSize="18" />
+        <Label Text="Sélectionnez une langue"
+       FontSize="18" />
+        <Picker x:Name="LanguagePicker"
+        Title="Select an option"
+        SelectedIndex="-1"
+        ItemsSource="{Binding Languages}"
+        ItemDisplayBinding="{Binding Name}"
+        SelectedItem="{Binding SelectedLanguage}"
+        FontSize="16" />
 
-        <!-- Second pair of Label and Picker -->
-        <Label Text="Country" FontSize="18" />
-        <Picker x:Name="CountryPicker" Title="Select an option" SelectedItem="{Binding SelectedCountry}">
-            <Picker.Items>
-                <x:String>Ethiopia</x:String>
-                <x:String>Tunisia</x:String>
-            </Picker.Items>
-        </Picker>
+        <!-- Country Picker -->
+        <Label Text="Select a country"
+       FontSize="18" />
+        <Picker x:Name="CountryPicker"
+        Title="Select an option"
+        SelectedIndex="-1"
+        ItemsSource="{Binding Countries}"
+        ItemDisplayBinding="{Binding Name}"
+        SelectedItem="{Binding SelectedCountry}"
+        FontSize="16" />
 
-        <!-- Third pair of Label and Picker -->
-        <Label Text="Species" FontSize="18" />
-        <Picker x:Name="SpeciesPicker" Title="Select an option" SelectedItem="{Binding SelectedSpecies}">
-            <Picker.Items>
-                <x:String>Goat</x:String>
-                <x:String>Sheep</x:String>
-            </Picker.Items>
-        </Picker>
+        <!-- Species Picker -->
+        <Label Text="Select a species"
+       FontSize="18" />
+        <Picker x:Name="SpeciesPicker"
+        Title="Select an option"
+        SelectedIndex="-1"
+        ItemsSource="{Binding SpeciesList}"
+        ItemDisplayBinding="{Binding Name}"
+        SelectedItem="{Binding SelectedSpecies}"
+        FontSize="16" />
 
         <!-- Buttons -->
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,30,0,0">

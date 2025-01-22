@@ -1,8 +1,7 @@
 using CsvHelper.Configuration;
-using DataLibrary.Models;
-using DataLibrary.Models.Enums;
+using DataLibrary.DTOs;
 
-public class FeedMap : ClassMap<FeedEntity>
+public class FeedMap : ClassMap<FeedDTO>
 {
     public FeedMap()
     {
@@ -13,5 +12,7 @@ public class FeedMap : ClassMap<FeedEntity>
         Map(m => m.TDNPercentage).Name("TDN (%)");
         Map(m => m.CPPercentage).Name("CP (%)");
         Map(m => m.DCPPercentage).Name("DCP (%)");
+        Map(m => m.CountryId).Name("CountryId");
+        Map(m => m.LanguageId).Name("LanguageId");
     }
 }

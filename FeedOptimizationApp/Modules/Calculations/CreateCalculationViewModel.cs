@@ -11,7 +11,8 @@ namespace FeedOptimizationApp.Modules.Calculations
     public class CreateCalculationViewModel : BaseViewModel
     {
         private readonly BaseService _baseService;
-        private SpeciesEntity? SelectedSpecies => SharedData.SelectedSpecies;
+
+        private LookupDTO SelectedSpecies => SharedData.SelectedSpecies;
 
         // Constructor
         public CreateCalculationViewModel(BaseService baseService, SharedData sharedData) : base(sharedData)
@@ -143,31 +144,31 @@ namespace FeedOptimizationApp.Modules.Calculations
         }
 
         // Properties for holding selected values
-        private string? _selectedType;
+        private LookupDTO? _selectedType;
 
-        public string? SelectedType
+        public LookupDTO? SelectedType
         {
             get => _selectedType;
             set
             {
                 if (SetProperty(ref _selectedType, value))
                 {
-                    IsNrSucklingsVisible = value == "Does" || value == "Ewes";
+                    IsNrSucklingsVisible = value.Name == "Does" || value.Name == "Ewes";
                 }
             }
         }
 
-        private GrazingEntity? _selectedGrazing;
+        private LookupDTO? _selectedGrazing;
 
-        public GrazingEntity? SelectedGrazing
+        public LookupDTO? SelectedGrazing
         {
             get => _selectedGrazing;
             set => SetProperty(ref _selectedGrazing, value);
         }
 
-        private BodyWeightEntity? _selectedBodyWeight;
+        private LookupDTO? _selectedBodyWeight;
 
-        public BodyWeightEntity? SelectedBodyWeight
+        public LookupDTO? SelectedBodyWeight
         {
             get => _selectedBodyWeight;
             set => SetProperty(ref _selectedBodyWeight, value);
@@ -181,9 +182,9 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _ADG, value);
         }
 
-        private DietQualityEstimateEntity? _selectedDietQualityEstimate;
+        private LookupDTO? _selectedDietQualityEstimate;
 
-        public DietQualityEstimateEntity? SelectedDietQualityEstimate
+        public LookupDTO? SelectedDietQualityEstimate
         {
             get => _selectedDietQualityEstimate;
             set => SetProperty(ref _selectedDietQualityEstimate, value);
@@ -284,9 +285,9 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _maxLimit, value);
         }
 
-        private KidsLambsEntity? _selectedNumberOfSucklingKidsLambs;
+        private LookupDTO? _selectedNumberOfSucklingKidsLambs;
 
-        public KidsLambsEntity? SelectedNumberOfSucklingKidsLambs
+        public LookupDTO? SelectedNumberOfSucklingKidsLambs
         {
             get => _selectedNumberOfSucklingKidsLambs;
             set => SetProperty(ref _selectedNumberOfSucklingKidsLambs, value);
@@ -319,14 +320,13 @@ namespace FeedOptimizationApp.Modules.Calculations
         // Collections to hold options and feeds
         public ObservableCollection<FeedEntity> Feeds { get; set; } = new ObservableCollection<FeedEntity>();
 
-        public ObservableCollection<string> Types { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> SheepTypes { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> GoatTypes { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> Grazings { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> BodyWeights { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<double> ADGs { get; set; } = new ObservableCollection<double>();
-        public ObservableCollection<string> DietQualityEstimates { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> NrSucklingKidsLambs { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<LookupDTO> Types { get; set; } = new ObservableCollection<LookupDTO>();
+        public ObservableCollection<LookupDTO> SheepTypes { get; set; } = new ObservableCollection<LookupDTO>();
+        public ObservableCollection<LookupDTO> GoatTypes { get; set; } = new ObservableCollection<LookupDTO>();
+        public ObservableCollection<LookupDTO> Grazings { get; set; } = new ObservableCollection<LookupDTO>();
+        public ObservableCollection<LookupDTO> BodyWeights { get; set; } = new ObservableCollection<LookupDTO>();
+        public ObservableCollection<LookupDTO> DietQualityEstimates { get; set; } = new ObservableCollection<LookupDTO>();
+        public ObservableCollection<LookupDTO> NrSucklingKidsLambs { get; set; } = new ObservableCollection<LookupDTO>();
 
         // Method to load feeds asynchronously
         private async Task LoadFeedsAsync()
@@ -365,45 +365,45 @@ namespace FeedOptimizationApp.Modules.Calculations
             NrSucklingKidsLambs.Clear();
 
             // Load types
-            if (SelectedSpecies?.Name == "Sheep")
+            if (SelectedSpecies?.Name == "SHEEP")
             {
                 var types = await _baseService.EnumEntitiesService.GetSheepTypesAsync();
                 foreach (var type in types.Data)
                 {
-                    Types.Add(type.Name);
+                    Types.Add(type);
                 }
             }
-            else if (SelectedSpecies?.Name == "Goat")
+            else if (SelectedSpecies?.Name == "GOAT")
             {
                 var types = await _baseService.EnumEntitiesService.GetGoatTypesAsync();
                 foreach (var type in types.Data)
                 {
-                    Types.Add(type.Name);
+                    Types.Add(type);
                 }
             }
             // Load Grazings
             var grazings = await _baseService.EnumEntitiesService.GetGrazingsAsync();
             foreach (var grazing in grazings.Data)
             {
-                Grazings.Add(grazing.Name);
+                Grazings.Add(grazing);
             }
             // Load BodyWeights
             var bodyWeights = await _baseService.EnumEntitiesService.GetBodyWeightsAsync();
             foreach (var bodyWeight in bodyWeights.Data)
             {
-                BodyWeights.Add(bodyWeight.Name);
+                BodyWeights.Add(bodyWeight);
             }
             // Load kids/lambs
             var kidsLambs = await _baseService.EnumEntitiesService.GetKidsLambsAsync();
             foreach (var kidsLamb in kidsLambs.Data)
             {
-                NrSucklingKidsLambs.Add(kidsLamb.Name);
+                NrSucklingKidsLambs.Add(kidsLamb);
             }
             // Load DietQualityEstimates
             var dietQualityEstimates = await _baseService.EnumEntitiesService.GetDietQualityEstimatesAsync();
             foreach (var dietQualityEstimate in dietQualityEstimates.Data)
             {
-                DietQualityEstimates.Add(dietQualityEstimate.Name);
+                DietQualityEstimates.Add(dietQualityEstimate);
             }
         }
 
@@ -468,7 +468,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             var animalInformation = new CalculationDTO
             {
-                Type = SelectedType,
+                Type = SelectedType?.Name,
                 GrazingId = SelectedGrazing?.Id,
                 BodyWeightId = SelectedBodyWeight?.Id,
                 ADG = ADG,

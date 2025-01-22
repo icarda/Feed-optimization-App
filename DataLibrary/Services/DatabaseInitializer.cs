@@ -54,13 +54,27 @@ public class DatabaseInitializer
         }
 
         using var reader = new StreamReader(stream);
+        string csvContent = await reader.ReadToEndAsync();
+        Console.WriteLine("CSV Content:");
+        Console.WriteLine(csvContent);
+
+        // Reset the stream position to the beginning
+        stream.Position = 0;
+        reader.DiscardBufferedData();
+
         using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            HasHeaderRecord = true,
+            HasHeaderRecord = true
         });
 
         csv.Context.RegisterClassMap<FeedMap>();
         var records = csv.GetRecords<FeedDTO>().ToList();
+        Console.WriteLine($"Number of records read: {records.Count}");
+        foreach (var record in records)
+        {
+            Console.WriteLine($"Record: {record.Name}");
+        }
+
         foreach (var record in records)
         {
             // Map the DTO to the Entity

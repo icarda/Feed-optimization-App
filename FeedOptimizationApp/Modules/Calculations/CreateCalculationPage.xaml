@@ -65,6 +65,7 @@
                                 Grid.Row="0"
                                 Grid.Column="1"
                                 ItemsSource="{Binding Types}"
+                                ItemDisplayBinding="{Binding Name}"
                                 SelectedItem="{Binding SelectedType}" />
 
                         <!-- Grazing -->
@@ -77,6 +78,7 @@
                                 Grid.Column="1"
                                 SelectedIndex="-1"
                                 ItemsSource="{Binding Grazings}"
+                                ItemDisplayBinding="{Binding Name}"
                                 SelectedItem="{Binding SelectedGrazing}" />
 
                         <!-- Body Weight -->
@@ -89,6 +91,7 @@
                                 Grid.Column="1"
                                 SelectedIndex="-1"
                                 ItemsSource="{Binding BodyWeights}"
+                                ItemDisplayBinding="{Binding Name}"
                                 SelectedItem="{Binding SelectedBodyWeight}" />
 
                         <!-- ADG -->
@@ -111,6 +114,7 @@
                                 Grid.Column="1"
                                 SelectedIndex="-1"
                                 ItemsSource="{Binding DietQualityEstimates}"
+                                ItemDisplayBinding="{Binding Name}"
                                 SelectedItem="{Binding SelectedDietQualityEstimate}" />
 
                         <!-- Last 8 Weeks of Gestation -->
@@ -132,6 +136,7 @@
                                 Grid.Column="1"
                                 SelectedIndex="-1"
                                 ItemsSource="{Binding NrSucklingKidsLambs}"
+                                ItemDisplayBinding="{Binding Name}"
                                 SelectedItem="{Binding SelectedNumberOfSucklingKidsLambs}"
                                 IsVisible="{Binding IsNrSucklingsVisible}" />
                     </Grid>
@@ -226,15 +231,12 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    
-
-                                        <Picker Title="Select an option"
+                                    <Picker Title="Select an option"
                                                 ItemsSource="{Binding Feeds}"
                                                 ItemDisplayBinding="{Binding Name}"
                                                 SelectedItem="{Binding SelectedFeed}"
                                                 Grid.Row="0"
                                                 Grid.ColumnSpan="2" />
-                                    
 
                                     <Label Text="DM(%)" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" />
                                     <Entry Placeholder="DM(%)" Text="{Binding SelectedFeed.DryMatterPercentage}" Grid.Row="1" Grid.Column="1" />

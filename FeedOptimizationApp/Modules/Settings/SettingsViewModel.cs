@@ -1,6 +1,4 @@
 ﻿using DataLibrary.DTOs;
-using DataLibrary.Models;
-using DataLibrary.Models.Enums;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
@@ -21,7 +19,7 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected language.
     /// </summary>
-    public LanguageEntity? SelectedLanguage
+    public LookupDTO? SelectedLanguage
     {
         get => SharedData.SelectedLanguage;
         set
@@ -37,7 +35,7 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected country.
     /// </summary>
-    public CountryEntity? SelectedCountry
+    public LookupDTO? SelectedCountry
     {
         get => SharedData.SelectedCountry;
         set
@@ -53,7 +51,7 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected species.
     /// </summary>
-    public SpeciesEntity? SelectedSpecies
+    public LookupDTO? SelectedSpecies
     {
         get => SharedData.SelectedSpecies;
         set
@@ -73,6 +71,7 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
         : base(sharedData)
     {
         _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
+        LoadEnumValues();
         CancelCommand = new Command(OnCancelButtonClicked);
         SaveCommand = new Command(async () => await OnSaveButtonClicked());
     }
@@ -113,6 +112,29 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
         {
             // Show a message to the user to fill all fields
             await Application.Current.MainPage.DisplayAlert("Error", "Please fill all fields to proceed.", "OK");
+        }
+    }
+
+    private async void LoadEnumValues()
+    {
+        Languages.Clear();
+        Countries.Clear();
+        SpeciesList.Clear();
+
+        var languages = await _baseService.EnumEntitiesService.GetLanguagesAsync();
+        foreach (var language in languages.Data)
+        {
+            Languages.Add(language);
+        }
+        var countries = await _baseService.EnumEntitiesService.GetCountriesAsync();
+        foreach (var country in countries.Data)
+        {
+            Countries.Add(country);
+        }
+        var speciesList = await _baseService.EnumEntitiesService.GetSpeciesAsync();
+        foreach (var species in speciesList.Data)
+        {
+            SpeciesList.Add(species);
         }
     }
 }

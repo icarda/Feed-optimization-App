@@ -1,279 +1,279 @@
-Feed,Dry Matter (%),ME (Mcal/kg),ME(MJ/kg),TDN (%),CP (%),DCP (%)
-"Afalfa,fresh",24,0.51,8.88,14,20,3.5
-"Alfalfa hay,s-c,early bloom",90,1.82,8.45,51,18,12.7
-"Alfalfa hay,s-c,late vegetative",90,1.88,8.73,52,19.89,14.3
-"Alfalfa hay,s-c,midbloom",90,1.82,8.45,51,17,11.6
-Alfalfa silage,41,0.88,8.97,24,18.05,5.4
-"Alfalfa silage,<30% dry matter",26,0.6,9.65,17,18.85,3.3
-"Alfalfa silage,>50% dry matter",57,1.17,8.58,32,17.19,6.7
-"Alfalfa silage,30-50% dry matter",43,0.91,8.85,25,18.14,5.5
-"Alfalfa,hay,s-c,full bloom",90,1.72,7.99,47,15,9.4
-"Alfalfa,hay,s-c,mature",91,1.78,8.18,49,12.86,7.7
-"Alfalfa,meal,dehydrated,15% protein",90,1.86,8.64,52,17.33,10.9
-"Alfalfa,meal,dehydrated,17% protein",92,1.99,9.04,55,18.8,11.6
-Barley grain,88,2.74,13.02,76,13.52,9.8
-"Barley grain,Pacific coast",89,2.84,13.34,79,10.79,6.3
-"Barley hay,sun-cured",87,1.77,8.5,49,8.74,4.1
-Barley straw,91,1.58,7.26,43,4.4,0.7
-"Bean,Navy,seeds",89,2.82,13.24,78,25.39,19.9
-"Beet,Mangel,roots,fresh",11,0.32,12.16,9,11.82,0.9
-"Beet,Sugar,pulp with molasses,dehydrated",92,2.55,11.59,71,10.11,6.1
-"Beet,Sugar,pulp,dehydrated",91,2.43,11.16,67,9.67,4.5
-"Beet,Sugar,pulp,wet",11,0.3,11.4,8,10.91,0.7
-"Bermudagrass, hay,s-c,full bloom",92,1.73,7.86,48,8.15,3.5
-"Bermudagrass, hay,s-c,midbloom",93,1.81,8.14,50,9.46,4.7
-"Bermudagrass, hay,sun-cured",91,1.62,7.44,45,9.78,4.6
-"Bermudagrass,Coastal,hay,s-c,",90,1.77,8.22,49,6,3.4
-"Bermudagrass,Coastal,hay,s-c,early bloom",93,1.78,8,49,0,0
-"Bermudagrass,Coastal,hay,s-c,early vegetative",94,2.04,9.07,57,15.96,10.3
-"Bermudagrass,Coastal,hay,s-c,full bloom",94,1.77,7.87,49,0,0
-"Bermudagrass,Coastal,hay,s-c,late vegetative",91,1.78,8.18,50,16.48,10.3
-Blood meal,92,2.22,10.09,61,86.74,65
-"Bluegrass,Canada,fresh,early vegetative",26,0.62,9.97,17,18.85,3.7
-"Bluegrass,Canada,hay,sun-cured",92,2,9.09,55,10.43,4.1
-"Bluegrass,Canada,hay,sun-cured,early vegetative",91,1.97,9.05,54,17.25,11
-"Bluegrass,Kentucky,fresh,early bloom",35,0.87,10.39,24,16.57,4.2
-"Bluegrass,Kentucky,fresh,early vegetative",31,0.72,9.71,20,17.42,4.1
-"Brewers grains,dehydrated",92,2.33,10.59,65,29.46,19.8
-"Brome,fresh,early vegetative",34,0.98,12.05,27,17.94,5
-"Brome,fresh,mature",57,0,0,0,6.32,1.7
-"Brome,hay,sun-cured",91,1.8,8.27,49,9.67,4.8
-"Buffalograss,fresh",46,0.93,8.45,26,10.22,2.5
-"Canarygrass,Reed,fresh",27,0.54,8.36,15,11.48,0.4
-"Canarygrass,Reed,hay,sun-cured",91,1.61,7.4,45,10.33,5.8
-"Citrus,pomace without fines,dehydrated",91,2.77,12.72,76,6.7,3.1
-"Citrus,pomace,silage (pulp)",21,0.67,13.34,18,7.14,0.8
-"Clover, Alsike,hay,sun-cured",88,1.84,8.74,51,14.89,8.7
-"Clover,Crimson,hay,sun-cured",87,1.73,8.31,48,18.51,11
-"Clover,Ladino,hay,sun-cured",90,2.14,9.94,59,21.89,15
-"Clover,Red,fresh,early bloom",20,0.49,10.24,13,19,3
-"Clover,Red,fresh,full bloom",26,0.61,9.81,17,14.62,2.8
-"Clover,Red,fresh,late bloom",23,0.55,10,15,15.65,2.6
-"Clover,Red,fresh,midbloom",26,0.66,10.61,18,15.38,2.9
-"Clover,Red,hay,sun-cured",89,1.92,9.02,53,15.96,9
-"Clover,Red,hay,sun-cured,early bloom",86,2,9.72,55,18.6,11.4
-"Clover,Red,hay,sun-cured,early vegetative",87,2.05,9.85,57,21.49,13.8
-"Clover,Red,hay,sun-cured,full bloom",86,1.96,9.53,54,15.23,8.5
-"Clover,Red,hay,sun-cured,late vegetative",87,2.1,10.09,58,19.54,10.5
-"Clover,Red,hay,sun-cured,midbloom",88,1.98,9.41,55,18.18,10.1
-"Corn,Dent Yellow,aerial part with ears,sun-cured (fodder)",81,1.85,9.55,51,8.89,3.8
-"Corn,Dent Yellow,aerial part without ears without husks,sun-cured (stover) (straw)",85,1.82,8.95,50,6.59,2.5
-"Corn,Dent Yellow,cobs,ground",90,1.66,7.71,46,3.11,-0.5
-"Corn,Dent Yellow,distillers grains with solubles,dehydrated",92,2.89,13.13,80,25,11.2
-"Corn,Dent Yellow,distillers grains,dehydrated",94,2.94,13.07,82,22.87,15.6
-"Corn,Dent Yellow,distillers solubles,dehydrated",93,2.85,12.81,79,29.68,21.8
-"Corn,Dent Yellow,ears with husks,silage",44,1.17,11.12,32,8.86,2.1
-"Corn,Dent Yellow,ears,ground (corn and cob meal)",87,2.6,12.49,71,8.97,4.8
-"Corn,Dent Yellow,gluten with bran (corn gluten bran)",90,2.7,12.54,75,25.56,0
-"Corn,Dent Yellow,gluten, meal",91,2.9,13.32,80,46.92,36.3
-"Corn,Dent Yellow,grain,grade 2 69.5 kg/hl (54 lb/bushel)",88,2.78,13.21,77,10.11,5.7
-"Corn,Dent Yellow,grain,grade 3 66.9 kg/hl (52 lb/bushel)",86,2.71,13.17,75,10.12,5.6
-"Corn,Dent Yellow,silage,aerial part without ears without husks (stalkage)(stover)",31,0.59,7.96,16,6.13,0.5
-"Corn,Dent Yellow,silage,well eared",33,0.85,10.77,23,8.18,1.2
-"Corn,Sweet,process residue,silage (cannery residue)",32,0.72,9.41,20,7.5,1
-Cotton hulls,91,1.6,7.35,44,4.07,-0.5
-"Cotton seeds,ground",92,3.27,14.86,90,23.7,16.1
-"Cotton seeds,meal mechanical extracted",93,2.12,9.53,59,40.75,27.3
-"Cotton seeds,meal mechanical extracted,41% protein",93,2.51,11.28,70,44.09,0
-"Cotton seeds,meal solvent extracted,41% protein",91,2.34,10.75,65,45.27,0
-"Cotton,gin by-product",90,1.5,6.97,42,7.33,2.9
-"Fescue,Kentucky 31,fresh",29,0.69,9.95,19,14.48,2.8
-"Fescue,Kentucky 31,fresh,early bloom",29,0.69,9.95,19,16.55,3.6
-"Fescue,Kentucky 31,fresh,early vegetative",28,0.73,10.9,20,21.79,4.9
-"Fescue,Kentucky 31,hay,sun-cured",92,1.99,9.04,55,18.15,12
-"Fescue,Kentucky 31,hay,sun-cured, early bloom",91,2.04,9.37,56,20.22,13.9
-"Fescue,Kentucky 31,hay,sun-cured,early vegetative",92,2.53,11.5,70,20.54,14.1
-"Fescue,Kentucky 31,hay,sun-cured,full bloom",92,1.92,8.72,53,12.07,7.1
-"Fescue,Kentucky 31,hay,sun-cured,late vegetative",91,2.5,11.48,70,21.32,14.9
-"Fescue,Kentucky 31,hay,sun-cured,midbloom",92,2,9.09,55,16.52,10.3
-"Fescue,Meadow,hay,sun-cured",88,1.87,8.88,52,9.09,4.4
-"Fish,Menhaden,meal mechanical extracted",92,2.32,10.54,64,66.41,49.5
-"Fish,Menhaden,meal mechanical extracted,60% protein",91,2.55,11.71,71,66.92,0
-"Fish,Menhaden,solubles,condensed",50,1.53,12.79,42,63.2,0
-"Fish,Menhaden,solubles,dehydrated",93,2.78,12.5,77,66.67,0
-"Flax,Common,seeds,meal mechanical extracted (linseed meal)",91,2.72,12.49,75,37.69,28.9
-"Flax,Common,seeds,meal solvent extracted (linseed meal)",90,2.58,11.98,72,38.44,29.5
-"Grama,fresh,early vegetative",41,0.89,9.07,25,13.17,3.8
-"Grama,fresh,mature",63,1.28,8.49,35,6.51,1.9
-"Grass-Legume,aerial part molasses added,silage",28,0.61,9.11,17,12.14,2
-"Grass-Legume,silage",29,0.66,9.51,18,11.38,1.9
-"Hop,Common,fruit (hops),spent dehydrated",93,1.15,5.17,32,24.84,6.9
-"Lespedeza,Common,fresh",28,0.58,8.66,16,15,3.1
-"Lespedeza,Common,fresh,late vegetative",25,0.53,8.86,15,16,3
-"Lespedeza,Common,hay,sun-cured",88,1.6,7.6,44,16.82,6.4
-"Lespedeza,Common,hay,sun-cured,early vegetative",89,1.97,9.25,54,16.07,9.7
-"Lespedeza,Common,hay,sun-cured,full bloom",89,1.87,8.78,52,14.38,8.4
-"Lespedeza,Common,hay,sun-cured,late vegetative",90,1.79,8.31,50,16,9.8
-"Lespedeza,Common,hay,sun-cured,midbloom",92,1.89,8.59,52,15,9.2
-"Meadow Plants,Intermountain,hay,sun-cured",95,1.99,8.76,55,8.74,5
-"Meadow Plants,Intermountain,hay,sun-cured,early vegetative",90,2.28,10.59,63,0,0
-"Meadow Plants,Intermountain,hay,sun-cured,mature",91,1.35,6.2,37,5.6,1.5
-"Meadow Plants,Intermountain,late bloom,cut 1",94,1.56,6.94,43,8.09,3.6
-"Milk,fresh (cattle)",12,0.65,22.64,8,27.5,3.1
-"Milk,fresh (sheep)",19,1.11,24.42,31,24.74,0
-"Milk,skimmed,fresh (cattle)",10,0.39,16.3,11,30,0
-"Molasses,beet,sugar,molasses,more than 48% invert sugar,more than 79.5 degrees brix",78,2.16,11.58,60,8.46,3.4
-"Molasses,sugarcane,molasses,dehydrated",94,2.6,11.56,71,10.32,6.3
-"Molasses,sugarcane,molasses>46% invert sugars>79.5% Brix (black strap",75,2.13,11.87,59,5.87,-1.3
-"Needleandthread,fresh,early bloom",33,0.7,8.87,19,9.39,1.9
-"Needleandthread,fresh,early vegetative",29,0.62,8.94,17,10.69,2
-"Needleandthread,fresh,full bloom",38,0.77,8.47,21,8.42,1.8
-"Needleandthread,fresh,mature",57,0.93,6.82,26,5.26,0.9
-"Needleandthread,fresh,midbloom",35,0.73,8.72,20,8.86,1.9
-"Needleandthread,fresh,stem cured",92,1.43,6.5,40,4.02,1
-"Oats ,grain,grade 2, 41.2 kg/hl",89,2.44,11.46,68,12.81,8
-"Oats,cereal by-product,less than 4% fiber",91,3.18,14.61,88,16.26,11.9
-"Oats,grain",89,2.47,11.6,68,13.26,9.3
-"Oats,grain,grade 1 heavy 46.3 kg/hl",89,2.61,12.26,72,14.16,11.1
-"Oats,grain,light less than 34.7 kg/hl",91,2.16,9.92,59,13.08,8.2
-"Oats,grain,Pacific coast",91,2.56,11.76,71,10,5.8
-"Oats,groats",90,3.3,15.33,91,17.56,12
-"Oats,hay,sun-cured",91,1.75,8.04,49,9.34,5.2
-"Oats,silage",31,0.69,9.3,19,9.68,1.5
-"Oats,straw",92,1.57,7.13,44,4.46,0.3
-"Onion,garden,aerial part,fresh",91,2.18,10.01,60,12.64,8
-"Onion,garden,bulbs,fresh,mature",10,0,0,0,10,0.7
-"Orchardgrass,fresh,early bloom",25,0.55,9.2,15,16,2.2
-"Orchardgrass,fresh,early vegetative",23,0.57,10.36,16,18.7,3.1
-"Orchardgrass,fresh,full bloom",30,0.65,9.06,18,10.67,2
-"Orchardgrass,fresh,late vegetative",24,0.57,9.93,16,17.08,3.1
-"Orchardgrass,fresh,midbloom",31,0.65,8.76,18,12.58,2.7
-"Orchardgrass,hay,sun-cured",91,1.91,8.77,53,11.21,6.5
-"Orchardgrass,hay,sun-cured,early bloom",89,1.68,7.89,47,15.06,7.3
-"Orchardgrass,hay,sun-cured,early vegetative",90,2.01,9.34,56,0,0
-"Orchardgrass,hay,sun-cured,full bloom",93,1.64,7.37,45,12.37,6.6
-"Orchardgrass,hay,sun-cured,late vegetative",89,1.8,8.45,50,16.29,10
-"Peanut, kernels, meal mechanical extracted (peanut meal)",93,3.15,14.16,87,51.72,43.8
-"Peanut, kernels, meal solvent extracted (peanut meal)",92,2.56,11.63,71,52.28,0
-"Peanut, pods (hulls)",91,0.66,3.03,19,7.8,1.7
-"Prairie plants,Midwest,hay,sun-cured,early vegetative",90,2.05,9.52,57,8.67,3.9
-"Prairie plants,Midwest,hay,sun-cured,full bloom",89,1.67,7.84,46,6.07,1.8
-"Prairie plants,Midwest,hay,sun-cured,mature",91,1.58,7.26,44,5.05,2.2
-"Prairie plants,Midwest,hay,sun-cured,midbloom",95,1.86,8.18,51,7.05,2.7
-"Pricklypear,fresh",17,0.35,8.61,9,4.71,0.4
-"Rape seeds,meal mechanical extracted",92,2.49,11.31,69,38.7,30.1
-"Rape seeds,meal solvent extracted",91,2.44,11.21,67,40.66,0
-"Rape,fresh",17,0.48,11.8,13,17.06,2.4
-"Rape,fresh,early bloom",11,0.31,11.78,8,24.55,2.3
-"Rape,fresh,early vegetative",18,0.53,12.31,15,25.56,3.7
-"Redtop,fresh,full bloom",26,0.55,8.84,15,8.08,1.2
-"Redtop,fresh,midbloom",39,0.83,8.9,23,7.44,1.8
-"Redtop,hay,sun-cured",92,1.8,8.18,50,8.04,3.5
-"Redtop,hay,sun-cured, full bloom",91,1.77,8.13,49,9.34,5.3
-"Redtop,hay,sun-cured, midbloom",94,1.91,8.49,53,11.7,6.9
-"Redtop,hay,sun-cured,early bloom",91,1.88,8.64,52,12.53,7.1
-"Redtop,hay,sun-cured,early vegetative",92,1.9,8.63,52,13.8,8.2
-"Rice, bran with germs (rice, bran)",91,2.43,11.16,67,13.96,8.7
-"Rice, groats, polished (rice, polished)",89,2.92,13.71,81,8.09,3.9
-"Rye, distillers grains, dehydrated",92,2.13,9.68,59,23.48,12.9
-"Rye, grain",88,2.69,12.78,75,13.75,9.5
-"Rye, straw",90,1.46,6.78,41,3,-0.6
-"Ryegrass, italian, fresh",25,0.52,8.69,14,14,1.5
-"Ryegrass, italian, fresh, early bloom",35,0.77,9.2,21,15.14,3.9
-"Ryegrass, italian, fresh, mature",35,0.74,8.84,21,5.71,0.8
-"Ryegrass, italian, hay, sun-cured",86,1.84,8.94,51,7.56,2.7
-"Ryegrass, italian, hay, sun-cured, early bloom",88,1.81,8.6,50,12.95,7.1
-"Ryegrass, italian, hay, sun-cured, early vegetative",89,1.94,9.11,54,15.28,9.1
-"Ryegrass, italian, hay, sun-cured, full bloom",86,1.71,8.31,48,6.63,1.5
-"Safflower, seeds, meal mechanical extracted",91,2.05,9.42,57,22.2,17
-"Safflower, seeds, meal solvent extracted",92,1.87,8.5,52,25.43,0
-"Sage, Black, browse, fresh, stem cured",65,1.15,7.4,32,8.46,2.9
-"Sagebrush, big, browse, fresh, stem cured",65,1.18,7.59,33,9.38,3.2
-"Sagebrush, bud, browse, fresh, late vetetative",32,0.65,8.49,18,17.5,4.3
-"Sagebrush, bud,browse,fresh,early vegetative",23,0.42,7.63,12,17.39,3.1
-"Sagebrush, fringed, browse,fresh, mature",60,1.17,8.15,33,7.17,2.2
-"Sagebrush, fringed, browse,fresh, midbloom",43,0.92,8.94,26,9.3,2.5
-"Saltbush, nuttall, browse, fresh, stem cured",55,0.72,5.47,20,7.27,1.8
-"Saltbush, shadscale, browse, fresh, stem cured",80,0.9,4.7,25,7.63,3.5
-"Saltgrass, desert, fresh",29,0.63,9.08,17,5.86,0.7
-"Saltgrass, fresh",74,1.53,8.64,42,6.49,0.7
-"Saltgrass, fresh, post ripe",74,1.53,8.64,42,4.19,0.7
-"Saltgrass, hay, sun-cured",89,1.65,7.75,45,8.99,4.1
-"Sheep milk, aerial part, sun-cured",89,1.87,8.78,52,7.53,2.8
-"Sheep milk, aerial part, sun-cured, early vegetative",92,0,0,0,15.98,10
-"Sheep milk, aerial part, sun-cured, full bloom",90,1.81,8.41,50,6.33,2.1
-"Sheep milk, aerial part, sun-cured, mature",90,1.73,8.03,48,6.78,2.3
-"Sheep milk, aerial part, without heads, sun-cured, mature",88,0,0,0,4.43,0.5
-"Sheep milk, distillers grains, dehydrated",94,2.88,12.81,79,34.26,0
-"Sheep milk, grain",90,2.85,13.24,79,12.33,8.2
-"Sheep milk, grain, >12% protein",89,0,0,0,13.03,8.1
-"Sheep milk, grain, 9-12% protein",89,2.76,12.96,76,11.46,6.9
-"Sheep milk, grain, less than 9% protein",89,2.75,12.92,76,10,5.7
-"Sheep milk, silage",30,0.61,8.5,17,7.33,0.6
-"Sheep milk, silage, dough stage",28,0.52,7.76,14,6.07,0.3
-"Sheep milk, silage, mature",32,0.58,7.58,16,7.5,0.7
-"Sheep milk, silage, milk stage",25,0.52,8.69,14,9.6,1
-"Sorghum, Johnsongrass, fresh",24,0.54,9.41,15,15.42,2.7
-"Sorghum, Johnsongrass, fresh, early vegetative",20,0.44,9.2,12,15.5,2.3
-"Sorghum, Johnsongrass, fresh, full bloom",35,0.73,8.72,20,8,1.6
-"Sorghum, Johnsongrass, fresh, midbloom",35,0.75,8.96,21,8.86,1.9
-"Sorghum, Johnsongrass, hay, sun-cured",89,1.81,8.5,50,9.55,3.7
-"Sorghum, Johnsongrass, hay, sun-cured, early vegetative",92,1.83,8.31,51,15,9.2
-"Sorghum, Johnsongrass, hay, sun-cured, late vegetative",88,1.65,7.84,46,12.05,6.4
-"Sorghum, Johnsongrass, hay, sun-cured, midbloom",92,1.69,7.68,47,8.59,3.9
-"Sorghum, Johnsongrass, hay, sun-cured, post ripe",93,1.68,7.55,46,5.7,1.6
-"Sorghum, kafir, grain",89,2.74,12.87,75,12.25,8.8
-"Sorghum, milo, grain",89,2.82,13.24,78,11.24,7.8
-"Sorghum, milo, heads",90,2.73,12.68,76,10,6.9
-"Sorghum, sorgo, silage",27,0.6,9.29,16,6.3,0.4
-"Sorghum, sudangrass, fresh, early vegetable",18,0.41,9.52,11,16.67,2.3
-"Sorghum, sudangrass, fresh, midbloom",23,0.46,8.36,13,8.7,1.2
-"Sorghum, sudangrass, hay, sun-cured",91,1.81,8.31,50,8.02,4
-"Sorghum, sudangrass, silage",28,0.55,8.21,15,11.07,1.9
-"Soybean, hay, sun-cured",89,1.84,8.64,51,16.07,10.1
-"Soybean, seed coats (hulls)",91,1.78,8.18,49,12.09,6.7
-"Soybean, seeds",92,3.11,14.13,86,42.61,35.1
-"Soybean, seeds, meal mechanical extracted",90,2.77,12.87,77,47.67,36.8
-"Soybean, seeds, meal solvent extracted",90,2.85,13.24,79,49.78,41.6
-"Soybean, straw",88,1.36,6.46,38,5.23,1.3
-"Summercypress, gray, fresh, stem-cured",85,1.54,7.57,42,9.06,5.3
-"Sunflower, common, fresh",15,0.33,9.2,9,9.33,0.8
-"Sunflower, common, seeds without hulls, meal solvent extracted",93,2.56,11.51,70,49.78,0
-"Sunflower, common, seeds, meal solvent extracted",90,1.46,6.78,41,25.89,18.9
-"Sweetclover, yellow, hay, sun-cured",87,1.67,8.02,46,15.75,10
-"Timothy, fresh, late vegetative",26,0.58,9.32,16,18.46,2.6
-"Timothy, fresh, midbloom",29,0.66,9.51,18,9.31,1.4
-"Timothy, hay, sun-cured, early bloom",90,1.81,8.41,51,14.89,7.3
-"Timothy, hay, sun-cured, late bloom",88,1.76,8.36,49,7.84,3.1
-"Timothy, hay, sun-cured, late vegetative",89,2.1,9.86,58,17.08,10.2
-"Timothy, hay, sun-cured, mid-bloom",89,1.93,9.06,53,9.1,4.9
-"Timothy, silage",34,0.74,9.1,20,10.29,1.9
-"Trefoil, birdsfoot, fresh",24,0.55,9.58,15,21.25,4
-"Trefoil, birdsfoot, hay, sun-cured",92,1.93,8.77,53,16.3,10.3
-"Turnip, aerial part, fresh",14,0.35,10.45,10,20.71,1.1
-"Turnip, aerial part, silage",14,0.37,11.05,10,15,1.5
-"Turnip, roots, fresh",9,0.29,13.47,8,12.22,0.8
-"Vetch, fresh",22,0.49,9.31,13,21.36,3.5
-"Vetch, fresh, late vegetative",22,0.48,9.12,13,20.91,3.5
-"Vetch, hay, sun-cured",89,1.77,8.31,49,20.79,14
-"Vetch, hay, sun-cured, early bloom",83,1.77,8.91,49,23.25,14.7
-"Vetch, hay, sun-cured, early vegetative",93,2.11,9.48,59,25.16,18.8
-"Vetch, hay, sun-cured, midbloom",91,1.88,8.64,52,20.77,15.2
-"Wheat, bran",89,2.28,10.71,63,17.08,11.8
-"Wheat, flour by-product, less than 9.5%",89,2.63,12.35,72,18.43,13.2
-"Wheat, fresh, early vegetative",22,0.6,11.4,17,28.64,5
-"Wheat, grain",89,2.8,13.15,78,15.96,11.4
-"Wheat, grain screenings",89,2.42,11.37,67,15.84,10.1
-"Wheat, grain, hard red spring",88,2.85,13.54,78,17.16,11.3
-"Wheat, grain, hard red winter",88,2.81,13.35,78,14.43,9.1
-"Wheat, grain, soft red winter",88,2.81,13.35,78,13.07,8.6
-"Wheat, grain, soft white winter, Pacific coast",89,2.87,13.48,79,11.24,6.7
-"Wheat, hay, sun-cured",88,1.65,7.84,45,8.41,4
-"Wheat, straw",89,1.32,6.2,36,3.6,-3.1
-"Wheatgrass, crested, fresh, early bloom",37,0.76,8.59,21,11.89,3
-"Wheatgrass, crested, fresh, early vegetative",28,0.76,11.35,21,21.43,5.1
-"Wheatgrass, crested, fresh, full bloom",45,0.91,8.45,25,9.78,1.8
-"Wheatgrass, crested, fresh, late vegetative",34,0.75,9.22,21,14.12,3.4
-"Wheatgrass, crested, fresh, mature",60,1.17,8.15,32,5.5,1.3
-"Wheatgrass, crested, fresh, milk stage",48,0.95,8.27,26,7.92,2.1
-"Wheatgrass, crested, fresh, post ripe",80,1.56,8.15,43,3.13,-0.1
-"Wheatgrass, crested, fresh, stem-cured",81,1.55,8,43,3.33,1.2
-"Wheatgrass, crested, hay, sun-cured",93,1.78,8,49,12.37,7.4
-"Wheatgrass, crested, hay, sun-cured, early bloom",92,1.89,8.59,52,14.02,8.4
-"Wheatgrass, crested, hay, sun-cured, early vegetative",94,2.57,11.43,71,19.15,15.3
-"Wheatgrass, crested, hay, sun-cured, full bloom",95,1.89,8.32,52,8.74,4.2
-"Wheatgrass, crested, hay, sun-cured, late vegetative",92,1.96,8.91,55,21.3,14.4
-"Wheatgrass, crested, hay, sun-cured, mature",94,1.63,7.25,45,5.64,3.3
-"Wheatgrass, crested, hay, sun-cured, midbloom",96,1.95,8.49,54,13.33,8.2
-"Wheatgrass, crested, hay, sun-cured, milk stage",93,1.77,7.96,49,7.42,3.1
-"Winterfat, common, fresh, stem cured",80,1.01,5.28,28,10.88,5.4
+Feed,Dry Matter (%),ME (Mcal/kg),ME(MJ/kg),TDN (%),CP (%),DCP (%),CountryId,LanguageId
+"Afalfa,fresh",24,0.51,8.88,14,20,3.5,1,1
+"Alfalfa hay,s-c,early bloom",90,1.82,8.45,51,18,12.7,1,1
+"Alfalfa hay,s-c,late vegetative",90,1.88,8.73,52,19.89,14.3,1,1
+"Alfalfa hay,s-c,midbloom",90,1.82,8.45,51,17,11.6,1,1
+Alfalfa silage,41,0.88,8.97,24,18.05,5.4,1,1
+"Alfalfa silage,<30% dry matter",26,0.6,9.65,17,18.85,3.3,1,1
+"Alfalfa silage,>50% dry matter",57,1.17,8.58,32,17.19,6.7,1,1
+"Alfalfa silage,30-50% dry matter",43,0.91,8.85,25,18.14,5.5,1,1
+"Alfalfa,hay,s-c,full bloom",90,1.72,7.99,47,15,9.4,1,1
+"Alfalfa,hay,s-c,mature",91,1.78,8.18,49,12.86,7.7,1,1
+"Alfalfa,meal,dehydrated,15% protein",90,1.86,8.64,52,17.33,10.9,1,1
+"Alfalfa,meal,dehydrated,17% protein",92,1.99,9.04,55,18.8,11.6,1,1
+Barley grain,88,2.74,13.02,76,13.52,9.8,1,1
+"Barley grain,Pacific coast",89,2.84,13.34,79,10.79,6.3,1,1
+"Barley hay,sun-cured",87,1.77,8.5,49,8.74,4.1,1,1
+Barley straw,91,1.58,7.26,43,4.4,0.7,1,1
+"Bean,Navy,seeds",89,2.82,13.24,78,25.39,19.9,1,1
+"Beet,Mangel,roots,fresh",11,0.32,12.16,9,11.82,0.9,1,1
+"Beet,Sugar,pulp with molasses,dehydrated",92,2.55,11.59,71,10.11,6.1,1,1
+"Beet,Sugar,pulp,dehydrated",91,2.43,11.16,67,9.67,4.5,1,1
+"Beet,Sugar,pulp,wet",11,0.3,11.4,8,10.91,0.7,1,1
+"Bermudagrass, hay,s-c,full bloom",92,1.73,7.86,48,8.15,3.5,1,1
+"Bermudagrass, hay,s-c,midbloom",93,1.81,8.14,50,9.46,4.7,1,1
+"Bermudagrass, hay,sun-cured",91,1.62,7.44,45,9.78,4.6,1,1
+"Bermudagrass,Coastal,hay,s-c,",90,1.77,8.22,49,6,3.4,1,1
+"Bermudagrass,Coastal,hay,s-c,early bloom",93,1.78,8,49,0,0,1,1
+"Bermudagrass,Coastal,hay,s-c,early vegetative",94,2.04,9.07,57,15.96,10.3,1,1
+"Bermudagrass,Coastal,hay,s-c,full bloom",94,1.77,7.87,49,0,0,1,1
+"Bermudagrass,Coastal,hay,s-c,late vegetative",91,1.78,8.18,50,16.48,10.3,1,1
+Blood meal,92,2.22,10.09,61,86.74,65,1,1
+"Bluegrass,Canada,fresh,early vegetative",26,0.62,9.97,17,18.85,3.7,1,1
+"Bluegrass,Canada,hay,sun-cured",92,2,9.09,55,10.43,4.1,1,1
+"Bluegrass,Canada,hay,sun-cured,early vegetative",91,1.97,9.05,54,17.25,11,1,1
+"Bluegrass,Kentucky,fresh,early bloom",35,0.87,10.39,24,16.57,4.2,1,1
+"Bluegrass,Kentucky,fresh,early vegetative",31,0.72,9.71,20,17.42,4.1,1,1
+"Brewers grains,dehydrated",92,2.33,10.59,65,29.46,19.8,1,1
+"Brome,fresh,early vegetative",34,0.98,12.05,27,17.94,5,1,1
+"Brome,fresh,mature",57,0,0,0,6.32,1.7,1,1
+"Brome,hay,sun-cured",91,1.8,8.27,49,9.67,4.8,1,1
+"Buffalograss,fresh",46,0.93,8.45,26,10.22,2.5,1,1
+"Canarygrass,Reed,fresh",27,0.54,8.36,15,11.48,0.4,1,1
+"Canarygrass,Reed,hay,sun-cured",91,1.61,7.4,45,10.33,5.8,1,1
+"Citrus,pomace without fines,dehydrated",91,2.77,12.72,76,6.7,3.1,1,1
+"Citrus,pomace,silage (pulp)",21,0.67,13.34,18,7.14,0.8,1,1
+"Clover, Alsike,hay,sun-cured",88,1.84,8.74,51,14.89,8.7,1,1
+"Clover,Crimson,hay,sun-cured",87,1.73,8.31,48,18.51,11,1,1
+"Clover,Ladino,hay,sun-cured",90,2.14,9.94,59,21.89,15,1,1
+"Clover,Red,fresh,early bloom",20,0.49,10.24,13,19,3,1,1
+"Clover,Red,fresh,full bloom",26,0.61,9.81,17,14.62,2.8,1,1
+"Clover,Red,fresh,late bloom",23,0.55,10,15,15.65,2.6,1,1
+"Clover,Red,fresh,midbloom",26,0.66,10.61,18,15.38,2.9,1,1
+"Clover,Red,hay,sun-cured",89,1.92,9.02,53,15.96,9,1,1
+"Clover,Red,hay,sun-cured,early bloom",86,2,9.72,55,18.6,11.4,1,1
+"Clover,Red,hay,sun-cured,early vegetative",87,2.05,9.85,57,21.49,13.8,1,1
+"Clover,Red,hay,sun-cured,full bloom",86,1.96,9.53,54,15.23,8.5,1,1
+"Clover,Red,hay,sun-cured,late vegetative",87,2.1,10.09,58,19.54,10.5,1,1
+"Clover,Red,hay,sun-cured,midbloom",88,1.98,9.41,55,18.18,10.1,1,1
+"Corn,Dent Yellow,aerial part with ears,sun-cured (fodder)",81,1.85,9.55,51,8.89,3.8,1,1
+"Corn,Dent Yellow,aerial part without ears without husks,sun-cured (stover) (straw)",85,1.82,8.95,50,6.59,2.5,1,1
+"Corn,Dent Yellow,cobs,ground",90,1.66,7.71,46,3.11,-0.5,1,1
+"Corn,Dent Yellow,distillers grains with solubles,dehydrated",92,2.89,13.13,80,25,11.2,1,1
+"Corn,Dent Yellow,distillers grains,dehydrated",94,2.94,13.07,82,22.87,15.6,1,1
+"Corn,Dent Yellow,distillers solubles,dehydrated",93,2.85,12.81,79,29.68,21.8,1,1
+"Corn,Dent Yellow,ears with husks,silage",44,1.17,11.12,32,8.86,2.1,1,1
+"Corn,Dent Yellow,ears,ground (corn and cob meal)",87,2.6,12.49,71,8.97,4.8,1,1
+"Corn,Dent Yellow,gluten with bran (corn gluten bran)",90,2.7,12.54,75,25.56,0,1,1
+"Corn,Dent Yellow,gluten, meal",91,2.9,13.32,80,46.92,36.3,1,1
+"Corn,Dent Yellow,grain,grade 2 69.5 kg/hl (54 lb/bushel)",88,2.78,13.21,77,10.11,5.7,1,1
+"Corn,Dent Yellow,grain,grade 3 66.9 kg/hl (52 lb/bushel)",86,2.71,13.17,75,10.12,5.6,1,1
+"Corn,Dent Yellow,silage,aerial part without ears without husks (stalkage)(stover)",31,0.59,7.96,16,6.13,0.5,1,1
+"Corn,Dent Yellow,silage,well eared",33,0.85,10.77,23,8.18,1.2,1,1
+"Corn,Sweet,process residue,silage (cannery residue)",32,0.72,9.41,20,7.5,1,1,1
+Cotton hulls,91,1.6,7.35,44,4.07,-0.5,1,1
+"Cotton seeds,ground",92,3.27,14.86,90,23.7,16.1,1,1
+"Cotton seeds,meal mechanical extracted",93,2.12,9.53,59,40.75,27.3,1,1
+"Cotton seeds,meal mechanical extracted,41% protein",93,2.51,11.28,70,44.09,0,1,1
+"Cotton seeds,meal solvent extracted,41% protein",91,2.34,10.75,65,45.27,0,1,1
+"Cotton,gin by-product",90,1.5,6.97,42,7.33,2.9,1,1
+"Fescue,Kentucky 31,fresh",29,0.69,9.95,19,14.48,2.8,1,1
+"Fescue,Kentucky 31,fresh,early bloom",29,0.69,9.95,19,16.55,3.6,1,1
+"Fescue,Kentucky 31,fresh,early vegetative",28,0.73,10.9,20,21.79,4.9,1,1
+"Fescue,Kentucky 31,hay,sun-cured",92,1.99,9.04,55,18.15,12,1,1
+"Fescue,Kentucky 31,hay,sun-cured, early bloom",91,2.04,9.37,56,20.22,13.9,1,1
+"Fescue,Kentucky 31,hay,sun-cured,early vegetative",92,2.53,11.5,70,20.54,14.1,1,1
+"Fescue,Kentucky 31,hay,sun-cured,full bloom",92,1.92,8.72,53,12.07,7.1,1,1
+"Fescue,Kentucky 31,hay,sun-cured,late vegetative",91,2.5,11.48,70,21.32,14.9,1,1
+"Fescue,Kentucky 31,hay,sun-cured,midbloom",92,2,9.09,55,16.52,10.3,1,1
+"Fescue,Meadow,hay,sun-cured",88,1.87,8.88,52,9.09,4.4,1,1
+"Fish,Menhaden,meal mechanical extracted",92,2.32,10.54,64,66.41,49.5,1,1
+"Fish,Menhaden,meal mechanical extracted,60% protein",91,2.55,11.71,71,66.92,0,1,1
+"Fish,Menhaden,solubles,condensed",50,1.53,12.79,42,63.2,0,1,1
+"Fish,Menhaden,solubles,dehydrated",93,2.78,12.5,77,66.67,0,1,1
+"Flax,Common,seeds,meal mechanical extracted (linseed meal)",91,2.72,12.49,75,37.69,28.9,1,1
+"Flax,Common,seeds,meal solvent extracted (linseed meal)",90,2.58,11.98,72,38.44,29.5,1,1
+"Grama,fresh,early vegetative",41,0.89,9.07,25,13.17,3.8,1,1
+"Grama,fresh,mature",63,1.28,8.49,35,6.51,1.9,1,1
+"Grass-Legume,aerial part molasses added,silage",28,0.61,9.11,17,12.14,2,1,1
+"Grass-Legume,silage",29,0.66,9.51,18,11.38,1.9,1,1
+"Hop,Common,fruit (hops),spent dehydrated",93,1.15,5.17,32,24.84,6.9,1,1
+"Lespedeza,Common,fresh",28,0.58,8.66,16,15,3.1,1,1
+"Lespedeza,Common,fresh,late vegetative",25,0.53,8.86,15,16,3,1,1
+"Lespedeza,Common,hay,sun-cured",88,1.6,7.6,44,16.82,6.4,1,1
+"Lespedeza,Common,hay,sun-cured,early vegetative",89,1.97,9.25,54,16.07,9.7,1,1
+"Lespedeza,Common,hay,sun-cured,full bloom",89,1.87,8.78,52,14.38,8.4,1,1
+"Lespedeza,Common,hay,sun-cured,late vegetative",90,1.79,8.31,50,16,9.8,1,1
+"Lespedeza,Common,hay,sun-cured,midbloom",92,1.89,8.59,52,15,9.2,1,1
+"Meadow Plants,Intermountain,hay,sun-cured",95,1.99,8.76,55,8.74,5,1,1
+"Meadow Plants,Intermountain,hay,sun-cured,early vegetative",90,2.28,10.59,63,0,0,1,1
+"Meadow Plants,Intermountain,hay,sun-cured,mature",91,1.35,6.2,37,5.6,1.5,1,1
+"Meadow Plants,Intermountain,late bloom,cut 1",94,1.56,6.94,43,8.09,3.6,1,1
+"Milk,fresh (cattle)",12,0.65,22.64,8,27.5,3.1,1,1
+"Milk,fresh (sheep)",19,1.11,24.42,31,24.74,0,1,1
+"Milk,skimmed,fresh (cattle)",10,0.39,16.3,11,30,0,1,1
+"Molasses,beet,sugar,molasses,more than 48% invert sugar,more than 79.5 degrees brix",78,2.16,11.58,60,8.46,3.4,1,1
+"Molasses,sugarcane,molasses,dehydrated",94,2.6,11.56,71,10.32,6.3,1,1
+"Molasses,sugarcane,molasses>46% invert sugars>79.5% Brix (black strap",75,2.13,11.87,59,5.87,-1.3,1,1
+"Needleandthread,fresh,early bloom",33,0.7,8.87,19,9.39,1.9,1,1
+"Needleandthread,fresh,early vegetative",29,0.62,8.94,17,10.69,2,1,1
+"Needleandthread,fresh,full bloom",38,0.77,8.47,21,8.42,1.8,1,1
+"Needleandthread,fresh,mature",57,0.93,6.82,26,5.26,0.9,1,1
+"Needleandthread,fresh,midbloom",35,0.73,8.72,20,8.86,1.9,1,1
+"Needleandthread,fresh,stem cured",92,1.43,6.5,40,4.02,1,1,1
+"Oats ,grain,grade 2, 41.2 kg/hl",89,2.44,11.46,68,12.81,8,1,1
+"Oats,cereal by-product,less than 4% fiber",91,3.18,14.61,88,16.26,11.9,1,1
+"Oats,grain",89,2.47,11.6,68,13.26,9.3,1,1
+"Oats,grain,grade 1 heavy 46.3 kg/hl",89,2.61,12.26,72,14.16,11.1,1,1
+"Oats,grain,light less than 34.7 kg/hl",91,2.16,9.92,59,13.08,8.2,1,1
+"Oats,grain,Pacific coast",91,2.56,11.76,71,10,5.8,1,1
+"Oats,groats",90,3.3,15.33,91,17.56,12,1,1
+"Oats,hay,sun-cured",91,1.75,8.04,49,9.34,5.2,1,1
+"Oats,silage",31,0.69,9.3,19,9.68,1.5,1,1
+"Oats,straw",92,1.57,7.13,44,4.46,0.3,1,1
+"Onion,garden,aerial part,fresh",91,2.18,10.01,60,12.64,8,1,1
+"Onion,garden,bulbs,fresh,mature",10,0,0,0,10,0.7,1,1
+"Orchardgrass,fresh,early bloom",25,0.55,9.2,15,16,2.2,1,1
+"Orchardgrass,fresh,early vegetative",23,0.57,10.36,16,18.7,3.1,1,1
+"Orchardgrass,fresh,full bloom",30,0.65,9.06,18,10.67,2,1,1
+"Orchardgrass,fresh,late vegetative",24,0.57,9.93,16,17.08,3.1,1,1
+"Orchardgrass,fresh,midbloom",31,0.65,8.76,18,12.58,2.7,1,1
+"Orchardgrass,hay,sun-cured",91,1.91,8.77,53,11.21,6.5,1,1
+"Orchardgrass,hay,sun-cured,early bloom",89,1.68,7.89,47,15.06,7.3,1,1
+"Orchardgrass,hay,sun-cured,early vegetative",90,2.01,9.34,56,0,0,1,1
+"Orchardgrass,hay,sun-cured,full bloom",93,1.64,7.37,45,12.37,6.6,1,1
+"Orchardgrass,hay,sun-cured,late vegetative",89,1.8,8.45,50,16.29,10,1,1
+"Peanut, kernels, meal mechanical extracted (peanut meal)",93,3.15,14.16,87,51.72,43.8,1,1
+"Peanut, kernels, meal solvent extracted (peanut meal)",92,2.56,11.63,71,52.28,0,1,1
+"Peanut, pods (hulls)",91,0.66,3.03,19,7.8,1.7,1,1
+"Prairie plants,Midwest,hay,sun-cured,early vegetative",90,2.05,9.52,57,8.67,3.9,1,1
+"Prairie plants,Midwest,hay,sun-cured,full bloom",89,1.67,7.84,46,6.07,1.8,1,1
+"Prairie plants,Midwest,hay,sun-cured,mature",91,1.58,7.26,44,5.05,2.2,1,1
+"Prairie plants,Midwest,hay,sun-cured,midbloom",95,1.86,8.18,51,7.05,2.7,1,1
+"Pricklypear,fresh",17,0.35,8.61,9,4.71,0.4,1,1
+"Rape seeds,meal mechanical extracted",92,2.49,11.31,69,38.7,30.1,1,1
+"Rape seeds,meal solvent extracted",91,2.44,11.21,67,40.66,0,1,1
+"Rape,fresh",17,0.48,11.8,13,17.06,2.4,1,1
+"Rape,fresh,early bloom",11,0.31,11.78,8,24.55,2.3,1,1
+"Rape,fresh,early vegetative",18,0.53,12.31,15,25.56,3.7,1,1
+"Redtop,fresh,full bloom",26,0.55,8.84,15,8.08,1.2,1,1
+"Redtop,fresh,midbloom",39,0.83,8.9,23,7.44,1.8,1,1
+"Redtop,hay,sun-cured",92,1.8,8.18,50,8.04,3.5,1,1
+"Redtop,hay,sun-cured, full bloom",91,1.77,8.13,49,9.34,5.3,1,1
+"Redtop,hay,sun-cured, midbloom",94,1.91,8.49,53,11.7,6.9,1,1
+"Redtop,hay,sun-cured,early bloom",91,1.88,8.64,52,12.53,7.1,1,1
+"Redtop,hay,sun-cured,early vegetative",92,1.9,8.63,52,13.8,8.2,1,1
+"Rice, bran with germs (rice, bran)",91,2.43,11.16,67,13.96,8.7,1,1
+"Rice, groats, polished (rice, polished)",89,2.92,13.71,81,8.09,3.9,1,1
+"Rye, distillers grains, dehydrated",92,2.13,9.68,59,23.48,12.9,1,1
+"Rye, grain",88,2.69,12.78,75,13.75,9.5,1,1
+"Rye, straw",90,1.46,6.78,41,3,-0.6,1,1
+"Ryegrass, italian, fresh",25,0.52,8.69,14,14,1.5,1,1
+"Ryegrass, italian, fresh, early bloom",35,0.77,9.2,21,15.14,3.9,1,1
+"Ryegrass, italian, fresh, mature",35,0.74,8.84,21,5.71,0.8,1,1
+"Ryegrass, italian, hay, sun-cured",86,1.84,8.94,51,7.56,2.7,1,1
+"Ryegrass, italian, hay, sun-cured, early bloom",88,1.81,8.6,50,12.95,7.1,1,1
+"Ryegrass, italian, hay, sun-cured, early vegetative",89,1.94,9.11,54,15.28,9.1,1,1
+"Ryegrass, italian, hay, sun-cured, full bloom",86,1.71,8.31,48,6.63,1.5,1,1
+"Safflower, seeds, meal mechanical extracted",91,2.05,9.42,57,22.2,17,1,1
+"Safflower, seeds, meal solvent extracted",92,1.87,8.5,52,25.43,0,1,1
+"Sage, Black, browse, fresh, stem cured",65,1.15,7.4,32,8.46,2.9,1,1
+"Sagebrush, big, browse, fresh, stem cured",65,1.18,7.59,33,9.38,3.2,1,1
+"Sagebrush, bud, browse, fresh, late vetetative",32,0.65,8.49,18,17.5,4.3,1,1
+"Sagebrush, bud,browse,fresh,early vegetative",23,0.42,7.63,12,17.39,3.1,1,1
+"Sagebrush, fringed, browse,fresh, mature",60,1.17,8.15,33,7.17,2.2,1,1
+"Sagebrush, fringed, browse,fresh, midbloom",43,0.92,8.94,26,9.3,2.5,1,1
+"Saltbush, nuttall, browse, fresh, stem cured",55,0.72,5.47,20,7.27,1.8,1,1
+"Saltbush, shadscale, browse, fresh, stem cured",80,0.9,4.7,25,7.63,3.5,1,1
+"Saltgrass, desert, fresh",29,0.63,9.08,17,5.86,0.7,1,1
+"Saltgrass, fresh",74,1.53,8.64,42,6.49,0.7,1,1
+"Saltgrass, fresh, post ripe",74,1.53,8.64,42,4.19,0.7,1,1
+"Saltgrass, hay, sun-cured",89,1.65,7.75,45,8.99,4.1,1,1
+"Sheep milk, aerial part, sun-cured",89,1.87,8.78,52,7.53,2.8,1,1
+"Sheep milk, aerial part, sun-cured, early vegetative",92,0,0,0,15.98,10,1,1
+"Sheep milk, aerial part, sun-cured, full bloom",90,1.81,8.41,50,6.33,2.1,1,1
+"Sheep milk, aerial part, sun-cured, mature",90,1.73,8.03,48,6.78,2.3,1,1
+"Sheep milk, aerial part, without heads, sun-cured, mature",88,0,0,0,4.43,0.5,1,1
+"Sheep milk, distillers grains, dehydrated",94,2.88,12.81,79,34.26,0,1,1
+"Sheep milk, grain",90,2.85,13.24,79,12.33,8.2,1,1
+"Sheep milk, grain, >12% protein",89,0,0,0,13.03,8.1,1,1
+"Sheep milk, grain, 9-12% protein",89,2.76,12.96,76,11.46,6.9,1,1
+"Sheep milk, grain, less than 9% protein",89,2.75,12.92,76,10,5.7,1,1
+"Sheep milk, silage",30,0.61,8.5,17,7.33,0.6,1,1
+"Sheep milk, silage, dough stage",28,0.52,7.76,14,6.07,0.3,1,1
+"Sheep milk, silage, mature",32,0.58,7.58,16,7.5,0.7,1,1
+"Sheep milk, silage, milk stage",25,0.52,8.69,14,9.6,1,1,1
+"Sorghum, Johnsongrass, fresh",24,0.54,9.41,15,15.42,2.7,1,1
+"Sorghum, Johnsongrass, fresh, early vegetative",20,0.44,9.2,12,15.5,2.3,1,1
+"Sorghum, Johnsongrass, fresh, full bloom",35,0.73,8.72,20,8,1.6,1,1
+"Sorghum, Johnsongrass, fresh, midbloom",35,0.75,8.96,21,8.86,1.9,1,1
+"Sorghum, Johnsongrass, hay, sun-cured",89,1.81,8.5,50,9.55,3.7,1,1
+"Sorghum, Johnsongrass, hay, sun-cured, early vegetative",92,1.83,8.31,51,15,9.2,1,1
+"Sorghum, Johnsongrass, hay, sun-cured, late vegetative",88,1.65,7.84,46,12.05,6.4,1,1
+"Sorghum, Johnsongrass, hay, sun-cured, midbloom",92,1.69,7.68,47,8.59,3.9,1,1
+"Sorghum, Johnsongrass, hay, sun-cured, post ripe",93,1.68,7.55,46,5.7,1.6,1,1
+"Sorghum, kafir, grain",89,2.74,12.87,75,12.25,8.8,1,1
+"Sorghum, milo, grain",89,2.82,13.24,78,11.24,7.8,1,1
+"Sorghum, milo, heads",90,2.73,12.68,76,10,6.9,1,1
+"Sorghum, sorgo, silage",27,0.6,9.29,16,6.3,0.4,1,1
+"Sorghum, sudangrass, fresh, early vegetable",18,0.41,9.52,11,16.67,2.3,1,1
+"Sorghum, sudangrass, fresh, midbloom",23,0.46,8.36,13,8.7,1.2,1,1
+"Sorghum, sudangrass, hay, sun-cured",91,1.81,8.31,50,8.02,4,1,1
+"Sorghum, sudangrass, silage",28,0.55,8.21,15,11.07,1.9,1,1
+"Soybean, hay, sun-cured",89,1.84,8.64,51,16.07,10.1,1,1
+"Soybean, seed coats (hulls)",91,1.78,8.18,49,12.09,6.7,1,1
+"Soybean, seeds",92,3.11,14.13,86,42.61,35.1,1,1
+"Soybean, seeds, meal mechanical extracted",90,2.77,12.87,77,47.67,36.8,1,1
+"Soybean, seeds, meal solvent extracted",90,2.85,13.24,79,49.78,41.6,1,1
+"Soybean, straw",88,1.36,6.46,38,5.23,1.3,1,1
+"Summercypress, gray, fresh, stem-cured",85,1.54,7.57,42,9.06,5.3,1,1
+"Sunflower, common, fresh",15,0.33,9.2,9,9.33,0.8,1,1
+"Sunflower, common, seeds without hulls, meal solvent extracted",93,2.56,11.51,70,49.78,0,1,1
+"Sunflower, common, seeds, meal solvent extracted",90,1.46,6.78,41,25.89,18.9,1,1
+"Sweetclover, yellow, hay, sun-cured",87,1.67,8.02,46,15.75,10,1,1
+"Timothy, fresh, late vegetative",26,0.58,9.32,16,18.46,2.6,1,1
+"Timothy, fresh, midbloom",29,0.66,9.51,18,9.31,1.4,1,1
+"Timothy, hay, sun-cured, early bloom",90,1.81,8.41,51,14.89,7.3,1,1
+"Timothy, hay, sun-cured, late bloom",88,1.76,8.36,49,7.84,3.1,1,1
+"Timothy, hay, sun-cured, late vegetative",89,2.1,9.86,58,17.08,10.2,1,1
+"Timothy, hay, sun-cured, mid-bloom",89,1.93,9.06,53,9.1,4.9,1,1
+"Timothy, silage",34,0.74,9.1,20,10.29,1.9,1,1
+"Trefoil, birdsfoot, fresh",24,0.55,9.58,15,21.25,4,1,1
+"Trefoil, birdsfoot, hay, sun-cured",92,1.93,8.77,53,16.3,10.3,1,1
+"Turnip, aerial part, fresh",14,0.35,10.45,10,20.71,1.1,1,1
+"Turnip, aerial part, silage",14,0.37,11.05,10,15,1.5,1,1
+"Turnip, roots, fresh",9,0.29,13.47,8,12.22,0.8,1,1
+"Vetch, fresh",22,0.49,9.31,13,21.36,3.5,1,1
+"Vetch, fresh, late vegetative",22,0.48,9.12,13,20.91,3.5,1,1
+"Vetch, hay, sun-cured",89,1.77,8.31,49,20.79,14,1,1
+"Vetch, hay, sun-cured, early bloom",83,1.77,8.91,49,23.25,14.7,1,1
+"Vetch, hay, sun-cured, early vegetative",93,2.11,9.48,59,25.16,18.8,1,1
+"Vetch, hay, sun-cured, midbloom",91,1.88,8.64,52,20.77,15.2,1,1
+"Wheat, bran",89,2.28,10.71,63,17.08,11.8,1,1
+"Wheat, flour by-product, less than 9.5%",89,2.63,12.35,72,18.43,13.2,1,1
+"Wheat, fresh, early vegetative",22,0.6,11.4,17,28.64,5,1,1
+"Wheat, grain",89,2.8,13.15,78,15.96,11.4,1,1
+"Wheat, grain screenings",89,2.42,11.37,67,15.84,10.1,1,1
+"Wheat, grain, hard red spring",88,2.85,13.54,78,17.16,11.3,1,1
+"Wheat, grain, hard red winter",88,2.81,13.35,78,14.43,9.1,1,1
+"Wheat, grain, soft red winter",88,2.81,13.35,78,13.07,8.6,1,1
+"Wheat, grain, soft white winter, Pacific coast",89,2.87,13.48,79,11.24,6.7,1,1
+"Wheat, hay, sun-cured",88,1.65,7.84,45,8.41,4,1,1
+"Wheat, straw",89,1.32,6.2,36,3.6,-3.1,1,1
+"Wheatgrass, crested, fresh, early bloom",37,0.76,8.59,21,11.89,3,1,1
+"Wheatgrass, crested, fresh, early vegetative",28,0.76,11.35,21,21.43,5.1,1,1
+"Wheatgrass, crested, fresh, full bloom",45,0.91,8.45,25,9.78,1.8,1,1
+"Wheatgrass, crested, fresh, late vegetative",34,0.75,9.22,21,14.12,3.4,1,1
+"Wheatgrass, crested, fresh, mature",60,1.17,8.15,32,5.5,1.3,1,1
+"Wheatgrass, crested, fresh, milk stage",48,0.95,8.27,26,7.92,2.1,1,1
+"Wheatgrass, crested, fresh, post ripe",80,1.56,8.15,43,3.13,-0.1,1,1
+"Wheatgrass, crested, fresh, stem-cured",81,1.55,8,43,3.33,1.2,1,1
+"Wheatgrass, crested, hay, sun-cured",93,1.78,8,49,12.37,7.4,1,1
+"Wheatgrass, crested, hay, sun-cured, early bloom",92,1.89,8.59,52,14.02,8.4,1,1
+"Wheatgrass, crested, hay, sun-cured, early vegetative",94,2.57,11.43,71,19.15,15.3,1,1
+"Wheatgrass, crested, hay, sun-cured, full bloom",95,1.89,8.32,52,8.74,4.2,1,1
+"Wheatgrass, crested, hay, sun-cured, late vegetative",92,1.96,8.91,55,21.3,14.4,1,1
+"Wheatgrass, crested, hay, sun-cured, mature",94,1.63,7.25,45,5.64,3.3,1,1
+"Wheatgrass, crested, hay, sun-cured, midbloom",96,1.95,8.49,54,13.33,8.2,1,1
+"Wheatgrass, crested, hay, sun-cured, milk stage",93,1.77,7.96,49,7.42,3.1,1,1
+"Winterfat, common, fresh, stem cured",80,1.01,5.28,28,10.88,5.4,1,1

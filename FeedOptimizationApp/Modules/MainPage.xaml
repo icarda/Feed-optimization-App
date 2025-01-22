@@ -19,6 +19,7 @@
                 Title="Select an option"
                 SelectedIndex="-1"
                 ItemsSource="{Binding Languages}"
+                ItemDisplayBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedLanguage}"
                 FontSize="16">
             <!--<Picker.Behaviors>
@@ -36,14 +37,15 @@
                 Title="Select an option"
                 SelectedIndex="-1"
                 ItemsSource="{Binding Countries}"
+                ItemDisplayBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedCountry}"
                 IsVisible="{Binding IsLanguageSelected}"
                 FontSize="16">
-            <Picker.Behaviors>
+            <!--<Picker.Behaviors>
                 <toolkit:EventToCommandBehavior
                     EventName="SelectedIndexChanged"
                     Command="{Binding PickerSelectionChangedCommand}" />
-            </Picker.Behaviors>
+            </Picker.Behaviors>-->
         </Picker>
 
         <!-- Species Picker -->
@@ -54,14 +56,15 @@
                 Title="Select an option"
                 SelectedIndex="-1"
                 ItemsSource="{Binding SpeciesList}"
+                ItemDisplayBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedSpecies}"
                 IsVisible="{Binding IsLanguageSelected}"
                 FontSize="16">
-            <Picker.Behaviors>
+            <!--<Picker.Behaviors>
                 <toolkit:EventToCommandBehavior
                     EventName="SelectedIndexChanged"
                     Command="{Binding PickerSelectionChangedCommand}" />
-            </Picker.Behaviors>
+            </Picker.Behaviors>-->
         </Picker>
 
         <!-- Next Button -->
