@@ -1,10 +1,10 @@
-﻿using DataLibrary.DTOs;
+﻿using DataLibrary.Models.Enums;
 
 namespace FeedOptimizationApp.Helpers;
 
 public class SharedData
 {
-    public LookupDTO? SelectedSpecies { get; set; }
-    public LookupDTO? SelectedLanguage { get; set; }
-    public LookupDTO? SelectedCountry { get; set; }
+    public SpeciesEntity? SelectedSpecies { get; set; }
+    public LanguageEntity? SelectedLanguage { get; set; }
+    public CountryEntity? SelectedCountry { get; set; }
 }

@@ -27,9 +27,9 @@ namespace FeedOptimizationApp
             if (user != null && sharedData != null && baseService != null)
             {
                 // Load user selections into SharedData
-                sharedData.SelectedCountry = new LookupDTO { Id = user.CountryId };
-                sharedData.SelectedLanguage = new LookupDTO { Id = user.LanguageId };
-                sharedData.SelectedSpecies = new LookupDTO { Id = user.SpeciesId };
+                sharedData.SelectedCountry = ConversionHelpers.ConvertToCountryEntity(user.CountryId);
+                sharedData.SelectedLanguage = ConversionHelpers.ConvertToLanguageEntity(user.LanguageId);
+                sharedData.SelectedSpecies = ConversionHelpers.ConvertToSpeciesEntity(user.SpeciesId);
 
                 // Navigate to the main page
                 var vm = new MainViewModel(baseService, sharedData);

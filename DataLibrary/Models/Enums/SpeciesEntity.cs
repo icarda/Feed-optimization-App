@@ -5,8 +5,8 @@ namespace DataLibrary.Models.Enums
 {
     public class SpeciesEntity : Enumeration
     {
-        public static SpeciesEntity SHEEP = new SpeciesEntity(1, "SHEEP");
-        public static SpeciesEntity GOAT = new SpeciesEntity(2, "GOAT");
+        public static SpeciesEntity SHEEP = new SpeciesEntity(1, "Sheep");
+        public static SpeciesEntity GOAT = new SpeciesEntity(2, "Goat");
 
         public SpeciesEntity()
         {

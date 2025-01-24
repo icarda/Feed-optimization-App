@@ -85,76 +85,142 @@ public class EnumEntitiesService : IEnumEntitiesService
     }
 
     // grazing
-    //public async Task<Result<List<GrazingEntity>>> GetGrazingsAsync()
-    //{
-    //    var grazing = await _context.Grazings
-    //        .IgnoreQueryFilters()
-    //        .AsNoTracking()
-    //        .ToListAsync();
-    //    if (grazing == null)
-    //        throw new Exception("No grazing found.");
-    //    return await Result<List<GrazingEntity>>.SuccessAsync(grazing);
-    //}
+    public async Task<Result<List<GrazingEntity>>> GetGrazingsAsync()
+    {
+        var grazing = await _context.Grazings
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .ToListAsync();
+        if (grazing == null)
+            throw new Exception("No grazing found.");
+        return await Result<List<GrazingEntity>>.SuccessAsync(grazing);
+    }
 
-    //// body weight
+    // body weight
 
-    //public async Task<Result<List<BodyWeightEntity>>> GetBodyWeightsAsync()
-    //{
-    //    var bodyWeight = await _context.BodyWeights
-    //        .IgnoreQueryFilters()
-    //        .AsNoTracking()
-    //        .ToListAsync();
-    //    if (bodyWeight == null)
-    //        throw new Exception("No body weight found.");
-    //    return await Result<List<BodyWeightEntity>>.SuccessAsync(bodyWeight);
-    //}
+    public async Task<Result<List<BodyWeightEntity>>> GetBodyWeightsAsync()
+    {
+        var bodyWeight = await _context.BodyWeights
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .ToListAsync();
+        if (bodyWeight == null)
+            throw new Exception("No body weight found.");
+        return await Result<List<BodyWeightEntity>>.SuccessAsync(bodyWeight);
+    }
 
-    //// diet quality estimate
+    // diet quality estimate
 
-    //public async Task<Result<List<DietQualityEstimateEntity>>> GetDietQualityEstimatesAsync()
-    //{
-    //    var dietQualityEstimate = await _context.DietQualityEstimates
-    //        .IgnoreQueryFilters()
-    //        .AsNoTracking()
-    //        .ToListAsync();
-    //    if (dietQualityEstimate == null)
-    //        throw new Exception("No diet quality estimate found.");
-    //    return await Result<List<DietQualityEstimateEntity>>.SuccessAsync(dietQualityEstimate);
-    //}
+    public async Task<Result<List<DietQualityEstimateEntity>>> GetDietQualityEstimatesAsync()
+    {
+        var dietQualityEstimate = await _context.DietQualityEstimates
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .ToListAsync();
+        if (dietQualityEstimate == null)
+            throw new Exception("No diet quality estimate found.");
+        return await Result<List<DietQualityEstimateEntity>>.SuccessAsync(dietQualityEstimate);
+    }
 
-    //// kids lambs
-    //public async Task<Result<List<KidsLambsEntity>>> GetKidsLambsAsync()
-    //{
-    //    var kidsLambs = await _context.KidsLambs
-    //        .IgnoreQueryFilters()
-    //        .AsNoTracking()
-    //        .ToListAsync();
-    //    if (kidsLambs == null)
-    //        throw new Exception("No kids lambs found.");
-    //    return await Result<List<KidsLambsEntity>>.SuccessAsync(kidsLambs);
-    //}
+    // kids lambs
+    public async Task<Result<List<KidsLambsEntity>>> GetKidsLambsAsync()
+    {
+        var kidsLambs = await _context.KidsLambs
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .ToListAsync();
+        if (kidsLambs == null)
+            throw new Exception("No kids lambs found.");
+        return await Result<List<KidsLambsEntity>>.SuccessAsync(kidsLambs);
+    }
 
-    //// sheep type
-    //public async Task<Result<List<SheepTypeEntity>>> GetSheepTypesAsync()
-    //{
-    //    var sheepType = await _context.SheepTypes
-    //        .IgnoreQueryFilters()
-    //        .AsNoTracking()
-    //        .ToListAsync();
-    //    if (sheepType == null)
-    //        throw new Exception("No sheep type found.");
-    //    return await Result<List<SheepTypeEntity>>.SuccessAsync(sheepType);
-    //}
+    // sheep type
+    public async Task<Result<List<SheepTypeEntity>>> GetSheepTypesAsync()
+    {
+        var sheepType = await _context.SheepTypes
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .ToListAsync();
+        if (sheepType == null)
+            throw new Exception("No sheep type found.");
+        return await Result<List<SheepTypeEntity>>.SuccessAsync(sheepType);
+    }
 
-    //// goat type
-    //public async Task<Result<List<GoatTypeEntity>>> GetGoatTypesAsync()
-    //{
-    //    var goatType = await _context.GoatTypes
-    //        .IgnoreQueryFilters()
-    //        .AsNoTracking()
-    //        .ToListAsync();
-    //    if (goatType == null)
-    //        throw new Exception("No goat type found.");
-    //    return await Result<List<GoatTypeEntity>>.SuccessAsync(goatType);
-    //}
+    // goat type
+    public async Task<Result<List<GoatTypeEntity>>> GetGoatTypesAsync()
+    {
+        var goatType = await _context.GoatTypes
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .ToListAsync();
+        if (goatType == null)
+            throw new Exception("No goat type found.");
+        return await Result<List<GoatTypeEntity>>.SuccessAsync(goatType);
+    }
+
+    public async Task<Result<GrazingEntity>> GetGrazingByIdAsync(int id)
+    {
+        var grazing = await _context.Grazings
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id);
+        if (grazing == null)
+            throw new Exception($"Unable to return grazing with id {id}.");
+        return await Result<GrazingEntity>.SuccessAsync(grazing);
+    }
+
+    public async Task<Result<BodyWeightEntity>> GetBodyWeightByIdAsync(int id)
+    {
+        var bodyWeight = await _context.BodyWeights
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id);
+        if (bodyWeight == null)
+            throw new Exception($"Unable to return body weight with id {id}.");
+        return await Result<BodyWeightEntity>.SuccessAsync(bodyWeight);
+    }
+
+    public async Task<Result<DietQualityEstimateEntity>> GetDietQualityEstimateByIdAsync(int id)
+    {
+        var dietQualityEstimate = await _context.DietQualityEstimates
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id);
+        if (dietQualityEstimate == null)
+            throw new Exception($"Unable to return diet quality estimate with id {id}.");
+        return await Result<DietQualityEstimateEntity>.SuccessAsync(dietQualityEstimate);
+    }
+
+    public async Task<Result<SheepTypeEntity>> GetSheepTypeByIdAsync(int id)
+    {
+        var sheepType = await _context.SheepTypes
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id);
+        if (sheepType == null)
+            throw new Exception($"Unable to return sheep type with id {id}.");
+        return await Result<SheepTypeEntity>.SuccessAsync(sheepType);
+    }
+
+    public async Task<Result<GoatTypeEntity>> GetGoatTypeByIdAsync(int id)
+    {
+        var goatType = await _context.GoatTypes
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id);
+        if (goatType == null)
+            throw new Exception($"Unable to return goat type with id {id}.");
+        return await Result<GoatTypeEntity>.SuccessAsync(goatType);
+    }
+
+    public async Task<Result<KidsLambsEntity>> GetKidsLambsByIdAsync(int id)
+    {
+        var kidsLambs = await _context.KidsLambs
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id);
+        if (kidsLambs == null)
+            throw new Exception($"Unable to return kids lambs with id {id}.");
+        return await Result<KidsLambsEntity>.SuccessAsync(kidsLambs);
+    }
 }

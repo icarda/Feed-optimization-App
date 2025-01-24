@@ -37,6 +37,12 @@ public class ApplicationDbContext : DbContext
     public DbSet<SpeciesTranslationEntity> SpeciesTranslations { get; set; }
     public DbSet<SpeciesEntity> SpeciesList { get; set; }
     public DbSet<UserEntity> Users { get; set; }
+    public DbSet<GrazingEntity> Grazings { get; set; }
+    public DbSet<DietQualityEstimateEntity> DietQualityEstimates { get; set; }
+    public DbSet<SheepTypeEntity> SheepTypes { get; set; }
+    public DbSet<GoatTypeEntity> GoatTypes { get; set; }
+    public DbSet<KidsLambsEntity> KidsLambs { get; set; }
+    public DbSet<BodyWeightEntity> BodyWeights { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

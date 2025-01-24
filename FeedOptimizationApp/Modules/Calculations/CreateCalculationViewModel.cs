@@ -1,5 +1,7 @@
 ﻿using DataLibrary.DTOs;
 using DataLibrary.Models;
+using DataLibrary.Models.Enums;
+using DataLibrary.Seedwork;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
@@ -11,7 +13,7 @@ namespace FeedOptimizationApp.Modules.Calculations
     {
         private readonly BaseService _baseService;
 
-        private LookupDTO SelectedSpecies => SharedData.SelectedSpecies;
+        private SpeciesEntity SelectedSpecies => SharedData.SelectedSpecies;
 
         // Constructor
         public CreateCalculationViewModel(BaseService baseService, SharedData sharedData) : base(sharedData)
@@ -320,12 +322,12 @@ namespace FeedOptimizationApp.Modules.Calculations
         public ObservableCollection<FeedEntity> Feeds { get; set; } = new ObservableCollection<FeedEntity>();
 
         public ObservableCollection<LookupDTO> Types { get; set; } = new ObservableCollection<LookupDTO>();
-        public ObservableCollection<LookupDTO> SheepTypes { get; set; } = new ObservableCollection<LookupDTO>();
-        public ObservableCollection<LookupDTO> GoatTypes { get; set; } = new ObservableCollection<LookupDTO>();
-        public ObservableCollection<LookupDTO> Grazings { get; set; } = new ObservableCollection<LookupDTO>();
-        public ObservableCollection<LookupDTO> BodyWeights { get; set; } = new ObservableCollection<LookupDTO>();
-        public ObservableCollection<LookupDTO> DietQualityEstimates { get; set; } = new ObservableCollection<LookupDTO>();
-        public ObservableCollection<LookupDTO> NrSucklingKidsLambs { get; set; } = new ObservableCollection<LookupDTO>();
+        public ObservableCollection<SheepTypeEntity> SheepTypes { get; set; } = new ObservableCollection<SheepTypeEntity>();
+        public ObservableCollection<GoatTypeEntity> GoatTypes { get; set; } = new ObservableCollection<GoatTypeEntity>();
+        public ObservableCollection<GrazingEntity> Grazings { get; set; } = new ObservableCollection<GrazingEntity>();
+        public ObservableCollection<BodyWeightEntity> BodyWeights { get; set; } = new ObservableCollection<BodyWeightEntity>();
+        public ObservableCollection<DietQualityEstimateEntity> DietQualityEstimates { get; set; } = new ObservableCollection<DietQualityEstimateEntity>();
+        public ObservableCollection<KidsLambsEntity> NrSucklingKidsLambs { get; set; } = new ObservableCollection<KidsLambsEntity>();
 
         // Method to load feeds asynchronously
         private async Task LoadFeedsAsync()
@@ -364,12 +366,12 @@ namespace FeedOptimizationApp.Modules.Calculations
             NrSucklingKidsLambs.Clear();
 
             // Load types
-            /*if (SelectedSpecies?.Name.ToLower() == "sheep")
+            if (SelectedSpecies?.Name.ToLower() == "sheep")
             {
                 var types = await _baseService.EnumEntitiesService.GetSheepTypesAsync();
                 foreach (var type in types.Data)
                 {
-                    Types.Add(type);
+                    Types.Add(ConversionHelpers.ConvertToLookupDTO(type));
                 }
             }
             else if (SelectedSpecies?.Name.ToLower() == "goat")
@@ -377,7 +379,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 var types = await _baseService.EnumEntitiesService.GetGoatTypesAsync();
                 foreach (var type in types.Data)
                 {
-                    Types.Add(type);
+                    Types.Add(ConversionHelpers.ConvertToLookupDTO(type));
                 }
             }
             // Load Grazings
@@ -403,7 +405,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             foreach (var dietQualityEstimate in dietQualityEstimates.Data)
             {
                 DietQualityEstimates.Add(dietQualityEstimate);
-            }*/
+            }
         }
 
         // Collection to hold stored feeds

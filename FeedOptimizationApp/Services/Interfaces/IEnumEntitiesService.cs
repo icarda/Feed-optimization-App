@@ -1,4 +1,5 @@
-﻿using DataLibrary.Models.Enums;
+﻿using DataLibrary.Models;
+using DataLibrary.Models.Enums;
 using FeedOptimizationApp.Shared.Wrapper;
 
 namespace FeedOptimizationApp.Services.Interfaces;
@@ -17,7 +18,7 @@ public interface IEnumEntitiesService
 
     Task<Result<CountryEntity>> GetCountryByIdAsync(int id);
 
-    /*Task<Result<List<BodyWeightEntity>>> GetBodyWeightsAsync();
+    Task<Result<List<BodyWeightEntity>>> GetBodyWeightsAsync();
 
     Task<Result<BodyWeightEntity>> GetBodyWeightByIdAsync(int id);
 
@@ -35,5 +36,9 @@ public interface IEnumEntitiesService
 
     Task<Result<List<GoatTypeEntity>>> GetGoatTypesAsync();
 
-    Task<Result<GoatTypeEntity>> GetGoatTypeByIdAsync(int id);*/
+    Task<Result<GoatTypeEntity>> GetGoatTypeByIdAsync(int id);
+
+    Task<Result<List<KidsLambsEntity>>> GetKidsLambsAsync();
+
+    Task<Result<KidsLambsEntity>> GetKidsLambsByIdAsync(int id);
 }

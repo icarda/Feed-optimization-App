@@ -377,12 +377,12 @@ namespace DataLibrary.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "SHEEP"
+                            Name = "Sheep"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "GOAT"
+                            Name = "Goat"
                         });
                 });
 

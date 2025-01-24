@@ -1,5 +1,4 @@
-﻿using DataLibrary.DTOs;
-using DataLibrary.Models.Enums;
+﻿using DataLibrary.Models.Enums;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Modules.Legal;
 using FeedOptimizationApp.Services;
@@ -47,7 +46,7 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected language.
     /// </summary>
-    public LookupDTO? SelectedLanguage
+    public LanguageEntity? SelectedLanguage
     {
         get => SharedData.SelectedLanguage;
         set
@@ -65,7 +64,7 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected country.
     /// </summary>
-    public LookupDTO? SelectedCountry
+    public CountryEntity? SelectedCountry
     {
         get => SharedData.SelectedCountry;
         set
@@ -81,7 +80,7 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected species.
     /// </summary>
-    public LookupDTO? SelectedSpecies
+    public SpeciesEntity? SelectedSpecies
     {
         get => SharedData.SelectedSpecies;
         set

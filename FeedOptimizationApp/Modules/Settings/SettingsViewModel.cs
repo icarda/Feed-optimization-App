@@ -20,7 +20,7 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected language.
     /// </summary>
-    public LookupDTO? SelectedLanguage
+    public LanguageEntity? SelectedLanguage
     {
         get => SharedData.SelectedLanguage;
         set
@@ -36,7 +36,7 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected country.
     /// </summary>
-    public LookupDTO? SelectedCountry
+    public CountryEntity? SelectedCountry
     {
         get => SharedData.SelectedCountry;
         set
@@ -52,7 +52,7 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the selected species.
     /// </summary>
-    public LookupDTO? SelectedSpecies
+    public SpeciesEntity? SelectedSpecies
     {
         get => SharedData.SelectedSpecies;
         set
@@ -72,8 +72,8 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
         : base(sharedData)
     {
         _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
-        _ = GetDropDownNameValuesAsync();
-        _ = LoadEnumValuesAsync();
+        //GetDropDownNameValuesAsync();
+        LoadEnumValuesAsync();
         CancelCommand = new Command(OnCancelButtonClicked);
         SaveCommand = new Command(async () => await OnSaveButtonClicked());
     }
@@ -126,47 +126,35 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
     {
         try
         {
-            var tasks = new List<Task>();
-
             if (SelectedLanguage != null)
             {
-                tasks.Add(Task.Run(async () =>
+                var languageResult = await _baseService.EnumEntitiesService.GetLanguageByIdAsync(SelectedLanguage.Id);
+                if (languageResult.Succeeded)
                 {
-                    var languageResult = await _baseService.EnumEntitiesService.GetLanguageByIdAsync(SelectedLanguage.Id);
-                    if (languageResult.Succeeded)
-                    {
-                        SelectedLanguage.Name = languageResult.Data.Name;
-                        //OnPropertyChanged(nameof(SelectedLanguage));
-                    }
-                }));
+                    SelectedLanguage = languageResult.Data;
+                    OnPropertyChanged(nameof(SelectedLanguage));
+                }
             }
 
             if (SelectedCountry != null)
             {
-                tasks.Add(Task.Run(async () =>
+                var countryResult = await _baseService.EnumEntitiesService.GetCountryByIdAsync(SelectedCountry.Id);
+                if (countryResult.Succeeded)
                 {
-                    var countryResult = await _baseService.EnumEntitiesService.GetCountryByIdAsync(SelectedCountry.Id);
-                    if (countryResult.Succeeded)
-                    {
-                        SelectedCountry.Name = countryResult.Data.Name;
-                    }
-                }));
+                    SelectedCountry = countryResult.Data;
+                    OnPropertyChanged(nameof(SelectedCountry));
+                }
             }
 
             if (SelectedSpecies != null)
             {
-                tasks.Add(Task.Run(async () =>
+                var speciesResult = await _baseService.EnumEntitiesService.GetSpeciesByIdAsync(SelectedSpecies.Id);
+                if (speciesResult.Succeeded)
                 {
-                    var speciesResult = await _baseService.EnumEntitiesService.GetSpeciesByIdAsync(SelectedSpecies.Id);
-                    if (speciesResult.Succeeded)
-                    {
-                        SelectedSpecies.Name = speciesResult.Data.Name;
-                    }
-                }));
+                    SelectedSpecies = speciesResult.Data;
+                    OnPropertyChanged(nameof(SelectedSpecies));
+                }
             }
-
-            // Wait for all tasks to complete
-            await Task.WhenAll(tasks);
         }
         catch (Exception ex)
         {
@@ -183,9 +171,6 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
             var languageTask = _baseService.EnumEntitiesService.GetLanguagesAsync();
             var countryTask = _baseService.EnumEntitiesService.GetCountriesAsync();
             var speciesTask = _baseService.EnumEntitiesService.GetSpeciesAsync();
-
-            // Wait for all tasks to complete
-            await Task.WhenAll(languageTask, countryTask, speciesTask);
 
             // Process results for languages
             if (languageTask.Result.Succeeded)
