@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DataLibrary.Models;
+﻿namespace DataLibrary.Models;
 
 public class RefLanguageEntity
 {
@@ -8,9 +6,8 @@ public class RefLanguageEntity
     {
     }
 
-    public RefLanguageEntity(int id, string languageCode, string name)
+    public RefLanguageEntity(string languageCode, string name)
     {
-        Id = id;
         LanguageCode = languageCode;
         Name = name;
     }

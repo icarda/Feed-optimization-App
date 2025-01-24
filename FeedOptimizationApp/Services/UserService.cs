@@ -1,7 +1,7 @@
 ﻿using DataLibrary;
 using DataLibrary.Models;
-using FeedOptimizationApp.Services.Interfaces;
 using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Services.Interfaces;
 using FeedOptimizationApp.Shared.Wrapper;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +16,22 @@ public class UserService : IUserService
     {
         _context = context;
         _deviceService = deviceService;
+    }
+
+    public async Task<Result<List<UserEntity>>> GetAllAsync()
+    {
+        try
+        {
+            var users = await _context.Users
+                .IgnoreQueryFilters()
+                .AsNoTracking()
+                .ToListAsync();
+            return await Result<List<UserEntity>>.SuccessAsync(users);
+        }
+        catch (Exception ex)
+        {
+            return await Result<List<UserEntity>>.FailAsync(new List<string> { ex.Message });
+        }
     }
 
     public async Task<Result<UserEntity>> GetById(int id)
@@ -46,7 +62,6 @@ public class UserService : IUserService
                 throw new Exception("User already exists. Please edit existing entry.");
 
             var user = new UserEntity(
-                request.Id,
                 request.CountryId,
                 request.LanguageId,
                 request.SpeciesId,

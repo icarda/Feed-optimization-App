@@ -8,9 +8,8 @@ public class CalculationEntity
     {
     }
 
-    public CalculationEntity(int id, int speciesId, string name, string description, string type, int grazingId, int bodyWeightId, decimal? adg, bool gestation, decimal? milkYield, decimal? fatContent, int dietQualityEstimateId, int kidsLambsId)
+    public CalculationEntity(int speciesId, string name, string description, string type, int grazingId, int bodyWeightId, decimal? adg, bool gestation, decimal? milkYield, decimal? fatContent, int dietQualityEstimateId, int kidsLambsId)
     {
-        Id = id;
         SpeciesId = speciesId;
         Name = name;
         Description = description;

@@ -1,6 +1,6 @@
+using DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DataLibrary.Models;
 
 namespace DataLibrary.Configurations;
 
@@ -8,7 +8,7 @@ public class RefLanguageConfiguration : IEntityTypeConfiguration<RefLanguageEnti
 {
     public void Configure(EntityTypeBuilder<RefLanguageEntity> conf)
     {
-        conf.ToTable("RefLanguages", "dbo");
+        conf.ToTable("RefLanguages");
         conf.HasKey(c => c.Id);
         conf.Property(c => c.LanguageCode).IsRequired();
         conf.Property(c => c.Name).IsRequired();

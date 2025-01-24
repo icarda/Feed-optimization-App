@@ -1,25 +1,39 @@
-﻿using DataLibrary.DTOs;
+﻿using DataLibrary.Models.Enums;
 using FeedOptimizationApp.Shared.Wrapper;
 
 namespace FeedOptimizationApp.Services.Interfaces;
 
 public interface IEnumEntitiesService
 {
-    Task<Result<List<LookupDTO>>> GetLanguagesAsync();
+    Task<Result<List<LanguageEntity>>> GetLanguagesAsync();
 
-    Task<Result<List<LookupDTO>>> GetCountriesAsync();
+    Task<Result<LanguageEntity>> GetLanguageByIdAsync(int id);
 
-    Task<Result<List<LookupDTO>>> GetSpeciesAsync();
+    Task<Result<List<SpeciesEntity>>> GetSpeciesAsync();
 
-    Task<Result<List<LookupDTO>>> GetGrazingsAsync();
+    Task<Result<SpeciesEntity>> GetSpeciesByIdAsync(int id);
 
-    Task<Result<List<LookupDTO>>> GetBodyWeightsAsync();
+    Task<Result<List<CountryEntity>>> GetCountriesAsync();
 
-    Task<Result<List<LookupDTO>>> GetGoatTypesAsync();
+    Task<Result<CountryEntity>> GetCountryByIdAsync(int id);
 
-    Task<Result<List<LookupDTO>>> GetKidsLambsAsync();
+    /*Task<Result<List<BodyWeightEntity>>> GetBodyWeightsAsync();
 
-    Task<Result<List<LookupDTO>>> GetSheepTypesAsync();
+    Task<Result<BodyWeightEntity>> GetBodyWeightByIdAsync(int id);
 
-    Task<Result<List<LookupDTO>>> GetDietQualityEstimatesAsync();
+    Task<Result<List<GrazingEntity>>> GetGrazingsAsync();
+
+    Task<Result<GrazingEntity>> GetGrazingByIdAsync(int id);
+
+    Task<Result<List<DietQualityEstimateEntity>>> GetDietQualityEstimatesAsync();
+
+    Task<Result<DietQualityEstimateEntity>> GetDietQualityEstimateByIdAsync(int id);
+
+    Task<Result<List<SheepTypeEntity>>> GetSheepTypesAsync();
+
+    Task<Result<SheepTypeEntity>> GetSheepTypeByIdAsync(int id);
+
+    Task<Result<List<GoatTypeEntity>>> GetGoatTypesAsync();
+
+    Task<Result<GoatTypeEntity>> GetGoatTypeByIdAsync(int id);*/
 }

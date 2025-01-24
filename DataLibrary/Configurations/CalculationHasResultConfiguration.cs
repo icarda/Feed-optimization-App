@@ -1,6 +1,6 @@
+using DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DataLibrary.Models;
 
 namespace DataLibrary.Configurations;
 
@@ -8,7 +8,7 @@ public class CalculationHasResultConfiguration : IEntityTypeConfiguration<Calcul
 {
     public void Configure(EntityTypeBuilder<CalculationHasResultEntity> conf)
     {
-        conf.ToTable("CalculationHasResults", "dbo");
+        conf.ToTable("CalculationHasResults");
         conf.HasKey(c => c.Id);
         conf.Property(c => c.GFresh).IsRequired();
         conf.Property(c => c.PercentFresh).IsRequired();

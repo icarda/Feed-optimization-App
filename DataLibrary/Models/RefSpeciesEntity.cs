@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DataLibrary.Models;
+﻿namespace DataLibrary.Models;
 
 public class RefSpeciesEntity
 {
@@ -8,9 +6,8 @@ public class RefSpeciesEntity
     {
     }
 
-    public RefSpeciesEntity(int id, string name)
+    public RefSpeciesEntity(string name)
     {
-        Id = id;
         Name = name;
     }
 

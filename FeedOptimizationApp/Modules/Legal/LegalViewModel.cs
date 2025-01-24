@@ -1,9 +1,11 @@
-﻿using FeedOptimizationApp.Services;
+﻿using DataLibrary.DTOs;
+using DataLibrary.Models;
+using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Modules.Home;
+using FeedOptimizationApp.Services;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
-using FeedOptimizationApp.Modules.Home;
-using FeedOptimizationApp.Helpers;
 
 namespace FeedOptimizationApp.Modules.Legal;
 
@@ -39,11 +41,24 @@ public class LegalViewModel : BaseViewModel, INotifyPropertyChanged
 
     private async Task OnAgreeButtonClicked()
     {
-        // Handle the Agree button click event
         if (HasAgreed)
         {
             try
             {
+                var userEntity = new UserDTO
+                {
+                    CountryId = SharedData.SelectedCountry.Id,
+                    LanguageId = SharedData.SelectedLanguage.Id,
+                    SpeciesId = SharedData.SelectedSpecies.Id,
+                    TermsAndConditions = true,
+                    CreatedAt = DateTime.UtcNow,
+                    // Add other device details here
+                };
+
+                var mappedUser = Mappers.MapToUserEntity(userEntity);
+
+                await _baseService.UserService.SaveAsync(mappedUser);
+
                 if (Application.Current.Windows.Count > 0)
                 {
                     Application.Current.Windows[0].Page = new AppShell();
@@ -51,15 +66,13 @@ public class LegalViewModel : BaseViewModel, INotifyPropertyChanged
                 var viewModel = new HomeViewModel(_baseService, SharedData);
                 await Application.Current.MainPage.Navigation.PushAsync(new HomePage(viewModel));
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
-                // Handle the exception or log it
-                Debug.WriteLine($"NullReferenceException: {ex.Message}");
+                Debug.WriteLine($"Exception: {ex.Message}");
             }
         }
         else
         {
-            // Show a message to the user to agree to the terms
             await Application.Current.MainPage.DisplayAlert("Error", "Please agree to the terms to continue.", "OK");
         }
     }

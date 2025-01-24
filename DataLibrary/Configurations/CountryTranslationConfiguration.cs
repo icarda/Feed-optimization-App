@@ -1,6 +1,6 @@
+using DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DataLibrary.Models;
 
 namespace DataLibrary.Configurations;
 
@@ -8,7 +8,7 @@ public class CountryTranslationConfiguration : IEntityTypeConfiguration<CountryT
 {
     public void Configure(EntityTypeBuilder<CountryTranslationEntity> conf)
     {
-        conf.ToTable("CountryTranslations", "dbo");
+        conf.ToTable("CountryTranslations");
         conf.HasKey(c => new { c.CountryId, c.LanguageCode });
         conf.Property(c => c.LanguageCode).IsRequired();
         conf.Property(c => c.TranslatedDescription).IsRequired();

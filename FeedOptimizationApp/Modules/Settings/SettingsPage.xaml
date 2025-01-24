@@ -7,10 +7,8 @@
         <Label Text="Feed Optimization App" FontSize="24" HorizontalOptions="Center" Margin="0,0,0,20" />
 
         <!-- Language Picker -->
-        <Label Text="Select a language"
-       FontSize="18" />
-        <Label Text="Sélectionnez une langue"
-       FontSize="18" />
+        <Label Text="Select a language" FontSize="18" />
+        <Label Text="Sélectionnez une langue" FontSize="18" />
         <Picker x:Name="LanguagePicker"
         Title="Select an option"
         SelectedIndex="-1"
@@ -20,8 +18,7 @@
         FontSize="16" />
 
         <!-- Country Picker -->
-        <Label Text="Select a country"
-       FontSize="18" />
+        <Label Text="Select a country" FontSize="18" />
         <Picker x:Name="CountryPicker"
         Title="Select an option"
         SelectedIndex="-1"
@@ -31,8 +28,7 @@
         FontSize="16" />
 
         <!-- Species Picker -->
-        <Label Text="Select a species"
-       FontSize="18" />
+        <Label Text="Select a species" FontSize="18" />
         <Picker x:Name="SpeciesPicker"
         Title="Select an option"
         SelectedIndex="-1"

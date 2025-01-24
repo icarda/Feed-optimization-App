@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace FeedOptimizationApp.Shared.Wrapper
+﻿namespace FeedOptimizationApp.Shared.Wrapper
 {
     public interface IResult
     {

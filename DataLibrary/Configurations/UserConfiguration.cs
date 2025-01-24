@@ -1,6 +1,6 @@
+using DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DataLibrary.Models;
 
 namespace DataLibrary.Configurations;
 
@@ -8,7 +8,7 @@ public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 {
     public void Configure(EntityTypeBuilder<UserEntity> conf)
     {
-        conf.ToTable("Users", "dbo");
+        conf.ToTable("Users");
         conf.HasKey(c => c.Id);
         conf.Property(c => c.CountryId).IsRequired();
         conf.Property(c => c.LanguageId).IsRequired();

@@ -1,6 +1,5 @@
 ﻿using DataLibrary.DTOs;
 using DataLibrary.Models;
-using DataLibrary.Models.Enums;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
@@ -352,7 +351,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         // Method to perform calculation asynchronously
         private async Task DoCalculationAsync(CalculationEntity animalInformation, List<CalculationHasFeedEntity> feedInformation)
         {
-            CalculationHasResult = await _baseService.CalculationService.CalculateResult(animalInformation, feedInformation);
+            CalculationHasResult = await CalculateResult(animalInformation, feedInformation);
         }
 
         // Method to load animal information asynchronously
@@ -365,7 +364,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             NrSucklingKidsLambs.Clear();
 
             // Load types
-            if (SelectedSpecies?.Name == "SHEEP")
+            /*if (SelectedSpecies?.Name.ToLower() == "sheep")
             {
                 var types = await _baseService.EnumEntitiesService.GetSheepTypesAsync();
                 foreach (var type in types.Data)
@@ -373,7 +372,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     Types.Add(type);
                 }
             }
-            else if (SelectedSpecies?.Name == "GOAT")
+            else if (SelectedSpecies?.Name.ToLower() == "goat")
             {
                 var types = await _baseService.EnumEntitiesService.GetGoatTypesAsync();
                 foreach (var type in types.Data)
@@ -404,7 +403,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             foreach (var dietQualityEstimate in dietQualityEstimates.Data)
             {
                 DietQualityEstimates.Add(dietQualityEstimate);
-            }
+            }*/
         }
 
         // Collection to hold stored feeds
@@ -510,6 +509,34 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
 
             return feedInformationList;
+        }
+
+        public async Task<CalculationHasResultEntity> CalculateResult(CalculationEntity animalInformation, List<CalculationHasFeedEntity> feedInformation)
+        {
+            decimal _totalcost = 0;
+            // Calculate the result
+            foreach (var feed in feedInformation)
+            {
+                var dmig = feed.Intake * feed.DM / 100;
+                var cpig = dmig * feed.CPDM / 100;
+                var meimjday = dmig * feed.MEMJKGDM / 1000;
+                var cost = feed.Intake * feed.Price / 1000;
+
+                _totalcost += cost;
+            }
+
+            var result = new CalculationHasResultDTO
+            {
+                CalculationId = animalInformation.Id,
+                GFresh = 50,
+                PercentFresh = 50,
+                PercentDryMatter = 50,
+                TotalRation = _totalcost
+            };
+
+            //map the result to the entity
+            var calculationResult = Mappers.MapToCalculationHasResultEntity(result);
+            return calculationResult;
         }
 
         // Class to represent a stored feed

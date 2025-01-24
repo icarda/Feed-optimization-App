@@ -1,4 +1,5 @@
 ﻿using DataLibrary.DTOs;
+using DataLibrary.Models.Enums;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Modules.Legal;
 using FeedOptimizationApp.Services;
@@ -18,10 +19,10 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
     public ICommand PickerSelectionChangedCommand { get; }
 
     //Add Languages, Countries, and Species properties
-    public ObservableCollection<LookupDTO> Languages { get; set; } = new ObservableCollection<LookupDTO>();
+    public ObservableCollection<LanguageEntity> Languages { get; set; } = new ObservableCollection<LanguageEntity>();
 
-    public ObservableCollection<LookupDTO> Countries { get; set; } = new ObservableCollection<LookupDTO>();
-    public ObservableCollection<LookupDTO> SpeciesList { get; set; } = new ObservableCollection<LookupDTO>();
+    public ObservableCollection<CountryEntity> Countries { get; set; } = new ObservableCollection<CountryEntity>();
+    public ObservableCollection<SpeciesEntity> SpeciesList { get; set; } = new ObservableCollection<SpeciesEntity>();
 
     // Constructor to initialize the ViewModel
     public MainViewModel(BaseService baseService, SharedData sharedData)
@@ -103,39 +104,22 @@ public class MainViewModel : BaseViewModel, INotifyPropertyChanged
             SelectedLanguage != null &&
             SelectedSpecies != null)
         {
-            var userDto = new UserDTO
+            // Save the selections to SharedData
+            SharedData.SelectedCountry = SelectedCountry;
+            SharedData.SelectedLanguage = SelectedLanguage;
+            SharedData.SelectedSpecies = SelectedSpecies;
+
+            // Navigate to the LegalPage
+            var viewModel = new LegalViewModel(_baseService, SharedData);
+            if (Application.Current != null && Application.Current.Windows.Count > 0)
             {
-                Id = 0,
-                CountryId = SelectedCountry.Id,
-                LanguageId = SelectedLanguage.Id,
-                SpeciesId = SelectedSpecies.Id,
-                TermsAndConditions = false,
-                CreatedAt = DateTime.Now,
-                DeviceManufacturer = DeviceInfo.Manufacturer,
-                DeviceModel = DeviceInfo.Model,
-                DeviceName = DeviceInfo.Name,
-                DeviceVersionString = DeviceInfo.VersionString,
-                DevicePlatform = DeviceInfo.Platform.ToString(),
-                DeviceIdiom = DeviceInfo.Idiom.ToString(),
-                DeviceType = DeviceInfo.DeviceType.ToString()
-            };
-
-            var userEntity = Mappers.MapToUserEntity(userDto);
-
-            // Save user details
-            await _baseService.UserService.SaveAsync(userEntity);
+                Application.Current.Windows[0].Page = new NavigationPage(new LegalPage(viewModel));
+            }
         }
         else
         {
             // Show a message to the user to select all the options
-            Application.Current.MainPage.DisplayAlert("Error", "Please select all the options to continue.", "OK");
-            return;
-        }
-
-        var viewModel = new LegalViewModel(_baseService, SharedData);
-        if (Application.Current != null && Application.Current.Windows.Count > 0)
-        {
-            Application.Current.Windows[0].Page = new NavigationPage(new LegalPage(viewModel));
+            await Application.Current.MainPage.DisplayAlert("Error", "Please select all the options to continue.", "OK");
         }
     }
 

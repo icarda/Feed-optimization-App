@@ -1,7 +1,7 @@
-﻿using FeedOptimizationApp.Services;
-using System.Windows.Input;
+﻿using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Modules.Calculations;
-using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Services;
+using System.Windows.Input;
 
 namespace FeedOptimizationApp.Modules.Home;
 
@@ -23,6 +23,7 @@ public class HomeViewModel : BaseViewModel
         : base(sharedData)
     {
         _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
+
         CreateCalculationCommand = new Command(async () => await OnCreateCalculationClicked());
         ViewCalculationsCommand = new Command(async () => await OnViewCalculationsClicked());
     }

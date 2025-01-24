@@ -1,6 +1,4 @@
-﻿using Microsoft.Maui.Devices;
-
-namespace FeedOptimizationApp.Helpers;
+﻿namespace FeedOptimizationApp.Helpers;
 
 public class DeviceService
 {

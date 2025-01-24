@@ -1,16 +1,16 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
 using DataLibrary;
-using Microsoft.EntityFrameworkCore;
 using DataLibrary.Services;
 using FeedOptimizationApp.Helpers;
-using FeedOptimizationApp.Services;
-using FeedOptimizationApp.Services.Interfaces;
-using CommunityToolkit.Maui;
-using FeedOptimizationApp.Modules.Home;
-using FeedOptimizationApp.Modules.Calculations;
 using FeedOptimizationApp.Modules;
+using FeedOptimizationApp.Modules.Calculations;
+using FeedOptimizationApp.Modules.Home;
 using FeedOptimizationApp.Modules.Legal;
 using FeedOptimizationApp.Modules.Settings;
+using FeedOptimizationApp.Services;
+using FeedOptimizationApp.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace FeedOptimizationApp
 {
@@ -36,6 +36,16 @@ namespace FeedOptimizationApp
 #endif
 
             // Register the ApplicationDbContext
+            var databasePath = GetDatabasePath();
+            if (DoesDatabaseExist(databasePath))
+            {
+                Console.WriteLine($"Database exists at path: {databasePath}");
+            }
+            else
+            {
+                Console.WriteLine($"Database does not exist at path: {databasePath}");
+            }
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite($"Filename={GetDatabasePath()}", b => b.MigrationsAssembly("DataLibrary")));
 
@@ -76,6 +86,11 @@ namespace FeedOptimizationApp
             databasePath = Path.Combine(FileSystem.AppDataDirectory, databaseName);
 
             return databasePath;
+        }
+
+        public static bool DoesDatabaseExist(string databasePath)
+        {
+            return File.Exists(databasePath);
         }
     }
 }

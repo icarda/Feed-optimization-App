@@ -1,6 +1,6 @@
+using DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DataLibrary.Models;
 
 namespace DataLibrary.Configurations;
 
@@ -8,7 +8,7 @@ public class FeedTranslationConfiguration : IEntityTypeConfiguration<FeedTransla
 {
     public void Configure(EntityTypeBuilder<FeedTranslationEntity> conf)
     {
-        conf.ToTable("FeedTranslations", "dbo");
+        conf.ToTable("FeedTranslations");
         conf.HasKey(c => new { c.FeedId, c.LanguageCode });
         conf.Property(c => c.LanguageCode).IsRequired();
         conf.Property(c => c.TranslatedDescription).IsRequired();

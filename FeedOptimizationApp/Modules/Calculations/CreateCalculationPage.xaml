@@ -31,15 +31,18 @@
         </Grid>
 
         <!-- Animal Info Content -->
-        <ContentView x:Name="AnimalInfoContentView" IsVisible="{Binding AnimalInfoTabIsActive}">
-            <ScrollView>
+        <Grid VerticalOptions="FillAndExpand" IsVisible="{Binding AnimalInfoTabIsActive}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout Padding="10" Grid.Row="0">
+                <Label Text="Animal Information" FontSize="24" FontAttributes="Bold" />
+                <Label Text="Provide your animal information for the calculation using the controls below." FontSize="16" />
+            </StackLayout>
+            <ScrollView Grid.Row="2" x:Name="AnimalInfoContentView">
                 <StackLayout Padding="10" Spacing="2">
-                    <Label Text="Animal Information"
-                           FontSize="24"
-                           FontAttributes="Bold" />
-                    <Label Text="Provide your animal information for the calculation using the controls below."
-                           FontSize="16" />
-
                     <!-- Animal Info Form -->
                     <Grid ColumnSpacing="10" RowSpacing="1">
                         <Grid.RowDefinitions>
@@ -58,97 +61,97 @@
 
                         <!-- Type -->
                         <Label Text="Type"
-                               Grid.Row="0"
-                               Grid.Column="0"
-                               VerticalOptions="Center" />
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       VerticalOptions="Center" />
                         <Picker Title="Select an option"
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                ItemsSource="{Binding Types}"
-                                ItemDisplayBinding="{Binding Name}"
-                                SelectedItem="{Binding SelectedType}" />
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Types}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedType}" />
 
                         <!-- Grazing -->
                         <Label Text="Grazing"
-                               Grid.Row="1"
-                               Grid.Column="0"
-                               VerticalOptions="Center" />
+                       Grid.Row="1"
+                       Grid.Column="0"
+                       VerticalOptions="Center" />
                         <Picker Title="Select an option"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                SelectedIndex="-1"
-                                ItemsSource="{Binding Grazings}"
-                                ItemDisplayBinding="{Binding Name}"
-                                SelectedItem="{Binding SelectedGrazing}" />
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        SelectedIndex="-1"
+                        ItemsSource="{Binding Grazings}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedGrazing}" />
 
                         <!-- Body Weight -->
                         <Label Text="Body weight (kg)"
-                               Grid.Row="2"
-                               Grid.Column="0"
-                               VerticalOptions="Center" />
+                       Grid.Row="2"
+                       Grid.Column="0"
+                       VerticalOptions="Center" />
                         <Picker Title="Select an option"
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                SelectedIndex="-1"
-                                ItemsSource="{Binding BodyWeights}"
-                                ItemDisplayBinding="{Binding Name}"
-                                SelectedItem="{Binding SelectedBodyWeight}" />
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        SelectedIndex="-1"
+                        ItemsSource="{Binding BodyWeights}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedBodyWeight}" />
 
                         <!-- ADG -->
                         <Label Text="ADG (g)"
-                               Grid.Row="3"
-                               Grid.Column="0"
-                               VerticalOptions="Center" />
+                       Grid.Row="3"
+                       Grid.Column="0"
+                       VerticalOptions="Center" />
                         <Entry Grid.Row="3"
-                               Grid.Column="1"
-                               Placeholder="0"
-                               Text="{Binding ADG}" />
+                       Grid.Column="1"
+                       Placeholder="0"
+                       Text="{Binding ADG}" />
 
                         <!-- Diet Quality Estimate -->
                         <Label Text="Diet quality estimate"
-                               Grid.Row="4"
-                               Grid.Column="0"
-                               VerticalOptions="Center" />
+                       Grid.Row="4"
+                       Grid.Column="0"
+                       VerticalOptions="Center" />
                         <Picker Title="Select an option"
-                                Grid.Row="4"
-                                Grid.Column="1"
-                                SelectedIndex="-1"
-                                ItemsSource="{Binding DietQualityEstimates}"
-                                ItemDisplayBinding="{Binding Name}"
-                                SelectedItem="{Binding SelectedDietQualityEstimate}" />
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        SelectedIndex="-1"
+                        ItemsSource="{Binding DietQualityEstimates}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedDietQualityEstimate}" />
 
                         <!-- Last 8 Weeks of Gestation -->
                         <Label Text="Last 8 weeks of gestation?"
-                               Grid.Row="5"
-                               Grid.Column="0"
-                               VerticalOptions="Center" />
+                       Grid.Row="5"
+                       Grid.Column="0"
+                       VerticalOptions="Center" />
                         <Switch Grid.Row="5"
-                                Grid.Column="1"
-                                IsToggled="{Binding IsLast8WeeksOfGestation}" />
+                        Grid.Column="1"
+                        IsToggled="{Binding IsLast8WeeksOfGestation}" />
 
                         <!-- Number of Suckling Kids/Lambs -->
                         <Label Text="Number of suckling kids/lambs"
-                               Grid.Row="6"
-                               Grid.Column="0"
-                               VerticalOptions="Center" IsVisible="{Binding IsNrSucklingsVisible}" />
+                       Grid.Row="6"
+                       Grid.Column="0"
+                       VerticalOptions="Center" IsVisible="{Binding IsNrSucklingsVisible}" />
                         <Picker Title="Select an option"
-                                Grid.Row="6"
-                                Grid.Column="1"
-                                SelectedIndex="-1"
-                                ItemsSource="{Binding NrSucklingKidsLambs}"
-                                ItemDisplayBinding="{Binding Name}"
-                                SelectedItem="{Binding SelectedNumberOfSucklingKidsLambs}"
-                                IsVisible="{Binding IsNrSucklingsVisible}" />
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        SelectedIndex="-1"
+                        ItemsSource="{Binding NrSucklingKidsLambs}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedNumberOfSucklingKidsLambs}"
+                        IsVisible="{Binding IsNrSucklingsVisible}" />
                     </Grid>
 
                     <!-- Milk and Production Data -->
                     <Border Stroke="Gray"
-                            Padding="10"
-                            Margin="0,20,0,0">
+                    Padding="10"
+                    Margin="0,20,0,0">
                         <StackLayout Spacing="2">
                             <Label Text="Milk and Production Data"
-                                   FontSize="18"
-                                   FontAttributes="Bold" />
+                           FontSize="18"
+                           FontAttributes="Bold" />
                             <Grid ColumnSpacing="10" RowSpacing="1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -162,39 +165,47 @@
 
                                 <!-- Daily Milk Yield -->
                                 <Label Text="Daily milk yield (kg)"
-                                       Grid.Row="0"
-                                       Grid.Column="0"
-                                       VerticalOptions="Center" />
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               VerticalOptions="Center" />
                                 <Entry Grid.Row="0"
-                                       Grid.Column="1"
-                                       Placeholder="0"
-                                       Text="{Binding DailyMilkYieldValue}" />
+                               Grid.Column="1"
+                               Placeholder="0"
+                               Text="{Binding DailyMilkYieldValue}" />
 
                                 <!-- Fat Content -->
                                 <Label Text="Fat content"
-                                       Grid.Row="1"
-                                       Grid.Column="0"
-                                       VerticalOptions="Center" />
+                               Grid.Row="1"
+                               Grid.Column="0"
+                               VerticalOptions="Center" />
                                 <Entry Grid.Row="1"
-                                       Grid.Column="1"
-                                       Placeholder="0"
-                                       Text="{Binding FatContentValue}" />
+                               Grid.Column="1"
+                               Placeholder="0"
+                               Text="{Binding FatContentValue}" />
                             </Grid>
                         </StackLayout>
                     </Border>
                 </StackLayout>
             </ScrollView>
-        </ContentView>
+        </Grid>
 
         <!-- Feed Info Content -->
-        <ContentView x:Name="FeedInfoContentView" IsVisible="{Binding FeedInfoTabIsActive}">
-            <ScrollView>
+        <Grid VerticalOptions="FillAndExpand" IsVisible="{Binding FeedInfoTabIsActive}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout Padding="10" Grid.Row="0">
+                <Label Text="Feed Information" FontSize="24" FontAttributes="Bold" />
+                <Label Text="Please use the controls below to provide your feed information." FontSize="16" />
+            </StackLayout>
+            <ScrollView Grid.Row="2"  x:Name="FeedInfoContentView">
                 <StackLayout Padding="10">
-                    <Label Text="Feed Information" FontSize="24" FontAttributes="Bold" />
-                    <Label Text="Please use the controls below to provide your feed information." FontSize="16" />
 
                     <!-- Entry form for adding new feed -->
                     <Border Stroke="Gray" Padding="10" Margin="0,20,0,0">
+
                         <toolkit:Expander IsExpanded="{Binding IsAddFeedExpanded}">
                             <toolkit:Expander.Header>
                                 <Grid>
@@ -203,14 +214,14 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Label Text="{Binding AddFeedBoxText}"
-                   FontSize="16"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
+FontSize="16"
+FontAttributes="Bold"
+VerticalOptions="Center" />
                                     <Label Text="+ "
-                   FontSize="20"
-                   Grid.Column="1"
-                   VerticalOptions="Center"
-                   HorizontalOptions="End" />
+FontSize="20"
+Grid.Column="1"
+VerticalOptions="Center"
+HorizontalOptions="End" />
                                 </Grid>
                             </toolkit:Expander.Header>
                             <toolkit:Expander.Content>
@@ -232,11 +243,11 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Picker Title="Select an option"
-                                                ItemsSource="{Binding Feeds}"
-                                                ItemDisplayBinding="{Binding Name}"
-                                                SelectedItem="{Binding SelectedFeed}"
-                                                Grid.Row="0"
-                                                Grid.ColumnSpan="2" />
+                             ItemsSource="{Binding Feeds}"
+                             ItemDisplayBinding="{Binding Name}"
+                             SelectedItem="{Binding SelectedFeed}"
+                             Grid.Row="0"
+                             Grid.ColumnSpan="2" />
 
                                     <Label Text="DM(%)" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" />
                                     <Entry Placeholder="DM(%)" Text="{Binding SelectedFeed.DryMatterPercentage}" Grid.Row="1" Grid.Column="1" />
@@ -330,18 +341,26 @@
                     </StackLayout>
                 </StackLayout>
             </ScrollView>
-        </ContentView>
+        </Grid>
 
         <!-- Results Content -->
-        <ContentView x:Name="ResultsContentView" IsVisible="{Binding ResultsTabIsActive}">
-            <ScrollView>
+        <Grid VerticalOptions="FillAndExpand" IsVisible="{Binding ResultsTabIsActive}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout Padding="10" Grid.Row="0">
+                <Label Text="Results" FontSize="24" FontAttributes="Bold" />
+            </StackLayout>
+            <ScrollView Grid.Row="2" x:Name="ResultsContentView">
                 <StackLayout>
                     <!-- Heading -->
                     <Label Text=" "
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Start" />
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Start" />
 
                     <!-- Table -->
                     <CollectionView>
@@ -398,15 +417,15 @@
                         </Grid.ColumnDefinitions>
 
                         <Button Text="Save"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                HorizontalOptions="End"
-                                VerticalOptions="End"
-                                Margin="10"
-                                Command="{Binding SaveResultsCommand}" />
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalOptions="End"
+                        VerticalOptions="End"
+                        Margin="10"
+                        Command="{Binding SaveResultsCommand}" />
                     </Grid>
                 </StackLayout>
             </ScrollView>
-        </ContentView>
+        </Grid>
     </StackLayout>
 </ContentPage>

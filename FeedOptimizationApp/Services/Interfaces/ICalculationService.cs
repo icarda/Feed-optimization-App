@@ -5,8 +5,6 @@ namespace FeedOptimizationApp.Services.Interfaces;
 
 public interface ICalculationService
 {
-    Task<CalculationHasResultEntity> CalculateResult(CalculationEntity animalInformation, List<CalculationHasFeedEntity> feedInformation);
-
     //calculation
     Task<Result<CalculationEntity>> GetCalculationById(int id);
 

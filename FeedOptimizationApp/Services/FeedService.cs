@@ -1,7 +1,7 @@
-﻿using FeedOptimizationApp.Services.Interfaces;
-using DataLibrary;
-using FeedOptimizationApp.Shared.Wrapper;
+﻿using DataLibrary;
 using DataLibrary.Models;
+using FeedOptimizationApp.Services.Interfaces;
+using FeedOptimizationApp.Shared.Wrapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace FeedOptimizationApp.Services;
@@ -77,7 +77,6 @@ public class FeedService : IFeedService
             if (existingFeed != null)
                 throw new Exception("Feed already exists. Please edit existing entry.");
             var feed = new FeedEntity(
-                request.Id,
                 request.Name,
                 request.DryMatterPercentage,
                 request.MEMcalKg,

@@ -8,9 +8,8 @@ public class FeedEntity
     {
     }
 
-    public FeedEntity(int id, string name, decimal dryMatterPercentage, decimal memcalKg, decimal memjKg, decimal tdnPercentage, decimal cpPercentage, decimal dcpPercentage, int countryId, int languageId)
+    public FeedEntity(string name, decimal dryMatterPercentage, decimal memcalKg, decimal memjKg, decimal tdnPercentage, decimal cpPercentage, decimal dcpPercentage, int countryId, int languageId)
     {
-        Id = id;
         Name = name;
         DryMatterPercentage = dryMatterPercentage;
         MEMcalKg = memcalKg;

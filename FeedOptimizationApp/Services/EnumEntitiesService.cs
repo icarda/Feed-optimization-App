@@ -1,175 +1,160 @@
-﻿using DataLibrary.DTOs;
-using DataLibrary.Models;
-using DataLibrary.Models.Enums;
-using FeedOptimizationApp.Services.Interfaces;
+﻿using FeedOptimizationApp.Services.Interfaces;
 using FeedOptimizationApp.Shared.Wrapper;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DataLibrary;
+using DataLibrary.Models.Enums;
+using Microsoft.EntityFrameworkCore;
+using DataLibrary.Models;
 
 namespace FeedOptimizationApp.Services;
 
 public class EnumEntitiesService : IEnumEntitiesService
 {
-    public async Task<Result<List<LookupDTO>>> GetLanguagesAsync()
+    private readonly ApplicationDbContext _context;
+
+    public EnumEntitiesService(ApplicationDbContext context)
     {
-        try
-        {
-            var languages = await Task.Run(() =>
-            {
-                return LanguageEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
-                    .ToList();
-            });
-            return Result<List<LookupDTO>>.Success(languages);
-        }
-        catch (Exception ex)
-        {
-            return Result<List<LookupDTO>>.Fail(ex.Message);
-        }
+        _context = context;
     }
 
-    public async Task<Result<List<LookupDTO>>> GetCountriesAsync()
+    public async Task<Result<List<LanguageEntity>>> GetLanguagesAsync()
     {
-        try
-        {
-            var countries = await Task.Run(() =>
-            {
-                return CountryEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
-                    .ToList();
-            });
-            return Result<List<LookupDTO>>.Success(countries);
-        }
-        catch (Exception ex)
-        {
-            return Result<List<LookupDTO>>.Fail(ex.Message);
-        }
+        var languages = await _context.Languages
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .ToListAsync();
+
+        if (languages == null)
+            throw new Exception("No languages found.");
+
+        return await Result<List<LanguageEntity>>.SuccessAsync(languages);
     }
 
-    public async Task<Result<List<LookupDTO>>> GetSpeciesAsync()
+    public async Task<Result<LanguageEntity>> GetLanguageByIdAsync(int id)
     {
-        try
-        {
-            var species = await Task.Run(() =>
-            {
-                return SpeciesEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
-                    .ToList();
-            });
-            return Result<List<LookupDTO>>.Success(species);
-        }
-        catch (Exception ex)
-        {
-            return Result<List<LookupDTO>>.Fail(ex.Message);
-        }
+        var language = await _context.Languages
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id);
+        if (language == null)
+            throw new Exception($"Unable to return language with id {id}.");
+        return await Result<LanguageEntity>.SuccessAsync(language);
     }
 
-    public async Task<Result<List<LookupDTO>>> GetGrazingsAsync()
+    public async Task<Result<List<SpeciesEntity>>> GetSpeciesAsync()
     {
-        try
-        {
-            var grazing = await Task.Run(() =>
-            {
-                return GrazingEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
-                    .ToList();
-            });
-            return Result<List<LookupDTO>>.Success(grazing);
-        }
-        catch (Exception ex)
-        {
-            return Result<List<LookupDTO>>.Fail(ex.Message);
-        }
+        var species = await _context.SpeciesList
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .ToListAsync();
+        if (species == null)
+            throw new Exception("No species found.");
+        return await Result<List<SpeciesEntity>>.SuccessAsync(species);
     }
 
-    public async Task<Result<List<LookupDTO>>> GetBodyWeightsAsync()
+    public async Task<Result<SpeciesEntity>> GetSpeciesByIdAsync(int id)
     {
-        try
-        {
-            var bodyWeights = await Task.Run(() =>
-            {
-                return BodyWeightEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
-                    .ToList();
-            });
-            return Result<List<LookupDTO>>.Success(bodyWeights);
-        }
-        catch (Exception ex)
-        {
-            return Result<List<LookupDTO>>.Fail(ex.Message);
-        }
+        var species = await _context.SpeciesList
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id);
+        if (species == null)
+            throw new Exception($"Unable to return species with id {id}.");
+        return await Result<SpeciesEntity>.SuccessAsync(species);
     }
 
-    public async Task<Result<List<LookupDTO>>> GetGoatTypesAsync()
+    public async Task<Result<List<CountryEntity>>> GetCountriesAsync()
     {
-        try
-        {
-            var goatTypes = await Task.Run(() =>
-            {
-                return GoatTypeEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
-                    .ToList();
-            });
-            return Result<List<LookupDTO>>.Success(goatTypes);
-        }
-        catch (Exception ex)
-        {
-            return Result<List<LookupDTO>>.Fail(ex.Message);
-        }
+        var countries = await _context.Countries
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .ToListAsync();
+        if (countries == null)
+            throw new Exception("No countries found.");
+        return await Result<List<CountryEntity>>.SuccessAsync(countries);
     }
 
-    public async Task<Result<List<LookupDTO>>> GetKidsLambsAsync()
+    public async Task<Result<CountryEntity>> GetCountryByIdAsync(int id)
     {
-        try
-        {
-            var kidsLambs = await Task.Run(() =>
-            {
-                return KidsLambsEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
-                    .ToList();
-            });
-            return Result<List<LookupDTO>>.Success(kidsLambs);
-        }
-        catch (Exception ex)
-        {
-            return Result<List<LookupDTO>>.Fail(ex.Message);
-        }
+        var country = await _context.Countries
+            .IgnoreQueryFilters()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id);
+        if (country == null)
+            throw new Exception($"Unable to return country with id {id}.");
+        return await Result<CountryEntity>.SuccessAsync(country);
     }
 
-    public async Task<Result<List<LookupDTO>>> GetSheepTypesAsync()
-    {
-        try
-        {
-            var sheepTypes = await Task.Run(() =>
-            {
-                return SheepTypeEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
-                    .ToList();
-            });
-            return Result<List<LookupDTO>>.Success(sheepTypes);
-        }
-        catch (Exception ex)
-        {
-            return Result<List<LookupDTO>>.Fail(ex.Message);
-        }
-    }
+    // grazing
+    //public async Task<Result<List<GrazingEntity>>> GetGrazingsAsync()
+    //{
+    //    var grazing = await _context.Grazings
+    //        .IgnoreQueryFilters()
+    //        .AsNoTracking()
+    //        .ToListAsync();
+    //    if (grazing == null)
+    //        throw new Exception("No grazing found.");
+    //    return await Result<List<GrazingEntity>>.SuccessAsync(grazing);
+    //}
 
-    public async Task<Result<List<LookupDTO>>> GetDietQualityEstimatesAsync()
-    {
-        try
-        {
-            var dietQualityEstimates = await Task.Run(() =>
-            {
-                return DietQualityEstimateEntity.List()
-                    .Select(e => new LookupDTO { Id = e.Id, Name = e.Name })
-                    .ToList();
-            });
-            return Result<List<LookupDTO>>.Success(dietQualityEstimates);
-        }
-        catch (Exception ex)
-        {
-            return Result<List<LookupDTO>>.Fail(ex.Message);
-        }
-    }
+    //// body weight
+
+    //public async Task<Result<List<BodyWeightEntity>>> GetBodyWeightsAsync()
+    //{
+    //    var bodyWeight = await _context.BodyWeights
+    //        .IgnoreQueryFilters()
+    //        .AsNoTracking()
+    //        .ToListAsync();
+    //    if (bodyWeight == null)
+    //        throw new Exception("No body weight found.");
+    //    return await Result<List<BodyWeightEntity>>.SuccessAsync(bodyWeight);
+    //}
+
+    //// diet quality estimate
+
+    //public async Task<Result<List<DietQualityEstimateEntity>>> GetDietQualityEstimatesAsync()
+    //{
+    //    var dietQualityEstimate = await _context.DietQualityEstimates
+    //        .IgnoreQueryFilters()
+    //        .AsNoTracking()
+    //        .ToListAsync();
+    //    if (dietQualityEstimate == null)
+    //        throw new Exception("No diet quality estimate found.");
+    //    return await Result<List<DietQualityEstimateEntity>>.SuccessAsync(dietQualityEstimate);
+    //}
+
+    //// kids lambs
+    //public async Task<Result<List<KidsLambsEntity>>> GetKidsLambsAsync()
+    //{
+    //    var kidsLambs = await _context.KidsLambs
+    //        .IgnoreQueryFilters()
+    //        .AsNoTracking()
+    //        .ToListAsync();
+    //    if (kidsLambs == null)
+    //        throw new Exception("No kids lambs found.");
+    //    return await Result<List<KidsLambsEntity>>.SuccessAsync(kidsLambs);
+    //}
+
+    //// sheep type
+    //public async Task<Result<List<SheepTypeEntity>>> GetSheepTypesAsync()
+    //{
+    //    var sheepType = await _context.SheepTypes
+    //        .IgnoreQueryFilters()
+    //        .AsNoTracking()
+    //        .ToListAsync();
+    //    if (sheepType == null)
+    //        throw new Exception("No sheep type found.");
+    //    return await Result<List<SheepTypeEntity>>.SuccessAsync(sheepType);
+    //}
+
+    //// goat type
+    //public async Task<Result<List<GoatTypeEntity>>> GetGoatTypesAsync()
+    //{
+    //    var goatType = await _context.GoatTypes
+    //        .IgnoreQueryFilters()
+    //        .AsNoTracking()
+    //        .ToListAsync();
+    //    if (goatType == null)
+    //        throw new Exception("No goat type found.");
+    //    return await Result<List<GoatTypeEntity>>.SuccessAsync(goatType);
+    //}
 }

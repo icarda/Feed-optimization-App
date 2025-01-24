@@ -16,35 +16,6 @@ public class CalculationService : ICalculationService
         _context = context;
     }
 
-    public async Task<CalculationHasResultEntity> CalculateResult(CalculationEntity animalInformation, List<CalculationHasFeedEntity> feedInformation)
-    {
-        decimal _totalcost = 0;
-        // Calculate the result
-        foreach (var feed in feedInformation)
-        {
-            var dmig = feed.Intake * feed.DM / 100;
-            var cpig = dmig * feed.CPDM / 100;
-            var meimjday = dmig * feed.MEMJKGDM / 1000;
-            var cost = feed.Intake * feed.Price / 1000;
-
-            _totalcost += cost;
-        }
-
-        var result = new CalculationHasResultDTO
-        {
-            Id = 0,
-            CalculationId = animalInformation.Id,
-            GFresh = 0,
-            PercentFresh = 0,
-            PercentDryMatter = 0,
-            TotalRation = _totalcost
-        };
-
-        //map the result to the entity
-        var calculationResult = Mappers.MapToCalculationHasResultEntity(result);
-        return calculationResult;
-    }
-
     public async Task<Result<CalculationEntity>> GetCalculationById(int id)
     {
         try
@@ -73,7 +44,6 @@ public class CalculationService : ICalculationService
             if (existingCalculation != null)
                 throw new Exception("Calculation already exists. Please edit existing entry.");
             var calculation = new CalculationEntity(
-                request.Id,
                 request.SpeciesId,
                 request.Name,
                 request.Description,
@@ -228,7 +198,6 @@ public class CalculationService : ICalculationService
             if (existingCalculationHasResult != null)
                 throw new Exception("Calculation has result already exists. Please edit existing entry.");
             var calculationHasResult = new CalculationHasResultEntity(
-               request.Id,
                 request.CalculationId,
                 request.GFresh,
                 request.PercentFresh,

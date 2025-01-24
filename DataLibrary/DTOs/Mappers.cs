@@ -1,5 +1,4 @@
-﻿using DataLibrary.Models.Enums;
-using DataLibrary.Models;
+﻿using DataLibrary.Models;
 
 namespace DataLibrary.DTOs;
 
@@ -13,7 +12,6 @@ public static class Mappers
         }
 
         return new UserEntity(
-            id: userDto.Id,
             countryId: userDto.CountryId,
             languageId: userDto.LanguageId,
             speciesId: userDto.SpeciesId,
@@ -37,7 +35,6 @@ public static class Mappers
         }
 
         return new CalculationEntity(
-            id: calculationDto.Id ?? 0,
             speciesId: calculationDto.SpeciesId ?? 0,
             name: calculationDto.Name ?? string.Empty,
             description: calculationDto.Description ?? string.Empty,
@@ -80,7 +77,6 @@ public static class Mappers
             throw new ArgumentNullException(nameof(dto), "CalculationHasResultDTO cannot be null.");
         }
         return new CalculationHasResultEntity(
-            id: dto.Id,
             calculationId: dto.CalculationId,
             gFresh: dto.GFresh,
             percentFresh: dto.PercentFresh,
@@ -97,7 +93,6 @@ public static class Mappers
         }
 
         return new FeedEntity(
-            id: dto.Id,
             name: dto.Name,
             dryMatterPercentage: dto.DryMatterPercentage,
             memcalKg: dto.MEMcalKg,

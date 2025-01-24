@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DataLibrary.Models;
+﻿namespace DataLibrary.Models;
 
 public class FeedTranslationEntity
 {

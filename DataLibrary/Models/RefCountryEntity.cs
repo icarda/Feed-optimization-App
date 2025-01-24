@@ -6,9 +6,8 @@ public class RefCountryEntity
     {
     }
 
-    public RefCountryEntity(int id, int countryId, string dateFormat, string currencyValue)
+    public RefCountryEntity(int countryId, string dateFormat, string currencyValue)
     {
-        Id = id;
         CountryId = countryId;
         DateFormat = dateFormat;
         CurrencyValue = currencyValue;

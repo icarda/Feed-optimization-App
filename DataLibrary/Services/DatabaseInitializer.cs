@@ -1,9 +1,11 @@
-﻿using CsvHelper.Configuration;
-using CsvHelper;
+﻿using CsvHelper;
+
+using CsvHelper.Configuration;
+using DataLibrary.DTOs;
+
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
-using DataLibrary.DTOs;
 
 namespace DataLibrary.Services;
 

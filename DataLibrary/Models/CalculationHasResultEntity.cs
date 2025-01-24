@@ -6,9 +6,8 @@ public class CalculationHasResultEntity
     {
     }
 
-    public CalculationHasResultEntity(int id, int calculationId, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
+    public CalculationHasResultEntity(int calculationId, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
     {
-        Id = id;
         CalculationId = calculationId;
         GFresh = gFresh;
         PercentFresh = percentFresh;

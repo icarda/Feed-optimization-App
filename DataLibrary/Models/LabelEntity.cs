@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DataLibrary.Models;
+﻿namespace DataLibrary.Models;
 
 public class LabelEntity
 {
@@ -8,9 +6,8 @@ public class LabelEntity
     {
     }
 
-    public LabelEntity(int id, string labelKey)
+    public LabelEntity(string labelKey)
     {
-        Id = id;
         LabelKey = labelKey;
     }
 

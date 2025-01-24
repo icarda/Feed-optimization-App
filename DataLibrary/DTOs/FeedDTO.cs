@@ -1,6 +1,4 @@
-﻿using DataLibrary.Models.Enums;
-
-namespace DataLibrary.DTOs;
+﻿namespace DataLibrary.DTOs;
 
 public class FeedDTO
 {

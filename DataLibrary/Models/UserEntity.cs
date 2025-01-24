@@ -1,5 +1,4 @@
 ﻿using DataLibrary.Models.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace DataLibrary.Models;
 
@@ -9,9 +8,8 @@ public class UserEntity
     {
     }
 
-    public UserEntity(int id, int countryId, int languageId, int speciesId, bool termsAndConditions, DateTime createdAt, string deviceManufacturer, string deviceModel, string deviceName, string deviceVersionString, string devicePlatform, string deviceIdiom, string deviceType)
+    public UserEntity(int countryId, int languageId, int speciesId, bool termsAndConditions, DateTime createdAt, string deviceManufacturer, string deviceModel, string deviceName, string deviceVersionString, string devicePlatform, string deviceIdiom, string deviceType)
     {
-        Id = id;
         CountryId = countryId;
         LanguageId = languageId;
         SpeciesId = speciesId;

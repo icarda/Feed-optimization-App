@@ -1,34 +1,41 @@
+using DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DataLibrary.Models;
 
 namespace DataLibrary.Configurations;
 
 public class CalculationConfiguration : IEntityTypeConfiguration<CalculationEntity>
 {
-    public void Configure(EntityTypeBuilder<CalculationEntity> conf)
+    public void Configure(EntityTypeBuilder<CalculationEntity> builder)
     {
-        conf.ToTable("Calculations", "dbo");
-        conf.HasKey(c => c.Id);
-        conf.Property(c => c.Name).IsRequired();
-        conf.Property(c => c.Description);
-        conf.Property(c => c.SpeciesId).IsRequired();
-        conf.Property(c => c.Type).IsRequired();
-        conf.Property(c => c.GrazingId).IsRequired();
-        conf.Property(c => c.BodyWeightId).IsRequired();
-        conf.Property(c => c.ADG).IsRequired(false);
-        conf.Property(c => c.Gestation).IsRequired();
-        conf.Property(c => c.MilkYield).IsRequired(false);
-        conf.Property(c => c.FatContent).IsRequired(false);
-        conf.Property(c => c.DietQualityEstimateId).IsRequired();
-        conf.Property(c => c.KidsLambsId).IsRequired();
+        // Define table name and schema
+        builder.ToTable("Calculations");
 
-        conf.HasIndex(c => c.Id);
+        // Define primary key
+        builder.HasKey(c => c.Id);
 
-        conf.HasOne(c => c.SpeciesEntity).WithMany().HasForeignKey(c => c.SpeciesId);
-        conf.HasOne(c => c.GrazingEntity).WithMany().HasForeignKey(c => c.GrazingId);
-        conf.HasOne(c => c.BodyWeightEntity).WithMany().HasForeignKey(c => c.BodyWeightId);
-        conf.HasOne(c => c.DietQualityEstimateEntity).WithMany().HasForeignKey(c => c.DietQualityEstimateId);
-        conf.HasOne(c => c.KidsLambsEntity).WithMany().HasForeignKey(c => c.KidsLambsId);
+        // Define properties
+        builder.Property(c => c.Name).IsRequired();
+        builder.Property(c => c.Description);
+        builder.Property(c => c.SpeciesId).IsRequired();
+        builder.Property(c => c.Type).IsRequired();
+        builder.Property(c => c.GrazingId).IsRequired();
+        builder.Property(c => c.BodyWeightId).IsRequired();
+        builder.Property(c => c.ADG).IsRequired(false);
+        builder.Property(c => c.Gestation).IsRequired();
+        builder.Property(c => c.MilkYield).IsRequired(false);
+        builder.Property(c => c.FatContent).IsRequired(false);
+        builder.Property(c => c.DietQualityEstimateId).IsRequired();
+        builder.Property(c => c.KidsLambsId).IsRequired();
+
+        // Define indexes
+        builder.HasIndex(c => c.Id);
+
+        // Define relationships
+        builder.HasOne(c => c.SpeciesEntity).WithMany().HasForeignKey(c => c.SpeciesId);
+        builder.HasOne(c => c.GrazingEntity).WithMany().HasForeignKey(c => c.GrazingId);
+        builder.HasOne(c => c.BodyWeightEntity).WithMany().HasForeignKey(c => c.BodyWeightId);
+        builder.HasOne(c => c.DietQualityEstimateEntity).WithMany().HasForeignKey(c => c.DietQualityEstimateId);
+        builder.HasOne(c => c.KidsLambsEntity).WithMany().HasForeignKey(c => c.KidsLambsId);
     }
 }

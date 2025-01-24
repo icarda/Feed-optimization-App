@@ -1,6 +1,6 @@
+using DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DataLibrary.Models;
 
 namespace DataLibrary.Configurations;
 
@@ -8,7 +8,7 @@ public class CalculationHasFeedConfiguration : IEntityTypeConfiguration<Calculat
 {
     public void Configure(EntityTypeBuilder<CalculationHasFeedEntity> conf)
     {
-        conf.ToTable("CalculationHasFeeds", "dbo");
+        conf.ToTable("CalculationHasFeeds");
         conf.HasKey(c => new { c.CalculationId, c.FeedId });
         conf.Property(c => c.DM).IsRequired();
         conf.Property(c => c.CPDM).IsRequired();

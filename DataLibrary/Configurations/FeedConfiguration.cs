@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataLibrary.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DataLibrary.Models;
 
 namespace DataLibrary.Configurations;
 
@@ -8,7 +8,7 @@ public class FeedConfiguration : IEntityTypeConfiguration<FeedEntity>
 {
     public void Configure(EntityTypeBuilder<FeedEntity> conf)
     {
-        conf.ToTable("Feeds", "dbo");
+        conf.ToTable("Feeds");
         conf.HasKey(c => c.Id);
         conf.Property(c => c.Name).IsRequired();
         conf.Property(c => c.DryMatterPercentage).IsRequired();

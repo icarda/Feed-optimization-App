@@ -13,17 +13,31 @@ namespace DataLibrary.Seedwork
 
         protected Enumeration(int id, string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be null or empty.", nameof(name));
+
+            if (id < 0)
+                throw new ArgumentException("Id must be a non-negative value.", nameof(id));
+
             Id = id;
             Name = name;
         }
 
         public override string ToString() => Name;
 
+        private static readonly Dictionary<Type, object> _cache = new();
+
         public static IEnumerable<T> GetAll<T>() where T : Enumeration
         {
-            var fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
+            var type = typeof(T);
+            if (_cache.ContainsKey(type))
+                return (IEnumerable<T>)_cache[type];
 
-            return fields.Select(f => f.GetValue(null)).Cast<T>();
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
+            var values = fields.Select(f => f.GetValue(null)).Cast<T>().ToList();
+            _cache[type] = values;
+
+            return values;
         }
 
         public override bool Equals(object obj)
@@ -64,7 +78,10 @@ namespace DataLibrary.Seedwork
             var matchingItem = GetAll<T>().FirstOrDefault(predicate);
 
             if (matchingItem == null)
-                throw new InvalidOperationException($"'{value}' is not a valid {description} in {typeof(T)}");
+                throw new InvalidOperationException(
+                    $"'{value}' is not a valid {description} in {typeof(T)}. " +
+                    $"Available values: {string.Join(", ", GetAll<T>().Select(e => e.Name))}"
+                    );
 
             return matchingItem;
         }

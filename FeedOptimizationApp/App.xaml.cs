@@ -1,6 +1,8 @@
-﻿using DataLibrary.Services;
+﻿using DataLibrary.DTOs;
+using DataLibrary.Services;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Modules;
+using FeedOptimizationApp.Modules.Home;
 using FeedOptimizationApp.Services;
 
 namespace FeedOptimizationApp
@@ -17,8 +19,31 @@ namespace FeedOptimizationApp
             databaseInitializer.InitializeAsync().Wait();
             var sharedData = serviceProvider.GetRequiredService<SharedData>();
             var baseService = serviceProvider.GetRequiredService<BaseService>();
-            var viewModel = new MainViewModel(baseService, sharedData);
-            MainPage = new NavigationPage(new MainPage(viewModel));
+
+            // Check if user selections exist in the database
+            var userResult = baseService?.UserService?.GetAllAsync().Result;
+            var user = userResult?.Data?.FirstOrDefault();
+
+            if (user != null && sharedData != null && baseService != null)
+            {
+                // Load user selections into SharedData
+                sharedData.SelectedCountry = new LookupDTO { Id = user.CountryId };
+                sharedData.SelectedLanguage = new LookupDTO { Id = user.LanguageId };
+                sharedData.SelectedSpecies = new LookupDTO { Id = user.SpeciesId };
+
+                // Navigate to the main page
+                var vm = new MainViewModel(baseService, sharedData);
+                MainPage = new AppShell();
+
+                var viewModel = new HomeViewModel(baseService, sharedData);
+                // Assuming HomePage is part of AppShell, no need to push it onto the navigation stack
+            }
+            else
+            {
+                // Navigate to the initial setup page
+                var viewModel = new MainViewModel(baseService, sharedData);
+                MainPage = new NavigationPage(new MainPage(viewModel));
+            }
         }
     }
 }

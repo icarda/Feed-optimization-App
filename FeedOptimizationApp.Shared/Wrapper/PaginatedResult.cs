@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace FeedOptimizationApp.Shared.Wrapper
+﻿namespace FeedOptimizationApp.Shared.Wrapper
 {
     public class PaginatedResult<T> : Result
     {

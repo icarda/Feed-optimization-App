@@ -1,6 +1,6 @@
+using DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DataLibrary.Models;
 
 namespace DataLibrary.Configurations;
 
@@ -8,7 +8,7 @@ public class SpeciesTranslationConfiguration : IEntityTypeConfiguration<SpeciesT
 {
     public void Configure(EntityTypeBuilder<SpeciesTranslationEntity> conf)
     {
-        conf.ToTable("SpeciesTranslations", "dbo");
+        conf.ToTable("SpeciesTranslations");
         conf.HasKey(c => new { c.SpeciesId, c.LanguageCode });
         conf.Property(c => c.Name).IsRequired();
         conf.Property(c => c.LanguageCode).IsRequired();
