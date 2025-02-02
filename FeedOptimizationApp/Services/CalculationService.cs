@@ -98,16 +98,16 @@ public class CalculationService : ICalculationService
         }
     }
 
-    public async Task<Result<CalculationHasFeedEntity>> GetCalculationHasFeedById(int calculationId)
+    public async Task<Result<CalculationHasFeedEntity>> GetCalculationHasFeedById(int id)
     {
         try
         {
             var calculationHasFeed = await _context.CalculationHasFeeds
                 .IgnoreQueryFilters()
                 .AsNoTracking()
-                .FirstOrDefaultAsync(s => s.CalculationId == calculationId);
+                .FirstOrDefaultAsync(s => s.Id == id);
             if (calculationHasFeed == null)
-                throw new Exception($"Unable to return calculation has feed with calculation Id {calculationId}.");
+                throw new Exception($"Unable to return calculation has feed with Id {id}.");
             return await Result<CalculationHasFeedEntity>.SuccessAsync(calculationHasFeed);
         }
         catch (Exception ex)
@@ -120,11 +120,10 @@ public class CalculationService : ICalculationService
     {
         try
         {
-            var existingCalculationHasFeed = await _context.CalculationHasFeeds.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Calculation.Name == request.Calculation.Name);
+            var existingCalculationHasFeed = await _context.CalculationHasFeeds.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.Id);
             if (existingCalculationHasFeed != null)
                 throw new Exception("Calculation has feed already exists. Please edit existing entry.");
             var calculationHasFeed = new CalculationHasFeedEntity(
-                request.CalculationId,
                 request.FeedId,
                 request.DM,
                 request.CPDM,
@@ -136,7 +135,7 @@ public class CalculationService : ICalculationService
             );
             await _context.CalculationHasFeeds.AddAsync(calculationHasFeed);
             await _context.SaveChangesAsync();
-            return await Result<int>.SuccessAsync(calculationHasFeed.CalculationId);
+            return await Result<int>.SuccessAsync(calculationHasFeed.Id);
         }
         catch (Exception ex)
         {
@@ -148,11 +147,10 @@ public class CalculationService : ICalculationService
     {
         try
         {
-            var calculationHasFeed = await _context.CalculationHasFeeds.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Calculation.Name == request.Calculation.Name);
+            var calculationHasFeed = await _context.CalculationHasFeeds.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.Id);
             if (calculationHasFeed == null)
                 throw new Exception("Calculation has feed does not exist.");
             calculationHasFeed.Set(
-                request.CalculationId,
                 request.FeedId,
                 request.DM,
                 request.CPDM,
@@ -164,7 +162,7 @@ public class CalculationService : ICalculationService
             );
             _context.CalculationHasFeeds.Update(calculationHasFeed);
             await _context.SaveChangesAsync();
-            return await Result<int>.SuccessAsync(calculationHasFeed.CalculationId);
+            return await Result<int>.SuccessAsync(calculationHasFeed.Id);
         }
         catch (Exception ex)
         {

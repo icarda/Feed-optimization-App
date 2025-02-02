@@ -2,7 +2,7 @@
 
 namespace DataLibrary.Models;
 
-public class SpeciesTranslationEntity
+public class SpeciesTranslationEntity : EntityBase
 {
     public SpeciesTranslationEntity()
     {

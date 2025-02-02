@@ -1,6 +1,6 @@
 ﻿namespace DataLibrary.Models;
 
-public class RefLanguageEntity
+public class RefLanguageEntity : EntityBase
 {
     public RefLanguageEntity()
     {

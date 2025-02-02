@@ -214,14 +214,14 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Label Text="{Binding AddFeedBoxText}"
-FontSize="16"
-FontAttributes="Bold"
-VerticalOptions="Center" />
+                                            FontSize="16"
+                                            FontAttributes="Bold"
+                                            VerticalOptions="Center" />
                                     <Label Text="+ "
-FontSize="20"
-Grid.Column="1"
-VerticalOptions="Center"
-HorizontalOptions="End" />
+                                            FontSize="20"
+                                            Grid.Column="1"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="End" />
                                 </Grid>
                             </toolkit:Expander.Header>
                             <toolkit:Expander.Content>
@@ -243,11 +243,11 @@ HorizontalOptions="End" />
                                     </Grid.ColumnDefinitions>
 
                                     <Picker Title="Select an option"
-                             ItemsSource="{Binding Feeds}"
-                             ItemDisplayBinding="{Binding Name}"
-                             SelectedItem="{Binding SelectedFeed}"
-                             Grid.Row="0"
-                             Grid.ColumnSpan="2" />
+                                             ItemsSource="{Binding Feeds}"
+                                             ItemDisplayBinding="{Binding Name}"
+                                             SelectedItem="{Binding SelectedFeed}"
+                                             Grid.Row="0"
+                                             Grid.ColumnSpan="2" />
 
                                     <Label Text="DM(%)" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" />
                                     <Entry Placeholder="DM(%)" Text="{Binding SelectedFeed.DryMatterPercentage}" Grid.Row="1" Grid.Column="1" />
@@ -319,19 +319,19 @@ HorizontalOptions="End" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Text="DM(%)" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" />
-                                                <Label Text="{Binding DM}" Grid.Row="0" Grid.Column="1" />
+                                                <Entry Text="{Binding DM}" Grid.Row="0" Grid.Column="1" />
                                                 <Label Text="CP(%DM)" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" />
-                                                <Label Text="{Binding CPDM}" Grid.Row="1" Grid.Column="1" />
+                                                <Entry Text="{Binding CPDM}" Grid.Row="1" Grid.Column="1" />
                                                 <Label Text="ME(MJ/kg DM)" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" />
-                                                <Label Text="{Binding MEMJKGDM}" Grid.Row="2" Grid.Column="1" />
+                                                <Entry Text="{Binding MEMJKGDM}" Grid.Row="2" Grid.Column="1" />
                                                 <Label Text="Price/kg (DM)" Grid.Row="3" Grid.Column="0" VerticalOptions="Center" />
-                                                <Label Text="{Binding Price}" Grid.Row="3" Grid.Column="1" />
+                                                <Entry Text="{Binding Price}" Grid.Row="3" Grid.Column="1" />
                                                 <Label Text="Intake (g DM)" Grid.Row="4" Grid.Column="0" VerticalOptions="Center" />
-                                                <Label Text="{Binding Intake}" Grid.Row="4" Grid.Column="1" />
+                                                <Entry Text="{Binding Intake}" Grid.Row="4" Grid.Column="1" />
                                                 <Label Text="Min limit(g)" Grid.Row="5" Grid.Column="0" VerticalOptions="Center" />
-                                                <Label Text="{Binding MinLimit}" Grid.Row="5" Grid.Column="1" />
+                                                <Entry Text="{Binding MinLimit}" Grid.Row="5" Grid.Column="1" />
                                                 <Label Text="Max limit(g)" Grid.Row="6" Grid.Column="0" VerticalOptions="Center" />
-                                                <Label Text="{Binding MaxLimit}" Grid.Row="6" Grid.Column="1" />
+                                                <Entry Text="{Binding MaxLimit}" Grid.Row="6" Grid.Column="1" />
                                             </Grid>
                                         </toolkit:Expander.Content>
                                     </toolkit:Expander>

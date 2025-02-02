@@ -492,7 +492,6 @@ namespace FeedOptimizationApp.Modules.Calculations
             {
                 var feedInformation = new CalculationHasFeedEntity
                 {
-                    CalculationId = 0,
                     FeedId = storedFeed.FeedId,
                     DM = storedFeed.DM ?? 0,
                     CPDM = storedFeed.CPDM ?? 0,

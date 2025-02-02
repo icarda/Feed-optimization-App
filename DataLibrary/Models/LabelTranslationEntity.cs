@@ -1,6 +1,6 @@
 ﻿namespace DataLibrary.Models;
 
-public class LabelTranslationEntity
+public class LabelTranslationEntity : EntityBase
 {
     public LabelTranslationEntity()
     {

@@ -2,7 +2,7 @@
 
 namespace DataLibrary.Models;
 
-public class FeedEntity
+public class FeedEntity : EntityBase
 {
     public FeedEntity()
     {

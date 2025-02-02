@@ -1,6 +1,6 @@
 ﻿namespace DataLibrary.Models;
 
-public class RefCountryEntity
+public class RefCountryEntity : EntityBase
 {
     public RefCountryEntity()
     {

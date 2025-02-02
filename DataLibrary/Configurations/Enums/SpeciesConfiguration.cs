@@ -19,6 +19,9 @@ namespace DataLibrary.Configurations.Enums
             conf.Property(o => o.Name)
                 .HasMaxLength(200)
                 .IsRequired();
+
+            conf.HasIndex(o => o.Id);
+            conf.HasIndex(o => o.Name).IsUnique();
         }
     }
 }

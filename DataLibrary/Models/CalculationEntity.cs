@@ -2,7 +2,7 @@
 
 namespace DataLibrary.Models;
 
-public class CalculationEntity
+public class CalculationEntity : EntityBase
 {
     public CalculationEntity()
     {

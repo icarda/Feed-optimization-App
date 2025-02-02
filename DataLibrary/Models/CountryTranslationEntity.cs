@@ -2,7 +2,7 @@
 
 namespace DataLibrary.Models;
 
-public class CountryTranslationEntity
+public class CountryTranslationEntity : EntityBase
 {
     public CountryTranslationEntity()
     {

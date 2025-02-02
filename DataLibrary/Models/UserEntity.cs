@@ -2,7 +2,7 @@
 
 namespace DataLibrary.Models;
 
-public class UserEntity
+public class UserEntity : EntityBase
 {
     public UserEntity()
     {

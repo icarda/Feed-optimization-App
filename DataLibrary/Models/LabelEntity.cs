@@ -1,6 +1,6 @@
 ﻿namespace DataLibrary.Models;
 
-public class LabelEntity
+public class LabelEntity : EntityBase
 {
     public LabelEntity()
     {

@@ -1,6 +1,6 @@
 ﻿namespace DataLibrary.Models;
 
-public class CalculationHasResultEntity
+public class CalculationHasResultEntity : EntityBase
 {
     public CalculationHasResultEntity()
     {
@@ -24,6 +24,21 @@ public class CalculationHasResultEntity
         TotalRation = totalRation;
     }
 
+    public void AddCalculationHasFeed(CalculationHasFeedEntity calculationHasFeed)
+    {
+        CalculationHasFeedList.Add(calculationHasFeed);
+    }
+
+    public void RemoveCalculationHasFeed(CalculationHasFeedEntity calculationHasFeed)
+    {
+        CalculationHasFeedList.Remove(calculationHasFeed);
+    }
+
+    public void UpdateCalculationHasFeed(CalculationHasFeedEntity calculationHasFeed)
+    {
+        CalculationHasFeedList[CalculationHasFeedList.FindIndex(x => x.FeedId == calculationHasFeed.FeedId)] = calculationHasFeed;
+    }
+
     public int Id { get; set; } // Primary key
 
     public int CalculationId { get; set; } // Reference to Calculations.Id
@@ -37,4 +52,6 @@ public class CalculationHasResultEntity
     public decimal TotalRation { get; set; } // NOT NULL
 
     public CalculationEntity Calculation { get; set; }
+
+    public List<CalculationHasFeedEntity> CalculationHasFeedList { get; set; }
 }

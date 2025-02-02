@@ -1,6 +1,6 @@
 ﻿namespace DataLibrary.Models;
 
-public class RefSpeciesEntity
+public class RefSpeciesEntity : EntityBase
 {
     public RefSpeciesEntity()
     {

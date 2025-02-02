@@ -1,6 +1,6 @@
 ﻿namespace DataLibrary.Models;
 
-public class FeedTranslationEntity
+public class FeedTranslationEntity : EntityBase
 {
     public FeedTranslationEntity()
     {
