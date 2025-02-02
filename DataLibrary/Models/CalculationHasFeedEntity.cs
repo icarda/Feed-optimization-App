@@ -31,15 +31,15 @@
             MaxLimit = maxLimit;
         }
 
-        public int CalculationId { get; private set; } // Reference to Calculations.Id
-        public int FeedId { get; private set; } // Reference to Feed.Id
-        public decimal DM { get; private set; } // NOT NULL
-        public decimal CPDM { get; private set; } // NOT NULL
-        public decimal MEMJKGDM { get; private set; } // NOT NULL
-        public decimal Price { get; private set; } // NOT NULL
-        public decimal Intake { get; private set; } // NOT NULL
-        public decimal MinLimit { get; private set; } // NOT NULL
-        public decimal MaxLimit { get; private set; } // NOT NULL
+        public int CalculationId { get; set; } // Reference to Calculations.Id
+        public int FeedId { get; set; } // Reference to Feed.Id
+        public decimal DM { get; set; } // NOT NULL
+        public decimal CPDM { get; set; } // NOT NULL
+        public decimal MEMJKGDM { get; set; } // NOT NULL
+        public decimal Price { get; set; } // NOT NULL
+        public decimal Intake { get; set; } // NOT NULL
+        public decimal MinLimit { get; set; } // NOT NULL
+        public decimal MaxLimit { get; set; } // NOT NULL
 
         public CalculationEntity Calculation { get; set; }
         public FeedEntity Feed { get; set; }

@@ -24,17 +24,17 @@ public class CalculationHasResultEntity
         TotalRation = totalRation;
     }
 
-    public int Id { get; private set; } // Primary key
+    public int Id { get; set; } // Primary key
 
-    public int CalculationId { get; private set; } // Reference to Calculations.Id
+    public int CalculationId { get; set; } // Reference to Calculations.Id
 
-    public decimal GFresh { get; private set; } // NOT NULL
+    public decimal GFresh { get; set; } // NOT NULL
 
-    public decimal PercentFresh { get; private set; } // NOT NULL
+    public decimal PercentFresh { get; set; } // NOT NULL
 
-    public decimal PercentDryMatter { get; private set; } // NOT NULL
+    public decimal PercentDryMatter { get; set; } // NOT NULL
 
-    public decimal TotalRation { get; private set; } // NOT NULL
+    public decimal TotalRation { get; set; } // NOT NULL
 
     public CalculationEntity Calculation { get; set; }
 }

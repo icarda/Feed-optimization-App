@@ -1,4 +1,5 @@
 ﻿using DataLibrary.DTOs;
+using DataLibrary.Models;
 using DataLibrary.Models.Enums;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
@@ -97,14 +98,10 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
 
                 if (user != null)
                 {
-                    var userDTO = new UserDTO();
-
                     // Update existing user
-                    userDTO.CountryId = SelectedCountry.Id;
-                    userDTO.LanguageId = SelectedLanguage.Id;
-                    userDTO.SpeciesId = SelectedSpecies.Id;
-
-                    user = Mappers.MapToUserEntity(userDTO);
+                    user.CountryId = SelectedCountry.Id;
+                    user.LanguageId = SelectedLanguage.Id;
+                    user.SpeciesId = SelectedSpecies.Id;
 
                     await _baseService.UserService.UpdateAsync(user);
                 }

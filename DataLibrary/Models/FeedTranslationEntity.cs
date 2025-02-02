@@ -13,11 +13,11 @@ public class FeedTranslationEntity
         TranslatedDescription = translatedDescription;
     }
 
-    public int FeedId { get; private set; } // Reference to Feed.Id
+    public int FeedId { get; set; } // Reference to Feed.Id
 
-    public string LanguageCode { get; private set; } // NOT NULL
+    public string LanguageCode { get; set; } // NOT NULL
 
-    public string TranslatedDescription { get; private set; } // NOT NULL
+    public string TranslatedDescription { get; set; } // NOT NULL
 
     public FeedEntity Feed { get; set; }
 }

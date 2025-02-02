@@ -2,7 +2,7 @@
 
 using CsvHelper.Configuration;
 using DataLibrary.DTOs;
-
+using DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Reflection;
@@ -70,7 +70,7 @@ public class DatabaseInitializer
         });
 
         csv.Context.RegisterClassMap<FeedMap>();
-        var records = csv.GetRecords<FeedDTO>().ToList();
+        var records = csv.GetRecords<FeedEntity>().ToList();
         Console.WriteLine($"Number of records read: {records.Count}");
         foreach (var record in records)
         {
@@ -79,9 +79,7 @@ public class DatabaseInitializer
 
         foreach (var record in records)
         {
-            // Map the DTO to the Entity
-            var feedEntity = Mappers.MapToFeedEntity(record);
-            await _context.Feeds.AddAsync(feedEntity);
+            await _context.Feeds.AddAsync(record);
         }
         await _context.SaveChangesAsync();
         Console.WriteLine("Feeds imported successfully.");

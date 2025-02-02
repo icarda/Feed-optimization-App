@@ -1,7 +1,7 @@
 using CsvHelper.Configuration;
-using DataLibrary.DTOs;
+using DataLibrary.Models;
 
-public class FeedMap : ClassMap<FeedDTO>
+public class FeedMap : ClassMap<FeedEntity>
 {
     public FeedMap()
     {

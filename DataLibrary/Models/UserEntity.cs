@@ -40,32 +40,32 @@ public class UserEntity
         DeviceType = deviceType;
     }
 
-    public int Id { get; private set; } // Primary key
+    public int Id { get; set; } // Primary key
 
-    public int CountryId { get; private set; } // Reference to Ref_Country.Id
+    public int CountryId { get; set; } // Reference to Ref_Country.Id
 
-    public int LanguageId { get; private set; } // Reference to Ref_Language.Id
+    public int LanguageId { get; set; } // Reference to Ref_Language.Id
 
-    public int SpeciesId { get; private set; } // Reference to Ref_Species.Id
+    public int SpeciesId { get; set; } // Reference to Ref_Species.Id
 
-    public bool TermsAndConditions { get; private set; } // NOT NULL
+    public bool TermsAndConditions { get; set; } // NOT NULL
 
-    public DateTime CreatedAt { get; private set; } // NOT NULL
+    public DateTime CreatedAt { get; set; } // NOT NULL
 
     // New properties for device details
-    public string DeviceManufacturer { get; private set; }
+    public string DeviceManufacturer { get; set; }
 
-    public string DeviceModel { get; private set; }
+    public string DeviceModel { get; set; }
 
-    public string DeviceName { get; private set; }
+    public string DeviceName { get; set; }
 
-    public string DeviceVersionString { get; private set; }
+    public string DeviceVersionString { get; set; }
 
-    public string DevicePlatform { get; private set; }
+    public string DevicePlatform { get; set; }
 
-    public string DeviceIdiom { get; private set; }
+    public string DeviceIdiom { get; set; }
 
-    public string DeviceType { get; private set; }
+    public string DeviceType { get; set; }
 
     public LanguageEntity LanguageEntity { get; set; }
     public CountryEntity CountryEntity { get; set; }

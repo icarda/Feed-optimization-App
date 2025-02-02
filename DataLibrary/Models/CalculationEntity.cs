@@ -40,31 +40,31 @@ public class CalculationEntity
         KidsLambsId = kidsLambsId;
     }
 
-    public int Id { get; private set; }
+    public int Id { get; set; }
 
-    public int SpeciesId { get; private set; } // Reference to Ref_Species.Id
+    public int SpeciesId { get; set; } // Reference to Ref_Species.Id
 
-    public string Name { get; private set; } // NOT NULL
+    public string Name { get; set; } // NOT NULL
 
-    public string Description { get; private set; } // NULL
+    public string Description { get; set; } // NULL
 
-    public string Type { get; private set; } // NULL
+    public string Type { get; set; } // NULL
 
-    public int GrazingId { get; private set; } // NOT NULL
+    public int GrazingId { get; set; } // NOT NULL
 
-    public int BodyWeightId { get; private set; } // NOT NULL
+    public int BodyWeightId { get; set; } // NOT NULL
 
-    public decimal? ADG { get; private set; } // NOT NULL
+    public decimal? ADG { get; set; } // NOT NULL
 
-    public bool Gestation { get; private set; } // NOT NULL
+    public bool Gestation { get; set; } // NOT NULL
 
-    public decimal? MilkYield { get; private set; } // NULL
+    public decimal? MilkYield { get; set; } // NULL
 
-    public decimal? FatContent { get; private set; } // NULL
+    public decimal? FatContent { get; set; } // NULL
 
-    public int DietQualityEstimateId { get; private set; } // NOT NULL
+    public int DietQualityEstimateId { get; set; } // NOT NULL
 
-    public int KidsLambsId { get; private set; } // NOT NULL
+    public int KidsLambsId { get; set; } // NOT NULL
 
     public SpeciesEntity SpeciesEntity { get; set; } // NOT NULL
     public GrazingEntity GrazingEntity { get; set; } // NOT NULL

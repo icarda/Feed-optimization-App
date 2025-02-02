@@ -15,11 +15,11 @@ public class LanguageTranslationEntity
         TranslatedDescription = translatedDescription;
     }
 
-    public int LanguageId { get; private set; } // Reference to Ref_Language.Id
+    public int LanguageId { get; set; } // Reference to Ref_Language.Id
 
-    public string LanguageCode { get; private set; } // NOT NULL
+    public string LanguageCode { get; set; } // NOT NULL
 
-    public string TranslatedDescription { get; private set; } // NOT NULL
+    public string TranslatedDescription { get; set; } // NOT NULL
 
     public LanguageEntity LanguageEntity { get; set; }
 }

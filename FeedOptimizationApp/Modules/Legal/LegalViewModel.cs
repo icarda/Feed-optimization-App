@@ -45,26 +45,32 @@ public class LegalViewModel : BaseViewModel, INotifyPropertyChanged
         {
             try
             {
-                var userEntity = new UserDTO
+                var userEntity = new UserEntity
                 {
                     CountryId = SharedData.SelectedCountry.Id,
                     LanguageId = SharedData.SelectedLanguage.Id,
                     SpeciesId = SharedData.SelectedSpecies.Id,
                     TermsAndConditions = true,
                     CreatedAt = DateTime.UtcNow,
+                    DeviceManufacturer = DeviceInfo.Manufacturer,
+                    DeviceModel = DeviceInfo.Model,
+                    DeviceName = DeviceInfo.Name,
+                    DeviceVersionString = DeviceInfo.VersionString,
+                    DevicePlatform = DeviceInfo.Platform.ToString(),
+                    DeviceIdiom = DeviceInfo.Idiom.ToString(),
+                    DeviceType = DeviceInfo.DeviceType.ToString()
                     // Add other device details here
                 };
 
-                var mappedUser = Mappers.MapToUserEntity(userEntity);
+                await _baseService.UserService.SaveAsync(userEntity);
 
-                await _baseService.UserService.SaveAsync(mappedUser);
-
-                if (Application.Current.Windows.Count > 0)
+                var homeViewModel = new HomeViewModel(_baseService, SharedData);
+                var newHomePage = new AppShell
                 {
-                    Application.Current.Windows[0].Page = new AppShell();
-                }
-                var viewModel = new HomeViewModel(_baseService, SharedData);
-                await Application.Current.MainPage.Navigation.PushAsync(new HomePage(viewModel));
+                    BindingContext = homeViewModel
+                };
+
+                Application.Current.MainPage = newHomePage;
             }
             catch (Exception ex)
             {

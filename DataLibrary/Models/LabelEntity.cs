@@ -11,7 +11,7 @@ public class LabelEntity
         LabelKey = labelKey;
     }
 
-    public int Id { get; private set; } // Primary key
+    public int Id { get; set; } // Primary key
 
-    public string LabelKey { get; private set; } // NOT NULL
+    public string LabelKey { get; set; } // NOT NULL
 }

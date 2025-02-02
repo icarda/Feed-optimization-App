@@ -13,11 +13,11 @@ public class RefCountryEntity
         CurrencyValue = currencyValue;
     }
 
-    public int Id { get; private set; } // Primary key
+    public int Id { get; set; } // Primary key
 
-    public int CountryId { get; private set; } // NOT NULL
+    public int CountryId { get; set; } // NOT NULL
 
-    public string DateFormat { get; private set; } // NOT NULL
+    public string DateFormat { get; set; } // NOT NULL
 
-    public string CurrencyValue { get; private set; } // NOT NULL
+    public string CurrencyValue { get; set; } // NOT NULL
 }

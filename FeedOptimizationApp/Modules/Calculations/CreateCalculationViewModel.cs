@@ -1,7 +1,6 @@
 ﻿using DataLibrary.DTOs;
 using DataLibrary.Models;
 using DataLibrary.Models.Enums;
-using DataLibrary.Seedwork;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
@@ -467,23 +466,21 @@ namespace FeedOptimizationApp.Modules.Calculations
         // Method to get animal information inputs
         private CalculationEntity GetAnimalInformationInputs()
         {
-            var animalInformation = new CalculationDTO
+            var animalInformation = new CalculationEntity
             {
                 Type = SelectedType?.Name,
-                GrazingId = SelectedGrazing?.Id,
-                BodyWeightId = SelectedBodyWeight?.Id,
+                GrazingId = SelectedGrazing.Id,
+                BodyWeightId = SelectedBodyWeight.Id,
                 ADG = ADG,
-                DietQualityEstimateId = SelectedDietQualityEstimate?.Id,
+                DietQualityEstimateId = SelectedDietQualityEstimate.Id,
                 Gestation = IsLast8WeeksOfGestation,
                 MilkYield = DailyMilkYieldValue,
                 FatContent = FatContentValue,
-                KidsLambsId = SelectedNumberOfSucklingKidsLambs?.Id,
-                SpeciesId = SelectedSpecies?.Id
+                KidsLambsId = SelectedNumberOfSucklingKidsLambs.Id,
+                SpeciesId = SelectedSpecies.Id
             };
 
-            var calculation = Mappers.MapToCalculationEntity(animalInformation);
-
-            return calculation;
+            return animalInformation;
         }
 
         // Method to get feed information inputs
@@ -493,7 +490,7 @@ namespace FeedOptimizationApp.Modules.Calculations
 
             foreach (var storedFeed in StoredFeeds)
             {
-                var feedInformation = new CalculationHasFeedDTO
+                var feedInformation = new CalculationHasFeedEntity
                 {
                     CalculationId = 0,
                     FeedId = storedFeed.FeedId,
@@ -506,8 +503,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     MaxLimit = storedFeed.MaxLimit ?? 0
                 };
 
-                var feedInfo = Mappers.MapToCalculationHasFeedEntity(feedInformation);
-                feedInformationList.Add(feedInfo);
+                feedInformationList.Add(feedInformation);
             }
 
             return feedInformationList;
@@ -527,7 +523,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 _totalcost += cost;
             }
 
-            var result = new CalculationHasResultDTO
+            var result = new CalculationHasResultEntity
             {
                 CalculationId = animalInformation.Id,
                 GFresh = 50,
@@ -536,9 +532,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 TotalRation = _totalcost
             };
 
-            //map the result to the entity
-            var calculationResult = Mappers.MapToCalculationHasResultEntity(result);
-            return calculationResult;
+            return result;
         }
 
         // Class to represent a stored feed

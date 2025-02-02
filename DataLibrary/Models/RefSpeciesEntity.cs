@@ -11,7 +11,7 @@ public class RefSpeciesEntity
         Name = name;
     }
 
-    public int Id { get; private set; } // Primary key
+    public int Id { get; set; } // Primary key
 
-    public string Name { get; private set; } // NOT NULL
+    public string Name { get; set; } // NOT NULL
 }
