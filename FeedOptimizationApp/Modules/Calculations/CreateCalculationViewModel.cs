@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
+using FeedOptimizationApp.Shared.Wrapper;
 
 namespace FeedOptimizationApp.Modules.Calculations
 {
@@ -30,6 +31,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             LoadAnimalInformationCommand = new Command(async () => await LoadAnimalInformationAsync());
             ClearFeedCommand = new Command(ClearFeed);
             AddFeedCommand = new Command(OnAddFeed);
+            SaveResultsCommand = new Command(OnSaveResults);
 
             // Execute the commands to load data
             LoadAnimalInformationCommand.Execute(null);
@@ -93,6 +95,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public ICommand SetResultsTabActive { get; }
         public ICommand ClearFeedCommand { get; }
         public ICommand AddFeedCommand { get; }
+        public ICommand SaveResultsCommand { get; }
 
         // Properties for controlling UI elements
         private bool _isResultsButtonVisible = false;
@@ -460,6 +463,13 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
         }
 
+        // Method to save feed to database
+        private async void OnSaveResults()
+        {
+            // add to database
+            await _baseService.CalculationService.SaveCalculationHasResultAsync(CalculationHasResult!);
+        }
+
         // Method to clear the added feed form
         private void ClearAddedFeedForm()
         {
@@ -562,7 +572,8 @@ namespace FeedOptimizationApp.Modules.Calculations
 
             var result = new CalculationHasResultEntity
             {
-                CalculationId = animalInformation.Id,
+                Calculation = animalInformation,
+                CalculationHasFeedList = feedInformation,
                 GFresh = 50,
                 PercentFresh = 50,
                 PercentDryMatter = 50,

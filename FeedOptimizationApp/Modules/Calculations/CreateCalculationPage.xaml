@@ -314,7 +314,7 @@
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
-                                                <Label Text="{Binding FeedName, StringFormat='Feed: {0}'}"
+                                                <Label Text="{Binding Feed.Name, StringFormat='Feed: {0}'}"
                                                        FontSize="16"
                                                        FontAttributes="Bold"
                                                        VerticalOptions="Center"

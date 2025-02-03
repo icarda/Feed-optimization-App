@@ -192,16 +192,26 @@ public class CalculationService : ICalculationService
     {
         try
         {
-            var existingCalculationHasResult = await _context.CalculationHasResults.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Calculation.Name.ToLower() == request.Calculation.Name.ToLower());
-            if (existingCalculationHasResult != null)
-                throw new Exception("Calculation has result already exists. Please edit existing entry.");
+            var calculationId = request.Calculation.Id;
+
+            var listOfCalculationHasFeedIds = new List<int>();
+            foreach (var calcHasFeed in request.CalculationHasFeedList)
+            {
+                var calculationHasFeed = await _context.CalculationHasFeeds.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == calcHasFeed.Id);
+                if (calculationHasFeed == null)
+                    throw new Exception("Calculation has feed does not exist.");
+                listOfCalculationHasFeedIds.Add(calculationHasFeed.Id);
+            }
+
             var calculationHasResult = new CalculationHasResultEntity(
-                request.CalculationId,
+                calculationId,
+                listOfCalculationHasFeedIds,
                 request.GFresh,
                 request.PercentFresh,
                 request.PercentDryMatter,
                 request.TotalRation
             );
+
             await _context.CalculationHasResults.AddAsync(calculationHasResult);
             await _context.SaveChangesAsync();
             return await Result<int>.SuccessAsync(calculationHasResult.Id);
@@ -216,11 +226,12 @@ public class CalculationService : ICalculationService
     {
         try
         {
-            var calculationHasResult = await _context.CalculationHasResults.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Calculation.Name.ToLower() == request.Calculation.Name.ToLower());
+            var calculationHasResult = await _context.CalculationHasResults.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.Id);
             if (calculationHasResult == null)
                 throw new Exception("Calculation has result does not exist.");
             calculationHasResult.Set(
                 request.CalculationId,
+                request.CalculationHasFeedIds,
                 request.GFresh,
                 request.PercentFresh,
                 request.PercentDryMatter,
