@@ -1,30 +1,37 @@
-﻿using DataLibrary.DTOs;
+﻿using CommunityToolkit.Maui.Alerts;
+using DataLibrary.DTOs;
 using DataLibrary.Models;
 using DataLibrary.Models.Enums;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 
 namespace FeedOptimizationApp.Modules.Calculations
 {
     public class CreateCalculationViewModel : BaseViewModel
     {
         private readonly BaseService _baseService;
+        private readonly CalculationValidator _validator;
+        public Dictionary<string, string> ValidationErrors { get; private set; } = new Dictionary<string, string>();
 
-        private SpeciesEntity SelectedSpecies => SharedData.SelectedSpecies;
+        private SpeciesEntity? SelectedSpecies => SharedData.SelectedSpecies;
 
         // Constructor
         public CreateCalculationViewModel(BaseService baseService, SharedData sharedData) : base(sharedData)
         {
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
+            _validator = new CalculationValidator();
 
             // Initialize commands
             LoadFeedsCommand = new Command(async () => await LoadFeedsAsync());
             LoadAnimalInformationCommand = new Command(async () => await LoadAnimalInformationAsync());
+            ClearFeedCommand = new Command(ClearFeed);
+            AddFeedCommand = new Command(OnAddFeed);
 
             // Execute the commands to load data
-            LoadFeedsCommand.Execute(null);
             LoadAnimalInformationCommand.Execute(null);
 
             // Initialize tab commands
@@ -37,9 +44,22 @@ namespace FeedOptimizationApp.Modules.Calculations
 
             SetFeedInfoTabActive = new Command(() =>
             {
-                AnimalInfoTabIsActive = false;
-                FeedInfoTabIsActive = true;
-                ResultsTabIsActive = false;
+                LoadFeedsCommand.Execute(null);
+
+                Calculation = GetAnimalInformationInputs();
+                ValidateCalculation(Calculation);
+
+                if (ValidationErrors.Count == 0)
+                {
+                    AnimalInfoTabIsActive = false;
+                    FeedInfoTabIsActive = true;
+                    ResultsTabIsActive = false;
+                }
+                else
+                {
+                    // Optionally, display a message to the user
+                    Toast.Make("Please correct the validation errors.").Show();
+                }
             });
 
             SetResultsTabActive = new Command(async () =>
@@ -49,14 +69,10 @@ namespace FeedOptimizationApp.Modules.Calculations
                 ResultsTabIsActive = true;
 
                 // Perform calculation
-                Calculation = GetAnimalInformationInputs();
+                //Calculation = GetAnimalInformationInputs();
                 CalculationHasFeeds = GetFeedInformationInputs();
                 await DoCalculationAsync(Calculation, CalculationHasFeeds);
             });
-
-            // Initialize feed commands
-            ClearFeedCommand = new Command(ClearFeed);
-            AddFeedCommand = new Command(OnAddFeed);
 
             // Initialize properties
             SelectedType = null;
@@ -158,17 +174,17 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
         }
 
-        private LookupDTO? _selectedGrazing;
+        private GrazingEntity? _selectedGrazing;
 
-        public LookupDTO? SelectedGrazing
+        public GrazingEntity? SelectedGrazing
         {
             get => _selectedGrazing;
             set => SetProperty(ref _selectedGrazing, value);
         }
 
-        private LookupDTO? _selectedBodyWeight;
+        private BodyWeightEntity? _selectedBodyWeight;
 
-        public LookupDTO? SelectedBodyWeight
+        public BodyWeightEntity? SelectedBodyWeight
         {
             get => _selectedBodyWeight;
             set => SetProperty(ref _selectedBodyWeight, value);
@@ -182,9 +198,9 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _ADG, value);
         }
 
-        private LookupDTO? _selectedDietQualityEstimate;
+        private DietQualityEstimateEntity? _selectedDietQualityEstimate;
 
-        public LookupDTO? SelectedDietQualityEstimate
+        public DietQualityEstimateEntity? SelectedDietQualityEstimate
         {
             get => _selectedDietQualityEstimate;
             set => SetProperty(ref _selectedDietQualityEstimate, value);
@@ -196,6 +212,14 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             get => _isLast8WeeksOfGestation;
             set => SetProperty(ref _isLast8WeeksOfGestation, value);
+        }
+
+        private KidsLambsEntity? _selectedNumberOfSucklingKidsLambs;
+
+        public KidsLambsEntity? SelectedNumberOfSucklingKidsLambs
+        {
+            get => _selectedNumberOfSucklingKidsLambs;
+            set => SetProperty(ref _selectedNumberOfSucklingKidsLambs, value);
         }
 
         private decimal? _dailyMilkYieldValue;
@@ -285,12 +309,12 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _maxLimit, value);
         }
 
-        private LookupDTO? _selectedNumberOfSucklingKidsLambs;
+        private string? _calculationResultFeed;
 
-        public LookupDTO? SelectedNumberOfSucklingKidsLambs
+        public string? CalculationResultFeed
         {
-            get => _selectedNumberOfSucklingKidsLambs;
-            set => SetProperty(ref _selectedNumberOfSucklingKidsLambs, value);
+            get => _calculationResultFeed;
+            set => SetProperty(ref _calculationResultFeed, value);
         }
 
         private CalculationEntity? _calculation;
@@ -415,8 +439,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             var storedFeed = new StoredFeed
             {
-                FeedId = SelectedFeed.Id,
-                FeedName = SelectedFeed?.Name,
+                Feed = SelectedFeed,
                 DM = SelectedFeed?.DryMatterPercentage,
                 CPDM = SelectedFeed?.CPPercentage,
                 MEMJKGDM = SelectedFeed?.MEMJKg,
@@ -463,36 +486,51 @@ namespace FeedOptimizationApp.Modules.Calculations
             MaxLimit = null;
         }
 
-        // Method to get animal information inputs
         private CalculationEntity GetAnimalInformationInputs()
         {
             var animalInformation = new CalculationEntity
             {
                 Type = SelectedType?.Name,
-                GrazingId = SelectedGrazing.Id,
-                BodyWeightId = SelectedBodyWeight.Id,
+                GrazingId = SelectedGrazing?.Id ?? 0,
+                BodyWeightId = SelectedBodyWeight?.Id ?? 0,
                 ADG = ADG,
-                DietQualityEstimateId = SelectedDietQualityEstimate.Id,
+                DietQualityEstimateId = SelectedDietQualityEstimate?.Id ?? 0,
                 Gestation = IsLast8WeeksOfGestation,
                 MilkYield = DailyMilkYieldValue,
                 FatContent = FatContentValue,
-                KidsLambsId = SelectedNumberOfSucklingKidsLambs.Id,
-                SpeciesId = SelectedSpecies.Id
+                KidsLambsId = SelectedNumberOfSucklingKidsLambs?.Id ?? 0,
+                SpeciesId = SelectedSpecies?.Id ?? 0
             };
 
             return animalInformation;
         }
 
+        private void ValidateCalculation(CalculationEntity calculation)
+        {
+            var results = _validator.Validate(calculation);
+            ValidationErrors.Clear();
+
+            if (!results.IsValid)
+            {
+                foreach (var failure in results.Errors)
+                {
+                    ValidationErrors[failure.PropertyName] = failure.ErrorMessage;
+                }
+            }
+
+            OnPropertyChanged(nameof(ValidationErrors));
+        }
+
         // Method to get feed information inputs
         private List<CalculationHasFeedEntity> GetFeedInformationInputs()
         {
-            var feedInformationList = new List<CalculationHasFeedEntity>();
+            var calcFeedList = new List<CalculationHasFeedEntity>();
 
             foreach (var storedFeed in StoredFeeds)
             {
-                var feedInformation = new CalculationHasFeedEntity
+                var calcFeed = new CalculationHasFeedEntity
                 {
-                    FeedId = storedFeed.FeedId,
+                    Feed = storedFeed.Feed,
                     DM = storedFeed.DM ?? 0,
                     CPDM = storedFeed.CPDM ?? 0,
                     MEMJKGDM = storedFeed.MEMJKGDM ?? 0,
@@ -502,10 +540,10 @@ namespace FeedOptimizationApp.Modules.Calculations
                     MaxLimit = storedFeed.MaxLimit ?? 0
                 };
 
-                feedInformationList.Add(feedInformation);
+                calcFeedList.Add(calcFeed);
             }
 
-            return feedInformationList;
+            return calcFeedList;
         }
 
         public async Task<CalculationHasResultEntity> CalculateResult(CalculationEntity animalInformation, List<CalculationHasFeedEntity> feedInformation)
@@ -537,8 +575,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         // Class to represent a stored feed
         public class StoredFeed
         {
-            public int FeedId { get; set; }
-            public string FeedName { get; set; }
+            public FeedEntity Feed { get; set; }
             public decimal? DM { get; set; }
             public decimal? CPDM { get; set; }
             public decimal? MEMJKGDM { get; set; }

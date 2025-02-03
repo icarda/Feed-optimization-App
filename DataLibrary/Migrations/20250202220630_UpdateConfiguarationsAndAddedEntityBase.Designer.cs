@@ -3,6 +3,7 @@ using System;
 using DataLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250202220630_UpdateConfiguarationsAndAddedEntityBase")]
+    partial class UpdateConfiguarationsAndAddedEntityBase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -191,8 +194,7 @@ namespace DataLibrary.Migrations
 
             modelBuilder.Entity("DataLibrary.Models.CalculationHasFeedEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("FeedId")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("CPDM")
@@ -205,9 +207,6 @@ namespace DataLibrary.Migrations
                     b.Property<decimal>("DM")
                         .HasPrecision(18, 2)
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("FeedId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Intake")
                         .HasPrecision(18, 2)
@@ -229,13 +228,11 @@ namespace DataLibrary.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("FeedId");
 
                     b.HasIndex("CalculationHasResultEntityId");
 
                     b.HasIndex("FeedId");
-
-                    b.HasIndex("Id");
 
                     b.ToTable("CalculationHasFeeds", "dbo");
                 });

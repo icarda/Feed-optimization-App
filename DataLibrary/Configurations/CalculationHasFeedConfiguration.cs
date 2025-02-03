@@ -9,7 +9,7 @@ public class CalculationHasFeedConfiguration : IEntityTypeConfiguration<Calculat
     public void Configure(EntityTypeBuilder<CalculationHasFeedEntity> conf)
     {
         conf.ToTable("CalculationHasFeeds", "dbo");
-        conf.HasKey(c => c.FeedId);
+        conf.HasKey(c => c.Id);
         conf.Property(c => c.DM).IsRequired().HasPrecision(18, 2);
         conf.Property(c => c.CPDM).IsRequired().HasPrecision(18, 2);
         conf.Property(c => c.MEMJKGDM).IsRequired().HasPrecision(18, 2);
@@ -22,6 +22,6 @@ public class CalculationHasFeedConfiguration : IEntityTypeConfiguration<Calculat
             .WithMany()
             .HasForeignKey(c => c.FeedId);
 
-        conf.HasIndex(c => c.FeedId);
+        conf.HasIndex(c => c.Id);
     }
 }
