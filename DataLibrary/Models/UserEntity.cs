@@ -40,8 +40,6 @@ public class UserEntity : EntityBase
         DeviceType = deviceType;
     }
 
-    public int Id { get; set; } // Primary key
-
     public int CountryId { get; set; } // Reference to Ref_Country.Id
 
     public int LanguageId { get; set; } // Reference to Ref_Language.Id

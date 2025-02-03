@@ -197,10 +197,7 @@ public class CalculationService : ICalculationService
             var listOfCalculationHasFeedIds = new List<int>();
             foreach (var calcHasFeed in request.CalculationHasFeedList)
             {
-                var calculationHasFeed = await _context.CalculationHasFeeds.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == calcHasFeed.Id);
-                if (calculationHasFeed == null)
-                    throw new Exception("Calculation has feed does not exist.");
-                listOfCalculationHasFeedIds.Add(calculationHasFeed.Id);
+                listOfCalculationHasFeedIds.Add(calcHasFeed.Id);
             }
 
             var calculationHasResult = new CalculationHasResultEntity(

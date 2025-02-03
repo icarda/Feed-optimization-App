@@ -11,7 +11,5 @@ public class RefSpeciesEntity : EntityBase
         Name = name;
     }
 
-    public int Id { get; set; } // Primary key
-
     public string Name { get; set; } // NOT NULL
 }

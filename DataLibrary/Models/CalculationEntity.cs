@@ -40,8 +40,6 @@ public class CalculationEntity : EntityBase
         KidsLambsId = kidsLambsId;
     }
 
-    public int Id { get; set; }
-
     public int SpeciesId { get; set; } // Reference to Ref_Species.Id
 
     public string Name { get; set; } // NOT NULL

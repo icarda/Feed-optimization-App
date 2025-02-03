@@ -13,8 +13,6 @@ public class RefCountryEntity : EntityBase
         CurrencyValue = currencyValue;
     }
 
-    public int Id { get; set; } // Primary key
-
     public int CountryId { get; set; } // NOT NULL
 
     public string DateFormat { get; set; } // NOT NULL

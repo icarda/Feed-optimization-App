@@ -15,12 +15,9 @@ public class CalculationHasResultConfiguration : IEntityTypeConfiguration<Calcul
         conf.Property(c => c.PercentDryMatter).IsRequired().HasPrecision(18, 2);
         conf.Property(c => c.TotalRation).IsRequired().HasPrecision(18, 2);
 
-        conf.HasOne(c => c.Calculation)
+        conf.HasOne(c => c.CalculationHasFeed)
             .WithMany()
-            .HasForeignKey(c => c.CalculationId);
-
-        var calculationHasFeedList = conf.Metadata.FindNavigation(nameof(CalculationHasResultEntity.CalculationHasFeedList));
-        calculationHasFeedList.SetPropertyAccessMode(PropertyAccessMode.Field);
+            .HasForeignKey(c => c.CalculationHasFeedId);
 
         conf.HasIndex(c => c.Id);
     }

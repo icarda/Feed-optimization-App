@@ -34,8 +34,6 @@ public class FeedEntity : EntityBase
         LanguageId = languageId;
     }
 
-    public int Id { get; set; } // Primary key
-
     public string Name { get; set; } // NOT NULL
 
     public decimal DryMatterPercentage { get; set; } // NOT NULL

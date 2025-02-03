@@ -11,7 +11,5 @@ public class LabelEntity : EntityBase
         LabelKey = labelKey;
     }
 
-    public int Id { get; set; } // Primary key
-
     public string LabelKey { get; set; } // NOT NULL
 }
