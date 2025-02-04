@@ -9,7 +9,14 @@ public class CountryTranslationConfiguration : IEntityTypeConfiguration<CountryT
     public void Configure(EntityTypeBuilder<CountryTranslationEntity> conf)
     {
         conf.ToTable("CountryTranslations");
-        conf.HasKey(c => new { c.CountryId, c.LanguageCode });
+
+        // Define primary key
+        conf.HasKey(c => c.Id);
+
+        // Configure Id property to be auto-incremented
+        conf.Property(c => c.Id)
+            .ValueGeneratedOnAdd();
+
         conf.Property(c => c.LanguageCode).IsRequired();
         conf.Property(c => c.TranslatedDescription).IsRequired();
 
@@ -17,6 +24,6 @@ public class CountryTranslationConfiguration : IEntityTypeConfiguration<CountryT
             .WithMany()
             .HasForeignKey(c => c.CountryId);
 
-        conf.HasIndex(c => new { c.CountryId, c.LanguageCode });
+        conf.HasIndex(c => new { c.Id });
     }
 }

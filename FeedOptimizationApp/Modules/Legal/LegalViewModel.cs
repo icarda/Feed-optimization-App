@@ -59,6 +59,7 @@ public class LegalViewModel : BaseViewModel, INotifyPropertyChanged
                     DevicePlatform = DeviceInfo.Platform.ToString(),
                     DeviceIdiom = DeviceInfo.Idiom.ToString(),
                     DeviceType = DeviceInfo.DeviceType.ToString()
+
                     // Add other device details here
                 };
 

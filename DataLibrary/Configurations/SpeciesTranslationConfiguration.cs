@@ -9,7 +9,14 @@ public class SpeciesTranslationConfiguration : IEntityTypeConfiguration<SpeciesT
     public void Configure(EntityTypeBuilder<SpeciesTranslationEntity> conf)
     {
         conf.ToTable("SpeciesTranslations");
-        conf.HasKey(c => new { c.SpeciesId, c.LanguageCode });
+
+        // Define primary key
+        conf.HasKey(c => c.Id);
+
+        // Configure Id property to be auto-incremented
+        conf.Property(c => c.Id)
+            .ValueGeneratedOnAdd();
+
         conf.Property(c => c.Name).IsRequired();
         conf.Property(c => c.LanguageCode).IsRequired();
         conf.Property(c => c.TranslatedDescription).IsRequired();
@@ -18,6 +25,6 @@ public class SpeciesTranslationConfiguration : IEntityTypeConfiguration<SpeciesT
             .WithMany()
             .HasForeignKey(c => c.SpeciesId);
 
-        conf.HasIndex(c => new { c.SpeciesId, c.LanguageCode });
+        conf.HasIndex(c => new { c.Id });
     }
 }

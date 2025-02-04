@@ -547,6 +547,12 @@ namespace FeedOptimizationApp.Modules.Calculations
             var results = _validator.Validate(calculation);
             ValidationErrors.Clear();
 
+            // if IsNrSucklingsVisible is false the result for the kids/lams validation will be ignored
+            if (!IsNrSucklingsVisible)
+            {
+                results.Errors.RemoveAll(e => e.PropertyName == "KidsLambsId");
+            }
+
             if (!results.IsValid)
             {
                 foreach (var failure in results.Errors)

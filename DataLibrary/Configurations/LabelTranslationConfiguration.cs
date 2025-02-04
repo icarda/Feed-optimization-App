@@ -9,7 +9,15 @@ public class LabelTranslationConfiguration : IEntityTypeConfiguration<LabelTrans
     public void Configure(EntityTypeBuilder<LabelTranslationEntity> conf)
     {
         conf.ToTable("LabelTranslations");
-        conf.HasKey(c => c.TranslationId);
+
+        // Define primary key
+        conf.HasKey(c => c.Id);
+
+        // Configure Id property to be auto-incremented
+        conf.Property(c => c.Id)
+            .ValueGeneratedOnAdd();
+
+        conf.Property(c => c.TranslationId).IsRequired();
         conf.Property(c => c.LanguageCode).IsRequired();
         conf.Property(c => c.TranslatedText).IsRequired();
 
@@ -17,6 +25,6 @@ public class LabelTranslationConfiguration : IEntityTypeConfiguration<LabelTrans
             .WithMany()
             .HasForeignKey(c => c.LabelId);
 
-        conf.HasIndex(c => c.TranslationId);
+        conf.HasIndex(c => c.Id);
     }
 }

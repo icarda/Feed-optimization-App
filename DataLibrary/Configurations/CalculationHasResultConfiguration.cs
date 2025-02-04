@@ -9,7 +9,14 @@ public class CalculationHasResultConfiguration : IEntityTypeConfiguration<Calcul
     public void Configure(EntityTypeBuilder<CalculationHasResultEntity> conf)
     {
         conf.ToTable("CalculationHasResults", "dbo");
+
+        // Define primary key
         conf.HasKey(c => c.Id);
+
+        // Configure Id property to be auto-incremented
+        conf.Property(c => c.Id)
+            .ValueGeneratedOnAdd();
+
         conf.Property(c => c.GFresh).IsRequired().HasPrecision(18, 2);
         conf.Property(c => c.PercentFresh).IsRequired().HasPrecision(18, 2);
         conf.Property(c => c.PercentDryMatter).IsRequired().HasPrecision(18, 2);

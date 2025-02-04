@@ -9,7 +9,14 @@ public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
     public void Configure(EntityTypeBuilder<UserEntity> conf)
     {
         conf.ToTable("Users");
+
+        // Define primary key
         conf.HasKey(c => c.Id);
+
+        // Configure Id property to be auto-incremented
+        conf.Property(c => c.Id)
+            .ValueGeneratedOnAdd();
+
         conf.Property(c => c.CountryId).IsRequired();
         conf.Property(c => c.LanguageId).IsRequired();
         conf.Property(c => c.SpeciesId).IsRequired();

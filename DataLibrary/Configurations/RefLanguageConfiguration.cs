@@ -9,7 +9,14 @@ public class RefLanguageConfiguration : IEntityTypeConfiguration<RefLanguageEnti
     public void Configure(EntityTypeBuilder<RefLanguageEntity> conf)
     {
         conf.ToTable("RefLanguages");
+
+        // Define primary key
         conf.HasKey(c => c.Id);
+
+        // Configure Id property to be auto-incremented
+        conf.Property(c => c.Id)
+            .ValueGeneratedOnAdd();
+
         conf.Property(c => c.LanguageCode).IsRequired();
         conf.Property(c => c.Name).IsRequired();
 

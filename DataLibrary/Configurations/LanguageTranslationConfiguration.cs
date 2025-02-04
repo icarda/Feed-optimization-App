@@ -10,8 +10,12 @@ namespace DataLibrary.Models.Configurations
             // Table name
             builder.ToTable("LanguageTranslations");
 
-            // Primary key
-            builder.HasKey(e => e.LanguageId);
+            // Define primary key
+            builder.HasKey(c => c.Id);
+
+            // Configure Id property to be auto-incremented
+            builder.Property(c => c.Id)
+                .ValueGeneratedOnAdd();
 
             // Properties
             builder.Property(e => e.LanguageId)
@@ -30,6 +34,8 @@ namespace DataLibrary.Models.Configurations
                 .WithMany()
                 .HasForeignKey(e => e.LanguageId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(e => e.Id);
         }
     }
 }

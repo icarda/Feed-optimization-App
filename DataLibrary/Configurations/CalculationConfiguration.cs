@@ -14,6 +14,10 @@ public class CalculationConfiguration : IEntityTypeConfiguration<CalculationEnti
         // Define primary key
         conf.HasKey(c => c.Id);
 
+        // Configure Id property to be auto-incremented
+        conf.Property(c => c.Id)
+            .ValueGeneratedOnAdd();
+
         // Define properties
         conf.Property(c => c.Name).IsRequired();
         conf.Property(c => c.Description);

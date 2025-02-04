@@ -386,7 +386,7 @@
                    VerticalOptions="Start" />
 
                     <!-- Table -->
-                    <CollectionView>
+                    <CollectionView ItemsSource="{Binding CalculationHasResults}">
                         <CollectionView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -411,16 +411,16 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Label
-                                        Text="{Binding CalculationHasResultFeed}"
+                                        Text="{Binding CalculationHasFeedId}"
                                         Grid.Column="0" />
                                     <Label
-                                        Text="{Binding CalculationHasResult.GFresh}"
+                                        Text="{Binding GFresh}"
                                         Grid.Column="1" />
                                     <Label
-                                        Text="{Binding CalculationHasResult.PercentFresh}"
+                                        Text="{Binding PercentFresh}"
                                         Grid.Column="2" />
                                     <Label
-                                        Text="{Binding CalculationHasResult.PercentDryMatter}"
+                                        Text="{Binding PercentDryMatter}"
                                         Grid.Column="3" />
                                 </Grid>
                             </DataTemplate>

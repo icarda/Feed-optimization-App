@@ -9,7 +9,10 @@ public class FeedConfiguration : IEntityTypeConfiguration<FeedEntity>
     public void Configure(EntityTypeBuilder<FeedEntity> conf)
     {
         conf.ToTable("Feeds", "dbo");
+
+        // Define primary key
         conf.HasKey(c => c.Id);
+
         conf.Property(c => c.Name).IsRequired();
         conf.Property(c => c.DryMatterPercentage).IsRequired().HasPrecision(18, 2);
         conf.Property(c => c.MEMcalKg).IsRequired().HasPrecision(18, 2);
