@@ -40,7 +40,7 @@ public class CalculationService : ICalculationService
     {
         try
         {
-            var existingCalculation = await _context.Calculations.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Name.ToLower() == request.Name.ToLower());
+            var existingCalculation = await _context.Calculations.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.Id);
             if (existingCalculation != null)
                 throw new Exception("Calculation already exists. Please edit existing entry.");
             var calculation = new CalculationEntity(
@@ -71,7 +71,7 @@ public class CalculationService : ICalculationService
     {
         try
         {
-            var calculation = await _context.Calculations.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Name.ToLower() == request.Name.ToLower());
+            var calculation = await _context.Calculations.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.Id);
             if (calculation == null)
                 throw new Exception("Calculation does not exist.");
             calculation.Set(
@@ -125,6 +125,7 @@ public class CalculationService : ICalculationService
                 throw new Exception("Calculation has feed already exists. Please edit existing entry.");
             var calculationHasFeed = new CalculationHasFeedEntity(
                 request.FeedId,
+                request.CalculationId,
                 request.DM,
                 request.CPDM,
                 request.MEMJKGDM,
@@ -152,6 +153,7 @@ public class CalculationService : ICalculationService
                 throw new Exception("Calculation has feed does not exist.");
             calculationHasFeed.Set(
                 request.FeedId,
+                request.CalculationId,
                 request.DM,
                 request.CPDM,
                 request.MEMJKGDM,
@@ -192,17 +194,12 @@ public class CalculationService : ICalculationService
     {
         try
         {
-            var calculationId = request.Calculation.Id;
-
-            var listOfCalculationHasFeedIds = new List<int>();
-            foreach (var calcHasFeed in request.CalculationHasFeedList)
-            {
-                listOfCalculationHasFeedIds.Add(calcHasFeed.Id);
-            }
+            var existingCalculationHasResult = await _context.CalculationHasResults.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.Id);
+            if (existingCalculationHasResult != null)
+                throw new Exception("Calculation has result already exists. Please edit existing entry.");
 
             var calculationHasResult = new CalculationHasResultEntity(
-                calculationId,
-                listOfCalculationHasFeedIds,
+                request.CalculationHasFeedId,
                 request.GFresh,
                 request.PercentFresh,
                 request.PercentDryMatter,
@@ -227,8 +224,7 @@ public class CalculationService : ICalculationService
             if (calculationHasResult == null)
                 throw new Exception("Calculation has result does not exist.");
             calculationHasResult.Set(
-                request.CalculationId,
-                request.CalculationHasFeedIds,
+                request.CalculationHasFeedId,
                 request.GFresh,
                 request.PercentFresh,
                 request.PercentDryMatter,

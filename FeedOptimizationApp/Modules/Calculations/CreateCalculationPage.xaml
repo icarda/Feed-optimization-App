@@ -430,7 +430,7 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="The cost of the ration is " />
-                                <Span Text="{Binding CalculationHasResult.TotalRation}" />
+                                <Span Text="{Binding TotalRation}" />
                                 <Span Text=" br" />
                             </FormattedString>
                         </Label.FormattedText>

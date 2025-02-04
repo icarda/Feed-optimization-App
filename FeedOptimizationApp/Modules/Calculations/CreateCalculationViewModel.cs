@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using FeedOptimizationApp.Shared.Wrapper;
+using System.Threading.Tasks;
 
 namespace FeedOptimizationApp.Modules.Calculations
 {
@@ -48,7 +49,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             {
                 LoadFeedsCommand.Execute(null);
 
-                Calculation = GetAnimalInformationInputs();
+                CalculationId = GetAnimalInformationInputs();
                 ValidateCalculation(Calculation);
 
                 if (ValidationErrors.Count == 0)
@@ -72,8 +73,8 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                 // Perform calculation
                 //Calculation = GetAnimalInformationInputs();
-                CalculationHasFeeds = GetFeedInformationInputs();
-                await DoCalculationAsync(Calculation, CalculationHasFeeds);
+                CalculationHasFeedIds = GetFeedInformationInputs();
+                await DoCalculationAsync((int)CalculationId, CalculationHasFeedIds);
             });
 
             // Initialize properties
@@ -312,12 +313,28 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _maxLimit, value);
         }
 
+        private decimal? _totalRation;
+
+        public decimal? TotalRation
+        {
+            get => _totalRation;
+            set => SetProperty(ref _totalRation, value);
+        }
+
         private string? _calculationResultFeed;
 
         public string? CalculationResultFeed
         {
             get => _calculationResultFeed;
             set => SetProperty(ref _calculationResultFeed, value);
+        }
+
+        private int? _calculationId;
+
+        public int? CalculationId
+        {
+            get => _calculationId;
+            set => SetProperty(ref _calculationId, value);
         }
 
         private CalculationEntity? _calculation;
@@ -328,6 +345,14 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _calculation, value);
         }
 
+        private List<int>? _calculationHasFeedIds;
+
+        public List<int>? CalculationHasFeedIds
+        {
+            get => _calculationHasFeedIds;
+            set => SetProperty(ref _calculationHasFeedIds, value);
+        }
+
         private List<CalculationHasFeedEntity>? _calculationHasFeeds;
 
         public List<CalculationHasFeedEntity>? CalculationHasFeeds
@@ -336,12 +361,20 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _calculationHasFeeds, value);
         }
 
-        private CalculationHasResultEntity? _calculationHasResult;
+        private List<int>? _calculationHasResultIds;
 
-        public CalculationHasResultEntity? CalculationHasResult
+        public List<int>? CalculationHasResultIds
         {
-            get => _calculationHasResult;
-            set => SetProperty(ref _calculationHasResult, value);
+            get => _calculationHasResultIds;
+            set => SetProperty(ref _calculationHasResultIds, value);
+        }
+
+        private List<CalculationHasResultEntity>? _calculationHasResults;
+
+        public List<CalculationHasResultEntity>? CalculationHasResults
+        {
+            get => _calculationHasResults;
+            set => SetProperty(ref _calculationHasResults, value);
         }
 
         // Collections to hold options and feeds
@@ -374,12 +407,6 @@ namespace FeedOptimizationApp.Modules.Calculations
             {
                 Console.WriteLine(ex.Message);
             }
-        }
-
-        // Method to perform calculation asynchronously
-        private async Task DoCalculationAsync(CalculationEntity animalInformation, List<CalculationHasFeedEntity> feedInformation)
-        {
-            CalculationHasResult = await CalculateResult(animalInformation, feedInformation);
         }
 
         // Method to load animal information asynchronously
@@ -443,6 +470,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             var storedFeed = new StoredFeed
             {
                 Feed = SelectedFeed,
+                CalculationId = CalculationId,
                 DM = SelectedFeed?.DryMatterPercentage,
                 CPDM = SelectedFeed?.CPPercentage,
                 MEMJKGDM = SelectedFeed?.MEMJKg,
@@ -455,19 +483,13 @@ namespace FeedOptimizationApp.Modules.Calculations
             StoredFeeds.Insert(0, storedFeed); // Add new feed to the top of the list
             ClearAddedFeedForm(); // Clear form for next entry
             AddFeedBoxText = "Add additional feed";
-            IsAddFeedExpanded = false;
+            //IsAddFeedExpanded = false;
 
             if (StoredFeeds.Count >= 3)
             {
                 IsResultsButtonVisible = true;
+                IsAddFeedExpanded = false;
             }
-        }
-
-        // Method to save feed to database
-        private async void OnSaveResults()
-        {
-            // add to database
-            await _baseService.CalculationService.SaveCalculationHasResultAsync(CalculationHasResult!);
         }
 
         // Method to clear the added feed form
@@ -496,11 +518,11 @@ namespace FeedOptimizationApp.Modules.Calculations
             MaxLimit = null;
         }
 
-        private CalculationEntity GetAnimalInformationInputs()
+        private int GetAnimalInformationInputs()
         {
             var animalInformation = new CalculationEntity
             {
-                Type = SelectedType?.Name,
+                Type = SelectedType?.Name!,
                 GrazingId = SelectedGrazing?.Id ?? 0,
                 BodyWeightId = SelectedBodyWeight?.Id ?? 0,
                 ADG = ADG,
@@ -509,10 +531,15 @@ namespace FeedOptimizationApp.Modules.Calculations
                 MilkYield = DailyMilkYieldValue,
                 FatContent = FatContentValue,
                 KidsLambsId = SelectedNumberOfSucklingKidsLambs?.Id ?? 0,
-                SpeciesId = SelectedSpecies?.Id ?? 0
+                SpeciesId = SelectedSpecies?.Id ?? 0,
+                Name = "To be changed",
+                Description = "To be changed",
             };
 
-            return animalInformation;
+            Calculation = animalInformation;
+
+            var result = _baseService.CalculationService.SaveCalculationAsync(animalInformation).Result.Data;
+            return result;
         }
 
         private void ValidateCalculation(CalculationEntity calculation)
@@ -532,15 +559,18 @@ namespace FeedOptimizationApp.Modules.Calculations
         }
 
         // Method to get feed information inputs
-        private List<CalculationHasFeedEntity> GetFeedInformationInputs()
+        private List<int> GetFeedInformationInputs()
         {
+            int calcHasFeedId;
+            var calcHasFeedIds = new List<int>();
             var calcFeedList = new List<CalculationHasFeedEntity>();
 
             foreach (var storedFeed in StoredFeeds)
             {
                 var calcFeed = new CalculationHasFeedEntity
                 {
-                    Feed = storedFeed.Feed,
+                    FeedId = storedFeed.Feed!.Id,
+                    CalculationId = (int)CalculationId!,
                     DM = storedFeed.DM ?? 0,
                     CPDM = storedFeed.CPDM ?? 0,
                     MEMJKGDM = storedFeed.MEMJKGDM ?? 0,
@@ -551,42 +581,90 @@ namespace FeedOptimizationApp.Modules.Calculations
                 };
 
                 calcFeedList.Add(calcFeed);
-            }
 
-            return calcFeedList;
+                calcHasFeedId = _baseService.CalculationService.SaveCalculationHasFeedAsync(calcFeed).Result.Data;
+                if (calcHasFeedId != 0)
+                    calcHasFeedIds.Add(calcHasFeedId);
+            }
+            CalculationHasFeeds = calcFeedList;
+
+            return calcHasFeedIds;
         }
 
-        public async Task<CalculationHasResultEntity> CalculateResult(CalculationEntity animalInformation, List<CalculationHasFeedEntity> feedInformation)
+        // Method to perform calculation asynchronously
+        private async Task DoCalculationAsync(int calculationId, List<int> calculationHasFeedIds)
         {
-            decimal _totalcost = 0;
-            // Calculate the result
-            foreach (var feed in feedInformation)
-            {
-                var dmig = feed.Intake * feed.DM / 100;
-                var cpig = dmig * feed.CPDM / 100;
-                var meimjday = dmig * feed.MEMJKGDM / 1000;
-                var cost = feed.Intake * feed.Price / 1000;
+            CalculateResult(calculationId, calculationHasFeedIds);
+        }
 
-                _totalcost += cost;
+        public async void CalculateResult(int calculationId, List<int> calculationHasFeedIds)
+        {
+            try
+            {
+                decimal totalCost = 0;
+                var calcFeedInformation = new List<CalculationHasFeedEntity>();
+                foreach (var calcFeedId in calculationHasFeedIds)
+                {
+                    var feed = await _baseService.CalculationService.GetCalculationHasFeedById(calcFeedId);
+                    calcFeedInformation.Add(feed.Data);
+                }
+                var calcHasResultList = new List<CalculationHasResultEntity>();
+                // Calculate the result
+                foreach (var info in calcFeedInformation)
+                {
+                    var dmig = info.Intake * info.DM / 100;
+                    var cpig = dmig * info.CPDM / 100;
+                    var meimjday = dmig * info.MEMJKGDM / 1000;
+                    var cost = info.Intake * info.Price / 1000;
+
+                    totalCost += cost;
+                    //TotalRation += cost;
+
+                    var calcHasResult = new CalculationHasResultEntity
+                    {
+                        CalculationHasFeedId = info.Id,
+                        GFresh = 50,
+                        PercentFresh = 50,
+                        PercentDryMatter = 50,
+                        TotalRation = cost
+                    };
+
+                    calcHasResultList.Add(calcHasResult);
+                }
+                TotalRation = totalCost;
+                CalculationHasResults = calcHasResultList;
             }
-
-            var result = new CalculationHasResultEntity
+            catch (Exception ex)
             {
-                Calculation = animalInformation,
-                CalculationHasFeedList = feedInformation,
-                GFresh = 50,
-                PercentFresh = 50,
-                PercentDryMatter = 50,
-                TotalRation = _totalcost
-            };
+                Console.WriteLine(ex.Message);
+            }
+        }
 
-            return result;
+        // Method to save feed to database
+        private async void OnSaveResults()
+        {
+            try
+            {
+                var calcHasResultIds = new List<int>();
+                // add to database
+                foreach (var calcHasResult in CalculationHasResults)
+                {
+                    var calcHasResultId = await _baseService.CalculationService.SaveCalculationHasResultAsync(calcHasResult);
+                    calcHasResultIds.Add(calcHasResultId.Data);
+                }
+                CalculationHasResultIds = calcHasResultIds;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         // Class to represent a stored feed
         public class StoredFeed
         {
-            public FeedEntity Feed { get; set; }
+            public FeedEntity? Feed { get; set; }
+            public int? CalculationId { get; set; }
             public decimal? DM { get; set; }
             public decimal? CPDM { get; set; }
             public decimal? MEMJKGDM { get; set; }
