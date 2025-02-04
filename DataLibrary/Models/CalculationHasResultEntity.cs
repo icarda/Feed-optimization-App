@@ -6,25 +6,25 @@ public class CalculationHasResultEntity : EntityBase
     {
     }
 
-    public CalculationHasResultEntity(int calculationHasFeedId, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
+    public CalculationHasResultEntity(int calculationId, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
     {
-        CalculationHasFeedId = calculationHasFeedId;
+        CalculationId = calculationId;
         GFresh = gFresh;
         PercentFresh = percentFresh;
         PercentDryMatter = percentDryMatter;
         TotalRation = totalRation;
     }
 
-    public void Set(int calculationHasFeedId, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
+    public void Set(int calculationId, decimal gFresh, decimal percentFresh, decimal percentDryMatter, decimal totalRation)
     {
-        CalculationHasFeedId = calculationHasFeedId;
+        CalculationId = calculationId;
         GFresh = gFresh;
         PercentFresh = percentFresh;
         PercentDryMatter = percentDryMatter;
         TotalRation = totalRation;
     }
 
-    public int CalculationHasFeedId { get; set; } // List of references to CalculationHasFeedEntity.Id
+    public int CalculationId { get; set; } // List of references to CalculationEntity.Id
 
     public decimal GFresh { get; set; } // NOT NULL
 
@@ -34,5 +34,5 @@ public class CalculationHasResultEntity : EntityBase
 
     public decimal TotalRation { get; set; } // NOT NULL
 
-    public CalculationHasFeedEntity CalculationHasFeed { get; set; }
+    public CalculationEntity Calculation { get; set; }
 }

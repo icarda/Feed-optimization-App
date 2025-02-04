@@ -611,8 +611,8 @@ namespace FeedOptimizationApp.Modules.Calculations
                 var calcFeedInformation = new List<CalculationHasFeedEntity>();
                 foreach (var calcFeedId in calculationHasFeedIds)
                 {
-                    var feed = await _baseService.CalculationService.GetCalculationHasFeedById(calcFeedId);
-                    calcFeedInformation.Add(feed.Data);
+                    var calcFeed = await _baseService.CalculationService.GetCalculationHasFeedById(calcFeedId);
+                    calcFeedInformation.Add(calcFeed.Data);
                 }
                 var calcHasResultList = new List<CalculationHasResultEntity>();
                 // Calculate the result
@@ -628,7 +628,7 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                     var calcHasResult = new CalculationHasResultEntity
                     {
-                        CalculationHasFeedId = info.Id,
+                        CalculationId = calculationId,
                         GFresh = 50,
                         PercentFresh = 50,
                         PercentDryMatter = 50,
@@ -651,6 +651,8 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             try
             {
+                // show popup to add a name and description to the calculation
+
                 var calcHasResultIds = new List<int>();
                 // add to database
                 foreach (var calcHasResult in CalculationHasResults)
@@ -659,6 +661,11 @@ namespace FeedOptimizationApp.Modules.Calculations
                     calcHasResultIds.Add(calcHasResultId.Data);
                 }
                 CalculationHasResultIds = calcHasResultIds;
+
+                // Optionally, display a message to the user
+                Toast.Make("Results saved successfully.").Show();
+
+                // Navigate to appshell page
             }
             catch (Exception ex)
             {

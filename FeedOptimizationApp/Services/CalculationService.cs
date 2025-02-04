@@ -199,7 +199,7 @@ public class CalculationService : ICalculationService
                 throw new Exception("Calculation has result already exists. Please edit existing entry.");
 
             var calculationHasResult = new CalculationHasResultEntity(
-                request.CalculationHasFeedId,
+                request.CalculationId,
                 request.GFresh,
                 request.PercentFresh,
                 request.PercentDryMatter,
@@ -224,7 +224,7 @@ public class CalculationService : ICalculationService
             if (calculationHasResult == null)
                 throw new Exception("Calculation has result does not exist.");
             calculationHasResult.Set(
-                request.CalculationHasFeedId,
+                request.CalculationId,
                 request.GFresh,
                 request.PercentFresh,
                 request.PercentDryMatter,

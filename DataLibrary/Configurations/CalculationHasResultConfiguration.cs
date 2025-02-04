@@ -22,9 +22,9 @@ public class CalculationHasResultConfiguration : IEntityTypeConfiguration<Calcul
         conf.Property(c => c.PercentDryMatter).IsRequired().HasPrecision(18, 2);
         conf.Property(c => c.TotalRation).IsRequired().HasPrecision(18, 2);
 
-        conf.HasOne(c => c.CalculationHasFeed)
+        conf.HasOne(c => c.Calculation)
             .WithMany()
-            .HasForeignKey(c => c.CalculationHasFeedId);
+            .HasForeignKey(c => c.CalculationId);
 
         conf.HasIndex(c => c.Id);
     }
