@@ -40,6 +40,12 @@ public class CalculationEntity : EntityBase
         KidsLambsId = kidsLambsId;
     }
 
+    public void UpdateNameAndDescription(string name, string description)
+    {
+        Name = name;
+        Description = description;
+    }
+
     public int SpeciesId { get; set; } // Reference to Ref_Species.Id
 
     public string Name { get; set; } // NOT NULL

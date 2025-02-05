@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FeedOptimizationApp.Modules.Calculations.SaveCalculationPrompt"
+             Title="Save Calculation"
+             BackgroundColor="{StaticResource Primary}">
+    <StackLayout Padding="20" Spacing="15">
+        <Label Text="Save Calculation"
+               FontSize="Medium"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               TextColor="{StaticResource White}" />
+        <Entry x:Name="NameEntry" Placeholder="Name" TextColor="{StaticResource Black}" BackgroundColor="{StaticResource White}" />
+        <Entry x:Name="DescriptionEntry" Placeholder="Description" TextColor="{StaticResource Black}" BackgroundColor="{StaticResource White}" />
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+            <Button Text="Save" Command="{Binding SaveCommand}" BackgroundColor="{StaticResource Tertiary}" TextColor="{StaticResource White}" />
+            <Button Text="Cancel" Command="{Binding CancelCommand}" BackgroundColor="{StaticResource Secondary}" TextColor="{StaticResource White}" />
+        </HorizontalStackLayout>
+    </StackLayout>
+</ContentPage>

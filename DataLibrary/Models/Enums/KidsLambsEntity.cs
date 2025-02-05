@@ -5,6 +5,7 @@ namespace DataLibrary.Models
 {
     public class KidsLambsEntity : Enumeration
     {
+        public static KidsLambsEntity NA = new KidsLambsEntity(0, "N/A");
         public static KidsLambsEntity ZERO = new KidsLambsEntity(1, "0");
         public static KidsLambsEntity ONE = new KidsLambsEntity(2, "1");
         public static KidsLambsEntity TWO = new KidsLambsEntity(3, "2");
@@ -21,7 +22,7 @@ namespace DataLibrary.Models
 
         public static IEnumerable<KidsLambsEntity> List()
         {
-            return new[] { ZERO, ONE, TWO, THREE, FOUR };
+            return new[] { NA, ZERO, ONE, TWO, THREE, FOUR };
         }
 
         public static KidsLambsEntity FromName(string name)

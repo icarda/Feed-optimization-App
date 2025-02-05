@@ -73,7 +73,7 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                 // Perform calculation
                 //Calculation = GetAnimalInformationInputs();
-                CalculationHasFeedIds = GetFeedInformationInputs();
+                CalculationHasFeedIds = GetFeedInformationInputs((int)CalculationId);
                 await DoCalculationAsync((int)CalculationId, CalculationHasFeedIds);
             });
 
@@ -83,7 +83,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             SelectedBodyWeight = null;
             SelectedDietQualityEstimate = null;
             SelectedNumberOfSucklingKidsLambs = null;
-            SelectedFeed = null; // Initialize SelectedFeed
+            SelectedFeed = null;
             AnimalInfoTabIsActive = true;
         }
 
@@ -313,7 +313,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _maxLimit, value);
         }
 
-        private decimal? _totalRation;
+        private decimal? _totalRation = 0;
 
         public decimal? TotalRation
         {
@@ -523,23 +523,23 @@ namespace FeedOptimizationApp.Modules.Calculations
             var animalInformation = new CalculationEntity
             {
                 Type = SelectedType?.Name!,
-                GrazingId = SelectedGrazing?.Id ?? 0,
-                BodyWeightId = SelectedBodyWeight?.Id ?? 0,
+                GrazingId = (int)(SelectedGrazing?.Id),
+                BodyWeightId = (int)(SelectedBodyWeight?.Id),
                 ADG = ADG,
-                DietQualityEstimateId = SelectedDietQualityEstimate?.Id ?? 0,
+                DietQualityEstimateId = (int)(SelectedDietQualityEstimate?.Id),
                 Gestation = IsLast8WeeksOfGestation,
                 MilkYield = DailyMilkYieldValue,
                 FatContent = FatContentValue,
                 KidsLambsId = SelectedNumberOfSucklingKidsLambs?.Id ?? 0,
-                SpeciesId = SelectedSpecies?.Id ?? 0,
+                SpeciesId = (int)(SelectedSpecies?.Id),
                 Name = "To be changed",
                 Description = "To be changed",
             };
 
             Calculation = animalInformation;
 
-            var result = _baseService.CalculationService.SaveCalculationAsync(animalInformation).Result.Data;
-            return result;
+            var calculationId = _baseService.CalculationService.SaveCalculationAsync(animalInformation).Result.Data;
+            return calculationId;
         }
 
         private void ValidateCalculation(CalculationEntity calculation)
@@ -565,7 +565,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         }
 
         // Method to get feed information inputs
-        private List<int> GetFeedInformationInputs()
+        private List<int> GetFeedInformationInputs(int calculationId)
         {
             int calcHasFeedId;
             var calcHasFeedIds = new List<int>();
@@ -576,7 +576,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 var calcFeed = new CalculationHasFeedEntity
                 {
                     FeedId = storedFeed.Feed!.Id,
-                    CalculationId = (int)CalculationId!,
+                    CalculationId = calculationId,
                     DM = storedFeed.DM ?? 0,
                     CPDM = storedFeed.CPDM ?? 0,
                     MEMJKGDM = storedFeed.MEMJKGDM ?? 0,
@@ -651,21 +651,41 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             try
             {
-                // show popup to add a name and description to the calculation
+                // Show custom prompt page
+                var promptPage = new SaveCalculationPrompt();
+                await Application.Current.MainPage.Navigation.PushModalAsync(promptPage);
 
-                var calcHasResultIds = new List<int>();
-                // add to database
-                foreach (var calcHasResult in CalculationHasResults)
+                // Subscribe to the message from the prompt page
+                MessagingCenter.Subscribe<SaveCalculationPrompt, Tuple<string, string>>(this, "SaveCalculation", async (sender, result) =>
                 {
-                    var calcHasResultId = await _baseService.CalculationService.SaveCalculationHasResultAsync(calcHasResult);
-                    calcHasResultIds.Add(calcHasResultId.Data);
-                }
-                CalculationHasResultIds = calcHasResultIds;
+                    var name = result.Item1;
+                    var description = result.Item2;
 
-                // Optionally, display a message to the user
-                Toast.Make("Results saved successfully.").Show();
+                    /*Calculation.Name = name;
+                    Calculation.Description = description;*/
 
-                // Navigate to appshell page
+                    // Save the calculation
+                    var calcHasResultIds = new List<int>();
+                    foreach (var calcHasResult in CalculationHasResults)
+                    {
+                        var calculation = await _baseService.CalculationService.GetCalculationById(calcHasResult.CalculationId);
+                        calculation.Data.UpdateNameAndDescription(name, description);
+                        // save the updated calculation
+                        await _baseService.CalculationService.UpdateCalculationAsync(calculation.Data);
+
+                        var calcHasResultId = await _baseService.CalculationService.SaveCalculationHasResultAsync(calcHasResult);
+                        calcHasResultIds.Add(calcHasResultId.Data);
+                    }
+                    CalculationHasResultIds = calcHasResultIds;
+
+                    // Optionally, display a message to the user
+                    await Toast.Make("Results saved successfully.").Show();
+
+                    // Unsubscribe from the message
+                    MessagingCenter.Unsubscribe<SaveCalculationPrompt, Tuple<string, string>>(this, "SaveCalculation");
+
+                    // Navigate to another page if needed
+                });
             }
             catch (Exception ex)
             {

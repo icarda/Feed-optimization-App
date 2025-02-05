@@ -40,9 +40,22 @@ public class CalculationService : ICalculationService
     {
         try
         {
+            // Validate foreign key references
+            if (!await _context.SpeciesList.AnyAsync(s => s.Id == request.SpeciesId))
+                throw new Exception("Invalid SpeciesId.");
+            if (!await _context.Grazings.AnyAsync(g => g.Id == request.GrazingId))
+                throw new Exception("Invalid GrazingId.");
+            if (!await _context.BodyWeights.AnyAsync(b => b.Id == request.BodyWeightId))
+                throw new Exception("Invalid BodyWeightId.");
+            if (!await _context.DietQualityEstimates.AnyAsync(d => d.Id == request.DietQualityEstimateId))
+                throw new Exception("Invalid DietQualityEstimateId.");
+            if (!await _context.KidsLambs.AnyAsync(k => k.Id == request.KidsLambsId))
+                throw new Exception("Invalid KidsLambsId.");
+
             var existingCalculation = await _context.Calculations.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.Id);
             if (existingCalculation != null)
                 throw new Exception("Calculation already exists. Please edit existing entry.");
+
             var calculation = new CalculationEntity(
                 request.SpeciesId,
                 request.Name,
@@ -57,6 +70,7 @@ public class CalculationService : ICalculationService
                 request.DietQualityEstimateId,
                 request.KidsLambsId
             );
+
             await _context.Calculations.AddAsync(calculation);
             await _context.SaveChangesAsync();
             return await Result<int>.SuccessAsync(calculation.Id);
