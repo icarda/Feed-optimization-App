@@ -130,6 +130,26 @@ public class CalculationService : ICalculationService
         }
     }
 
+    public async Task<Result<int>> GetNumberOfFeedsInCalculationHasFeedByCalculationId(int calculationId)
+    {
+        try
+        {
+            var numberOfFeeds = await _context.CalculationHasFeeds
+                .IgnoreQueryFilters()
+                .AsNoTracking()
+                .Where(s => s.CalculationId == calculationId)
+                .Select(s => s.FeedId)
+                .Distinct()
+                .CountAsync();
+
+            return await Result<int>.SuccessAsync(numberOfFeeds);
+        }
+        catch (Exception ex)
+        {
+            return await Result<int>.FailAsync(ex.Message);
+        }
+    }
+
     public async Task<Result<int>> SaveCalculationHasFeedAsync(CalculationHasFeedEntity request)
     {
         try
@@ -183,6 +203,24 @@ public class CalculationService : ICalculationService
         catch (Exception ex)
         {
             return await Result<int>.FailAsync(ex.Message);
+        }
+    }
+
+    public async Task<Result<List<CalculationHasResultEntity>>> GetAllCalculationHasResults()
+    {
+        try
+        {
+            var calculationHasResults = await _context.CalculationHasResults
+                .IgnoreQueryFilters()
+                .AsNoTracking()
+                .ToListAsync();
+            if (calculationHasResults == null)
+                throw new Exception("No calculation has results found.");
+            return await Result<List<CalculationHasResultEntity>>.SuccessAsync(calculationHasResults);
+        }
+        catch (Exception ex)
+        {
+            return await Result<List<CalculationHasResultEntity>>.FailAsync(ex.Message);
         }
     }
 

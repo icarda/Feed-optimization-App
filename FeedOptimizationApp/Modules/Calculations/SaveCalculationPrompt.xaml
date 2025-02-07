@@ -13,8 +13,8 @@
         <Entry x:Name="NameEntry" Placeholder="Name" TextColor="{StaticResource Black}" BackgroundColor="{StaticResource White}" />
         <Entry x:Name="DescriptionEntry" Placeholder="Description" TextColor="{StaticResource Black}" BackgroundColor="{StaticResource White}" />
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-            <Button Text="Save" Command="{Binding SaveCommand}" BackgroundColor="{StaticResource Tertiary}" TextColor="{StaticResource White}" />
             <Button Text="Cancel" Command="{Binding CancelCommand}" BackgroundColor="{StaticResource Secondary}" TextColor="{StaticResource White}" />
+            <Button Text="Save" Command="{Binding SaveCommand}" BackgroundColor="{StaticResource Tertiary}" TextColor="{StaticResource White}" />
         </HorizontalStackLayout>
     </StackLayout>
 </ContentPage>

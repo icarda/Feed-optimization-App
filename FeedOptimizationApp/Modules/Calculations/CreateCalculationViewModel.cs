@@ -98,6 +98,8 @@ namespace FeedOptimizationApp.Modules.Calculations
         public ICommand AddFeedCommand { get; }
         public ICommand SaveResultsCommand { get; }
 
+        #region Properties
+
         // Properties for controlling UI elements
         private bool _isResultsButtonVisible = false;
 
@@ -377,6 +379,8 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _calculationHasResults, value);
         }
 
+        #endregion Properties
+
         // Collections to hold options and feeds
         public ObservableCollection<FeedEntity> Feeds { get; set; } = new ObservableCollection<FeedEntity>();
 
@@ -412,52 +416,64 @@ namespace FeedOptimizationApp.Modules.Calculations
         // Method to load animal information asynchronously
         private async Task LoadAnimalInformationAsync()
         {
-            Types.Clear();
-            Grazings.Clear();
-            BodyWeights.Clear();
-            DietQualityEstimates.Clear();
-            NrSucklingKidsLambs.Clear();
+            try
+            {
+                Types.Clear();
+                Grazings.Clear();
+                BodyWeights.Clear();
+                DietQualityEstimates.Clear();
+                NrSucklingKidsLambs.Clear();
 
-            // Load types
-            if (SelectedSpecies?.Name.ToLower() == "sheep")
-            {
-                var types = await _baseService.EnumEntitiesService.GetSheepTypesAsync();
-                foreach (var type in types.Data)
+                // Load types
+                if (SelectedSpecies?.Name.ToLower() == "sheep")
                 {
-                    Types.Add(ConversionHelpers.ConvertToLookupDTO(type));
+                    var types = await _baseService.EnumEntitiesService.GetSheepTypesAsync();
+                    foreach (var type in types.Data)
+                    {
+                        Types.Add(ConversionHelpers.ConvertToLookupDTO(type));
+                    }
+                }
+                else if (SelectedSpecies?.Name.ToLower() == "goat")
+                {
+                    var types = await _baseService.EnumEntitiesService.GetGoatTypesAsync();
+                    foreach (var type in types.Data)
+                    {
+                        Types.Add(ConversionHelpers.ConvertToLookupDTO(type));
+                    }
+                }
+
+                // Load Grazings
+                var grazings = await _baseService.EnumEntitiesService.GetGrazingsAsync();
+                foreach (var grazing in grazings.Data)
+                {
+                    Grazings.Add(grazing);
+                }
+
+                // Load BodyWeights
+                var bodyWeights = await _baseService.EnumEntitiesService.GetBodyWeightsAsync();
+                foreach (var bodyWeight in bodyWeights.Data)
+                {
+                    BodyWeights.Add(bodyWeight);
+                }
+
+                // Load kids/lambs
+                var kidsLambs = await _baseService.EnumEntitiesService.GetKidsLambsAsync();
+                foreach (var kidsLamb in kidsLambs.Data)
+                {
+                    NrSucklingKidsLambs.Add(kidsLamb);
+                }
+
+                // Load DietQualityEstimates
+                var dietQualityEstimates = await _baseService.EnumEntitiesService.GetDietQualityEstimatesAsync();
+                foreach (var dietQualityEstimate in dietQualityEstimates.Data)
+                {
+                    DietQualityEstimates.Add(dietQualityEstimate);
                 }
             }
-            else if (SelectedSpecies?.Name.ToLower() == "goat")
+            catch (Exception ex)
             {
-                var types = await _baseService.EnumEntitiesService.GetGoatTypesAsync();
-                foreach (var type in types.Data)
-                {
-                    Types.Add(ConversionHelpers.ConvertToLookupDTO(type));
-                }
-            }
-            // Load Grazings
-            var grazings = await _baseService.EnumEntitiesService.GetGrazingsAsync();
-            foreach (var grazing in grazings.Data)
-            {
-                Grazings.Add(grazing);
-            }
-            // Load BodyWeights
-            var bodyWeights = await _baseService.EnumEntitiesService.GetBodyWeightsAsync();
-            foreach (var bodyWeight in bodyWeights.Data)
-            {
-                BodyWeights.Add(bodyWeight);
-            }
-            // Load kids/lambs
-            var kidsLambs = await _baseService.EnumEntitiesService.GetKidsLambsAsync();
-            foreach (var kidsLamb in kidsLambs.Data)
-            {
-                NrSucklingKidsLambs.Add(kidsLamb);
-            }
-            // Load DietQualityEstimates
-            var dietQualityEstimates = await _baseService.EnumEntitiesService.GetDietQualityEstimatesAsync();
-            foreach (var dietQualityEstimate in dietQualityEstimates.Data)
-            {
-                DietQualityEstimates.Add(dietQualityEstimate);
+                // Handle the exception (e.g., log it, show a message to the user, etc.)
+                Console.WriteLine($"An error occurred while loading animal information: {ex.Message}");
             }
         }
 
@@ -467,28 +483,35 @@ namespace FeedOptimizationApp.Modules.Calculations
         // Method to add a feed to the stored feeds collection
         private void OnAddFeed()
         {
-            var storedFeed = new StoredFeed
+            try
             {
-                Feed = SelectedFeed,
-                CalculationId = CalculationId,
-                DM = SelectedFeed?.DryMatterPercentage,
-                CPDM = SelectedFeed?.CPPercentage,
-                MEMJKGDM = SelectedFeed?.MEMJKg,
-                Price = Price ?? 0,
-                Intake = Intake ?? 0,
-                MinLimit = MinLimit,
-                MaxLimit = MaxLimit
-            };
+                var storedFeed = new StoredFeed
+                {
+                    Feed = SelectedFeed,
+                    CalculationId = CalculationId,
+                    DM = SelectedFeed?.DryMatterPercentage,
+                    CPDM = SelectedFeed?.CPPercentage,
+                    MEMJKGDM = SelectedFeed?.MEMJKg,
+                    Price = Price ?? 0,
+                    Intake = Intake ?? 0,
+                    MinLimit = MinLimit,
+                    MaxLimit = MaxLimit
+                };
 
-            StoredFeeds.Insert(0, storedFeed); // Add new feed to the top of the list
-            ClearAddedFeedForm(); // Clear form for next entry
-            AddFeedBoxText = "Add additional feed";
-            //IsAddFeedExpanded = false;
+                StoredFeeds.Insert(0, storedFeed); // Add new feed to the top of the list
+                ClearAddedFeedForm(); // Clear form for next entry
+                AddFeedBoxText = "Add additional feed";
 
-            if (StoredFeeds.Count >= 3)
+                if (StoredFeeds.Count >= 3)
+                {
+                    IsResultsButtonVisible = true;
+                    IsAddFeedExpanded = false;
+                }
+            }
+            catch (Exception ex)
             {
-                IsResultsButtonVisible = true;
-                IsAddFeedExpanded = false;
+                // Handle the exception (e.g., log it, show a message to the user, etc.)
+                Console.WriteLine($"An error occurred while adding the feed: {ex.Message}");
             }
         }
 
@@ -520,26 +543,35 @@ namespace FeedOptimizationApp.Modules.Calculations
 
         private int GetAnimalInformationInputs()
         {
-            var animalInformation = new CalculationEntity
+            try
             {
-                Type = SelectedType?.Name!,
-                GrazingId = (int)(SelectedGrazing?.Id),
-                BodyWeightId = (int)(SelectedBodyWeight?.Id),
-                ADG = ADG,
-                DietQualityEstimateId = (int)(SelectedDietQualityEstimate?.Id),
-                Gestation = IsLast8WeeksOfGestation,
-                MilkYield = DailyMilkYieldValue,
-                FatContent = FatContentValue,
-                KidsLambsId = SelectedNumberOfSucklingKidsLambs?.Id ?? 0,
-                SpeciesId = (int)(SelectedSpecies?.Id),
-                Name = "To be changed",
-                Description = "To be changed",
-            };
+                var animalInformation = new CalculationEntity
+                {
+                    Type = SelectedType?.Name!,
+                    GrazingId = SelectedGrazing?.Id ?? 0,
+                    BodyWeightId = SelectedBodyWeight?.Id ?? 0,
+                    ADG = ADG,
+                    DietQualityEstimateId = SelectedDietQualityEstimate?.Id ?? 0,
+                    Gestation = IsLast8WeeksOfGestation,
+                    MilkYield = DailyMilkYieldValue,
+                    FatContent = FatContentValue,
+                    KidsLambsId = SelectedNumberOfSucklingKidsLambs?.Id ?? 0,
+                    SpeciesId = SelectedSpecies?.Id ?? 0,
+                    Name = "To be changed",
+                    Description = "To be changed",
+                };
 
-            Calculation = animalInformation;
+                Calculation = animalInformation;
 
-            var calculationId = _baseService.CalculationService.SaveCalculationAsync(animalInformation).Result.Data;
-            return calculationId;
+                var calculationId = _baseService.CalculationService.SaveCalculationAsync(animalInformation).Result.Data;
+                return calculationId;
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it, show a message to the user, etc.)
+                Console.WriteLine($"An error occurred while saving animal information: {ex.Message}");
+                return 0; // Return a default value or handle it as needed
+            }
         }
 
         private void ValidateCalculation(CalculationEntity calculation)
@@ -573,24 +605,32 @@ namespace FeedOptimizationApp.Modules.Calculations
 
             foreach (var storedFeed in StoredFeeds)
             {
-                var calcFeed = new CalculationHasFeedEntity
+                try
                 {
-                    FeedId = storedFeed.Feed!.Id,
-                    CalculationId = calculationId,
-                    DM = storedFeed.DM ?? 0,
-                    CPDM = storedFeed.CPDM ?? 0,
-                    MEMJKGDM = storedFeed.MEMJKGDM ?? 0,
-                    Price = storedFeed.Price,
-                    Intake = storedFeed.Intake,
-                    MinLimit = storedFeed.MinLimit ?? 0,
-                    MaxLimit = storedFeed.MaxLimit ?? 0
-                };
+                    var calcFeed = new CalculationHasFeedEntity
+                    {
+                        FeedId = storedFeed.Feed!.Id,
+                        CalculationId = calculationId,
+                        DM = storedFeed.DM ?? 0,
+                        CPDM = storedFeed.CPDM ?? 0,
+                        MEMJKGDM = storedFeed.MEMJKGDM ?? 0,
+                        Price = storedFeed.Price,
+                        Intake = storedFeed.Intake,
+                        MinLimit = storedFeed.MinLimit ?? 0,
+                        MaxLimit = storedFeed.MaxLimit ?? 0
+                    };
 
-                calcFeedList.Add(calcFeed);
+                    calcFeedList.Add(calcFeed);
 
-                calcHasFeedId = _baseService.CalculationService.SaveCalculationHasFeedAsync(calcFeed).Result.Data;
-                if (calcHasFeedId != 0)
-                    calcHasFeedIds.Add(calcHasFeedId);
+                    calcHasFeedId = _baseService.CalculationService.SaveCalculationHasFeedAsync(calcFeed).Result.Data;
+                    if (calcHasFeedId != 0)
+                        calcHasFeedIds.Add(calcHasFeedId);
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception for individual feed input
+                    Console.WriteLine($"An error occurred while saving feed input for feed ID {storedFeed.Feed?.Id}: {ex.Message}");
+                }
             }
             CalculationHasFeeds = calcFeedList;
 
@@ -611,9 +651,21 @@ namespace FeedOptimizationApp.Modules.Calculations
                 var calcFeedInformation = new List<CalculationHasFeedEntity>();
                 foreach (var calcFeedId in calculationHasFeedIds)
                 {
-                    var calcFeed = await _baseService.CalculationService.GetCalculationHasFeedById(calcFeedId);
-                    calcFeedInformation.Add(calcFeed.Data);
+                    try
+                    {
+                        var calcFeed = await _baseService.CalculationService.GetCalculationHasFeedById(calcFeedId);
+                        if (calcFeed?.Data != null)
+                        {
+                            calcFeedInformation.Add(calcFeed.Data);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle the exception for individual feed retrieval
+                        Console.WriteLine($"An error occurred while retrieving calc has feed with ID {calcFeedId}: {ex.Message}");
+                    }
                 }
+
                 var calcHasResultList = new List<CalculationHasResultEntity>();
                 // Calculate the result
                 foreach (var info in calcFeedInformation)
@@ -624,7 +676,6 @@ namespace FeedOptimizationApp.Modules.Calculations
                     var cost = info.Intake * info.Price / 1000;
 
                     totalCost += cost;
-                    //TotalRation += cost;
 
                     var calcHasResult = new CalculationHasResultEntity
                     {
@@ -642,7 +693,8 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                // Handle the exception for the overall calculation process
+                Console.WriteLine($"An error occurred while calculating the result: {ex.Message}");
             }
         }
 
@@ -658,38 +710,60 @@ namespace FeedOptimizationApp.Modules.Calculations
                 // Subscribe to the message from the prompt page
                 MessagingCenter.Subscribe<SaveCalculationPrompt, Tuple<string, string>>(this, "SaveCalculation", async (sender, result) =>
                 {
-                    var name = result.Item1;
-                    var description = result.Item2;
-
-                    /*Calculation.Name = name;
-                    Calculation.Description = description;*/
-
-                    // Save the calculation
-                    var calcHasResultIds = new List<int>();
-                    foreach (var calcHasResult in CalculationHasResults)
+                    try
                     {
-                        var calculation = await _baseService.CalculationService.GetCalculationById(calcHasResult.CalculationId);
-                        calculation.Data.UpdateNameAndDescription(name, description);
-                        // save the updated calculation
-                        await _baseService.CalculationService.UpdateCalculationAsync(calculation.Data);
+                        var name = result.Item1;
+                        var description = result.Item2;
 
-                        var calcHasResultId = await _baseService.CalculationService.SaveCalculationHasResultAsync(calcHasResult);
-                        calcHasResultIds.Add(calcHasResultId.Data);
+                        // Save the calculation
+                        var calcHasResultIds = new List<int>();
+                        foreach (var calcHasResult in CalculationHasResults)
+                        {
+                            var calculation = await _baseService.CalculationService.GetCalculationById(calcHasResult.CalculationId);
+                            if (calculation?.Data != null)
+                            {
+                                calculation.Data.UpdateNameAndDescription(name, description);
+                                // Save the updated calculation
+                                await _baseService.CalculationService.UpdateCalculationAsync(calculation.Data);
+
+                                /*var calcHasResultId = await _baseService.CalculationService.SaveCalculationHasResultAsync(calcHasResult);
+                                calcHasResultIds.Add(calcHasResultId.Data);*/
+                            }
+                        }
+                        /*CalculationHasResultIds = calcHasResultIds;
+                        foreach (var id in CalculationHasResultIds)
+                        {
+                            var savedIdsList = SharedData.SavedCalculationsIds ?? new List<int>();
+                            savedIdsList.Add(id);
+                            SharedData.SavedCalculationsIds = savedIdsList;
+                        }*/
+
+                        // Optionally, display a message to the user
+                        await Toast.Make("Results saved successfully.").Show();
+
+                        // Unsubscribe from the message
+                        MessagingCenter.Unsubscribe<SaveCalculationPrompt, Tuple<string, string>>(this, "SaveCalculation");
+
+                        // Navigate to ViewCalculationsPage and pass CalculationHasResultIds
+                        var viewModel = new ViewCalculationsViewModel(_baseService, SharedData);
+                        await Shell.Current.GoToAsync("//ViewCalculationsPage", new Dictionary<string, object>
+                        {
+                            { "ViewCalculationsViewModel", viewModel }
+                        });
                     }
-                    CalculationHasResultIds = calcHasResultIds;
-
-                    // Optionally, display a message to the user
-                    await Toast.Make("Results saved successfully.").Show();
-
-                    // Unsubscribe from the message
-                    MessagingCenter.Unsubscribe<SaveCalculationPrompt, Tuple<string, string>>(this, "SaveCalculation");
-
-                    // Navigate to another page if needed
+                    catch (Exception ex)
+                    {
+                        // Handle the exception (e.g., log it, show a message to the user, etc.)
+                        Console.WriteLine($"An error occurred while saving the calculation: {ex.Message}");
+                        await Toast.Make("An error occurred while saving the calculation.").Show();
+                    }
                 });
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                // Handle the exception (e.g., log it, show a message to the user, etc.)
+                Console.WriteLine($"An error occurred while showing the prompt page: {ex.Message}");
+                await Toast.Make("An error occurred while showing the prompt page.").Show();
             }
         }
 

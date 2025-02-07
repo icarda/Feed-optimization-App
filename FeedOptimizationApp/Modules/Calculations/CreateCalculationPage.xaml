@@ -395,10 +395,10 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Label Text="Feed" Grid.Column="0" HorizontalOptions="Center" />
-                                <Label Text="g Fresh" Grid.Column="1" HorizontalOptions="Center" />
-                                <Label Text="% Fresh" Grid.Column="2" HorizontalOptions="Center" />
-                                <Label Text="% Dry Matter" Grid.Column="3" HorizontalOptions="Center" />
+                                <Label Text="Feed" Grid.Column="0" />
+                                <Label Text="g Fresh" Grid.Column="1" />
+                                <Label Text="% Fresh" Grid.Column="2" />
+                                <Label Text="% Dry Matter" Grid.Column="3" />
                             </Grid>
                         </CollectionView.Header>
                         <CollectionView.ItemTemplate>
@@ -411,7 +411,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Label
-                                        Text="{Binding CalculationHasFeedId}"
+                                        Text="{Binding Id}"
                                         Grid.Column="0" />
                                     <Label
                                         Text="{Binding GFresh}"
@@ -426,7 +426,7 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-                    <Label HorizontalOptions="Center" VerticalOptions="Start">
+                    <Label HorizontalOptions="Center" VerticalOptions="Start" Margin="20">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="The cost of the ration is " />

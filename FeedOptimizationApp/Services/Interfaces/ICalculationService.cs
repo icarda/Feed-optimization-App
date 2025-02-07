@@ -13,13 +13,17 @@ public interface ICalculationService
     Task<Result<int>> UpdateCalculationAsync(CalculationEntity request);
 
     //calculation has feed
-    Task<Result<CalculationHasFeedEntity>> GetCalculationHasFeedById(int calculationId);
+    Task<Result<CalculationHasFeedEntity>> GetCalculationHasFeedById(int Id);
+
+    Task<Result<int>> GetNumberOfFeedsInCalculationHasFeedByCalculationId(int calculationId);
 
     Task<Result<int>> SaveCalculationHasFeedAsync(CalculationHasFeedEntity request);
 
     Task<Result<int>> UpdateCalculationHasFeedAsync(CalculationHasFeedEntity request);
 
     //calculation has result
+    Task<Result<List<CalculationHasResultEntity>>> GetAllCalculationHasResults();
+
     Task<Result<CalculationHasResultEntity>> GetCalculationHasResultById(int id);
 
     Task<Result<int>> SaveCalculationHasResultAsync(CalculationHasResultEntity request);
