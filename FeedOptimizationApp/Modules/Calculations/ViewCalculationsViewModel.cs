@@ -2,6 +2,7 @@
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace FeedOptimizationApp.Modules.Calculations;
 
@@ -27,11 +28,24 @@ public class ViewCalculationsViewModel : BaseViewModel
         set => SetProperty(ref _calculationsDisplayList, value);
     }
 
+    public ICommand ExpandViewCommand { get; }
+
     public ViewCalculationsViewModel(BaseService baseService, SharedData sharedData)
         : base(sharedData)
     {
         _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
+        ExpandViewCommand = new Command(OnExpandView);
         LoadCalculations();
+    }
+
+    private async void OnExpandView(object parameter)
+    {
+        if (parameter is int calculationId)
+        {
+            SharedData.CalculationId = calculationId;
+            var viewModel = new ExpandedResultsViewModel(_baseService, SharedData);
+            await Application.Current.MainPage.Navigation.PushAsync(new ExpandedResultsViewPage(viewModel));
+        }
     }
 
     private async void LoadCalculations()
@@ -55,6 +69,7 @@ public class ViewCalculationsViewModel : BaseViewModel
 
                 displayList.Add(new CalculationDisplayModel
                 {
+                    CalculationId = calculationId,
                     CalculationTitle = calculationName,
                     CalculationDate = DateTime.Now.ToString("yyyy-MM-dd"), // Assuming you want the current date
                     CalculationNrOfFeeds = numberOfFeeds.ToString(),
@@ -73,6 +88,7 @@ public class ViewCalculationsViewModel : BaseViewModel
 
     public class CalculationDisplayModel
     {
+        public int CalculationId { get; set; }
         public string CalculationTitle { get; set; }
         public string CalculationDate { get; set; }
         public string CalculationNrOfFeeds { get; set; }

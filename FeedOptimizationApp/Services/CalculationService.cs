@@ -130,6 +130,25 @@ public class CalculationService : ICalculationService
         }
     }
 
+    public async Task<Result<List<CalculationHasFeedEntity>>> GetCalculationHasFeedsByCalculationId(int calculationId)
+    {
+        try
+        {
+            var calculationHasFeeds = await _context.CalculationHasFeeds
+                .IgnoreQueryFilters()
+                .AsNoTracking()
+                .Where(s => s.CalculationId == calculationId)
+                .ToListAsync();
+            if (calculationHasFeeds == null || !calculationHasFeeds.Any())
+                throw new Exception($"Unable to return calculation has feeds with calculation id {calculationId}.");
+            return await Result<List<CalculationHasFeedEntity>>.SuccessAsync(calculationHasFeeds);
+        }
+        catch (Exception ex)
+        {
+            return await Result<List<CalculationHasFeedEntity>>.FailAsync(ex.Message);
+        }
+    }
+
     public async Task<Result<int>> GetNumberOfFeedsInCalculationHasFeedByCalculationId(int calculationId)
     {
         try
@@ -239,6 +258,27 @@ public class CalculationService : ICalculationService
         catch (Exception ex)
         {
             return await Result<CalculationHasResultEntity>.FailAsync(ex.Message);
+        }
+    }
+
+    public async Task<Result<List<CalculationHasResultEntity>>> GetCalculationHasResultByCalculationId(int calculationId)
+    {
+        try
+        {
+            var calculationHasResults = await _context.CalculationHasResults
+                .IgnoreQueryFilters()
+                .AsNoTracking()
+                .Where(s => s.CalculationId == calculationId)
+                .ToListAsync();
+
+            if (calculationHasResults == null || !calculationHasResults.Any())
+                throw new Exception($"Unable to return calculation has results with calculation id {calculationId}.");
+
+            return await Result<List<CalculationHasResultEntity>>.SuccessAsync(calculationHasResults);
+        }
+        catch (Exception ex)
+        {
+            return await Result<List<CalculationHasResultEntity>>.FailAsync(ex.Message);
         }
     }
 

@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Models;
 using FluentValidation;
 
-namespace FeedOptimizationApp.Modules.Calculations
+namespace FeedOptimizationApp.Helpers
 {
     public class CalculationValidator : AbstractValidator<CalculationEntity>
     {

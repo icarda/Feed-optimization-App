@@ -13,7 +13,9 @@ public interface ICalculationService
     Task<Result<int>> UpdateCalculationAsync(CalculationEntity request);
 
     //calculation has feed
-    Task<Result<CalculationHasFeedEntity>> GetCalculationHasFeedById(int Id);
+    Task<Result<CalculationHasFeedEntity>> GetCalculationHasFeedById(int id);
+
+    Task<Result<List<CalculationHasFeedEntity>>> GetCalculationHasFeedsByCalculationId(int calculationId);
 
     Task<Result<int>> GetNumberOfFeedsInCalculationHasFeedByCalculationId(int calculationId);
 
@@ -25,6 +27,8 @@ public interface ICalculationService
     Task<Result<List<CalculationHasResultEntity>>> GetAllCalculationHasResults();
 
     Task<Result<CalculationHasResultEntity>> GetCalculationHasResultById(int id);
+
+    Task<Result<List<CalculationHasResultEntity>>> GetCalculationHasResultByCalculationId(int calculationId);
 
     Task<Result<int>> SaveCalculationHasResultAsync(CalculationHasResultEntity request);
 

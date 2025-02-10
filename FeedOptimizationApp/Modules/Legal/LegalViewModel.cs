@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace FeedOptimizationApp.Modules.Legal;
 
-public class LegalViewModel : BaseViewModel, INotifyPropertyChanged
+public class LegalViewModel : BaseViewModel
 {
     private readonly BaseService _baseService;
 

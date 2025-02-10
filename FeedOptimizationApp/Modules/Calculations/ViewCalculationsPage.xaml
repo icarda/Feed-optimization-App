@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FeedOptimizationApp.Modules.Calculations"
              x:Class="FeedOptimizationApp.Modules.Calculations.ViewCalculationsPage"
              Title="View Calculations"
              BackgroundColor="{StaticResource Primary}">
-    <StackLayout>      
+    <Grid VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <!-- Table with a black border -->
+        <!-- Header content row -->
+        <Grid Padding="20" BackgroundColor="{StaticResource Tertiary}" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Header content -->
+            <Label Text="Title" Grid.Column="0" FontAttributes="Bold" TextColor="White" />
+            <Label Text="Date" Grid.Column="1" FontAttributes="Bold" TextColor="White" />
+            <Label Text="No Feeds" Grid.Column="2" FontAttributes="Bold" TextColor="White" />
+            <Label Text="Type" Grid.Column="3" FontAttributes="Bold" TextColor="White" />
+            <Label Text="Action" Grid.Column="4" FontAttributes="Bold" TextColor="White" />
+        </Grid>
+
+        <!-- Scrollable content inside the border -->
         <Border Stroke="Black"
                 StrokeThickness="2"
                 Padding="0"
-                Margin="10">
+                Margin="10"
+                Grid.Row="1">
             <CollectionView ItemsSource="{Binding CalculationsDisplayList}">
-                <CollectionView.Header>
-                        <!-- Header content row -->
-                        <Grid Padding="10" BackgroundColor="{StaticResource Tertiary}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Header content -->
-                            <Label Text="Title" Grid.Column="0"/>
-                            <Label Text="Date" Grid.Column="1"/>
-                            <Label Text="No Feeds" Grid.Column="2"/>
-                            <Label Text="Type" Grid.Column="3"/>
-                            <Label Text="Action" Grid.Column="4"/>
-                        </Grid>
-                </CollectionView.Header>
-
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="10" BackgroundColor="{StaticResource White}">
+                        <Grid Padding="10" BackgroundColor="White">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -44,15 +48,19 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Row content -->
-                            <Label Text="{Binding CalculationTitle}" Grid.Column="0"/>
-                            <Label Text="{Binding CalculationDate}" Grid.Column="1"/>
-                            <Label Text="{Binding CalculationNrOfFeeds}" Grid.Column="2" HorizontalOptions="Center"/>
-                            <Label Text="{Binding CalculationSpeciesType}" Grid.Column="3"/>
-                            <Label Text="Expand View" Grid.Column="4"/>
+                            <Label Text="{Binding CalculationTitle}" Grid.Column="0" />
+                            <Label Text="{Binding CalculationDate}" Grid.Column="1" />
+                            <Label Text="{Binding CalculationNrOfFeeds}" Grid.Column="2" HorizontalOptions="Center" />
+                            <Label Text="{Binding CalculationSpeciesType}" Grid.Column="3" />
+                            <Label Text="Expand View" Grid.Column="4" TextColor="Blue" TextDecorations="Underline">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ViewCalculationsViewModel}}, Path=ExpandViewCommand}" CommandParameter="{Binding CalculationId}" />
+                                </Label.GestureRecognizers>
+                            </Label>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Border>
-    </StackLayout>
+    </Grid>
 </ContentPage>

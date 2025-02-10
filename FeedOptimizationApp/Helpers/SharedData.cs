@@ -7,4 +7,6 @@ public class SharedData
     public SpeciesEntity? SelectedSpecies { get; set; }
     public LanguageEntity? SelectedLanguage { get; set; }
     public CountryEntity? SelectedCountry { get; set; }
+
+    public int? CalculationId { get; set; }
 }

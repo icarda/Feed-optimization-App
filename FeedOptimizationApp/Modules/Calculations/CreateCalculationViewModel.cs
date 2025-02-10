@@ -6,10 +6,7 @@ using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.ComponentModel.DataAnnotations;
-using FluentValidation;
-using FeedOptimizationApp.Shared.Wrapper;
-using System.Threading.Tasks;
+using CommunityToolkit.Maui.Views;
 
 namespace FeedOptimizationApp.Modules.Calculations
 {
@@ -726,17 +723,9 @@ namespace FeedOptimizationApp.Modules.Calculations
                                 // Save the updated calculation
                                 await _baseService.CalculationService.UpdateCalculationAsync(calculation.Data);
 
-                                /*var calcHasResultId = await _baseService.CalculationService.SaveCalculationHasResultAsync(calcHasResult);
-                                calcHasResultIds.Add(calcHasResultId.Data);*/
+                                await _baseService.CalculationService.SaveCalculationHasResultAsync(calcHasResult);
                             }
                         }
-                        /*CalculationHasResultIds = calcHasResultIds;
-                        foreach (var id in CalculationHasResultIds)
-                        {
-                            var savedIdsList = SharedData.SavedCalculationsIds ?? new List<int>();
-                            savedIdsList.Add(id);
-                            SharedData.SavedCalculationsIds = savedIdsList;
-                        }*/
 
                         // Optionally, display a message to the user
                         await Toast.Make("Results saved successfully.").Show();
@@ -744,12 +733,16 @@ namespace FeedOptimizationApp.Modules.Calculations
                         // Unsubscribe from the message
                         MessagingCenter.Unsubscribe<SaveCalculationPrompt, Tuple<string, string>>(this, "SaveCalculation");
 
-                        // Navigate to ViewCalculationsPage and pass CalculationHasResultIds
-                        var viewModel = new ViewCalculationsViewModel(_baseService, SharedData);
+                        // Navigate to ViewCalculationsPage
+                        /*var viewModel = new ViewCalculationsViewModel(_baseService, SharedData);
                         await Shell.Current.GoToAsync("//ViewCalculationsPage", new Dictionary<string, object>
                         {
                             { "ViewCalculationsViewModel", viewModel }
-                        });
+                        });*/
+
+                        // Show custom popup with OK button
+                        var customAlertPopup = new CustomAlertPopup("Save complete!", "Please use the view calculations option to view your saved calculation.");
+                        await Application.Current.MainPage.ShowPopupAsync(customAlertPopup);
                     }
                     catch (Exception ex)
                     {

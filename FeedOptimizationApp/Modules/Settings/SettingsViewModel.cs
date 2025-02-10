@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace FeedOptimizationApp.Modules.Settings;
 
-public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
+public class SettingsViewModel : BaseViewModel
 {
     private readonly BaseService _baseService;
 
