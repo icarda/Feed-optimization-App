@@ -7,6 +7,7 @@ using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
+using static FeedOptimizationApp.Modules.Calculations.ExpandedResultsViewModel;
 
 namespace FeedOptimizationApp.Modules.Calculations
 {
@@ -69,7 +70,6 @@ namespace FeedOptimizationApp.Modules.Calculations
                 ResultsTabIsActive = true;
 
                 // Perform calculation
-                //Calculation = GetAnimalInformationInputs();
                 CalculationHasFeedIds = GetFeedInformationInputs((int)CalculationId);
                 await DoCalculationAsync((int)CalculationId, CalculationHasFeedIds);
             });
@@ -376,6 +376,14 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _calculationHasResults, value);
         }
 
+        private List<StoredResults>? _storedResults;
+
+        public List<StoredResults>? StoredResults
+        {
+            get => _storedResults;
+            set => SetProperty(ref _storedResults, value);
+        }
+
         #endregion Properties
 
         // Collections to hold options and feeds
@@ -664,6 +672,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 }
 
                 var calcHasResultList = new List<CalculationHasResultEntity>();
+                var storedResultList = new List<StoredResults>();
                 // Calculate the result
                 foreach (var info in calcFeedInformation)
                 {
@@ -684,9 +693,25 @@ namespace FeedOptimizationApp.Modules.Calculations
                     };
 
                     calcHasResultList.Add(calcHasResult);
+
+                    // get feed by id
+                    var feed = await _baseService.FeedService.GetById(info.FeedId);
+
+                    var storedResult = new StoredResults
+                    {
+                        Feed = feed.Data,
+                        CalculationId = calculationId,
+                        GFresh = 50,
+                        PercentFresh = 50,
+                        PercentDryMatter = 50,
+                        TotalRation = cost
+                    };
+
+                    storedResultList.Add(storedResult);
                 }
                 TotalRation = totalCost;
                 CalculationHasResults = calcHasResultList;
+                StoredResults = storedResultList;
             }
             catch (Exception ex)
             {
@@ -733,13 +758,6 @@ namespace FeedOptimizationApp.Modules.Calculations
                         // Unsubscribe from the message
                         MessagingCenter.Unsubscribe<SaveCalculationPrompt, Tuple<string, string>>(this, "SaveCalculation");
 
-                        // Navigate to ViewCalculationsPage
-                        /*var viewModel = new ViewCalculationsViewModel(_baseService, SharedData);
-                        await Shell.Current.GoToAsync("//ViewCalculationsPage", new Dictionary<string, object>
-                        {
-                            { "ViewCalculationsViewModel", viewModel }
-                        });*/
-
                         // Show custom popup with OK button
                         var customAlertPopup = new CustomAlertPopup("Save complete!", "Please use the view calculations option to view your saved calculation.");
                         await Application.Current.MainPage.ShowPopupAsync(customAlertPopup);
@@ -758,20 +776,6 @@ namespace FeedOptimizationApp.Modules.Calculations
                 Console.WriteLine($"An error occurred while showing the prompt page: {ex.Message}");
                 await Toast.Make("An error occurred while showing the prompt page.").Show();
             }
-        }
-
-        // Class to represent a stored feed
-        public class StoredFeed
-        {
-            public FeedEntity? Feed { get; set; }
-            public int? CalculationId { get; set; }
-            public decimal? DM { get; set; }
-            public decimal? CPDM { get; set; }
-            public decimal? MEMJKGDM { get; set; }
-            public decimal Price { get; set; }
-            public decimal Intake { get; set; }
-            public decimal? MinLimit { get; set; }
-            public decimal? MaxLimit { get; set; }
         }
     }
 }

@@ -386,7 +386,7 @@
                    VerticalOptions="Start" />
 
                     <!-- Table -->
-                    <CollectionView ItemsSource="{Binding CalculationHasResults}">
+                    <CollectionView ItemsSource="{Binding StoredResults}">
                         <CollectionView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -411,7 +411,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Label
-                                        Text="{Binding Id}"
+                                        Text="{Binding Feed.Name}"
                                         Grid.Column="0" />
                                     <Label
                                         Text="{Binding GFresh}"
