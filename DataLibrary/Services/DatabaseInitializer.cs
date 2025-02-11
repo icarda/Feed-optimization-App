@@ -5,81 +5,95 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Reflection;
 
-namespace DataLibrary.Services;
-
-public class DatabaseInitializer
+namespace DataLibrary.Services
 {
-    private readonly ApplicationDbContext _context;
-
-    public DatabaseInitializer(ApplicationDbContext context)
+    /// <summary>
+    /// Service for initializing the database.
+    /// </summary>
+    public class DatabaseInitializer
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
 
-    public async Task InitializeAsync()
-    {
-        try
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DatabaseInitializer"/> class.
+        /// </summary>
+        /// <param name="context">The application database context.</param>
+        public DatabaseInitializer(ApplicationDbContext context)
         {
-            await _context.Database.MigrateAsync();
-            await ImportFeedsFromEmbeddedCsvAsync();
+            _context = context;
         }
-        catch (Exception ex)
+
+        /// <summary>
+        /// Initializes the database by applying migrations and importing feeds from an embedded CSV file.
+        /// </summary>
+        public async Task InitializeAsync()
         {
-            Console.WriteLine($"An error occurred during initialization: {ex.Message}");
-            if (ex.InnerException != null)
+            try
             {
-                Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                await _context.Database.MigrateAsync();
+                await ImportFeedsFromEmbeddedCsvAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred during initialization: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
             }
         }
-    }
 
-    private async Task ImportFeedsFromEmbeddedCsvAsync()
-    {
-        Console.WriteLine("Importing feeds from CSV...");
-        // Check if the data already exists
-        if (await _context.Feeds.AnyAsync())
+        /// <summary>
+        /// Imports feed data from an embedded CSV file into the database.
+        /// </summary>
+        private async Task ImportFeedsFromEmbeddedCsvAsync()
         {
-            Console.WriteLine("Data already exists, no need to import.");
-            return; // Data already exists, no need to import
+            Console.WriteLine("Importing feeds from CSV...");
+            // Check if the data already exists
+            if (await _context.Feeds.AnyAsync())
+            {
+                Console.WriteLine("Data already exists, no need to import.");
+                return; // Data already exists, no need to import
+            }
+
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "DataLibrary.feeds.csv"; // Update with the actual resource name
+
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream == null)
+            {
+                Console.WriteLine("Resource not found.");
+                return; // Handle the case where the resource is not found
+            }
+
+            using var reader = new StreamReader(stream);
+            string csvContent = await reader.ReadToEndAsync();
+            Console.WriteLine("CSV Content:");
+            Console.WriteLine(csvContent);
+
+            // Reset the stream position to the beginning
+            stream.Position = 0;
+            reader.DiscardBufferedData();
+
+            using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = true
+            });
+
+            csv.Context.RegisterClassMap<FeedMap>();
+            var records = csv.GetRecords<FeedEntity>().ToList();
+            Console.WriteLine($"Number of records read: {records.Count}");
+            foreach (var record in records)
+            {
+                Console.WriteLine($"Record: {record.Name}");
+            }
+
+            foreach (var record in records)
+            {
+                await _context.Feeds.AddAsync(record);
+            }
+            await _context.SaveChangesAsync();
+            Console.WriteLine("Feeds imported successfully.");
         }
-
-        var assembly = Assembly.GetExecutingAssembly();
-        var resourceName = "DataLibrary.feeds.csv"; // Update with the actual resource name
-
-        using var stream = assembly.GetManifestResourceStream(resourceName);
-        if (stream == null)
-        {
-            Console.WriteLine("Resource not found.");
-            return; // Handle the case where the resource is not found
-        }
-
-        using var reader = new StreamReader(stream);
-        string csvContent = await reader.ReadToEndAsync();
-        Console.WriteLine("CSV Content:");
-        Console.WriteLine(csvContent);
-
-        // Reset the stream position to the beginning
-        stream.Position = 0;
-        reader.DiscardBufferedData();
-
-        using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = true
-        });
-
-        csv.Context.RegisterClassMap<FeedMap>();
-        var records = csv.GetRecords<FeedEntity>().ToList();
-        Console.WriteLine($"Number of records read: {records.Count}");
-        foreach (var record in records)
-        {
-            Console.WriteLine($"Record: {record.Name}");
-        }
-
-        foreach (var record in records)
-        {
-            await _context.Feeds.AddAsync(record);
-        }
-        await _context.SaveChangesAsync();
-        Console.WriteLine("Feeds imported successfully.");
     }
 }

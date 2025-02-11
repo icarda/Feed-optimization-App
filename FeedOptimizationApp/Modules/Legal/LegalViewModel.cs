@@ -1,86 +1,123 @@
-﻿using DataLibrary.DTOs;
-using DataLibrary.Models;
+﻿using DataLibrary.Models;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Modules.Home;
 using FeedOptimizationApp.Services;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace FeedOptimizationApp.Modules.Legal;
-
-public class LegalViewModel : BaseViewModel
+namespace FeedOptimizationApp.Modules.Legal
 {
-    private readonly BaseService _baseService;
-
-    public ICommand BackCommand { get; }
-    public ICommand AgreeCommand { get; }
-
-    public LegalViewModel(BaseService baseService, SharedData sharedData)
-        : base(sharedData)
+    /// <summary>
+    /// ViewModel for handling the legal terms and conditions screen.
+    /// Responsible for navigating back and saving the user's acceptance of terms.
+    /// </summary>
+    public class LegalViewModel : BaseViewModel
     {
-        _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
-        BackCommand = new Command(OnBackButtonClicked);
-        AgreeCommand = new Command(async () => await OnAgreeButtonClicked());
-    }
+        // Service used to perform data operations such as saving user data.
+        private readonly BaseService _baseService;
 
-    private bool _hasAgreed;
+        /// <summary>
+        /// Command to navigate back to the previous screen.
+        /// </summary>
+        public ICommand BackCommand { get; }
 
-    public bool HasAgreed
-    {
-        get => _hasAgreed;
-        set => SetProperty(ref _hasAgreed, value);
-    }
+        /// <summary>
+        /// Command to handle user agreement to the legal terms.
+        /// </summary>
+        public ICommand AgreeCommand { get; }
 
-    private void OnBackButtonClicked()
-    {
-        // Handle the Back button click event
-        // For example, navigate to the previous page
-        Application.Current.MainPage.Navigation.PopAsync();
-    }
-
-    private async Task OnAgreeButtonClicked()
-    {
-        if (HasAgreed)
+        /// <summary>
+        /// Constructor that initializes the LegalViewModel with required services.
+        /// </summary>
+        /// <param name="baseService">Provides access to data operations.</param>
+        /// <param name="sharedData">Shared data context across the application.</param>
+        public LegalViewModel(BaseService baseService, SharedData sharedData)
+            : base(sharedData)
         {
-            try
-            {
-                var userEntity = new UserEntity
-                {
-                    CountryId = SharedData.SelectedCountry.Id,
-                    LanguageId = SharedData.SelectedLanguage.Id,
-                    SpeciesId = SharedData.SelectedSpecies.Id,
-                    TermsAndConditions = true,
-                    CreatedAt = DateTime.UtcNow,
-                    DeviceManufacturer = DeviceInfo.Manufacturer,
-                    DeviceModel = DeviceInfo.Model,
-                    DeviceName = DeviceInfo.Name,
-                    DeviceVersionString = DeviceInfo.VersionString,
-                    DevicePlatform = DeviceInfo.Platform.ToString(),
-                    DeviceIdiom = DeviceInfo.Idiom.ToString(),
-                    DeviceType = DeviceInfo.DeviceType.ToString()
+            // Ensure baseService is not null; otherwise, throw an exception.
+            _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
 
-                    // Add other device details here
-                };
-
-                await _baseService.UserService.SaveAsync(userEntity);
-
-                var homeViewModel = new HomeViewModel(_baseService, SharedData);
-                var newHomePage = new AppShell
-                {
-                    BindingContext = homeViewModel
-                };
-
-                Application.Current.MainPage = newHomePage;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Exception: {ex.Message}");
-            }
+            // Initialize commands with their respective handlers.
+            BackCommand = new Command(OnBackButtonClicked);
+            AgreeCommand = new Command(async () => await OnAgreeButtonClicked());
         }
-        else
+
+        // Private backing field to hold the user's agreement status.
+        private bool _hasAgreed;
+
+        /// <summary>
+        /// Indicates whether the user has agreed to the terms and conditions.
+        /// </summary>
+        public bool HasAgreed
         {
-            await Application.Current.MainPage.DisplayAlert("Error", "Please agree to the terms to continue.", "OK");
+            get => _hasAgreed;
+            set => SetProperty(ref _hasAgreed, value);
+        }
+
+        /// <summary>
+        /// Handles the Back button click event.
+        /// Navigates to the previous page in the navigation stack.
+        /// </summary>
+        private void OnBackButtonClicked()
+        {
+            // Navigate back to the previous page.
+            Application.Current.MainPage.Navigation.PopAsync();
+        }
+
+        /// <summary>
+        /// Handles the Agree button click event.
+        /// If the user has agreed to the terms, saves the user details and navigates to the home page.
+        /// Otherwise, displays an alert prompting the user to agree.
+        /// </summary>
+        private async Task OnAgreeButtonClicked()
+        {
+            if (HasAgreed)
+            {
+                try
+                {
+                    // Create a new user entity with device and user details.
+                    var userEntity = new UserEntity
+                    {
+                        CountryId = SharedData.SelectedCountry.Id,
+                        LanguageId = SharedData.SelectedLanguage.Id,
+                        SpeciesId = SharedData.SelectedSpecies.Id,
+                        TermsAndConditions = true,
+                        CreatedAt = DateTime.UtcNow,
+                        DeviceManufacturer = DeviceInfo.Manufacturer,
+                        DeviceModel = DeviceInfo.Model,
+                        DeviceName = DeviceInfo.Name,
+                        DeviceVersionString = DeviceInfo.VersionString,
+                        DevicePlatform = DeviceInfo.Platform.ToString(),
+                        DeviceIdiom = DeviceInfo.Idiom.ToString(),
+                        DeviceType = DeviceInfo.DeviceType.ToString()
+
+                        // Additional device details can be added here as needed.
+                    };
+
+                    // Save the user entity using the UserService.
+                    await _baseService.UserService.SaveAsync(userEntity);
+
+                    // Initialize the HomeViewModel and set it as the BindingContext for the new home page.
+                    var homeViewModel = new HomeViewModel(_baseService, SharedData);
+                    var newHomePage = new AppShell
+                    {
+                        BindingContext = homeViewModel
+                    };
+
+                    // Replace the current MainPage with the new home page.
+                    Application.Current.MainPage = newHomePage;
+                }
+                catch (Exception ex)
+                {
+                    // Log any exceptions that occur during the save process.
+                    Debug.WriteLine($"Exception: {ex.Message}");
+                }
+            }
+            else
+            {
+                // If the user has not agreed to the terms, show an alert message.
+                await Application.Current.MainPage.DisplayAlert("Error", "Please agree to the terms to continue.", "OK");
+            }
         }
     }
 }

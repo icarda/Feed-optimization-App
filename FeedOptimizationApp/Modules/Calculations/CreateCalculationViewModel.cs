@@ -11,15 +11,31 @@ using static FeedOptimizationApp.Modules.Calculations.ExpandedResultsViewModel;
 
 namespace FeedOptimizationApp.Modules.Calculations
 {
+    /// <summary>
+    /// ViewModel for creating and processing feed optimization calculations.
+    /// Handles loading of feeds and animal information, validating inputs,
+    /// adding feeds to the calculation, performing the calculation, and saving results.
+    /// </summary>
     public class CreateCalculationViewModel : BaseViewModel
     {
+        // Service used to interact with the data and perform calculations.
         private readonly BaseService _baseService;
+
+        // Validator for the CalculationEntity inputs.
         private readonly CalculationValidator _validator;
+
+        // Holds any validation errors encountered during input validation.
         public Dictionary<string, string> ValidationErrors { get; private set; } = new Dictionary<string, string>();
 
+        // Shortcut to get the currently selected species from shared data.
         private SpeciesEntity? SelectedSpecies => SharedData.SelectedSpecies;
 
-        // Constructor
+        /// <summary>
+        /// Constructor for the CreateCalculationViewModel.
+        /// Initializes services, validators, commands, and loads initial data.
+        /// </summary>
+        /// <param name="baseService">Service for data operations.</param>
+        /// <param name="sharedData">Shared data object across the application.</param>
         public CreateCalculationViewModel(BaseService baseService, SharedData sharedData) : base(sharedData)
         {
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
@@ -32,12 +48,13 @@ namespace FeedOptimizationApp.Modules.Calculations
             AddFeedCommand = new Command(OnAddFeed);
             SaveResultsCommand = new Command(OnSaveResults);
 
-            // Execute the commands to load data
+            // Execute the command to load animal information immediately
             LoadAnimalInformationCommand.Execute(null);
 
             // Initialize tab commands
             SetAnimalInfoActiveTab = new Command(() =>
             {
+                // Activate the Animal Info tab and deactivate others
                 AnimalInfoTabIsActive = true;
                 FeedInfoTabIsActive = false;
                 ResultsTabIsActive = false;
@@ -45,36 +62,42 @@ namespace FeedOptimizationApp.Modules.Calculations
 
             SetFeedInfoTabActive = new Command(() =>
             {
+                // Load feeds when switching to Feed Info tab
                 LoadFeedsCommand.Execute(null);
 
+                // Save animal information inputs and retrieve calculation ID
                 CalculationId = GetAnimalInformationInputs();
+                // Validate the animal calculation inputs
                 ValidateCalculation(Calculation);
 
                 if (ValidationErrors.Count == 0)
                 {
+                    // Move to Feed Info tab if validation passes
                     AnimalInfoTabIsActive = false;
                     FeedInfoTabIsActive = true;
                     ResultsTabIsActive = false;
                 }
                 else
                 {
-                    // Optionally, display a message to the user
+                    // Display a message if there are validation errors
                     Toast.Make("Please correct the validation errors.").Show();
                 }
             });
 
             SetResultsTabActive = new Command(async () =>
             {
+                // Activate Results tab and deactivate the other tabs
                 AnimalInfoTabIsActive = false;
                 FeedInfoTabIsActive = false;
                 ResultsTabIsActive = true;
 
-                // Perform calculation
+                // Retrieve feed input IDs based on the stored feeds
                 CalculationHasFeedIds = GetFeedInformationInputs((int)CalculationId);
+                // Perform the calculation asynchronously
                 await DoCalculationAsync((int)CalculationId, CalculationHasFeedIds);
             });
 
-            // Initialize properties
+            // Initialize selected values and default states
             SelectedType = null;
             SelectedGrazing = null;
             SelectedBodyWeight = null;
@@ -84,20 +107,37 @@ namespace FeedOptimizationApp.Modules.Calculations
             AnimalInfoTabIsActive = true;
         }
 
-        // Commands for loading data and setting active tabs
+        #region Commands
+
+        // Command to load the feeds from the service.
         public ICommand LoadFeedsCommand { get; private set; }
 
+        // Command to load animal information from the service.
         public ICommand LoadAnimalInformationCommand { get; private set; }
+
+        // Command to switch to the Animal Info tab.
         public ICommand SetAnimalInfoActiveTab { get; }
+
+        // Command to switch to the Feed Info tab.
         public ICommand SetFeedInfoTabActive { get; }
+
+        // Command to switch to the Results tab.
         public ICommand SetResultsTabActive { get; }
+
+        // Command to clear the current feed input fields.
         public ICommand ClearFeedCommand { get; }
+
+        // Command to add a feed to the stored feeds collection.
         public ICommand AddFeedCommand { get; }
+
+        // Command to save the calculated results.
         public ICommand SaveResultsCommand { get; }
+
+        #endregion Commands
 
         #region Properties
 
-        // Properties for controlling UI elements
+        // Controls the visibility of the "Results" button.
         private bool _isResultsButtonVisible = false;
 
         public bool IsResultsButtonVisible
@@ -106,6 +146,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _isResultsButtonVisible, value);
         }
 
+        // Controls the visibility of the number of sucklings field.
         private bool _isNrSucklingsVisible;
 
         public bool IsNrSucklingsVisible
@@ -114,6 +155,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _isNrSucklingsVisible, value);
         }
 
+        // Text displayed on the Add Feed box.
         private string _addFeedBoxText = "Add feed";
 
         public string AddFeedBoxText
@@ -122,6 +164,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _addFeedBoxText, value);
         }
 
+        // Indicates if the Add Feed section is expanded.
         private bool _isAddFeedExpanded = false;
 
         public bool IsAddFeedExpanded
@@ -130,6 +173,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _isAddFeedExpanded, value);
         }
 
+        // Boolean properties for controlling which tab is active.
         private bool _animalInfoTabIsActive;
 
         public bool AnimalInfoTabIsActive
@@ -154,6 +198,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _feedInfoTabIsActive, value);
         }
 
+        // Indicates whether a feed has been selected.
         private bool _isFeedSelected;
 
         public bool IsFeedSelected
@@ -162,7 +207,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _isFeedSelected, value);
         }
 
-        // Properties for holding selected values
+        // Selected animal type as a LookupDTO.
         private LookupDTO? _selectedType;
 
         public LookupDTO? SelectedType
@@ -172,11 +217,13 @@ namespace FeedOptimizationApp.Modules.Calculations
             {
                 if (SetProperty(ref _selectedType, value))
                 {
+                    // If the type is "Does" or "Ewes", display the sucklings field.
                     IsNrSucklingsVisible = value.Name == "Does" || value.Name == "Ewes";
                 }
             }
         }
 
+        // Selected grazing entity.
         private GrazingEntity? _selectedGrazing;
 
         public GrazingEntity? SelectedGrazing
@@ -185,6 +232,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _selectedGrazing, value);
         }
 
+        // Selected body weight entity.
         private BodyWeightEntity? _selectedBodyWeight;
 
         public BodyWeightEntity? SelectedBodyWeight
@@ -193,6 +241,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _selectedBodyWeight, value);
         }
 
+        // Average Daily Gain (ADG) input.
         private decimal? _ADG;
 
         public decimal? ADG
@@ -201,6 +250,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _ADG, value);
         }
 
+        // Selected diet quality estimate.
         private DietQualityEstimateEntity? _selectedDietQualityEstimate;
 
         public DietQualityEstimateEntity? SelectedDietQualityEstimate
@@ -209,6 +259,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _selectedDietQualityEstimate, value);
         }
 
+        // Boolean indicating if the animal is in the last 8 weeks of gestation.
         private bool _isLast8WeeksOfGestation;
 
         public bool IsLast8WeeksOfGestation
@@ -217,6 +268,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _isLast8WeeksOfGestation, value);
         }
 
+        // Selected number of suckling kids or lambs.
         private KidsLambsEntity? _selectedNumberOfSucklingKidsLambs;
 
         public KidsLambsEntity? SelectedNumberOfSucklingKidsLambs
@@ -225,6 +277,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _selectedNumberOfSucklingKidsLambs, value);
         }
 
+        // Daily milk yield value input.
         private decimal? _dailyMilkYieldValue;
 
         public decimal? DailyMilkYieldValue
@@ -233,6 +286,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _dailyMilkYieldValue, value);
         }
 
+        // Milk fat content value input.
         private decimal? _fatContentValue;
 
         public decimal? FatContentValue
@@ -241,7 +295,8 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _fatContentValue, value);
         }
 
-        private FeedEntity? _selectedFeed; // Declare as nullable
+        // Selected feed from the list.
+        private FeedEntity? _selectedFeed; // Nullable feed selection
 
         public FeedEntity? SelectedFeed
         {
@@ -250,12 +305,13 @@ namespace FeedOptimizationApp.Modules.Calculations
             {
                 if (SetProperty(ref _selectedFeed, value))
                 {
+                    // Set flag to indicate whether a feed is selected.
                     IsFeedSelected = value != null;
                 }
             }
         }
 
-        // Bindable properties for CalculationHasFeed fields
+        // Bindable properties for CalculationHasFeed inputs.
         private decimal? _dm;
 
         public decimal? DM
@@ -312,6 +368,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _maxLimit, value);
         }
 
+        // Total ration cost or value computed from feeds.
         private decimal? _totalRation = 0;
 
         public decimal? TotalRation
@@ -320,6 +377,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _totalRation, value);
         }
 
+        // A string representation for the calculation result feed (if needed).
         private string? _calculationResultFeed;
 
         public string? CalculationResultFeed
@@ -328,6 +386,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _calculationResultFeed, value);
         }
 
+        // The calculation ID assigned to this calculation.
         private int? _calculationId;
 
         public int? CalculationId
@@ -336,6 +395,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _calculationId, value);
         }
 
+        // The main calculation entity holding animal information.
         private CalculationEntity? _calculation;
 
         public CalculationEntity? Calculation
@@ -344,6 +404,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _calculation, value);
         }
 
+        // List of IDs for CalculationHasFeed records.
         private List<int>? _calculationHasFeedIds;
 
         public List<int>? CalculationHasFeedIds
@@ -352,6 +413,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _calculationHasFeedIds, value);
         }
 
+        // List of CalculationHasFeed entities.
         private List<CalculationHasFeedEntity>? _calculationHasFeeds;
 
         public List<CalculationHasFeedEntity>? CalculationHasFeeds
@@ -360,6 +422,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _calculationHasFeeds, value);
         }
 
+        // List of IDs for CalculationHasResult records.
         private List<int>? _calculationHasResultIds;
 
         public List<int>? CalculationHasResultIds
@@ -368,6 +431,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _calculationHasResultIds, value);
         }
 
+        // List of CalculationHasResult entities.
         private List<CalculationHasResultEntity>? _calculationHasResults;
 
         public List<CalculationHasResultEntity>? CalculationHasResults
@@ -376,6 +440,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _calculationHasResults, value);
         }
 
+        // List of stored results used for display purposes.
         private List<StoredResults>? _storedResults;
 
         public List<StoredResults>? StoredResults
@@ -386,18 +451,38 @@ namespace FeedOptimizationApp.Modules.Calculations
 
         #endregion Properties
 
-        // Collections to hold options and feeds
+        #region Collections for Options and Feeds
+
+        // Collection of available feeds.
         public ObservableCollection<FeedEntity> Feeds { get; set; } = new ObservableCollection<FeedEntity>();
 
+        // Collection of available animal types.
         public ObservableCollection<LookupDTO> Types { get; set; } = new ObservableCollection<LookupDTO>();
+
+        // Separate collections for sheep and goat types.
         public ObservableCollection<SheepTypeEntity> SheepTypes { get; set; } = new ObservableCollection<SheepTypeEntity>();
+
         public ObservableCollection<GoatTypeEntity> GoatTypes { get; set; } = new ObservableCollection<GoatTypeEntity>();
+
+        // Collection of available grazing options.
         public ObservableCollection<GrazingEntity> Grazings { get; set; } = new ObservableCollection<GrazingEntity>();
+
+        // Collection of available body weight options.
         public ObservableCollection<BodyWeightEntity> BodyWeights { get; set; } = new ObservableCollection<BodyWeightEntity>();
+
+        // Collection of available diet quality estimates.
         public ObservableCollection<DietQualityEstimateEntity> DietQualityEstimates { get; set; } = new ObservableCollection<DietQualityEstimateEntity>();
+
+        // Collection of available kids/lambs options.
         public ObservableCollection<KidsLambsEntity> NrSucklingKidsLambs { get; set; } = new ObservableCollection<KidsLambsEntity>();
 
-        // Method to load feeds asynchronously
+        #endregion Collections for Options and Feeds
+
+        #region Methods for Data Loading and User Actions
+
+        /// <summary>
+        /// Asynchronously loads feeds from the service.
+        /// </summary>
         private async Task LoadFeedsAsync()
         {
             try
@@ -414,22 +499,26 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
             catch (Exception ex)
             {
+                // Log error while fetching feeds.
                 Console.WriteLine(ex.Message);
             }
         }
 
-        // Method to load animal information asynchronously
+        /// <summary>
+        /// Asynchronously loads animal information data such as types, grazings, body weights, kids/lambs, and diet quality estimates.
+        /// </summary>
         private async Task LoadAnimalInformationAsync()
         {
             try
             {
+                // Clear previous data
                 Types.Clear();
                 Grazings.Clear();
                 BodyWeights.Clear();
                 DietQualityEstimates.Clear();
                 NrSucklingKidsLambs.Clear();
 
-                // Load types
+                // Load animal types based on the selected species.
                 if (SelectedSpecies?.Name.ToLower() == "sheep")
                 {
                     var types = await _baseService.EnumEntitiesService.GetSheepTypesAsync();
@@ -447,28 +536,28 @@ namespace FeedOptimizationApp.Modules.Calculations
                     }
                 }
 
-                // Load Grazings
+                // Load available grazing options.
                 var grazings = await _baseService.EnumEntitiesService.GetGrazingsAsync();
                 foreach (var grazing in grazings.Data)
                 {
                     Grazings.Add(grazing);
                 }
 
-                // Load BodyWeights
+                // Load available body weight options.
                 var bodyWeights = await _baseService.EnumEntitiesService.GetBodyWeightsAsync();
                 foreach (var bodyWeight in bodyWeights.Data)
                 {
                     BodyWeights.Add(bodyWeight);
                 }
 
-                // Load kids/lambs
+                // Load kids/lambs options.
                 var kidsLambs = await _baseService.EnumEntitiesService.GetKidsLambsAsync();
                 foreach (var kidsLamb in kidsLambs.Data)
                 {
                     NrSucklingKidsLambs.Add(kidsLamb);
                 }
 
-                // Load DietQualityEstimates
+                // Load available diet quality estimates.
                 var dietQualityEstimates = await _baseService.EnumEntitiesService.GetDietQualityEstimatesAsync();
                 foreach (var dietQualityEstimate in dietQualityEstimates.Data)
                 {
@@ -477,15 +566,17 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
             catch (Exception ex)
             {
-                // Handle the exception (e.g., log it, show a message to the user, etc.)
+                // Log error while loading animal information.
                 Console.WriteLine($"An error occurred while loading animal information: {ex.Message}");
             }
         }
 
-        // Collection to hold stored feeds
+        // Collection to store added feeds for the current calculation.
         public ObservableCollection<StoredFeed> StoredFeeds { get; set; } = new ObservableCollection<StoredFeed>();
 
-        // Method to add a feed to the stored feeds collection
+        /// <summary>
+        /// Adds the selected feed and its parameters to the stored feeds collection.
+        /// </summary>
         private void OnAddFeed()
         {
             try
@@ -503,10 +594,13 @@ namespace FeedOptimizationApp.Modules.Calculations
                     MaxLimit = MaxLimit
                 };
 
-                StoredFeeds.Insert(0, storedFeed); // Add new feed to the top of the list
-                ClearAddedFeedForm(); // Clear form for next entry
+                // Insert new feed at the beginning of the list.
+                StoredFeeds.Insert(0, storedFeed);
+                // Clear form inputs after adding.
+                ClearAddedFeedForm();
                 AddFeedBoxText = "Add additional feed";
 
+                // If a minimum number of feeds are added, show the Results button.
                 if (StoredFeeds.Count >= 3)
                 {
                     IsResultsButtonVisible = true;
@@ -515,12 +609,14 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
             catch (Exception ex)
             {
-                // Handle the exception (e.g., log it, show a message to the user, etc.)
+                // Log any error that occurs during feed addition.
                 Console.WriteLine($"An error occurred while adding the feed: {ex.Message}");
             }
         }
 
-        // Method to clear the added feed form
+        /// <summary>
+        /// Clears the form inputs used for adding a new feed.
+        /// </summary>
         private void ClearAddedFeedForm()
         {
             SelectedFeed = null;
@@ -533,7 +629,9 @@ namespace FeedOptimizationApp.Modules.Calculations
             MaxLimit = null;
         }
 
-        // Method to clear current feed information
+        /// <summary>
+        /// Clears the current feed information fields.
+        /// </summary>
         private void ClearFeed()
         {
             SelectedFeed = null;
@@ -546,6 +644,11 @@ namespace FeedOptimizationApp.Modules.Calculations
             MaxLimit = null;
         }
 
+        /// <summary>
+        /// Gathers animal information inputs, creates a CalculationEntity, saves it,
+        /// and returns the generated calculation ID.
+        /// </summary>
+        /// <returns>Calculation ID as an integer.</returns>
         private int GetAnimalInformationInputs()
         {
             try
@@ -568,23 +671,29 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                 Calculation = animalInformation;
 
+                // Save the animal information and retrieve the calculation ID.
                 var calculationId = _baseService.CalculationService.SaveCalculationAsync(animalInformation).Result.Data;
                 return calculationId;
             }
             catch (Exception ex)
             {
-                // Handle the exception (e.g., log it, show a message to the user, etc.)
+                // Log error during saving animal information.
                 Console.WriteLine($"An error occurred while saving animal information: {ex.Message}");
-                return 0; // Return a default value or handle it as needed
+                return 0; // Return a default value if error occurs.
             }
         }
 
+        /// <summary>
+        /// Validates the CalculationEntity using the validator.
+        /// Removes the kids/lambs error if the field is not visible.
+        /// </summary>
+        /// <param name="calculation">The CalculationEntity to validate.</param>
         private void ValidateCalculation(CalculationEntity calculation)
         {
             var results = _validator.Validate(calculation);
             ValidationErrors.Clear();
 
-            // if IsNrSucklingsVisible is false the result for the kids/lams validation will be ignored
+            // If the number of sucklings is not visible, ignore its validation error.
             if (!IsNrSucklingsVisible)
             {
                 results.Errors.RemoveAll(e => e.PropertyName == "KidsLambsId");
@@ -601,7 +710,12 @@ namespace FeedOptimizationApp.Modules.Calculations
             OnPropertyChanged(nameof(ValidationErrors));
         }
 
-        // Method to get feed information inputs
+        /// <summary>
+        /// Gathers feed information inputs from the stored feeds, saves each feed record,
+        /// and returns a list of CalculationHasFeed IDs.
+        /// </summary>
+        /// <param name="calculationId">The calculation ID associated with the feeds.</param>
+        /// <returns>List of CalculationHasFeed IDs.</returns>
         private List<int> GetFeedInformationInputs(int calculationId)
         {
             int calcHasFeedId;
@@ -627,13 +741,14 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                     calcFeedList.Add(calcFeed);
 
+                    // Save each feed record and capture its ID.
                     calcHasFeedId = _baseService.CalculationService.SaveCalculationHasFeedAsync(calcFeed).Result.Data;
                     if (calcHasFeedId != 0)
                         calcHasFeedIds.Add(calcHasFeedId);
                 }
                 catch (Exception ex)
                 {
-                    // Handle the exception for individual feed input
+                    // Log error for individual feed saving.
                     Console.WriteLine($"An error occurred while saving feed input for feed ID {storedFeed.Feed?.Id}: {ex.Message}");
                 }
             }
@@ -642,18 +757,30 @@ namespace FeedOptimizationApp.Modules.Calculations
             return calcHasFeedIds;
         }
 
-        // Method to perform calculation asynchronously
+        /// <summary>
+        /// Asynchronously triggers the calculation process.
+        /// </summary>
+        /// <param name="calculationId">The calculation ID.</param>
+        /// <param name="calculationHasFeedIds">List of CalculationHasFeed IDs.</param>
         private async Task DoCalculationAsync(int calculationId, List<int> calculationHasFeedIds)
         {
             CalculateResult(calculationId, calculationHasFeedIds);
         }
 
+        /// <summary>
+        /// Performs the calculation based on the saved feed inputs.
+        /// Retrieves each CalculationHasFeed record, computes cost and ration values,
+        /// and updates the total ration as well as stored results.
+        /// </summary>
+        /// <param name="calculationId">The calculation ID.</param>
+        /// <param name="calculationHasFeedIds">List of CalculationHasFeed IDs.</param>
         public async void CalculateResult(int calculationId, List<int> calculationHasFeedIds)
         {
             try
             {
                 decimal totalCost = 0;
                 var calcFeedInformation = new List<CalculationHasFeedEntity>();
+                // Retrieve each CalculationHasFeed record using its ID.
                 foreach (var calcFeedId in calculationHasFeedIds)
                 {
                     try
@@ -666,16 +793,18 @@ namespace FeedOptimizationApp.Modules.Calculations
                     }
                     catch (Exception ex)
                     {
-                        // Handle the exception for individual feed retrieval
+                        // Log error if a specific feed record cannot be retrieved.
                         Console.WriteLine($"An error occurred while retrieving calc has feed with ID {calcFeedId}: {ex.Message}");
                     }
                 }
 
                 var calcHasResultList = new List<CalculationHasResultEntity>();
                 var storedResultList = new List<StoredResults>();
-                // Calculate the result
+
+                // Calculate the result for each feed.
                 foreach (var info in calcFeedInformation)
                 {
+                    // Calculate dry matter intake, protein, energy, and cost.
                     var dmig = info.Intake * info.DM / 100;
                     var cpig = dmig * info.CPDM / 100;
                     var meimjday = dmig * info.MEMJKGDM / 1000;
@@ -683,6 +812,7 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                     totalCost += cost;
 
+                    // Create a CalculationHasResultEntity (example values used for demonstration).
                     var calcHasResult = new CalculationHasResultEntity
                     {
                         CalculationId = calculationId,
@@ -694,9 +824,10 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                     calcHasResultList.Add(calcHasResult);
 
-                    // get feed by id
+                    // Retrieve feed information for the result.
                     var feed = await _baseService.FeedService.GetById(info.FeedId);
 
+                    // Create a stored result object for display purposes.
                     var storedResult = new StoredResults
                     {
                         Feed = feed.Data,
@@ -709,27 +840,31 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                     storedResultList.Add(storedResult);
                 }
+                // Update total ration cost.
                 TotalRation = totalCost;
                 CalculationHasResults = calcHasResultList;
                 StoredResults = storedResultList;
             }
             catch (Exception ex)
             {
-                // Handle the exception for the overall calculation process
+                // Log error if calculation fails.
                 Console.WriteLine($"An error occurred while calculating the result: {ex.Message}");
             }
         }
 
-        // Method to save feed to database
+        /// <summary>
+        /// Initiates the process to save the calculated results.
+        /// Displays a custom prompt to get name and description, then saves the calculation and its results.
+        /// </summary>
         private async void OnSaveResults()
         {
             try
             {
-                // Show custom prompt page
+                // Show a custom prompt page for the user to input name and description.
                 var promptPage = new SaveCalculationPrompt();
                 await Application.Current.MainPage.Navigation.PushModalAsync(promptPage);
 
-                // Subscribe to the message from the prompt page
+                // Subscribe to the MessagingCenter event from the prompt page.
                 MessagingCenter.Subscribe<SaveCalculationPrompt, Tuple<string, string>>(this, "SaveCalculation", async (sender, result) =>
                 {
                     try
@@ -737,7 +872,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                         var name = result.Item1;
                         var description = result.Item2;
 
-                        // Save the calculation
+                        // Iterate through each CalculationHasResult and update the Calculation entity.
                         var calcHasResultIds = new List<int>();
                         foreach (var calcHasResult in CalculationHasResults)
                         {
@@ -745,26 +880,27 @@ namespace FeedOptimizationApp.Modules.Calculations
                             if (calculation?.Data != null)
                             {
                                 calculation.Data.UpdateNameAndDescription(name, description);
-                                // Save the updated calculation
+                                // Update the Calculation record.
                                 await _baseService.CalculationService.UpdateCalculationAsync(calculation.Data);
 
+                                // Save the CalculationHasResult record.
                                 await _baseService.CalculationService.SaveCalculationHasResultAsync(calcHasResult);
                             }
                         }
 
-                        // Optionally, display a message to the user
+                        // Notify user of successful save.
                         await Toast.Make("Results saved successfully.").Show();
 
-                        // Unsubscribe from the message
+                        // Unsubscribe from the MessagingCenter event.
                         MessagingCenter.Unsubscribe<SaveCalculationPrompt, Tuple<string, string>>(this, "SaveCalculation");
 
-                        // Show custom popup with OK button
+                        // Show a custom alert popup indicating save completion.
                         var customAlertPopup = new CustomAlertPopup("Save complete!", "Please use the view calculations option to view your saved calculation.");
                         await Application.Current.MainPage.ShowPopupAsync(customAlertPopup);
                     }
                     catch (Exception ex)
                     {
-                        // Handle the exception (e.g., log it, show a message to the user, etc.)
+                        // Log error if saving the calculation fails.
                         Console.WriteLine($"An error occurred while saving the calculation: {ex.Message}");
                         await Toast.Make("An error occurred while saving the calculation.").Show();
                     }
@@ -772,10 +908,12 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
             catch (Exception ex)
             {
-                // Handle the exception (e.g., log it, show a message to the user, etc.)
+                // Log error if the prompt page fails to show.
                 Console.WriteLine($"An error occurred while showing the prompt page: {ex.Message}");
                 await Toast.Make("An error occurred while showing the prompt page.").Show();
             }
         }
+
+        #endregion Methods for Data Loading and User Actions
     }
 }

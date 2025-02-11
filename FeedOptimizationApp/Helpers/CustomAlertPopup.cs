@@ -5,8 +5,16 @@ using Microsoft.Maui.Graphics;
 
 namespace FeedOptimizationApp.Helpers
 {
+    /// <summary>
+    /// Custom alert popup for displaying messages.
+    /// </summary>
     public class CustomAlertPopup : Popup
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomAlertPopup"/> class.
+        /// </summary>
+        /// <param name="title">The title of the popup.</param>
+        /// <param name="message">The message to display in the popup.</param>
         public CustomAlertPopup(string title, string message)
         {
             var grid = new Grid
