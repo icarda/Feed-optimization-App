@@ -377,7 +377,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     "Rams" => Constants.DCP_Maintenance_RAMS,
                     _ => 0
                 };
-                DCPMaintenance = maintenanceValue;
+                DCPMaintenance = EnergyReq / 1000 * maintenanceValue;
 
                 // Calculate DCPLactation only for EWES_AND_LAMBS
                 if (SelectedType.Name == "Ewes and lambs" && DailyMilkYieldValue != null)
@@ -395,7 +395,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 // Calculate CPLactation only for EWES_AND_LAMBS
                 if (SelectedType.Name == "Ewes and lambs")
                 {
-                    CPLactation = DCPLactation * 1.115 * 3.84;
+                    CPLactation = DCPLactation * 1.115 + 3.84;
                 }
                 else
                 {
@@ -670,7 +670,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         }
 
         // Milk fat content value input.
-        private decimal? _fatContentValue = (decimal?)6.8;
+        private decimal? _fatContentValue = (decimal?)0.068;
 
         public decimal? FatContentValue
         {
