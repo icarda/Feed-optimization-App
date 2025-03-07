@@ -7,6 +7,7 @@ using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
+using FeedOptimizationApp.Shared;
 using static FeedOptimizationApp.Modules.Calculations.ExpandedResultsViewModel;
 
 namespace FeedOptimizationApp.Modules.Calculations
@@ -47,6 +48,9 @@ namespace FeedOptimizationApp.Modules.Calculations
             ClearFeedCommand = new Command(ClearFeed);
             AddFeedCommand = new Command(OnAddFeed);
             SaveResultsCommand = new Command(OnSaveResults);
+            ClearAnimalInfoCommand = new Command(ClearAnimalInfo);
+            ResetFeedInfoCommand = new Command(ResetFeedInfo);
+            SearchCommand = new Command<string>(text => SearchText = text);
 
             // Execute the command to load animal information immediately
             LoadAnimalInformationCommand.Execute(null);
@@ -133,7 +137,223 @@ namespace FeedOptimizationApp.Modules.Calculations
         // Command to save the calculated results.
         public ICommand SaveResultsCommand { get; }
 
+        // Command to clear the animal information fields.
+        public ICommand ClearAnimalInfoCommand { get; }
+
+        // Command to clear the stored feed information and feed information fields.
+        public ICommand ResetFeedInfoCommand { get; }
+
+        public ICommand SearchCommand { get; }
+
         #endregion Commands
+
+        #region Calculation Properties
+
+        private double _mem;
+
+        public double MEm
+        {
+            get => _mem;
+            set => SetProperty(ref _mem, value);
+        }
+
+        private double _memGrazing;
+
+        public double MEmGrazing
+        {
+            get => _memGrazing;
+            set => SetProperty(ref _memGrazing, value);
+        }
+
+        private double _meG;
+
+        public double MEg
+        {
+            get => _meG;
+            set => SetProperty(ref _meG, value);
+        }
+
+        private double _meGestation;
+
+        public double MEGestation
+        {
+            get => _meGestation;
+            set => SetProperty(ref _meGestation, value);
+        }
+
+        private double _meLactation;
+
+        public double MELactation
+        {
+            get => _meLactation;
+            set => SetProperty(ref _meLactation, value);
+        }
+
+        private double _energyReq;
+
+        public double EnergyReq
+        {
+            get => _energyReq;
+            set => SetProperty(ref _energyReq, value);
+        }
+
+        private double _fourPercFCM;
+
+        public double FourPercFCM
+        {
+            get => _fourPercFCM;
+            set => SetProperty(ref _fourPercFCM, value);
+        }
+
+        private double _dcpMaintenance;
+
+        public double DCPMaintenance
+        {
+            get => _dcpMaintenance;
+            set => SetProperty(ref _dcpMaintenance, value);
+        }
+
+        private double _dcpLactation;
+
+        public double DCPLactation
+        {
+            get => _dcpLactation;
+            set => SetProperty(ref _dcpLactation, value);
+        }
+
+        private double _cpGain;
+
+        public double CPGain
+        {
+            get => _cpGain;
+            set => SetProperty(ref _cpGain, value);
+        }
+
+        private double _cpLactation;
+
+        public double CPLactation
+        {
+            get => _cpLactation;
+            set => SetProperty(ref _cpLactation, value);
+        }
+
+        private double _dcpReq;
+
+        public double DCPReq
+        {
+            get => _dcpReq;
+            set => SetProperty(ref _dcpReq, value);
+        }
+
+        private double _cpReq;
+
+        public double CPReq
+        {
+            get => _cpReq;
+            set => SetProperty(ref _cpReq, value);
+        }
+
+        private double _dmi;
+
+        public double DMI
+        {
+            get => _dmi;
+            set => SetProperty(ref _dmi, value);
+        }
+
+        private double _dmiGestation;
+
+        public double DMIGestation
+        {
+            get => _dmiGestation;
+            set => SetProperty(ref _dmiGestation, value);
+        }
+
+        private double _dmiLactation;
+
+        public double DMILactation
+        {
+            get => _dmiLactation;
+            set => SetProperty(ref _dmiLactation, value);
+        }
+
+        private double _dmiReq;
+
+        public double DMIReq
+        {
+            get => _dmiReq;
+            set => SetProperty(ref _dmiReq, value);
+        }
+
+        #endregion Calculation Properties
+
+        #region Calculation Property Value Updates
+
+        private void CalculateEnergyReq()
+        {
+            if (SelectedBodyWeight != null && SelectedType != null)
+            {
+                double bodyWeight = double.Parse(SelectedBodyWeight.Name);
+                double maintenanceValue = SelectedType.Name switch
+                {
+                    "Ewes" => Constants.ME_maintenance_EWES,
+                    "Ewes and lambs" => Constants.ME_maintenance_EWES_AND_LAMBS,
+                    "Weaned lambs" => Constants.ME_maintenance_WEANED_LAMBS,
+                    "Rams" => Constants.ME_maintenance_RAMS,
+                    _ => 0
+                };
+
+                MEm = Math.Pow(bodyWeight, 0.75) * maintenanceValue;
+
+                // Calculate MEmGrazing
+                if (SelectedGrazing != null)
+                {
+                    double grazingMultiplier = SelectedGrazing.Name switch
+                    {
+                        "None" => Constants.ME_m_GRAZING_NONE,
+                        "Close by" => Constants.ME_m_GRAZING_CLOSE_BY,
+                        "Open range" => Constants.ME_m_GRAZING_OPEN_RANGE,
+                        "Rough mountain terrain" => Constants.ME_m_GRAZING_ROUGH_MOUNTAIN_TERRAIN,
+                        _ => 0
+                    };
+
+                    MEmGrazing = MEm * grazingMultiplier;
+                }
+
+                // Calculate MEg
+                if (ADG != null)
+                {
+                    double gainValue = SelectedType.Name switch
+                    {
+                        "Ewes" => Constants.ME_gain_EWES,
+                        "Ewes and lambs" => Constants.ME_gain_EWES_AND_LAMBS,
+                        "Weaned lambs" => Constants.ME_gain_WEANED_LAMBS,
+                        "Rams" => Constants.ME_gain_RAMS,
+                        _ => 0
+                    };
+
+                    MEg = (double)ADG * gainValue;
+                }
+
+                // Calculate MEGestation
+                double gestationMultiplier = IsLast8WeeksOfGestation ? Constants.ME_gestation_YES : Constants.ME_gestation_NO;
+                MEGestation = MEm * gestationMultiplier;
+
+                // Calculate FourPercFCM
+                if (DailyMilkYieldValue != null && FatContentValue != null)
+                {
+                    FourPercFCM = (0.4 * (double)DailyMilkYieldValue) + (1.5 * (double)DailyMilkYieldValue * (double)FatContentValue * 10);
+                }
+
+                // Calculate MELactation
+                MELactation = FourPercFCM * Constants.ME_lactation;
+
+                // Calculate EnergyReq
+                EnergyReq = MEm + MEmGrazing + MEg + MEGestation + MELactation;
+            }
+        }
+
+        #endregion Calculation Property Value Updates
 
         #region Properties
 
@@ -217,8 +437,16 @@ namespace FeedOptimizationApp.Modules.Calculations
             {
                 if (SetProperty(ref _selectedType, value))
                 {
-                    // If the type is "Does" or "Ewes", display the sucklings field.
-                    IsNrSucklingsVisible = value.Name == "Does" || value.Name == "Ewes";
+                    if (value == null)
+                    {
+                        IsNrSucklingsVisible = false;
+                    }
+                    else
+                    {
+                        // Set the visibility of the number of sucklings field based on the selected type.
+                        IsNrSucklingsVisible = value.Name == "Does" || value.Name == "Ewes";
+                    }
+                    CalculateEnergyReq();
                 }
             }
         }
@@ -229,7 +457,13 @@ namespace FeedOptimizationApp.Modules.Calculations
         public GrazingEntity? SelectedGrazing
         {
             get => _selectedGrazing;
-            set => SetProperty(ref _selectedGrazing, value);
+            set
+            {
+                if (SetProperty(ref _selectedGrazing, value))
+                {
+                    CalculateEnergyReq();
+                }
+            }
         }
 
         // Selected body weight entity.
@@ -238,16 +472,28 @@ namespace FeedOptimizationApp.Modules.Calculations
         public BodyWeightEntity? SelectedBodyWeight
         {
             get => _selectedBodyWeight;
-            set => SetProperty(ref _selectedBodyWeight, value);
+            set
+            {
+                if (SetProperty(ref _selectedBodyWeight, value))
+                {
+                    CalculateEnergyReq();
+                }
+            }
         }
 
         // Average Daily Gain (ADG) input.
-        private decimal? _ADG;
+        private decimal? _ADG = 150;
 
         public decimal? ADG
         {
             get => _ADG;
-            set => SetProperty(ref _ADG, value);
+            set
+            {
+                if (SetProperty(ref _ADG, value))
+                {
+                    CalculateEnergyReq();
+                }
+            }
         }
 
         // Selected diet quality estimate.
@@ -265,7 +511,13 @@ namespace FeedOptimizationApp.Modules.Calculations
         public bool IsLast8WeeksOfGestation
         {
             get => _isLast8WeeksOfGestation;
-            set => SetProperty(ref _isLast8WeeksOfGestation, value);
+            set
+            {
+                if (SetProperty(ref _isLast8WeeksOfGestation, value))
+                {
+                    CalculateEnergyReq();
+                }
+            }
         }
 
         // Selected number of suckling kids or lambs.
@@ -283,16 +535,28 @@ namespace FeedOptimizationApp.Modules.Calculations
         public decimal? DailyMilkYieldValue
         {
             get => _dailyMilkYieldValue;
-            set => SetProperty(ref _dailyMilkYieldValue, value);
+            set
+            {
+                if (SetProperty(ref _dailyMilkYieldValue, value))
+                {
+                    CalculateEnergyReq();
+                }
+            }
         }
 
         // Milk fat content value input.
-        private decimal? _fatContentValue;
+        private decimal? _fatContentValue = (decimal?)6.8;
 
         public decimal? FatContentValue
         {
             get => _fatContentValue;
-            set => SetProperty(ref _fatContentValue, value);
+            set
+            {
+                if (SetProperty(ref _fatContentValue, value))
+                {
+                    CalculateEnergyReq();
+                }
+            }
         }
 
         // Selected feed from the list.
@@ -454,7 +718,35 @@ namespace FeedOptimizationApp.Modules.Calculations
         #region Collections for Options and Feeds
 
         // Collection of available feeds.
-        public ObservableCollection<FeedEntity> Feeds { get; set; } = new ObservableCollection<FeedEntity>();
+        private ObservableCollection<FeedEntity> _feeds = new();
+
+        public ObservableCollection<FeedEntity> Feeds
+        {
+            get => _feeds;
+            set => SetProperty(ref _feeds, value);
+        }
+
+        private ObservableCollection<FeedEntity> _allFeeds = new();
+
+        public ObservableCollection<FeedEntity> AllFeeds
+        {
+            get => _allFeeds;
+            set => SetProperty(ref _allFeeds, value);
+        }
+
+        private string _searchText;
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                if (SetProperty(ref _searchText, value))
+                {
+                    FilterFeeds();
+                }
+            }
+        }
 
         // Collection of available animal types.
         public ObservableCollection<LookupDTO> Types { get; set; } = new ObservableCollection<LookupDTO>();
@@ -487,13 +779,13 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             try
             {
-                Feeds.Clear();
+                AllFeeds.Clear();
                 var feeds = await _baseService.FeedService.GetAllAsync();
                 if (feeds != null)
                 {
                     foreach (var feed in feeds.Data)
                     {
-                        Feeds.Add(feed);
+                        AllFeeds.Add(feed);
                     }
                 }
             }
@@ -601,7 +893,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 AddFeedBoxText = "Add additional feed";
 
                 // If a minimum number of feeds are added, show the Results button.
-                if (StoredFeeds.Count >= 3)
+                if (StoredFeeds.Count >= 1)
                 {
                     IsResultsButtonVisible = true;
                     IsAddFeedExpanded = false;
@@ -627,6 +919,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             Intake = null;
             MinLimit = null;
             MaxLimit = null;
+            SearchText = string.Empty; // Clear the search text
         }
 
         /// <summary>
@@ -642,6 +935,36 @@ namespace FeedOptimizationApp.Modules.Calculations
             Intake = null;
             MinLimit = null;
             MaxLimit = null;
+            SearchText = string.Empty; // Clear the search text
+        }
+
+        /// <summary>
+        /// Clears the animal information fields.
+        /// </summary>
+        private void ClearAnimalInfo()
+        {
+            SelectedType = null;
+            SelectedGrazing = null;
+            SelectedBodyWeight = null;
+            ADG = 150;
+            SelectedDietQualityEstimate = null;
+            IsLast8WeeksOfGestation = false;
+            SelectedNumberOfSucklingKidsLambs = null;
+            DailyMilkYieldValue = null;
+            FatContentValue = (decimal?)6.8;
+
+            ResetFeedInfo();
+        }
+
+        /// <summary>
+        /// Resets the stored feed information and feed information fields.
+        /// </summary>
+        private void ResetFeedInfo()
+        {
+            StoredFeeds.Clear();
+            ClearFeed();
+            AddFeedBoxText = "Add feed";
+            IsResultsButtonVisible = false;
         }
 
         /// <summary>
@@ -915,5 +1238,20 @@ namespace FeedOptimizationApp.Modules.Calculations
         }
 
         #endregion Methods for Data Loading and User Actions
+
+        private void FilterFeeds()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                Feeds = new ObservableCollection<FeedEntity>(_allFeeds);
+            }
+            else
+            {
+                var filtered = _allFeeds
+                    .Where(f => f.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+                Feeds = new ObservableCollection<FeedEntity>(filtered);
+            }
+        }
     }
 }

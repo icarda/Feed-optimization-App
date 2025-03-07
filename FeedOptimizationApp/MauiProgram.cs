@@ -30,7 +30,6 @@ namespace FeedOptimizationApp
                     fonts.AddFont("fasolid.ttf", "FaSolid");
                     fonts.AddFont("fabrands.ttf", "FaBrands");
                 });
-
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

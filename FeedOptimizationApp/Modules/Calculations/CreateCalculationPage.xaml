@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:customcontrols="clr-namespace:FeedOptimizationApp.Helpers"
              x:Class="FeedOptimizationApp.Modules.Calculations.CreateCalculationPage"
              Title="Create Calculation">
 
@@ -36,6 +37,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackLayout Padding="10" Grid.Row="0">
                 <Label Text="Animal Information" FontSize="24" FontAttributes="Bold" />
@@ -210,6 +212,13 @@
                     </Border>
                 </StackLayout>
             </ScrollView>
+            <!-- Clear Button -->
+            <Button Text="Clear"
+                    BackgroundColor="{StaticResource Secondary}"
+                    Command="{Binding ClearAnimalInfoCommand}"
+                    HorizontalOptions="End"
+                    Margin="0,20,0,0"
+                    Grid.Row="3" />
         </Grid>
 
         <!-- Feed Info Content -->
@@ -218,6 +227,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackLayout Padding="10" Grid.Row="0">
                 <Label Text="Feed Information" FontSize="24" FontAttributes="Bold" />
@@ -239,7 +249,8 @@
                                     <Label Text="{Binding AddFeedBoxText}"
                                             FontSize="16"
                                             FontAttributes="Bold"
-                                            VerticalOptions="Center" />
+                                            VerticalOptions="Center"
+                                           Padding="10,0,0,0" />
                                     <Label Text="+ "
                                             FontSize="20"
                                             Grid.Column="1"
@@ -248,7 +259,7 @@
                                 </Grid>
                             </toolkit:Expander.Header>
                             <toolkit:Expander.Content>
-                                <Grid ColumnSpacing="10" RowSpacing="1">
+                                <Grid ColumnSpacing="10" RowSpacing="0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -258,43 +269,48 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="30" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Picker Title="Select an option"
+                                    <!--<Picker Title="Select an option"
                                              ItemsSource="{Binding Feeds}"
                                              ItemDisplayBinding="{Binding Name}"
                                              SelectedItem="{Binding SelectedFeed}"
                                              Grid.Row="0"
-                                             Grid.ColumnSpan="2" />
+                                             Grid.ColumnSpan="2" />-->
 
-                                    <Label Text="DM(%)" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" />
-                                    <Entry Placeholder="DM(%)" Text="{Binding SelectedFeed.DryMatterPercentage}" Grid.Row="1" Grid.Column="1" />
+                                    <customcontrols:AutoCompletePicker
+                                        x:Name="AutoCompletePicker"
+                                        ItemsSource="{Binding Feeds}"
+                                        SelectedItem="{Binding SelectedFeed, Mode=TwoWay}"
+                                        ItemDisplayBinding="{Binding Name}"
+                                        TextChangedCommand="{Binding SearchCommand}"
+                                        Grid.Row="0"
+                                        Grid.ColumnSpan="2" />
 
-                                    <Label Text="CP(%DM)" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" />
-                                    <Entry Placeholder="CP(%DM)" Text="{Binding SelectedFeed.CPPercentage}" Grid.Row="2" Grid.Column="1" />
+                                    <Label Text="DM(%)" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                    <Entry Placeholder="DM(%)" Text="{Binding SelectedFeed.DryMatterPercentage}" Grid.Row="1" Grid.Column="1" FontSize="14" />
+                                    <Label Text="CP(%DM)" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                    <Entry Placeholder="CP(%DM)" Text="{Binding SelectedFeed.CPPercentage}" Grid.Row="2" Grid.Column="1" FontSize="14" />
+                                    <Label Text="ME(MJ/kg DM)" Grid.Row="3" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                    <Entry Placeholder="ME(MJ/kg DM)" Text="{Binding SelectedFeed.MEMJKg}" Grid.Row="3" Grid.Column="1" FontSize="14" />
+                                    <Label Text="Price/kg (DM)" Grid.Row="4" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                    <Entry Placeholder="Price/kg (DM)" Text="{Binding Price}" Grid.Row="4" Grid.Column="1" FontSize="14" />
+                                    <Label Text="Intake (g DM)" Grid.Row="5" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                    <Entry Placeholder="Intake (g DM)" Text="{Binding Intake}" Grid.Row="5" Grid.Column="1" FontSize="14" />
+                                    <Label Text="Min limit (g)" Grid.Row="6" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                    <Entry Placeholder="Min limit (g)" Text="{Binding MinLimit}" Grid.Row="6" Grid.Column="1" FontSize="14" />
+                                    <Label Text="Max limit (g)" Grid.Row="7" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                    <Entry Placeholder="Max limit (g)" Text="{Binding MaxLimit}" Grid.Row="7" Grid.Column="1" FontSize="14" />
 
-                                    <Label Text="ME(MJ/kg DM)" Grid.Row="3" Grid.Column="0" VerticalOptions="Center" />
-                                    <Entry Placeholder="ME(MJ/kg DM)" Text="{Binding SelectedFeed.MEMJKg}" Grid.Row="3" Grid.Column="1" />
-
-                                    <Label Text="Price/kg (DM)" Grid.Row="4" Grid.Column="0" VerticalOptions="Center" />
-                                    <Entry Placeholder="Price/kg (DM)" Text="{Binding Price}" Grid.Row="4" Grid.Column="1" />
-
-                                    <Label Text="Intake (g DM)" Grid.Row="5" Grid.Column="0" VerticalOptions="Center" />
-                                    <Entry Placeholder="Intake (g DM)" Text="{Binding Intake}" Grid.Row="5" Grid.Column="1" />
-
-                                    <Label Text="Min limit (g)" Grid.Row="6" Grid.Column="0" VerticalOptions="Center" />
-                                    <Entry Placeholder="Min limit (g)" Text="{Binding MinLimit}" Grid.Row="6" Grid.Column="1" />
-
-                                    <Label Text="Max limit (g)" Grid.Row="7" Grid.Column="0" VerticalOptions="Center" />
-                                    <Entry Placeholder="Max limit (g)" Text="{Binding MaxLimit}" Grid.Row="7" Grid.Column="1" />
-
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Row="8" Grid.ColumnSpan="1" Spacing="10">
+                                        <Button Text="Clear" BackgroundColor="{StaticResource Secondary}" Command="{Binding ClearFeedCommand}" />
+                                    </StackLayout>
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Row="8" Grid.ColumnSpan="2" Spacing="10">
-                                        <Button Text="Clear" Command="{Binding ClearFeedCommand}" />
                                         <Button Text="Add" Command="{Binding AddFeedCommand}" />
                                     </StackLayout>
                                 </Grid>
@@ -306,7 +322,7 @@
                     <StackLayout BindableLayout.ItemsSource="{Binding StoredFeeds}">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <Border Stroke="Gray" Padding="10" Margin="0,20,0,0">
+                                <Border Stroke="Gray" Padding="10" Margin="0,10,0,0">
                                     <toolkit:Expander>
                                         <toolkit:Expander.Header>
                                             <Grid>
@@ -318,7 +334,7 @@
                                                        FontSize="16"
                                                        FontAttributes="Bold"
                                                        VerticalOptions="Center"
-                                                       Margin="0,0,0,10" />
+                                                       Padding="10,2,0,2" />
                                                 <Label Text="▼"
                                                        FontSize="16"
                                                        Grid.Column="1"
@@ -327,7 +343,7 @@
                                             </Grid>
                                         </toolkit:Expander.Header>
                                         <toolkit:Expander.Content>
-                                            <Grid ColumnSpacing="10" RowSpacing="2">
+                                            <Grid ColumnSpacing="10" RowSpacing="0">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
@@ -335,26 +351,33 @@
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="30" />
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="246" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <Label Text="DM(%)" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" />
-                                                <Entry Text="{Binding DM}" Grid.Row="0" Grid.Column="1" />
-                                                <Label Text="CP(%DM)" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" />
-                                                <Entry Text="{Binding CPDM}" Grid.Row="1" Grid.Column="1" />
-                                                <Label Text="ME(MJ/kg DM)" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" />
-                                                <Entry Text="{Binding MEMJKGDM}" Grid.Row="2" Grid.Column="1" />
-                                                <Label Text="Price/kg (DM)" Grid.Row="3" Grid.Column="0" VerticalOptions="Center" />
-                                                <Entry Text="{Binding Price}" Grid.Row="3" Grid.Column="1" />
-                                                <Label Text="Intake (g DM)" Grid.Row="4" Grid.Column="0" VerticalOptions="Center" />
-                                                <Entry Text="{Binding Intake}" Grid.Row="4" Grid.Column="1" />
-                                                <Label Text="Min limit(g)" Grid.Row="5" Grid.Column="0" VerticalOptions="Center" />
-                                                <Entry Text="{Binding MinLimit}" Grid.Row="5" Grid.Column="1" />
-                                                <Label Text="Max limit(g)" Grid.Row="6" Grid.Column="0" VerticalOptions="Center" />
-                                                <Entry Text="{Binding MaxLimit}" Grid.Row="6" Grid.Column="1" />
+                                                <Label Text="DM(%)" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                                <Entry Text="{Binding DM}" Grid.Row="0" Grid.Column="1" IsEnabled="False" FontSize="14" />
+                                                <Label Text="CP(%DM)" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                                <Entry Text="{Binding CPDM}" Grid.Row="1" Grid.Column="1" IsEnabled="False" FontSize="14" />
+                                                <Label Text="ME(MJ/kg DM)" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                                <Entry Text="{Binding MEMJKGDM}" Grid.Row="2" Grid.Column="1" IsEnabled="False" FontSize="14" />
+                                                <Label Text="Price/kg (DM)" Grid.Row="3" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                                <Entry Text="{Binding Price}" Grid.Row="3" Grid.Column="1" IsEnabled="False" FontSize="14" />
+                                                <Label Text="Intake (g DM)" Grid.Row="4" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                                <Entry Text="{Binding Intake}" Grid.Row="4" Grid.Column="1" IsEnabled="False" FontSize="14" />
+                                                <Label Text="Min limit(g)" Grid.Row="5" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                                <Entry Text="{Binding MinLimit}" Grid.Row="5" Grid.Column="1" IsEnabled="False" FontSize="14" />
+                                                <Label Text="Max limit(g)" Grid.Row="6" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                                <Entry Text="{Binding MaxLimit}" Grid.Row="6" Grid.Column="1" IsEnabled="False" FontSize="14" />
+
+                                                <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Row="7" Grid.ColumnSpan="1" Spacing="10">
+                                                    <Button Text="Remove"  IsEnabled="False" />
+                                                </StackLayout>
+                                                <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Row="7" Grid.ColumnSpan="2" Spacing="10">
+                                                    <Button Text="Edit"  IsEnabled="False" />
+                                                </StackLayout>
                                             </Grid>
                                         </toolkit:Expander.Content>
                                     </toolkit:Expander>
@@ -364,6 +387,13 @@
                     </StackLayout>
                 </StackLayout>
             </ScrollView>
+            <!-- Reset Button -->
+            <Button Text="Clear All"
+                    BackgroundColor="{StaticResource Secondary}"
+                    Command="{Binding ResetFeedInfoCommand}"
+                    HorizontalOptions="End"
+                    Margin="0,20,0,0"
+                    Grid.Row="3" />
         </Grid>
 
         <!-- Results Content -->

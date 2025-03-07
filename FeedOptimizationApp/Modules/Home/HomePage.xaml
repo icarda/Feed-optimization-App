@@ -2,45 +2,53 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FeedOptimizationApp.Modules.Home.HomePage" Title="">
-    <StackLayout Padding="20" Spacing="20">
-        <!-- Heading -->
-        <Label Text="Feed Optimization App"
-               FontSize="24"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               VerticalOptions="Start"
-               Margin="0,0,0,10" />
-        <!-- SubHeading -->
-        <Label Text="Welcome,"
-               FontSize="16"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               VerticalOptions="Start"
-               Margin="0,0,0,30" />
-        <!-- Create Calculation Button -->
-        <Button Text="Create Calculation"
-                FontSize="16"
-                Command="{Binding CreateCalculationCommand}"
-                HorizontalOptions="Center"
-                VerticalOptions="CenterAndExpand"
-                WidthRequest="250"
-                HeightRequest="100">
-            <Button.ImageSource>
-                <FontImageSource Glyph="{StaticResource IconPlusCircle}" FontFamily="FaSolid" Color="{StaticResource White}" />
-            </Button.ImageSource>
-        </Button>
 
-        <!-- View Calculations Button -->
-        <Button Text="View Calculations"
-                FontSize="16"
-        Command="{Binding ViewCalculationsCommand}"
-        HorizontalOptions="Center"
-        VerticalOptions="CenterAndExpand"
-        WidthRequest="250"
-        HeightRequest="100">
-            <Button.ImageSource>
-                <FontImageSource Glyph="{StaticResource IconTable}" FontFamily="FaSolid" Color="{StaticResource White}" />
-            </Button.ImageSource>
-        </Button>
-    </StackLayout>
+    <Grid Padding="20" RowSpacing="20" ColumnSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Heading and SubHeading -->
+        <StackLayout Grid.Row="0" Spacing="10">
+            <Label Text="Feed Optimization App"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+            <Label Text="Welcome,"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Start"/>
+        </StackLayout>
+
+        <StackLayout Grid.Row="1" VerticalOptions="Center" Spacing="50">
+            <!-- Create Calculation Button -->
+            <Button 
+                    Text="Create Calculation"
+                    FontSize="16"
+                    Command="{Binding CreateCalculationCommand}"
+                    HeightRequest="120"
+                    WidthRequest="250">
+                <Button.ImageSource>
+                    <FontImageSource Glyph="{StaticResource IconPlusCircle}" FontFamily="FaSolid" Color="{StaticResource White}" />
+                </Button.ImageSource>
+            </Button>
+
+            <!-- View Calculations Button -->
+            <Button 
+                    Text="View Calculations"
+                    FontSize="16"
+                    Command="{Binding ViewCalculationsCommand}"
+                    HeightRequest="120"
+                    WidthRequest="250">
+                <Button.ImageSource>
+                    <FontImageSource Glyph="{StaticResource IconTable}" FontFamily="FaSolid" Color="{StaticResource White}" />
+                </Button.ImageSource>
+            </Button>
+        </StackLayout>
+        
+    </Grid>
 </ContentPage>

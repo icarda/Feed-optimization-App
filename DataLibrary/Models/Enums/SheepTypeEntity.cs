@@ -6,8 +6,9 @@ namespace DataLibrary.Models
     public class SheepTypeEntity : Enumeration
     {
         public static SheepTypeEntity EWES = new SheepTypeEntity(1, "Ewes");
-        public static SheepTypeEntity WEANED_LAMBS = new SheepTypeEntity(2, "Weaned lambs");
-        public static SheepTypeEntity RAMS = new SheepTypeEntity(3, "Rams");
+        public static SheepTypeEntity EWES_AND_LAMBS = new SheepTypeEntity(2, "Ewes and lambs");
+        public static SheepTypeEntity WEANED_LAMBS = new SheepTypeEntity(3, "Weaned lambs");
+        public static SheepTypeEntity RAMS = new SheepTypeEntity(4, "Rams");
 
         public SheepTypeEntity()
         {
@@ -19,7 +20,7 @@ namespace DataLibrary.Models
 
         public static IEnumerable<SheepTypeEntity> List()
         {
-            return new[] { EWES, WEANED_LAMBS, RAMS };
+            return new[] { EWES, EWES_AND_LAMBS, WEANED_LAMBS, RAMS };
         }
 
         public static SheepTypeEntity FromName(string name)
