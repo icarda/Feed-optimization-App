@@ -194,7 +194,13 @@ namespace FeedOptimizationApp.Modules.Calculations
         public double EnergyReq
         {
             get => _energyReq;
-            set => SetProperty(ref _energyReq, value);
+            set
+            {
+                if (SetProperty(ref _energyReq, value))
+                {
+                    CalculateDCPReqAndCPReq();
+                }
+            }
         }
 
         private double _fourPercFCM;
@@ -339,17 +345,124 @@ namespace FeedOptimizationApp.Modules.Calculations
                 double gestationMultiplier = IsLast8WeeksOfGestation ? Constants.ME_gestation_YES : Constants.ME_gestation_NO;
                 MEGestation = MEm * gestationMultiplier;
 
-                // Calculate FourPercFCM
-                if (DailyMilkYieldValue != null && FatContentValue != null)
+                // Calculate lactation-related properties only for EWES_AND_LAMBS
+                if (SelectedType.Name == "Ewes and lambs" && DailyMilkYieldValue != null && FatContentValue != null)
                 {
+                    // Calculate FourPercFCM
                     FourPercFCM = (0.4 * (double)DailyMilkYieldValue) + (1.5 * (double)DailyMilkYieldValue * (double)FatContentValue * 10);
-                }
 
-                // Calculate MELactation
-                MELactation = FourPercFCM * Constants.ME_lactation;
+                    // Calculate MELactation
+                    MELactation = FourPercFCM * Constants.ME_lactation;
+                }
+                else
+                {
+                    FourPercFCM = 0;
+                    MELactation = 0;
+                }
 
                 // Calculate EnergyReq
                 EnergyReq = MEm + MEmGrazing + MEg + MEGestation + MELactation;
+            }
+        }
+
+        private void CalculateDCPReqAndCPReq()
+        {
+            if (SelectedType != null)
+            {
+                double maintenanceValue = SelectedType.Name switch
+                {
+                    "Ewes" => Constants.DCP_Maintenance_EWES,
+                    "Ewes and lambs" => Constants.DCP_Maintenance_EWES_AND_LAMBS,
+                    "Weaned lambs" => Constants.DCP_Maintenance_WEANED_LAMBS,
+                    "Rams" => Constants.DCP_Maintenance_RAMS,
+                    _ => 0
+                };
+                DCPMaintenance = maintenanceValue;
+
+                // Calculate DCPLactation only for EWES_AND_LAMBS
+                if (SelectedType.Name == "Ewes and lambs" && DailyMilkYieldValue != null)
+                {
+                    DCPLactation = EnergyReq / 1000 * (DailyMilkYieldValue <= 1.5m ? Constants.DCP_Lactation_LOW : Constants.DCP_Lactation_HIGH);
+                }
+                else
+                {
+                    DCPLactation = 0;
+                }
+
+                // Calculate CPGain
+                CPGain = DCPMaintenance * 1.115 + 3.84;
+
+                // Calculate CPLactation only for EWES_AND_LAMBS
+                if (SelectedType.Name == "Ewes and lambs")
+                {
+                    CPLactation = DCPLactation * 1.115 * 3.84;
+                }
+                else
+                {
+                    CPLactation = 0;
+                }
+
+                // Calculate DCPReq
+                DCPReq = DCPMaintenance + DCPLactation;
+
+                // Calculate CPReq
+                CPReq = CPGain + CPLactation;
+            }
+        }
+
+        private void CalculateDMIReq()
+        {
+            if (SelectedBodyWeight != null && SelectedDietQualityEstimate != null && SelectedType != null)
+            {
+                double bodyWeight = double.Parse(SelectedBodyWeight.Name);
+                double dietQualityEstimateValue = SelectedDietQualityEstimate.Name switch
+                {
+                    "Low" => SelectedType.Name switch
+                    {
+                        "Ewes" => Constants.DQE_EWES_LOW,
+                        "Ewes and lambs" => Constants.DQE_EWES_AND_LAMBS_LOW,
+                        "Weaned lambs" => Constants.DQE_WEANED_LAMBS_LOW,
+                        "Rams" => Constants.DQE_RAMS_LOW,
+                        _ => 0
+                    },
+                    "Medium" => SelectedType.Name switch
+                    {
+                        "Ewes" => Constants.DQE_EWES_MEDIUM,
+                        "Ewes and lambs" => Constants.DQE_EWES_AND_LAMBS_MEDIUM,
+                        "Weaned lambs" => Constants.DQE_WEANED_LAMBS_MEDIUM,
+                        "Rams" => Constants.DQE_RAMS_MEDIUM,
+                        _ => 0
+                    },
+                    "High" => SelectedType.Name switch
+                    {
+                        "Ewes" => Constants.DQE_EWES_HIGH,
+                        "Ewes and lambs" => Constants.DQE_EWES_AND_LAMBS_HIGH,
+                        "Weaned lambs" => Constants.DQE_WEANED_LAMBS_HIGH,
+                        "Rams" => Constants.DQE_RAMS_HIGH,
+                        _ => 0
+                    },
+                    _ => 0
+                };
+
+                DMI = bodyWeight * dietQualityEstimateValue;
+
+                // Calculate DMIGestation
+                double gestationMultiplier = IsLast8WeeksOfGestation ? Constants.DMI_gestation_YES : Constants.DMI_gestation_NO;
+                DMIGestation = DMI * gestationMultiplier;
+
+                // Calculate DMILactation only for EWES_AND_LAMBS
+                if (SelectedType.Name == "Ewes and lambs" && DailyMilkYieldValue != null)
+                {
+                    double lactationMultiplier = DailyMilkYieldValue <= 1.5m ? Constants.DMI_lactation : Constants.DMI_lactation_HIGH;
+                    DMILactation = DMI * lactationMultiplier;
+                }
+                else
+                {
+                    DMILactation = 0;
+                }
+
+                // Calculate DMIReq
+                DMIReq = DMI + DMIGestation + DMILactation;
             }
         }
 
@@ -447,6 +560,8 @@ namespace FeedOptimizationApp.Modules.Calculations
                         IsNrSucklingsVisible = value.Name == "Does" || value.Name == "Ewes";
                     }
                     CalculateEnergyReq();
+                    CalculateDCPReqAndCPReq();
+                    CalculateDMIReq();
                 }
             }
         }
@@ -477,6 +592,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 if (SetProperty(ref _selectedBodyWeight, value))
                 {
                     CalculateEnergyReq();
+                    CalculateDMIReq();
                 }
             }
         }
@@ -502,7 +618,13 @@ namespace FeedOptimizationApp.Modules.Calculations
         public DietQualityEstimateEntity? SelectedDietQualityEstimate
         {
             get => _selectedDietQualityEstimate;
-            set => SetProperty(ref _selectedDietQualityEstimate, value);
+            set
+            {
+                if (SetProperty(ref _selectedDietQualityEstimate, value))
+                {
+                    CalculateDMIReq();
+                }
+            }
         }
 
         // Boolean indicating if the animal is in the last 8 weeks of gestation.
@@ -516,6 +638,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 if (SetProperty(ref _isLast8WeeksOfGestation, value))
                 {
                     CalculateEnergyReq();
+                    CalculateDMIReq();
                 }
             }
         }
@@ -540,6 +663,8 @@ namespace FeedOptimizationApp.Modules.Calculations
                 if (SetProperty(ref _dailyMilkYieldValue, value))
                 {
                     CalculateEnergyReq();
+                    CalculateDCPReqAndCPReq();
+                    CalculateDMIReq();
                 }
             }
         }
