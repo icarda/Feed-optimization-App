@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FeedOptimizationApp.Modules.Calculations.ExpandedResultsViewPage"
+             Title="Expanded Results View">
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            <!-- Animal Information -->
+            <StackLayout>
+                <Label Text="Animal Information" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Grid Padding="10" ColumnSpacing="10" RowSpacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Type:" Grid.Row="0" Grid.Column="0" FontSize="14" />
+                    <Label Text="{Binding AnimalInfo.Type}" Grid.Row="0" Grid.Column="1" FontSize="14" />
+                    <Label Text="Grazing:" Grid.Row="1" Grid.Column="0" FontSize="14" />
+                    <Label Text="{Binding GrazingName}" Grid.Row="1" Grid.Column="1" FontSize="14" />
+                    <Label Text="Body Weight (kg):" Grid.Row="2" Grid.Column="0" FontSize="14" />
+                    <Label Text="{Binding BodyWeightName}" Grid.Row="2" Grid.Column="1" FontSize="14" />
+                    <Label Text="ADG (g):" Grid.Row="3" Grid.Column="0" FontSize="14" />
+                    <Label Text="{Binding AnimalInfo.ADG}" Grid.Row="3" Grid.Column="1" FontSize="14" />
+                    <Label Text="Diet Quality Estimate:" Grid.Row="4" Grid.Column="0" FontSize="14" />
+                    <Label Text="{Binding DietQualityEstimateName}" Grid.Row="4" Grid.Column="1" FontSize="14" />
+                    <Label Text="Last 8 weeks of gestation:" Grid.Row="5" Grid.Column="0" FontSize="14" />
+                    <Label Text="{Binding AnimalInfo.Gestation}" Grid.Row="5" Grid.Column="1" FontSize="14" />
+                    <Label Text="Number of suckling kids/lambs:" Grid.Row="6" Grid.Column="0" FontSize="14" />
+                    <Label Text="{Binding NrKidsLambsName}" Grid.Row="6" Grid.Column="1" FontSize="14" />
+                    <Label Text="Milk yield (kg):" Grid.Row="7" Grid.Column="0" FontSize="14" />
+                    <Label Text="{Binding AnimalInfo.MilkYield}" Grid.Row="7" Grid.Column="1" FontSize="14" />
+                    <Label Text="Fat content (%):" Grid.Row="8" Grid.Column="0" FontSize="14" />
+                    <Label Text="{Binding AnimalInfo.FatContent}" Grid.Row="8" Grid.Column="1" FontSize="14" />
+                </Grid>
+            </StackLayout>
+
+            <!-- Feed Information -->
+            <StackLayout>
+                <Label Text="Feed Information" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
+                <CollectionView ItemsSource="{Binding FeedInfo}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="10" ColumnSpacing="10" RowSpacing="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding Feed.Name}" FontSize="16" FontAttributes="Bold" Grid.ColumnSpan="2" />
+                                <Label Text="DM(%):" Grid.Column="0" Grid.Row="1" FontSize="14" />
+                                <Label Text="{Binding DM}" Grid.Column="1" Grid.Row="1" FontSize="14" />
+                                <Label Text="CP(%DM):" Grid.Column="0" Grid.Row="2" FontSize="14" />
+                                <Label Text="{Binding CPDM}" Grid.Column="1" Grid.Row="2" FontSize="14" />
+                                <Label Text="ME(MJ/kg DM):" Grid.Column="0" Grid.Row="3" FontSize="14" />
+                                <Label Text="{Binding MEMJKGDM}" Grid.Column="1" Grid.Row="3" FontSize="14" />
+                                <Label Text="Price/kg (DM):" Grid.Column="0" Grid.Row="4" FontSize="14" />
+                                <Label Text="{Binding Price}" Grid.Column="1" Grid.Row="4" FontSize="14" />
+                                <Label Text="Intake (g DM):" Grid.Column="0" Grid.Row="5" FontSize="14" />
+                                <Label Text="{Binding Intake}" Grid.Column="1" Grid.Row="5" FontSize="14" />
+                                <Label Text="Min limit (g):" Grid.Column="0" Grid.Row="6" FontSize="14" />
+                                <Label Text="{Binding MinLimit}" Grid.Column="1" Grid.Row="6" FontSize="14" />
+                                <Label Text="Max limit (g):" Grid.Column="0" Grid.Row="7" FontSize="14" />
+                                <Label Text="{Binding MaxLimit}" Grid.Column="1" Grid.Row="7" FontSize="14" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+            <!-- Results Information -->
+            <StackLayout>
+                <Label Text="Results" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
+                <CollectionView ItemsSource="{Binding StoredResultsForDisplay}">
+                    <CollectionView.Header>
+                        <Grid Padding="10" ColumnSpacing="10" RowSpacing="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="Feed" Grid.Column="0" FontSize="14" />
+                            <Label Text="g Fresh" Grid.Column="1" FontSize="14" />
+                            <Label Text="% Fresh" Grid.Column="2" FontSize="14" />
+                            <Label Text="% Dry Matter" Grid.Column="3" FontSize="14" />
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="5" ColumnSpacing="10" RowSpacing="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding Feed.Name}" Grid.Column="0" FontSize="14" />
+                                <Label Text="{Binding GFresh}" Grid.Column="1" FontSize="14" />
+                                <Label Text="{Binding PercentFresh}" Grid.Column="2" FontSize="14" />
+                                <Label Text="{Binding PercentDryMatter}" Grid.Column="3" FontSize="14" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Label HorizontalOptions="Center" VerticalOptions="Start" Margin="20">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="The cost of the ration is " FontSize="16" />
+                            <Span Text="{Binding TotalRation}" FontSize="16" />
+                            <Span Text=" br" FontSize="16" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
