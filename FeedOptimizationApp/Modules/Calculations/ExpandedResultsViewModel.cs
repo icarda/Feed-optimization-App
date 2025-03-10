@@ -255,10 +255,10 @@ namespace FeedOptimizationApp.Modules.Calculations
                             {
                                 Feed = feed.Data,
                                 CalculationId = firstResult.CalculationId,
-                                GFresh = firstResult.GFresh,
-                                PercentFresh = firstResult.PercentFresh,
-                                PercentDryMatter = firstResult.PercentDryMatter,
-                                TotalRation = firstResult.TotalRation
+                                GFresh = feedEntity.Intake,
+                                PercentFresh = Math.Round(100 * feedEntity.Intake / feedEntitiesForResult.Data.Sum(f => f.Intake), MidpointRounding.AwayFromZero),
+                                PercentDryMatter = Math.Round(100 * (feedEntity.Intake * feedEntity.DM / 100) / feedEntitiesForResult.Data.Sum(f => f.Intake * f.DM / 100), MidpointRounding.AwayFromZero),
+                                TotalRation = feedEntity.Price * feedEntity.Intake / 1000
                             };
 
                             storedResultsList.Add(resultInfo);

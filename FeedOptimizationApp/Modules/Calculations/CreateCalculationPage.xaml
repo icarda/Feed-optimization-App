@@ -284,7 +284,7 @@
                                              Grid.ColumnSpan="2" />-->
 
                                     <customcontrols:AutoCompletePicker
-                                        x:Name="AutoCompletePicker"
+                                        x:Name="FeedPicker"
                                         ItemsSource="{Binding Feeds}"
                                         SelectedItem="{Binding SelectedFeed, Mode=TwoWay}"
                                         ItemDisplayBinding="{Binding Name}"
@@ -420,7 +420,7 @@
                         <CollectionView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="150" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
@@ -435,7 +435,7 @@
                             <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="150" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
