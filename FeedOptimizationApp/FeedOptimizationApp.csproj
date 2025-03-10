@@ -78,10 +78,4 @@
 		<ProjectReference Include="..\FeedOptimizationApp.Shared\FeedOptimizationApp.Shared.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <MauiXaml Update="Modules\Calculations\SaveCalculationPrompt.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	</ItemGroup>
-
 </Project>

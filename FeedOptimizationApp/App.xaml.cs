@@ -1,8 +1,6 @@
-﻿using DataLibrary.DTOs;
-using DataLibrary.Services;
+﻿using DataLibrary.Services;
 using FeedOptimizationApp.Helpers;
-using FeedOptimizationApp.Modules;
-using FeedOptimizationApp.Modules.Home;
+using FeedOptimizationApp.Modules.Sponsors;
 using FeedOptimizationApp.Services;
 
 namespace FeedOptimizationApp
@@ -31,19 +29,15 @@ namespace FeedOptimizationApp
                 sharedData.SelectedLanguage = ConversionHelpers.ConvertToLanguageEntity(user.LanguageId);
                 sharedData.SelectedSpecies = ConversionHelpers.ConvertToSpeciesEntity(user.SpeciesId);
 
-                // Navigate to the main page
-                var vm = new MainViewModel(baseService, sharedData);
-                MainPage = new AppShell();
-
-                var viewModel = new HomeViewModel(baseService, sharedData);
-                // Assuming HomePage is part of AppShell, no need to push it onto the navigation stack
+                // Navigate to the SponsorsPage
+                MainPage = new NavigationPage(new SponsorsPage(serviceProvider, true));
             }
             else
             {
-                // Navigate to the initial setup page
-                var viewModel = new MainViewModel(baseService, sharedData);
-                MainPage = new NavigationPage(new MainPage(viewModel));
+                // Navigate to the SponsorsPage
+                MainPage = new NavigationPage(new SponsorsPage(serviceProvider, false));
             }
         }
     }
 }
+

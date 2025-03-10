@@ -10,6 +10,11 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource Secondary}" />
+                <Setter Property="BarTextColor" Value="{StaticResource White}" />
+            </Style>
+
             <x:String x:Key="IconSearch">&#xf002;</x:String>
             <x:String x:Key="IconRecord">&#xf328;</x:String>
             <x:String x:Key="IconSettings">&#xf085;</x:String>
