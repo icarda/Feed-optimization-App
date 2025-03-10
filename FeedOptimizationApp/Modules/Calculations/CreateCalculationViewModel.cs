@@ -1023,6 +1023,9 @@ namespace FeedOptimizationApp.Modules.Calculations
                     IsResultsButtonVisible = true;
                     IsAddFeedExpanded = false;
                 }
+
+                // Send a message to clear the AutoCompletePicker control
+                MessagingCenter.Send(this, "ClearFeedPicker");
             }
             catch (Exception ex)
             {
@@ -1249,6 +1252,16 @@ namespace FeedOptimizationApp.Modules.Calculations
                 var calcHasResultList = new List<CalculationHasResultEntity>();
                 var storedResultList = new List<StoredResults>();
 
+                decimal sumOfFeedIntakes = 0;
+                decimal sumOfDMig = 0;
+
+                foreach (var info in calcFeedInformation)
+                {
+                    sumOfFeedIntakes += info.Intake;
+
+                    sumOfDMig += info.Intake * info.DM / 100;
+                }
+
                 // Calculate the result for each feed.
                 foreach (var info in calcFeedInformation)
                 {
@@ -1264,9 +1277,9 @@ namespace FeedOptimizationApp.Modules.Calculations
                     var calcHasResult = new CalculationHasResultEntity
                     {
                         CalculationId = calculationId,
-                        GFresh = 50,
-                        PercentFresh = 50,
-                        PercentDryMatter = 50,
+                        GFresh = info.Intake,
+                        PercentFresh = Math.Round(100 * info.Intake / sumOfFeedIntakes, MidpointRounding.AwayFromZero),
+                        PercentDryMatter = Math.Round(100 * dmig / sumOfDMig, MidpointRounding.AwayFromZero),
                         TotalRation = cost
                     };
 
@@ -1280,9 +1293,9 @@ namespace FeedOptimizationApp.Modules.Calculations
                     {
                         Feed = feed.Data,
                         CalculationId = calculationId,
-                        GFresh = 50,
-                        PercentFresh = 50,
-                        PercentDryMatter = 50,
+                        GFresh = info.Intake,
+                        PercentFresh = Math.Round(100 * info.Intake / sumOfFeedIntakes, MidpointRounding.AwayFromZero),
+                        PercentDryMatter = Math.Round(100 * dmig / sumOfDMig, MidpointRounding.AwayFromZero),
                         TotalRation = cost
                     };
 

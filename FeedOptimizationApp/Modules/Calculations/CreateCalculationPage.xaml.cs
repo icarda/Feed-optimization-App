@@ -1,3 +1,5 @@
+using FeedOptimizationApp.Helpers;
+
 namespace FeedOptimizationApp.Modules.Calculations;
 
 public partial class CreateCalculationPage : ContentPage
@@ -13,5 +15,18 @@ public partial class CreateCalculationPage : ContentPage
         InitializeComponent();
         _viewModel = viewModel;
         BindingContext = _viewModel;
+
+        // Subscribe to the message to clear the AutoCompletePicker control
+        MessagingCenter.Subscribe<CreateCalculationViewModel>(this, "ClearFeedPicker", (sender) =>
+        {
+            FeedPicker.Clear();
+        });
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        // Unsubscribe from the message when the page is disappearing
+        MessagingCenter.Unsubscribe<CreateCalculationViewModel>(this, "ClearFeedPicker");
     }
 }

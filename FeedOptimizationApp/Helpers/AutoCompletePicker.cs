@@ -6,9 +6,6 @@ using System.Windows.Input;
 using Microsoft.Maui.Controls;
 using System.Threading;
 using System.Threading.Tasks;
-using CommunityToolkit.Maui.Views;
-using Microsoft.Maui.Controls.Shapes;
-using Microsoft.Maui.Controls.Compatibility;
 
 namespace FeedOptimizationApp.Helpers
 {
@@ -17,7 +14,6 @@ namespace FeedOptimizationApp.Helpers
         private readonly Entry _entry;
         private readonly ListView _listView;
         private ObservableCollection<object> _filteredItems = new();
-        private Popup _popup;
         private CancellationTokenSource _cts = new();
         private bool _itemSelected;
 
@@ -76,7 +72,7 @@ namespace FeedOptimizationApp.Helpers
             _listView = new ListView
             {
                 ItemsSource = _filteredItems,
-                //HeightRequest = 150,
+                IsVisible = false, // Initially hidden
                 ItemTemplate = new DataTemplate(() =>
                 {
                     var label = new Label();
@@ -87,83 +83,7 @@ namespace FeedOptimizationApp.Helpers
             _listView.ItemSelected += OnItemSelected;
 
             Children.Add(_entry);
-        }
-
-        private void CreatePopup()
-        {
-            // Get the screen width and height using DeviceDisplay
-            var screenWidth = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density; // Convert to pixels
-            var screenHeight = DeviceDisplay.MainDisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density; // Convert to pixels
-
-            // Check if the popup already exists to avoid recreating it
-            if (_popup == null)
-            {
-                // Create the Popup with 70% width and height of the screen
-                _popup = new Popup
-                {
-                    Content = new Border
-                    {
-                        Content = _listView ?? throw new ArgumentNullException(nameof(_listView), "ListView cannot be null"), // Ensure _listView is not null
-                        Padding = 10, // Set padding to 10
-                        BackgroundColor = Colors.White,
-                        StrokeShape = new RoundRectangle
-                        {
-                            CornerRadius = new CornerRadius(10)
-                        },
-                        Stroke = new SolidColorBrush(Colors.Gray),
-                        StrokeThickness = 1, // Set border thickness if needed
-                        WidthRequest = screenWidth * 0.7, // Set width to 70% of screen width
-                        HeightRequest = screenHeight * 0.7 // Set height to 70% of screen height
-                    }
-                };
-
-                // Optionally set Popup events
-                _popup.Closed += (s, e) =>
-                {
-                    // Check if an item was selected
-                    if (!_itemSelected)
-                    {
-                        // Handle the case where the user canceled the selection
-                        _entry.Text = string.Empty; // Clear the entry text or handle as needed
-                    }
-
-                    // Clean up resources if needed
-                    _popup = null; // Clear the reference to ensure it's not reused
-                };
-            }
-            else
-            {
-                // If the popup already exists, remove the _listView from its current parent
-                if (_listView.Parent is Layout<View> parent)
-                {
-                    parent.Children.Remove(_listView);
-                }
-
-                // Reassign the _listView to the popup's content
-                ((Border)_popup.Content).Content = _listView;
-            }
-        }
-
-        private async void ShowPopup()
-        {
-            if (_filteredItems.Count > 0)
-            {
-                CreatePopup(); // Ensure the popup is created
-
-                // Show the popup only if it is properly initialized
-                if (_popup != null && _listView != null)
-                {
-                    try
-                    {
-                        await Application.Current.MainPage.ShowPopupAsync(_popup);
-                    }
-                    catch (Exception ex)
-                    {
-                        // Log the exception or handle it as needed
-                        Console.WriteLine($"Error showing popup: {ex.Message}");
-                    }
-                }
-            }
+            Children.Add(_listView); // Add ListView below Entry
         }
 
         private static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
@@ -194,7 +114,7 @@ namespace FeedOptimizationApp.Helpers
 
             try
             {
-                await Task.Delay(500, token); // ✅ Reduce wait time for testing
+                await Task.Delay(500, token); // Reduce wait time for testing
                 if (token.IsCancellationRequested) return;
             }
             catch (TaskCanceledException) { return; }
@@ -213,15 +133,13 @@ namespace FeedOptimizationApp.Helpers
             {
                 _listView.ItemsSource = null;
                 _listView.ItemsSource = _filteredItems;
-                _listView.IsVisible = _filteredItems.Count > 0; // ✅ Force UI update
+                _listView.IsVisible = _filteredItems.Count > 0; // Show ListView if there are filtered items
             });
 
             TextChangedCommand?.Execute(e.NewTextValue);
-
-            ShowPopup(); // Show the popup after filtering
         }
 
-        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null) return;
 
@@ -229,9 +147,7 @@ namespace FeedOptimizationApp.Helpers
             SelectedItem = e.SelectedItem;
             _entry.Text = GetDisplayText(SelectedItem);
 
-            // Delay to ensure the selection is processed before closing
-            await Task.Delay(100); // Adjust delay as needed
-            HideDropdown(); // Close the popup
+            HideDropdown(); // Hide the dropdown
             _listView.SelectedItem = null; // Reset selection
             _itemSelected = false; // Reset the flag after handling the selection
         }
@@ -247,18 +163,14 @@ namespace FeedOptimizationApp.Helpers
                     return property.GetValue(item)?.ToString() ?? string.Empty;
             }
 
-            // ✅ Fallback: If no binding, try to get Name explicitly
+            // Fallback: If no binding, try to get Name explicitly
             var nameProperty = item.GetType().GetProperty("Name");
             return nameProperty?.GetValue(item)?.ToString() ?? item.ToString();
         }
 
         private void HideDropdown()
         {
-            if (_popup != null)
-            {
-                _popup.Close(); // Safely close the popup if it exists
-                _popup = null; // Clear the reference after closing
-            }
+            _listView.IsVisible = false; // Hide the ListView
         }
 
         public void Clear()
@@ -267,6 +179,7 @@ namespace FeedOptimizationApp.Helpers
             SelectedItem = null;
             _filteredItems.Clear();
             _listView.ItemsSource = _filteredItems;
+            HideDropdown(); // Ensure the dropdown is hidden
         }
     }
 }
