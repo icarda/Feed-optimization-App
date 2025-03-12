@@ -11,7 +11,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="{StaticResource Secondary}" />
+                <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="BarTextColor" Value="{StaticResource White}" />
             </Style>
 

@@ -1,7 +1,6 @@
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Modules.Home;
 using FeedOptimizationApp.Services;
-using Microsoft.Maui.Controls.Compatibility;
 
 namespace FeedOptimizationApp.Modules.Sponsors;
 
@@ -17,18 +16,11 @@ public partial class SponsorsPage : ContentPage
         _navigateToHomePage = navigateToHomePage;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        // Add a tap gesture recognizer to navigate to the next page on any click
-        var tapGestureRecognizer = new TapGestureRecognizer();
-        tapGestureRecognizer.Tapped += OnScreenTapped;
-        MainGrid.GestureRecognizers.Add(tapGestureRecognizer); // Ensure the GestureRecognizers are added to the MainGrid
-    }
+        await Task.Delay(2000); // Wait for 2 seconds
 
-    private async void OnScreenTapped(object sender, EventArgs e)
-    {
-        Console.WriteLine("Screen tapped"); // Debug statement
         if (_navigateToHomePage)
         {
             var baseService = _serviceProvider.GetRequiredService<BaseService>();

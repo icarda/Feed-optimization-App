@@ -1025,7 +1025,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 }
 
                 // Send a message to clear the AutoCompletePicker control
-                MessagingCenter.Send(this, "ClearFeedPicker");
+                //MessagingCenter.Send(this, "ClearFeedPicker");
             }
             catch (Exception ex)
             {
@@ -1047,7 +1047,8 @@ namespace FeedOptimizationApp.Modules.Calculations
             Intake = null;
             MinLimit = null;
             MaxLimit = null;
-            SearchText = string.Empty; // Clear the search text
+            //SearchText = string.Empty; // Clear the search text
+            MessagingCenter.Send(this, "ClearFeedPicker");
         }
 
         /// <summary>
@@ -1063,7 +1064,8 @@ namespace FeedOptimizationApp.Modules.Calculations
             Intake = null;
             MinLimit = null;
             MaxLimit = null;
-            SearchText = string.Empty; // Clear the search text
+            //SearchText = string.Empty; // Clear the search text
+            MessagingCenter.Send(this, "ClearFeedPicker");
         }
 
         /// <summary>
@@ -1079,7 +1081,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             IsLast8WeeksOfGestation = false;
             SelectedNumberOfSucklingKidsLambs = null;
             DailyMilkYieldValue = null;
-            FatContentValue = (decimal?)6.8;
+            FatContentValue = (decimal?)0.068;
 
             ResetFeedInfo();
         }
@@ -1277,7 +1279,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     var calcHasResult = new CalculationHasResultEntity
                     {
                         CalculationId = calculationId,
-                        GFresh = info.Intake,
+                        GFresh = Math.Round(info.Intake),
                         PercentFresh = Math.Round(100 * info.Intake / sumOfFeedIntakes, MidpointRounding.AwayFromZero),
                         PercentDryMatter = Math.Round(100 * dmig / sumOfDMig, MidpointRounding.AwayFromZero),
                         TotalRation = cost
@@ -1293,7 +1295,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     {
                         Feed = feed.Data,
                         CalculationId = calculationId,
-                        GFresh = info.Intake,
+                        GFresh = Math.Round(info.Intake),
                         PercentFresh = Math.Round(100 * info.Intake / sumOfFeedIntakes, MidpointRounding.AwayFromZero),
                         PercentDryMatter = Math.Round(100 * dmig / sumOfDMig, MidpointRounding.AwayFromZero),
                         TotalRation = cost
@@ -1358,6 +1360,15 @@ namespace FeedOptimizationApp.Modules.Calculations
                         // Show a custom alert popup indicating save completion.
                         var customAlertPopup = new CustomAlertPopup("Save complete!", "Please use the view calculations option to view your saved calculation.");
                         await Application.Current.MainPage.ShowPopupAsync(customAlertPopup);
+
+                        // Send a message to clear the AutoCompletePicker control
+                        //MessagingCenter.Send(this, "ClearFeedPicker");
+
+                        // Clear the form and stored feeds after saving.
+                        ClearAnimalInfo();
+                        AnimalInfoTabIsActive = true;
+                        FeedInfoTabIsActive = false;
+                        ResultsTabIsActive = false;
                     }
                     catch (Exception ex)
                     {

@@ -2,32 +2,51 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FeedOptimizationApp.Modules.Sponsors.SponsorsPage"
-             BackgroundColor="{StaticResource Secondary}"
-             Title="Sponsors">
+             BackgroundColor="{StaticResource Primary}">
 
-    <Grid x:Name="MainGrid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="20" ColumnSpacing="20">
-        <Grid VerticalOptions="Center" HorizontalOptions="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+    <Grid x:Name="MainGrid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" Grid.Column="0" Stroke="White" BackgroundColor="Transparent" StrokeThickness="2" WidthRequest="150" HeightRequest="150">
-                <Label Text="sponsor logo/image" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" />
-            </Border>
-            <Border Grid.Row="0" Grid.Column="1" Stroke="White" BackgroundColor="Transparent" StrokeThickness="2" WidthRequest="150" HeightRequest="150">
-                <Label Text="sponsor logo/image" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" />
-            </Border>
-            <Border Grid.Row="1" Grid.Column="0" Stroke="White" BackgroundColor="Transparent" StrokeThickness="2" WidthRequest="150" HeightRequest="150">
-                <Label Text="sponsor logo/image" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" />
-            </Border>
-            <Border Grid.Row="1" Grid.Column="1" Stroke="White" BackgroundColor="Transparent" StrokeThickness="2" WidthRequest="150" HeightRequest="150">
-                <Label Text="sponsor logo/image" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" />
-            </Border>
-        </Grid>
+        <!-- Main content goes here -->
+        <ScrollView Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
+            <StackLayout Spacing="20" VerticalOptions="Center" HorizontalOptions="Center">
+                <!-- Sponsors Section -->
+                <Label Text="Sponsored By" FontSize="Large" TextColor="White" HorizontalOptions="Center" />
+
+                <Grid x:Name="SponsorsGrid" VerticalOptions="Center" HorizontalOptions="Center" RowSpacing="20" ColumnSpacing="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="White" Padding="20" CornerRadius="20">
+                        <Image Source="Resources/Images/icarda_logo.png" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="150" HeightRequest="120" />
+                    </Frame>
+                    <!-- Add more sponsor logos as needed -->
+                </Grid>
+
+                <!-- Collaborators Section -->
+                <Label Text="In Collaboration With" FontSize="Large" TextColor="White" HorizontalOptions="Center" Margin="20,40,20,0" />
+
+                <Grid x:Name="CollaboratorsGrid" VerticalOptions="Center" HorizontalOptions="Center" RowSpacing="20" ColumnSpacing="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="White" Padding="0" CornerRadius="20">
+                        <Image Grid.Row="0" Grid.Column="0" Source="ntu_full_logo.png" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="300" HeightRequest="120" />
+                    </Frame>
+                    <!-- Add more collaborator logos as needed -->
+                </Grid>
+            </StackLayout>
+        </ScrollView>
     </Grid>
 </ContentPage>

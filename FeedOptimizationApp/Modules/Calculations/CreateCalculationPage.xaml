@@ -287,8 +287,8 @@
                                         x:Name="FeedPicker"
                                         ItemsSource="{Binding Feeds}"
                                         SelectedItem="{Binding SelectedFeed, Mode=TwoWay}"
-                                        ItemDisplayBinding="{Binding Name}"
-                                        TextChangedCommand="{Binding SearchCommand}"
+                                        DisplayMemberPath="Name"
+                                        Text="{Binding SearchText, Mode=TwoWay}"
                                         Grid.Row="0"
                                         Grid.ColumnSpan="2" />
 
