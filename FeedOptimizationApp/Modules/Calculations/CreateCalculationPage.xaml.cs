@@ -19,7 +19,7 @@ public partial class CreateCalculationPage : ContentPage
         // Subscribe to the message to clear the AutoCompletePicker control
         MessagingCenter.Subscribe<CreateCalculationViewModel>(this, "ClearFeedPicker", (sender) =>
         {
-            FeedPicker.Clear();
+            FeedPicker.Reset();
         });
     }
 
