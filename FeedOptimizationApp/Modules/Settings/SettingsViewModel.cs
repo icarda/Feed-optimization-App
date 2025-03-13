@@ -1,12 +1,10 @@
-﻿using DataLibrary.DTOs;
-using DataLibrary.Models;
-using DataLibrary.Models.Enums;
+﻿using DataLibrary.Models.Enums;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
+using CommunityToolkit.Maui.Alerts;
 
 namespace FeedOptimizationApp.Modules.Settings
 {
@@ -132,6 +130,9 @@ namespace FeedOptimizationApp.Modules.Settings
 
                         // Save the updated user entity.
                         await _baseService.UserService.UpdateAsync(user);
+
+                        // Add toast message to notify user
+                        //await Toast.Make("Settings saved successfully.").Show();
                     }
                 }
                 catch (Exception ex)

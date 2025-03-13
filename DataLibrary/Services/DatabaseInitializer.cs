@@ -1,9 +1,11 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
 using DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Reflection;
+using System.Text;
 
 namespace DataLibrary.Services
 {
@@ -31,7 +33,7 @@ namespace DataLibrary.Services
             try
             {
                 await _context.Database.MigrateAsync();
-                await ImportFeedsFromEmbeddedCsvAsync();
+                //await ImportFeedsFromEmbeddedCsvAsync();
             }
             catch (Exception ex)
             {
@@ -46,7 +48,7 @@ namespace DataLibrary.Services
         /// <summary>
         /// Imports feed data from an embedded CSV file into the database.
         /// </summary>
-        private async Task ImportFeedsFromEmbeddedCsvAsync()
+        public async Task ImportFeedsFromEmbeddedCsvAsync(int countryId, int languageId)
         {
             Console.WriteLine("Importing feeds from CSV...");
             // Check if the data already exists
@@ -57,7 +59,22 @@ namespace DataLibrary.Services
             }
 
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "DataLibrary.feeds.csv"; // Update with the actual resource name
+            var resourceName = "";
+            if (countryId == 1)
+            {
+                resourceName = "DataLibrary.english_ethiopia_feeds.csv";
+            }
+            if (countryId == 2)
+            {
+                if (languageId == 1)
+                {
+                    resourceName = "DataLibrary.english_tunisia_feeds.csv";
+                }
+                else
+                {
+                    resourceName = "DataLibrary.french_tunisia_feeds.csv";
+                }
+            }
 
             using var stream = assembly.GetManifestResourceStream(resourceName);
             if (stream == null)
@@ -66,10 +83,10 @@ namespace DataLibrary.Services
                 return; // Handle the case where the resource is not found
             }
 
-            using var reader = new StreamReader(stream);
+            using var reader = new StreamReader(stream, Encoding.UTF8);
             string csvContent = await reader.ReadToEndAsync();
-            Console.WriteLine("CSV Content:");
-            Console.WriteLine(csvContent);
+            //Console.WriteLine("CSV Content:");
+            //Console.WriteLine(csvContent);
 
             // Reset the stream position to the beginning
             stream.Position = 0;
@@ -77,8 +94,12 @@ namespace DataLibrary.Services
 
             using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                HasHeaderRecord = true
+                HasHeaderRecord = true,
+                MissingFieldFound = null, // Ignore missing fields
             });
+
+            // Register the custom type converter
+            csv.Context.TypeConverterCache.AddConverter<decimal>(new DecimalConverterWithDefault());
 
             csv.Context.RegisterClassMap<FeedMap>();
             var records = csv.GetRecords<FeedEntity>().ToList();
@@ -94,6 +115,21 @@ namespace DataLibrary.Services
             }
             await _context.SaveChangesAsync();
             Console.WriteLine("Feeds imported successfully.");
+        }
+
+        /// <summary>
+        /// Custom type converter for decimal values that defaults empty values to 0.
+        /// </summary>
+        private class DecimalConverterWithDefault : DecimalConverter
+        {
+            public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
+            {
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    return 0m; // Return 0 if the value is empty
+                }
+                return base.ConvertFromString(text, row, memberMapData);
+            }
         }
     }
 }
