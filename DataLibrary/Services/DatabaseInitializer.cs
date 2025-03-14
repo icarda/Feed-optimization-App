@@ -51,12 +51,6 @@ namespace DataLibrary.Services
         public async Task ImportFeedsFromEmbeddedCsvAsync(int countryId, int languageId)
         {
             Console.WriteLine("Importing feeds from CSV...");
-            // Check if the data already exists
-            if (await _context.Feeds.AnyAsync())
-            {
-                Console.WriteLine("Data already exists, no need to import.");
-                return; // Data already exists, no need to import
-            }
 
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = "";
@@ -83,10 +77,13 @@ namespace DataLibrary.Services
                 return; // Handle the case where the resource is not found
             }
 
-            using var reader = new StreamReader(stream, Encoding.UTF8);
+            var encoding = Encoding.GetEncoding("ISO-8859-1"); // Try different encodings
+            using var reader = new StreamReader(stream, encoding);
+
             string csvContent = await reader.ReadToEndAsync();
-            //Console.WriteLine("CSV Content:");
-            //Console.WriteLine(csvContent);
+
+            Console.WriteLine("CSV Content:");
+            Console.WriteLine(csvContent);
 
             // Reset the stream position to the beginning
             stream.Position = 0;
@@ -115,6 +112,21 @@ namespace DataLibrary.Services
             }
             await _context.SaveChangesAsync();
             Console.WriteLine("Feeds imported successfully.");
+        }
+
+        /// <summary>
+        /// Clears and repopulates the FeedEntity table in the database.
+        /// </summary>
+        public async Task ClearAndRepopulateFeedsAsync(int countryId, int languageId)
+        {
+            Console.WriteLine("Clearing and repopulating feeds...");
+
+            // Clear the FeedEntity table
+            _context.Feeds.RemoveRange(_context.Feeds);
+            await _context.SaveChangesAsync();
+
+            // Repopulate the FeedEntity table
+            await ImportFeedsFromEmbeddedCsvAsync(countryId, languageId);
         }
 
         /// <summary>

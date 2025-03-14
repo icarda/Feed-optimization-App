@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Alerts;
+using DataLibrary.Services;
+using CommunityToolkit.Maui.Views;
 
 namespace FeedOptimizationApp.Modules.Settings
 {
@@ -17,11 +19,25 @@ namespace FeedOptimizationApp.Modules.Settings
         // Service for performing data operations.
         private readonly BaseService _baseService;
 
+        private readonly DatabaseInitializer _databaseInitializer;
+
         // Observable collections to hold dropdown options.
         public ObservableCollection<LanguageEntity> Languages { get; set; } = new ObservableCollection<LanguageEntity>();
 
         public ObservableCollection<CountryEntity> Countries { get; set; } = new ObservableCollection<CountryEntity>();
         public ObservableCollection<SpeciesEntity> SpeciesList { get; set; } = new ObservableCollection<SpeciesEntity>();
+
+        // Private fields to store initial values.
+        private LanguageEntity? _initialSelectedLanguage;
+
+        private CountryEntity? _initialSelectedCountry;
+        private SpeciesEntity? _initialSelectedSpecies;
+
+        // Flag to track if the save button was clicked.
+        private bool _isSaveButtonClicked;
+
+        // Flag to track if the selections have changed.
+        private bool _selectionsChanged;
 
         /// <summary>
         /// Gets or sets the selected language.
@@ -36,6 +52,7 @@ namespace FeedOptimizationApp.Modules.Settings
                 {
                     SharedData.SelectedLanguage = value;
                     OnPropertyChanged(nameof(SelectedLanguage));
+                    _selectionsChanged = true;
                 }
             }
         }
@@ -53,6 +70,7 @@ namespace FeedOptimizationApp.Modules.Settings
                 {
                     SharedData.SelectedCountry = value;
                     OnPropertyChanged(nameof(SelectedCountry));
+                    _selectionsChanged = true;
                 }
             }
         }
@@ -85,12 +103,21 @@ namespace FeedOptimizationApp.Modules.Settings
         /// </summary>
         /// <param name="baseService">Service for accessing data.</param>
         /// <param name="sharedData">Shared data context across the application.</param>
-        public SettingsViewModel(BaseService baseService, SharedData sharedData)
+        /// <param name="databaseInitializer">Service for initializing the database.</param>
+        public SettingsViewModel(BaseService baseService, SharedData sharedData, DatabaseInitializer databaseInitializer)
             : base(sharedData)
         {
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
+            _databaseInitializer = databaseInitializer ?? throw new ArgumentNullException(nameof(databaseInitializer));
+
+            // Store initial values.
+            _initialSelectedLanguage = sharedData.SelectedLanguage;
+            _initialSelectedCountry = sharedData.SelectedCountry;
+            _initialSelectedSpecies = sharedData.SelectedSpecies;
+
             // Load dropdown options for language, country, and species.
             LoadEnumValuesAsync();
+
             // Initialize the Cancel and Save commands.
             CancelCommand = new Command(OnCancelButtonClicked);
             SaveCommand = new Command(async () => await OnSaveButtonClicked());
@@ -98,12 +125,14 @@ namespace FeedOptimizationApp.Modules.Settings
 
         /// <summary>
         /// Handles the Cancel button click event.
-        /// Navigates back to the previous page.
+        /// Resets the dropdowns to their initial values.
         /// </summary>
         private void OnCancelButtonClicked()
         {
-            // Navigate to the previous page in the navigation stack.
-            Application.Current.MainPage.Navigation.PopAsync();
+            // Reset the selected items to their initial values.
+            SelectedLanguage = _initialSelectedLanguage;
+            SelectedCountry = _initialSelectedCountry;
+            SelectedSpecies = _initialSelectedSpecies;
         }
 
         /// <summary>
@@ -115,31 +144,56 @@ namespace FeedOptimizationApp.Modules.Settings
             // Ensure all required settings have been selected.
             if (SelectedLanguage != null && SelectedCountry != null && SelectedSpecies != null)
             {
-                try
+                // Show the custom alert popup to confirm the action.
+                var popup = new CustomAlertPopup("Save user settings", "Warning: You might lose stored calculation data.  Do you want to continue?", async () =>
                 {
-                    // Retrieve the current user (assumes a single user record).
-                    var userResult = await _baseService.UserService.GetAllAsync();
-                    var user = userResult.Data.FirstOrDefault();
-
-                    if (user != null)
+                    try
                     {
-                        // Update the user's settings with the selected values.
-                        user.CountryId = SelectedCountry.Id;
-                        user.LanguageId = SelectedLanguage.Id;
-                        user.SpeciesId = SelectedSpecies.Id;
+                        // Retrieve the current user (assumes a single user record).
+                        var userResult = await _baseService.UserService.GetAllAsync();
+                        var user = userResult.Data.FirstOrDefault();
 
-                        // Save the updated user entity.
-                        await _baseService.UserService.UpdateAsync(user);
+                        if (user != null)
+                        {
+                            // Update the user's settings with the selected values.
+                            user.CountryId = SelectedCountry.Id;
+                            user.LanguageId = SelectedLanguage.Id;
+                            user.SpeciesId = SelectedSpecies.Id;
 
-                        // Add toast message to notify user
-                        //await Toast.Make("Settings saved successfully.").Show();
+                            // Save the updated user entity.
+                            await _baseService.UserService.UpdateAsync(user);
+
+                            // Update initial values after saving.
+                            _initialSelectedLanguage = SelectedLanguage;
+                            _initialSelectedCountry = SelectedCountry;
+                            _initialSelectedSpecies = SelectedSpecies;
+
+                            //update the shared data
+                            SharedData.SelectedLanguage = SelectedLanguage;
+                            SharedData.SelectedCountry = SelectedCountry;
+                            SharedData.SelectedSpecies = SelectedSpecies;
+
+                            // Set the flag to indicate that the save button was clicked.
+                            _isSaveButtonClicked = true;
+
+                            // If selections have changed, clear and repopulate the FeedEntity table.
+                            if (_selectionsChanged)
+                            {
+                                await _databaseInitializer.ClearAndRepopulateFeedsAsync(SelectedCountry.Id, SelectedLanguage.Id);
+                            }
+
+                            // Add toast message to notify user
+                            await Toast.Make("User settings saved successfully.").Show();
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    // Log any exceptions that occur during the update process.
-                    Debug.WriteLine($"Exception: {ex.Message}");
-                }
+                    catch (Exception ex)
+                    {
+                        // Log any exceptions that occur during the update process.
+                        Debug.WriteLine($"Exception: {ex.Message}");
+                    }
+                });
+
+                Application.Current.MainPage.ShowPopup(popup);
             }
             else
             {
@@ -245,6 +299,20 @@ namespace FeedOptimizationApp.Modules.Settings
                 // Log the error and display an alert if the dropdown values fail to load.
                 Debug.WriteLine($"Error in LoadEnumValuesAsync: {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert("Error", "Failed to load dropdown values.", "OK");
+            }
+        }
+
+        /// <summary>
+        /// Resets the dropdowns to their initial values if the save button was not clicked.
+        /// </summary>
+        public void OnDisappearing()
+        {
+            if (!_isSaveButtonClicked)
+            {
+                // Reset the selected items to their initial values.
+                SelectedLanguage = _initialSelectedLanguage;
+                SelectedCountry = _initialSelectedCountry;
+                SelectedSpecies = _initialSelectedSpecies;
             }
         }
     }

@@ -10,4 +10,10 @@ public partial class SettingsPage : ContentPage
         _viewModel = viewModel;
         BindingContext = _viewModel;
     }
+
+    protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
+    {
+        base.OnNavigatedFrom(args);
+        _viewModel.OnDisappearing();
+    }
 }

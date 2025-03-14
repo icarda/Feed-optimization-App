@@ -9,6 +9,7 @@ using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
 using FeedOptimizationApp.Shared;
 using static FeedOptimizationApp.Modules.Calculations.ExpandedResultsViewModel;
+using System.ComponentModel;
 
 namespace FeedOptimizationApp.Modules.Calculations
 {
@@ -109,6 +110,18 @@ namespace FeedOptimizationApp.Modules.Calculations
             SelectedNumberOfSucklingKidsLambs = null;
             SelectedFeed = null;
             AnimalInfoTabIsActive = true;
+
+            // Observe changes to SharedData.SelectedSpecies
+            SharedData.PropertyChanged += SharedData_PropertyChanged;
+        }
+
+        private void SharedData_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(SharedData.SelectedSpecies))
+            {
+                OnPropertyChanged(nameof(SelectedSpecies));
+                LoadAnimalInformationCommand.Execute(null);
+            }
         }
 
         #region Commands

@@ -69,5 +69,83 @@ namespace FeedOptimizationApp.Helpers
                 Margin = new Thickness(20)
             };
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomAlertPopup"/> class.
+        /// </summary>
+        /// <param name="title">The title of the popup.</param>
+        /// <param name="message">The message to display in the popup.</param>
+        /// <param name="onConfirm">The action to perform when the user confirms.</param>
+        public CustomAlertPopup(string title, string message, Action onConfirm)
+        {
+            var grid = new Grid
+            {
+                Padding = new Thickness(20),
+                BackgroundColor = Colors.White,
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.Center,
+                WidthRequest = 300,
+                HeightRequest = 200,
+                RowDefinitions =
+                {
+                    new RowDefinition { Height = GridLength.Auto },
+                    new RowDefinition { Height = GridLength.Star },
+                    new RowDefinition { Height = GridLength.Auto }
+                }
+            };
+
+            var titleLabel = new Label
+            {
+                Text = title,
+                FontAttributes = FontAttributes.Bold,
+                HorizontalOptions = LayoutOptions.Center
+            };
+
+            var messageLabel = new Label
+            {
+                Text = message,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
+            };
+
+            var okButton = new Button
+            {
+                Text = "Confirm",
+                Command = new Command(() =>
+                {
+                    Close();
+                    onConfirm?.Invoke();
+                })
+            };
+
+            var cancelButton = new Button
+            {
+                Text = "Cancel",
+                Command = new Command(() => Close())
+            };
+
+            var buttonStack = new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                HorizontalOptions = LayoutOptions.Center,
+                Children = { okButton, cancelButton }
+            };
+
+            grid.Add(titleLabel, 0, 0);
+            grid.Add(messageLabel, 0, 1);
+            grid.Add(buttonStack, 0, 2);
+
+            Content = new Border
+            {
+                Content = grid,
+                StrokeShape = new RoundRectangle { CornerRadius = 10 },
+                Stroke = Colors.Gray,
+                StrokeThickness = 2,
+                BackgroundColor = Colors.White,
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.Center,
+                Margin = new Thickness(20)
+            };
+        }
     }
 }
