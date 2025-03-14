@@ -1,4 +1,5 @@
 ﻿using DataLibrary.Models.Enums;
+using DataLibrary.Services;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Modules.Legal;
 using FeedOptimizationApp.Services;
@@ -128,6 +129,12 @@ namespace FeedOptimizationApp.Modules
                 SharedData.SelectedCountry = SelectedCountry;
                 SharedData.SelectedLanguage = SelectedLanguage;
                 SharedData.SelectedSpecies = SelectedSpecies;
+
+                var databaseInitializer = App.ServiceProvider.GetRequiredService<DatabaseInitializer>();
+                await databaseInitializer.ImportFeedsFromEmbeddedCsvAsync(
+                    SelectedCountry.Id,
+                    SelectedLanguage.Id
+                );
 
                 // Navigate to the LegalPage
                 var viewModel = new LegalViewModel(_baseService, SharedData);
