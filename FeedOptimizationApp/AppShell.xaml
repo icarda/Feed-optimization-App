@@ -7,7 +7,9 @@
     xmlns:calculations="clr-namespace:FeedOptimizationApp.Modules.Calculations"
     xmlns:settings="clr-namespace:FeedOptimizationApp.Modules.Settings"
     Shell.FlyoutBehavior="Disabled"
-    Title="FeedOptimizationApp">
+    Title="FeedOptimizationApp"
+    BackgroundColor="{StaticResource Primary}"
+    TitleColor="{StaticResource White}">
 
     <TabBar>
         <ShellContent Title="Home" x:Name="homeTab"

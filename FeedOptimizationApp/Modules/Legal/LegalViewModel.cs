@@ -1,4 +1,5 @@
 ﻿using DataLibrary.Models;
+using DataLibrary.Services;
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Modules.Home;
 using FeedOptimizationApp.Services;
@@ -16,6 +17,9 @@ namespace FeedOptimizationApp.Modules.Legal
         // Service used to perform data operations such as saving user data.
         private readonly BaseService _baseService;
 
+        // Service for initializing the database.
+        private readonly DatabaseInitializer _databaseInitializer;
+
         /// <summary>
         /// Command to navigate back to the previous screen.
         /// </summary>
@@ -31,11 +35,13 @@ namespace FeedOptimizationApp.Modules.Legal
         /// </summary>
         /// <param name="baseService">Provides access to data operations.</param>
         /// <param name="sharedData">Shared data context across the application.</param>
-        public LegalViewModel(BaseService baseService, SharedData sharedData)
+        /// <param name="databaseInitializer">Service for initializing the database.</param>
+        public LegalViewModel(BaseService baseService, SharedData sharedData, DatabaseInitializer databaseInitializer)
             : base(sharedData)
         {
             // Ensure baseService is not null; otherwise, throw an exception.
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
+            _databaseInitializer = databaseInitializer ?? throw new ArgumentNullException(nameof(databaseInitializer));
 
             // Initialize commands with their respective handlers.
             BackCommand = new Command(OnBackButtonClicked);
@@ -56,12 +62,20 @@ namespace FeedOptimizationApp.Modules.Legal
 
         /// <summary>
         /// Handles the Back button click event.
-        /// Navigates to the previous page in the navigation stack.
+        /// Resets the selections and clears the feed table.
         /// </summary>
-        private void OnBackButtonClicked()
+        private async void OnBackButtonClicked()
         {
-            // Navigate back to the previous page.
-            Application.Current.MainPage.Navigation.PopAsync();
+            // Reset the selected species, country, and language.
+            SharedData.SelectedSpecies = null;
+            SharedData.SelectedCountry = null;
+            SharedData.SelectedLanguage = null;
+
+            // Clear the feed table.
+            await _databaseInitializer.ClearFeedsAsync();
+
+            // Navigate back to the main page.
+            Application.Current.MainPage = new MainPage(new MainViewModel(_baseService, SharedData));
         }
 
         /// <summary>

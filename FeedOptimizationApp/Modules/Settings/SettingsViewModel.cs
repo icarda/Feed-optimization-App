@@ -19,6 +19,7 @@ namespace FeedOptimizationApp.Modules.Settings
         // Service for performing data operations.
         private readonly BaseService _baseService;
 
+        // Service for initializing the database.
         private readonly DatabaseInitializer _databaseInitializer;
 
         // Observable collections to hold dropdown options.
@@ -168,7 +169,7 @@ namespace FeedOptimizationApp.Modules.Settings
                             _initialSelectedCountry = SelectedCountry;
                             _initialSelectedSpecies = SelectedSpecies;
 
-                            //update the shared data
+                            // Update the shared data.
                             SharedData.SelectedLanguage = SelectedLanguage;
                             SharedData.SelectedCountry = SelectedCountry;
                             SharedData.SelectedSpecies = SelectedSpecies;
@@ -182,7 +183,7 @@ namespace FeedOptimizationApp.Modules.Settings
                                 await _databaseInitializer.ClearAndRepopulateFeedsAsync(SelectedCountry.Id, SelectedLanguage.Id);
                             }
 
-                            // Add toast message to notify user
+                            // Add toast message to notify user.
                             await Toast.Make("User settings saved successfully.").Show();
                         }
                     }

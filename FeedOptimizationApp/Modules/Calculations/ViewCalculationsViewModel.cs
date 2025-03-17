@@ -90,7 +90,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         /// Loads all calculations by fetching calculation results, grouping them by calculation ID,
         /// and then creating a display model for each group.
         /// </summary>
-        private async void LoadCalculations()
+        public async void LoadCalculations()
         {
             try
             {
@@ -112,6 +112,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     var calculation = await _baseService.CalculationService.GetCalculationById(calculationId);
                     var calculationName = calculation.Data.Name;
                     var calculationType = calculation.Data.Type;
+                    var calculationDate = calculation.Data.CreatedDate;
                     // Retrieve the number of feeds used in this calculation.
                     var numberOfFeeds = _baseService.CalculationService.GetNumberOfFeedsInCalculationHasFeedByCalculationId(calculationId).Result.Data;
 
@@ -120,7 +121,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     {
                         CalculationId = calculationId,
                         CalculationTitle = calculationName,
-                        CalculationDate = DateTime.Now.ToString("yyyy-MM-dd"), // Using the current date as a placeholder.
+                        CalculationDate = calculationDate.ToString("yyyy-MM-dd"), // Using the current date as a placeholder.
                         CalculationNrOfFeeds = numberOfFeeds.ToString(),
                         CalculationSpeciesType = calculationType
                     });

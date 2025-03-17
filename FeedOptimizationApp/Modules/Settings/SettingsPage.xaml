@@ -39,8 +39,8 @@
 
         <!-- Buttons -->
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,30,0,0">
-            <Button Text="Cancel" Command="{Binding CancelCommand}" />
-            <Button Text="Save" Command="{Binding SaveCommand}" />
+            <Button Text="Cancel" Command="{Binding CancelCommand}" BackgroundColor="{StaticResource Secondary}"/>
+            <Button Text="Save" Command="{Binding SaveCommand}" BackgroundColor="{StaticResource Primary}"/>
         </StackLayout>
     </StackLayout>
 </ContentPage>

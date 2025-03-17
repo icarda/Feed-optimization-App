@@ -17,6 +17,7 @@ namespace FeedOptimizationApp.Helpers
         /// <param name="message">The message to display in the popup.</param>
         public CustomAlertPopup(string title, string message)
         {
+            // Create a grid layout for the popup content.
             var grid = new Grid
             {
                 Padding = new Thickness(20),
@@ -33,6 +34,7 @@ namespace FeedOptimizationApp.Helpers
                 }
             };
 
+            // Create a label for the title.
             var titleLabel = new Label
             {
                 Text = title,
@@ -40,6 +42,7 @@ namespace FeedOptimizationApp.Helpers
                 HorizontalOptions = LayoutOptions.Center
             };
 
+            // Create a label for the message.
             var messageLabel = new Label
             {
                 Text = message,
@@ -47,16 +50,19 @@ namespace FeedOptimizationApp.Helpers
                 VerticalOptions = LayoutOptions.Center
             };
 
+            // Create an OK button to close the popup.
             var okButton = new Button
             {
                 Text = "OK",
                 Command = new Command(() => Close())
             };
 
+            // Add the title, message, and button to the grid.
             grid.Add(titleLabel, 0, 0);
             grid.Add(messageLabel, 0, 1);
             grid.Add(okButton, 0, 2);
 
+            // Set the content of the popup to a bordered grid.
             Content = new Border
             {
                 Content = grid,
@@ -78,6 +84,7 @@ namespace FeedOptimizationApp.Helpers
         /// <param name="onConfirm">The action to perform when the user confirms.</param>
         public CustomAlertPopup(string title, string message, Action onConfirm)
         {
+            // Create a grid layout for the popup content.
             var grid = new Grid
             {
                 Padding = new Thickness(20),
@@ -94,6 +101,7 @@ namespace FeedOptimizationApp.Helpers
                 }
             };
 
+            // Create a label for the title.
             var titleLabel = new Label
             {
                 Text = title,
@@ -101,6 +109,7 @@ namespace FeedOptimizationApp.Helpers
                 HorizontalOptions = LayoutOptions.Center
             };
 
+            // Create a label for the message.
             var messageLabel = new Label
             {
                 Text = message,
@@ -108,6 +117,7 @@ namespace FeedOptimizationApp.Helpers
                 VerticalOptions = LayoutOptions.Center
             };
 
+            // Create a Confirm button to close the popup and invoke the confirmation action.
             var okButton = new Button
             {
                 Text = "Confirm",
@@ -118,12 +128,14 @@ namespace FeedOptimizationApp.Helpers
                 })
             };
 
+            // Create a Cancel button to close the popup.
             var cancelButton = new Button
             {
                 Text = "Cancel",
                 Command = new Command(() => Close())
             };
 
+            // Create a stack layout for the buttons.
             var buttonStack = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
@@ -131,10 +143,12 @@ namespace FeedOptimizationApp.Helpers
                 Children = { okButton, cancelButton }
             };
 
+            // Add the title, message, and button stack to the grid.
             grid.Add(titleLabel, 0, 0);
             grid.Add(messageLabel, 0, 1);
             grid.Add(buttonStack, 0, 2);
 
+            // Set the content of the popup to a bordered grid.
             Content = new Border
             {
                 Content = grid,

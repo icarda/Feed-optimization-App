@@ -34,10 +34,12 @@ Cras semper purus sit amet purus sodales volutpat. Nunc vestibulum, mi nec ultri
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,30,0,0">
             <Button Text="Back"
                     HorizontalOptions="CenterAndExpand"
-                    Command="{Binding BackCommand}" />
+                    Command="{Binding BackCommand}"
+                    BackgroundColor="{StaticResource Secondary}" />
             <Button Text="Agree"
                     HorizontalOptions="CenterAndExpand"
-                    Command="{Binding AgreeCommand}" />
+                    Command="{Binding AgreeCommand}"
+                    BackgroundColor="{StaticResource Primary}" />
         </StackLayout>
     </StackLayout>
 </ContentPage>
