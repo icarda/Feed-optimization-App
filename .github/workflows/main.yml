@@ -31,7 +31,8 @@ jobs:
         working-directory: ./FeedOptimizationApp  # ✅ Set correct working directory
 
       - name: Build Android App
-        run: dotnet build -f net8.0-android -c Release
+        run: dotnet build FeedOptimizationApp.csproj -f net8.0-android -c Release
+        working-directory: ./FeedOptimizationApp  # ✅ Set correct working directory for build
 
       - name: Create Android APK
         run: |
@@ -82,6 +83,7 @@ jobs:
           curl -H "Content-Type: application/json" \
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
                -X POST "https://outlook.office.com/webhook/YOUR_WEBHOOK_URL"
+
 
 
 
