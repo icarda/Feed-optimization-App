@@ -25,12 +25,15 @@ jobs:
           dotnet workload install android ios maccatalyst wasm-tools maui
           dotnet workload restore  # ✅ Ensure workloads are restored
 
-      - name: Debug - List Files
+      - name: Debug - List Files in Root
         run: Get-ChildItem -Path . -Recurse  # ✅ Debugging step to locate the solution file
-        working-directory: ./FeedOptimizationApp
+
+      - name: Debug - Confirm Solution File Exists
+        run: |
+          if (Test-Path "FeedOptimizationApp/FeedOptimizationApp.sln") { echo "Solution found" } else { echo "Solution NOT found"; exit 1 }
 
       - name: Restore Dependencies
-        run: dotnet restore FeedOptimizationApp.sln --force  # ✅ Ensure correct path
+        run: dotnet restore --force FeedOptimizationApp.sln  # ✅ Ensure correct path
         working-directory: ./FeedOptimizationApp
 
       - name: Build Android App
@@ -87,6 +90,7 @@ jobs:
           curl -H "Content-Type: application/json" \
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
                -X POST "https://outlook.office.com/webhook/YOUR_WEBHOOK_URL"
+
 
 
 
