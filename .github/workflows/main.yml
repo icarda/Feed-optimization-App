@@ -52,10 +52,16 @@ jobs:
           name: Android-APK
           path: ./publish
 
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
       - name: Deploy to Google Play Store (Beta)
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_API_KEY }}
+          serviceAccountJson: ""  # Removed secrets for federated identity
           packageName: "com.icarda.feedapp"
           releaseFiles: "./publish/App.apk"
           track: beta
@@ -71,4 +77,5 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
+               -X POST "https://outlook.office.com/webhook/YOUR_WEBHOOK_URL"
                -X POST "https://outlook.office.com/webhook/YOUR_WEBHOOK_URL"
