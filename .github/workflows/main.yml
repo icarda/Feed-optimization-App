@@ -27,7 +27,8 @@ jobs:
         run: Get-ChildItem -Path . -Recurse  # ✅ Debugging step to locate the solution file
 
       - name: Restore Dependencies
-        run: dotnet restore ./FeedOptimizationApp.sln  # ✅ Corrected path for solution file
+        run: dotnet restore
+        working-directory: ./FeedOptimizationApp  # ✅ Set correct working directory
 
       - name: Build Android App
         run: dotnet build -f net8.0-android -c Release
@@ -81,6 +82,7 @@ jobs:
           curl -H "Content-Type: application/json" \
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
                -X POST "https://outlook.office.com/webhook/YOUR_WEBHOOK_URL"
+
 
 
                -X POST "https://outlook.office.com/webhook/YOUR_WEBHOOK_URL"
