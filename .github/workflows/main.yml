@@ -27,25 +27,27 @@ jobs:
 
       - name: Debug - List Files
         run: Get-ChildItem -Path . -Recurse  # ✅ Debugging step to locate the solution file
+        working-directory: ./FeedOptimizationApp
 
       - name: Restore Dependencies
-        run: dotnet restore --force  # ✅ Force restore to regenerate assets
+        run: dotnet restore FeedOptimizationApp.sln --force  # ✅ Ensure correct path
         working-directory: ./FeedOptimizationApp
 
       - name: Build Android App
-        run: dotnet build FeedOptimizationApp.csproj -f net8.0-android -c Release
-        working-directory: ./FeedOptimizationApp  # ✅ Set correct working directory for build
+        run: dotnet build FeedOptimizationApp.sln -f net8.0-android -c Release  # ✅ Ensure correct path
+        working-directory: ./FeedOptimizationApp
 
       - name: Create Android APK
         run: |
-          dotnet publish -f net8.0-android -c Release -o ./publish
+          dotnet publish FeedOptimizationApp.sln -f net8.0-android -c Release -o ./publish
           move ./publish\*.apk ./publish\App.apk  # Rename output file
+        working-directory: ./FeedOptimizationApp
 
       - name: Upload Android Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Android-APK
-          path: ./publish/App.apk
+          path: ./FeedOptimizationApp/publish/App.apk
 
   deploy-android:
     name: Deploy to Google Play
