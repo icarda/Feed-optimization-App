@@ -24,7 +24,7 @@ jobs:
         run: dotnet workload install maui
 
       - name: Restore Dependencies
-        run: dotnet restore
+        run: dotnet restore FeedOptimizationApp.sln  # ✅ Ensure correct solution file is used
 
       - name: Build Android App
         run: dotnet build -f net8.0-android -c Release
