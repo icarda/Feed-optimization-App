@@ -6,6 +6,7 @@ public class CalculationEntity : EntityBase
 {
     public CalculationEntity()
     {
+        CreatedDate = DateTime.Now;
     }
 
     public CalculationEntity(int speciesId, string name, string description, string type, int grazingId, int bodyWeightId, decimal? adg, bool gestation, decimal? milkYield, decimal? fatContent, int dietQualityEstimateId, int kidsLambsId)
@@ -22,6 +23,7 @@ public class CalculationEntity : EntityBase
         FatContent = fatContent;
         DietQualityEstimateId = dietQualityEstimateId;
         KidsLambsId = kidsLambsId;
+        CreatedDate = DateTime.Now;
     }
 
     public void Set(int speciesId, string name, string description, string type, int grazingId, int bodyWeightId, decimal? adg, bool gestation, decimal? milkYield, decimal? fatContent, int dietQualityEstimateId, int kidsLambsId)
@@ -69,6 +71,8 @@ public class CalculationEntity : EntityBase
     public int DietQualityEstimateId { get; set; } // NOT NULL
 
     public int KidsLambsId { get; set; } // NOT NULL
+
+    public DateTime CreatedDate { get; set; } // NOT NULL, default value is DateTime.Now
 
     public SpeciesEntity SpeciesEntity { get; set; } // NOT NULL
     public GrazingEntity GrazingEntity { get; set; } // NOT NULL

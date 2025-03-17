@@ -10,4 +10,10 @@ public partial class ViewCalculationsPage : ContentPage
         _viewModel = viewModel;
         BindingContext = _viewModel;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.LoadCalculations();
+    }
 }

@@ -14,6 +14,7 @@ namespace FeedOptimizationApp.Modules
     /// </summary>
     public class MainViewModel : BaseViewModel, INotifyPropertyChanged
     {
+        // Service for performing data operations.
         private readonly BaseService _baseService;
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace FeedOptimizationApp.Modules
             NextCommand = new Command(OnNextButtonClicked);
         }
 
+        // Private field to track if a language is selected.
         private bool _isLanguageSelected = false;
 
         /// <summary>
@@ -137,7 +139,7 @@ namespace FeedOptimizationApp.Modules
                 );
 
                 // Navigate to the LegalPage
-                var viewModel = new LegalViewModel(_baseService, SharedData);
+                var viewModel = new LegalViewModel(_baseService, SharedData, databaseInitializer);
                 if (Application.Current != null && Application.Current.Windows.Count > 0)
                 {
                     Application.Current.Windows[0].Page = new NavigationPage(new LegalPage(viewModel));
@@ -159,16 +161,21 @@ namespace FeedOptimizationApp.Modules
             Countries.Clear();
             SpeciesList.Clear();
 
+            // Load languages
             var languages = await _baseService.EnumEntitiesService.GetLanguagesAsync();
             foreach (var language in languages.Data)
             {
                 Languages.Add(language);
             }
+
+            // Load countries
             var countries = await _baseService.EnumEntitiesService.GetCountriesAsync();
             foreach (var country in countries.Data)
             {
                 Countries.Add(country);
             }
+
+            // Load species
             var speciesList = await _baseService.EnumEntitiesService.GetSpeciesAsync();
             foreach (var species in speciesList.Data)
             {

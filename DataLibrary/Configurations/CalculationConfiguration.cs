@@ -31,6 +31,7 @@ public class CalculationConfiguration : IEntityTypeConfiguration<CalculationEnti
         conf.Property(c => c.FatContent).IsRequired(false).HasPrecision(18, 2);
         conf.Property(c => c.DietQualityEstimateId).IsRequired();
         conf.Property(c => c.KidsLambsId).IsRequired();
+        conf.Property(c => c.CreatedDate).IsRequired();
 
         // Define relationships
         conf.HasOne(c => c.SpeciesEntity).WithMany().HasForeignKey(c => c.SpeciesId);

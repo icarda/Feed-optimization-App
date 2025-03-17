@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:FeedOptimizationApp.Modules.Calculations"
              x:Class="FeedOptimizationApp.Modules.Calculations.ViewCalculationsPage"
-             Title="View Calculations"
-             BackgroundColor="{StaticResource Primary}">
+             Title="View Calculations">
+
     <Grid VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
 
         <!-- Header content row -->
-        <Grid Padding="20" BackgroundColor="{StaticResource Tertiary}" Grid.Row="0">
+        <Grid Padding="20" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -22,16 +22,15 @@
             </Grid.ColumnDefinitions>
 
             <!-- Header content -->
-            <Label Text="Title" Grid.Column="0" FontAttributes="Bold" TextColor="White" />
-            <Label Text="Date" Grid.Column="1" FontAttributes="Bold" TextColor="White" />
-            <Label Text="No Feeds" Grid.Column="2" FontAttributes="Bold" TextColor="White" />
-            <Label Text="Type" Grid.Column="3" FontAttributes="Bold" TextColor="White" />
-            <Label Text="Action" Grid.Column="4" FontAttributes="Bold" TextColor="White" />
+            <Label Text="Title" Grid.Column="0" FontAttributes="Bold" />
+            <Label Text="Date" Grid.Column="1" FontAttributes="Bold" />
+            <Label Text="No Feeds" Grid.Column="2" FontAttributes="Bold" />
+            <Label Text="Type" Grid.Column="3" FontAttributes="Bold" />
+            <Label Text="Action" Grid.Column="4" FontAttributes="Bold" />
         </Grid>
 
         <!-- Scrollable content inside the border -->
-        <Border Stroke="Black"
-                StrokeThickness="2"
+        <Border
                 Padding="0"
                 Margin="10"
                 Grid.Row="1">

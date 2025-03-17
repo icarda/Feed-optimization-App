@@ -276,13 +276,6 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <!--<Picker Title="Select an option"
-                                             ItemsSource="{Binding Feeds}"
-                                             ItemDisplayBinding="{Binding Name}"
-                                             SelectedItem="{Binding SelectedFeed}"
-                                             Grid.Row="0"
-                                             Grid.ColumnSpan="2" />-->
-
                                     <customcontrols:AutoCompletePicker
                                         x:Name="FeedPicker"
                                         ItemsSource="{Binding Feeds}"
@@ -311,7 +304,7 @@
                                         <Button Text="Clear" BackgroundColor="{StaticResource Secondary}" Command="{Binding ClearFeedCommand}" />
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Row="8" Grid.ColumnSpan="2" Spacing="10">
-                                        <Button Text="Add" Command="{Binding AddFeedCommand}" />
+                                        <Button Text="Add" Command="{Binding AddFeedCommand}" BackgroundColor="{StaticResource Primary}" />
                                     </StackLayout>
                                 </Grid>
                             </toolkit:Expander.Content>
@@ -479,12 +472,13 @@
                         </Grid.ColumnDefinitions>
 
                         <Button Text="Save"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        HorizontalOptions="End"
-                        VerticalOptions="End"
-                        Margin="10"
-                        Command="{Binding SaveResultsCommand}" />
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                HorizontalOptions="End"
+                                VerticalOptions="End"
+                                Margin="10"
+                                Command="{Binding SaveResultsCommand}"
+                                BackgroundColor="{StaticResource Primary}" />
                     </Grid>
                 </StackLayout>
             </ScrollView>
