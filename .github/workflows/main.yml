@@ -24,13 +24,20 @@ jobs:
         run: |
           dotnet workload install android ios maccatalyst wasm-tools maui
           dotnet workload restore  # ✅ Ensure workloads are restored
+        working-directory: ./FeedOptimizationApp
 
       - name: Debug - List Files in Root
         run: Get-ChildItem -Path . -Recurse  # ✅ Debugging step to locate the solution file
+        working-directory: ./FeedOptimizationApp
 
       - name: Debug - Confirm Solution File Exists
         run: |
-          if (Test-Path "FeedOptimizationApp/FeedOptimizationApp.sln") { echo "Solution found" } else { echo "Solution NOT found"; exit 1 }
+          if (Test-Path "FeedOptimizationApp.sln") { echo "Solution found" } else { echo "Solution NOT found"; exit 1 }
+        working-directory: ./FeedOptimizationApp
+
+      - name: Verify MAUI Workload Installation
+        run: dotnet workload list  # ✅ Ensure workloads are correctly installed
+        working-directory: ./FeedOptimizationApp
 
       - name: Restore Dependencies
         run: dotnet restore --force FeedOptimizationApp.sln  # ✅ Ensure correct path
@@ -43,7 +50,7 @@ jobs:
       - name: Create Android APK
         run: |
           dotnet publish FeedOptimizationApp.sln -f net8.0-android -c Release -o ./publish
-          move ./publish\*.apk ./publish\App.apk  # Rename output file
+          move ./publish\*.apk ./publish/App.apk  # Rename output file
         working-directory: ./FeedOptimizationApp
 
       - name: Upload Android Build Artifact
@@ -62,20 +69,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Android-APK
-          path: ./publish
-
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v1
-        with:
-          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          path: ./FeedOptimizationApp/publish
 
       - name: Deploy to Google Play Store (Beta)
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: ""  # Removed secrets for federated identity
+          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_API_KEY }}
           packageName: "com.icarda.feedapp"
-          releaseFiles: "./publish/App.apk"
+          releaseFiles: "./FeedOptimizationApp/publish/App.apk"
           track: beta
           status: completed
 
@@ -91,9 +92,3 @@ jobs:
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
                -X POST "https://outlook.office.com/webhook/YOUR_WEBHOOK_URL"
 
-
-
-
-
-
-               -X POST "https://outlook.office.com/webhook/YOUR_WEBHOOK_URL"
