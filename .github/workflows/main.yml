@@ -30,17 +30,17 @@ jobs:
       # Change to the correct directory before subsequent operations
       - name: Restore Dependencies
         run: |
-          cd FeedOptimizationApp
+          cd ./FeedOptimizationApp
           dotnet restore FeedOptimizationApp.sln
 
       - name: Build Android App
         run: |
-          cd FeedOptimizationApp
+          cd ./FeedOptimizationApp
           dotnet build FeedOptimizationApp.sln -f net8.0-android -c Release
 
       - name: Create Android APK
         run: |
-          cd FeedOptimizationApp
+          cd ./FeedOptimizationApp
           dotnet publish FeedOptimizationApp.sln -f net8.0-android -c Release -o ./publish
           if (Test-Path ./publish/*.apk) { 
             Get-ChildItem ./publish/*.apk | Select-Object -First 1 | Move-Item -Destination ./publish/App.apk
@@ -93,4 +93,3 @@ jobs:
           curl -H "Content-Type: application/json" \
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
                -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
-
