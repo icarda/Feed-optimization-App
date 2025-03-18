@@ -63,6 +63,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 AnimalInfoTabIsActive = true;
                 FeedInfoTabIsActive = false;
                 ResultsTabIsActive = false;
+                OptimizationTabIsActive = false;
             });
 
             SetFeedInfoTabActive = new Command(() =>
@@ -81,6 +82,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     AnimalInfoTabIsActive = false;
                     FeedInfoTabIsActive = true;
                     ResultsTabIsActive = false;
+                    OptimizationTabIsActive = false;
                 }
                 else
                 {
@@ -89,12 +91,22 @@ namespace FeedOptimizationApp.Modules.Calculations
                 }
             });
 
+            SetOptimizationTabActive = new Command(() =>
+            {
+                // Activate the Optimization tab and deactivate others
+                OptimizationTabIsActive = true;
+                AnimalInfoTabIsActive = false;
+                FeedInfoTabIsActive = false;
+                ResultsTabIsActive = false;
+            });
+
             SetResultsTabActive = new Command(async () =>
             {
                 // Activate Results tab and deactivate the other tabs
                 AnimalInfoTabIsActive = false;
                 FeedInfoTabIsActive = false;
                 ResultsTabIsActive = true;
+                OptimizationTabIsActive = false;
 
                 // Retrieve feed input IDs based on the stored feeds
                 CalculationHasFeedIds = GetFeedInformationInputs((int)CalculationId);
@@ -137,6 +149,10 @@ namespace FeedOptimizationApp.Modules.Calculations
 
         // Command to switch to the Feed Info tab.
         public ICommand SetFeedInfoTabActive { get; }
+
+        // Command to switch to the Optimization tab.
+
+        public ICommand SetOptimizationTabActive { get; }
 
         // Command to switch to the Results tab.
         public ICommand SetResultsTabActive { get; }
@@ -306,6 +322,69 @@ namespace FeedOptimizationApp.Modules.Calculations
 
         #endregion Calculation Properties
 
+        #region Requirements Properties
+
+        // Properties for energy requirements
+        private decimal _energyRequirementMaintenance;
+
+        public decimal EnergyRequirementMaintenance
+        {
+            get => _energyRequirementMaintenance;
+            set => SetProperty(ref _energyRequirementMaintenance, value);
+        }
+
+        private decimal _energyRequirementAdditional;
+
+        public decimal EnergyRequirementAdditional
+        {
+            get => _energyRequirementAdditional;
+            set => SetProperty(ref _energyRequirementAdditional, value);
+        }
+
+        private decimal _energyRequirementTotal;
+
+        public decimal EnergyRequirementTotal
+        {
+            get => _energyRequirementTotal;
+            set => SetProperty(ref _energyRequirementTotal, value);
+        }
+
+        // Properties for crude protein requirements
+        private decimal _crudeProteinRequirementMaintenance;
+
+        public decimal CrudeProteinRequirementMaintenance
+        {
+            get => _crudeProteinRequirementMaintenance;
+            set => SetProperty(ref _crudeProteinRequirementMaintenance, value);
+        }
+
+        private decimal _crudeProteinRequirementAdditional;
+
+        public decimal CrudeProteinRequirementAdditional
+        {
+            get => _crudeProteinRequirementAdditional;
+            set => SetProperty(ref _crudeProteinRequirementAdditional, value);
+        }
+
+        // Properties for dry matter intake estimates
+        private decimal _dryMatterIntakeEstimateBase;
+
+        public decimal DryMatterIntakeEstimateBase
+        {
+            get => _dryMatterIntakeEstimateBase;
+            set => SetProperty(ref _dryMatterIntakeEstimateBase, value);
+        }
+
+        private decimal _dryMatterIntakeEstimateAdditional;
+
+        public decimal DryMatterIntakeEstimateAdditional
+        {
+            get => _dryMatterIntakeEstimateAdditional;
+            set => SetProperty(ref _dryMatterIntakeEstimateAdditional, value);
+        }
+
+        #endregion Requirements Properties
+
         #region Calculation Property Value Updates
 
         private void CalculateEnergyReq()
@@ -313,12 +392,12 @@ namespace FeedOptimizationApp.Modules.Calculations
             if (SelectedBodyWeight != null && SelectedType != null)
             {
                 double bodyWeight = double.Parse(SelectedBodyWeight.Name);
-                double maintenanceValue = SelectedType.Name switch
+                double maintenanceValue = SelectedType.Id switch
                 {
-                    "Ewes" => Constants.ME_maintenance_EWES,
-                    "Ewes and lambs" => Constants.ME_maintenance_EWES_AND_LAMBS,
-                    "Weaned lambs" => Constants.ME_maintenance_WEANED_LAMBS,
-                    "Rams" => Constants.ME_maintenance_RAMS,
+                    1 => Constants.ME_maintenance_EWES,
+                    2 => Constants.ME_maintenance_EWES_AND_LAMBS,
+                    3 => Constants.ME_maintenance_WEANED_LAMBS,
+                    4 => Constants.ME_maintenance_RAMS,
                     _ => 0
                 };
 
@@ -327,12 +406,12 @@ namespace FeedOptimizationApp.Modules.Calculations
                 // Calculate MEmGrazing
                 if (SelectedGrazing != null)
                 {
-                    double grazingMultiplier = SelectedGrazing.Name switch
+                    double grazingMultiplier = SelectedGrazing.Id switch
                     {
-                        "None" => Constants.ME_m_GRAZING_NONE,
-                        "Close by" => Constants.ME_m_GRAZING_CLOSE_BY,
-                        "Open range" => Constants.ME_m_GRAZING_OPEN_RANGE,
-                        "Rough mountain terrain" => Constants.ME_m_GRAZING_ROUGH_MOUNTAIN_TERRAIN,
+                        1 => Constants.ME_m_GRAZING_NONE,
+                        2 => Constants.ME_m_GRAZING_CLOSE_BY,
+                        3 => Constants.ME_m_GRAZING_OPEN_RANGE,
+                        4 => Constants.ME_m_GRAZING_ROUGH_MOUNTAIN_TERRAIN,
                         _ => 0
                     };
 
@@ -342,12 +421,12 @@ namespace FeedOptimizationApp.Modules.Calculations
                 // Calculate MEg
                 if (ADG != null)
                 {
-                    double gainValue = SelectedType.Name switch
+                    double gainValue = SelectedType.Id switch
                     {
-                        "Ewes" => Constants.ME_gain_EWES,
-                        "Ewes and lambs" => Constants.ME_gain_EWES_AND_LAMBS,
-                        "Weaned lambs" => Constants.ME_gain_WEANED_LAMBS,
-                        "Rams" => Constants.ME_gain_RAMS,
+                        1 => Constants.ME_gain_EWES,
+                        2 => Constants.ME_gain_EWES_AND_LAMBS,
+                        3 => Constants.ME_gain_WEANED_LAMBS,
+                        4 => Constants.ME_gain_RAMS,
                         _ => 0
                     };
 
@@ -359,7 +438,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 MEGestation = MEm * gestationMultiplier;
 
                 // Calculate lactation-related properties only for EWES_AND_LAMBS
-                if (SelectedType.Name == "Ewes and lambs" && DailyMilkYieldValue != null && FatContentValue != null)
+                if (SelectedType.Id == 2 && DailyMilkYieldValue != null && FatContentValue != null)
                 {
                     // Calculate FourPercFCM
                     FourPercFCM = (0.4 * (double)DailyMilkYieldValue) + (1.5 * (double)DailyMilkYieldValue * (double)FatContentValue * 10);
@@ -375,6 +454,14 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                 // Calculate EnergyReq
                 EnergyReq = MEm + MEmGrazing + MEg + MEGestation + MELactation;
+
+                // Set EnergyRequirementMaintenance
+                EnergyRequirementMaintenance = Math.Round((decimal)(MEm / 1000), 2);
+                // Set EnergyRequirementAdditional
+                EnergyRequirementAdditional = Math.Round((decimal)((EnergyReq - MEm) / 1000), 2);
+                // Set EnergyRequirementTotal
+                var ermPLUSera = EnergyRequirementMaintenance + EnergyRequirementAdditional;
+                EnergyRequirementTotal = Math.Round(EnergyRequirementMaintenance / ermPLUSera, 2);
             }
         }
 
@@ -382,18 +469,18 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             if (SelectedType != null)
             {
-                double maintenanceValue = SelectedType.Name switch
+                double maintenanceValue = SelectedType.Id switch
                 {
-                    "Ewes" => Constants.DCP_Maintenance_EWES,
-                    "Ewes and lambs" => Constants.DCP_Maintenance_EWES_AND_LAMBS,
-                    "Weaned lambs" => Constants.DCP_Maintenance_WEANED_LAMBS,
-                    "Rams" => Constants.DCP_Maintenance_RAMS,
+                    1 => Constants.DCP_Maintenance_EWES,
+                    2 => Constants.DCP_Maintenance_EWES_AND_LAMBS,
+                    3 => Constants.DCP_Maintenance_WEANED_LAMBS,
+                    4 => Constants.DCP_Maintenance_RAMS,
                     _ => 0
                 };
                 DCPMaintenance = EnergyReq / 1000 * maintenanceValue;
 
                 // Calculate DCPLactation only for EWES_AND_LAMBS
-                if (SelectedType.Name == "Ewes and lambs" && DailyMilkYieldValue != null)
+                if (SelectedType.Id == 2 && DailyMilkYieldValue != null)
                 {
                     DCPLactation = EnergyReq / 1000 * (DailyMilkYieldValue <= 1.5m ? Constants.DCP_Lactation_LOW : Constants.DCP_Lactation_HIGH);
                 }
@@ -406,7 +493,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 CPGain = DCPMaintenance * 1.115 + 3.84;
 
                 // Calculate CPLactation only for EWES_AND_LAMBS
-                if (SelectedType.Name == "Ewes and lambs")
+                if (SelectedType.Id == 2)
                 {
                     CPLactation = DCPLactation * 1.115 + 3.84;
                 }
@@ -420,6 +507,11 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                 // Calculate CPReq
                 CPReq = CPGain + CPLactation;
+
+                // Set CrudeProteinRequirementMaintenance
+                CrudeProteinRequirementMaintenance = Math.Round((decimal)(1.115 * DCPMaintenance + 3.84));
+                // Set CrudeProteinRequirementAdditional
+                CrudeProteinRequirementAdditional = Math.Round((decimal)(1.115 * (DCPReq - DCPMaintenance) + 3.84));
             }
         }
 
@@ -428,43 +520,43 @@ namespace FeedOptimizationApp.Modules.Calculations
             if (SelectedBodyWeight != null && SelectedDietQualityEstimate != null && SelectedType != null)
             {
                 double bodyWeight = double.Parse(SelectedBodyWeight.Name);
-                double dietQualityEstimateValue = SelectedDietQualityEstimate.Name switch
+                double dietQualityEstimateValue = SelectedDietQualityEstimate.Id switch
                 {
-                    "Low" => SelectedType.Name switch
+                    1 => SelectedType.Id switch
                     {
-                        "Ewes" => Constants.DQE_EWES_LOW,
-                        "Ewes and lambs" => Constants.DQE_EWES_AND_LAMBS_LOW,
-                        "Weaned lambs" => Constants.DQE_WEANED_LAMBS_LOW,
-                        "Rams" => Constants.DQE_RAMS_LOW,
+                        1 => Constants.DQE_EWES_LOW,
+                        2 => Constants.DQE_EWES_AND_LAMBS_LOW,
+                        3 => Constants.DQE_WEANED_LAMBS_LOW,
+                        4 => Constants.DQE_RAMS_LOW,
                         _ => 0
                     },
-                    "Medium" => SelectedType.Name switch
+                    2 => SelectedType.Id switch
                     {
-                        "Ewes" => Constants.DQE_EWES_MEDIUM,
-                        "Ewes and lambs" => Constants.DQE_EWES_AND_LAMBS_MEDIUM,
-                        "Weaned lambs" => Constants.DQE_WEANED_LAMBS_MEDIUM,
-                        "Rams" => Constants.DQE_RAMS_MEDIUM,
+                        1 => Constants.DQE_EWES_MEDIUM,
+                        2 => Constants.DQE_EWES_AND_LAMBS_MEDIUM,
+                        3 => Constants.DQE_WEANED_LAMBS_MEDIUM,
+                        4 => Constants.DQE_RAMS_MEDIUM,
                         _ => 0
                     },
-                    "High" => SelectedType.Name switch
+                    3 => SelectedType.Id switch
                     {
-                        "Ewes" => Constants.DQE_EWES_HIGH,
-                        "Ewes and lambs" => Constants.DQE_EWES_AND_LAMBS_HIGH,
-                        "Weaned lambs" => Constants.DQE_WEANED_LAMBS_HIGH,
-                        "Rams" => Constants.DQE_RAMS_HIGH,
+                        1 => Constants.DQE_EWES_HIGH,
+                        2 => Constants.DQE_EWES_AND_LAMBS_HIGH,
+                        3 => Constants.DQE_WEANED_LAMBS_HIGH,
+                        4 => Constants.DQE_RAMS_HIGH,
                         _ => 0
                     },
                     _ => 0
                 };
 
-                DMI = bodyWeight * dietQualityEstimateValue;
+                DMI = Math.Pow(bodyWeight, 0.75) * dietQualityEstimateValue;
 
                 // Calculate DMIGestation
                 double gestationMultiplier = IsLast8WeeksOfGestation ? Constants.DMI_gestation_YES : Constants.DMI_gestation_NO;
                 DMIGestation = DMI * gestationMultiplier;
 
                 // Calculate DMILactation only for EWES_AND_LAMBS
-                if (SelectedType.Name == "Ewes and lambs" && DailyMilkYieldValue != null)
+                if (SelectedType.Id == 2 && DailyMilkYieldValue != null)
                 {
                     double lactationMultiplier = DailyMilkYieldValue <= 1.5m ? Constants.DMI_lactation : Constants.DMI_lactation_HIGH;
                     DMILactation = DMI * lactationMultiplier;
@@ -476,6 +568,11 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                 // Calculate DMIReq
                 DMIReq = DMI + DMIGestation + DMILactation;
+
+                // Set DryMatterIntakeEstimateBase
+                DryMatterIntakeEstimateBase = Math.Round((decimal)DMI);
+                // Set DryMatterIntakeEstimateAdditional
+                DryMatterIntakeEstimateAdditional = Math.Round((decimal)(DMIReq - DMI));
             }
         }
 
@@ -526,6 +623,14 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             get => _animalInfoTabIsActive;
             set => SetProperty(ref _animalInfoTabIsActive, value);
+        }
+
+        private bool _optimizationTabIsActive;
+
+        public bool OptimizationTabIsActive
+        {
+            get => _optimizationTabIsActive;
+            set => SetProperty(ref _optimizationTabIsActive, value);
         }
 
         private bool _resultsTabIsActive;
