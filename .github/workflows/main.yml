@@ -18,7 +18,7 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '9.0.x'
 
       - name: List Project Structure
         run: Get-ChildItem -Path . -Recurse -Depth 2
@@ -36,12 +36,12 @@ jobs:
       - name: Build Android App
         run: |
           cd ./FeedOptimizationApp
-          dotnet build FeedOptimizationApp.sln -f net8.0-android -c Release
+          dotnet build FeedOptimizationApp.sln -f net9.0-android -c Release
 
       - name: Create Android APK
         run: |
           cd ./FeedOptimizationApp
-          dotnet publish FeedOptimizationApp.sln -f net8.0-android -c Release -o ./publish
+          dotnet publish FeedOptimizationApp.sln -f net9.0-android -c Release -o ./publish
           if (Test-Path ./publish/*.apk) { 
             Get-ChildItem ./publish/*.apk | Select-Object -First 1 | Move-Item -Destination ./publish/App.apk
           } else {
@@ -92,4 +92,5 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
+               -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
                -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
