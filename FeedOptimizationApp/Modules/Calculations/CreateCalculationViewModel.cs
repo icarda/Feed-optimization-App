@@ -48,6 +48,9 @@ namespace FeedOptimizationApp.Modules.Calculations
             LoadAnimalInformationCommand = new Command(async () => await LoadAnimalInformationAsync());
             ClearFeedCommand = new Command(ClearFeed);
             AddFeedCommand = new Command(OnAddFeed);
+            SaveOptimisationFeedCommand = new Command<StoredFeed>(OnSaveOptimisationFeed);
+            EditStoredFeedCommand = new Command<StoredFeed>(OnEditStoredFeed);
+            SaveStoredFeedCommand = new Command<StoredFeed>(OnSaveStoredFeed);
             SaveResultsCommand = new Command(OnSaveResults);
             ClearAnimalInfoCommand = new Command(ClearAnimalInfo);
             ResetFeedInfoCommand = new Command(ResetFeedInfo);
@@ -163,6 +166,10 @@ namespace FeedOptimizationApp.Modules.Calculations
         // Command to add a feed to the stored feeds collection.
         public ICommand AddFeedCommand { get; }
 
+        public ICommand SaveOptimisationFeedCommand { get; }
+        public ICommand EditStoredFeedCommand { get; }
+        public ICommand SaveStoredFeedCommand { get; }
+
         // Command to save the calculated results.
         public ICommand SaveResultsCommand { get; }
 
@@ -178,49 +185,49 @@ namespace FeedOptimizationApp.Modules.Calculations
 
         #region Calculation Properties
 
-        private double _mem;
+        private decimal _mem;
 
-        public double MEm
+        public decimal MEm
         {
             get => _mem;
             set => SetProperty(ref _mem, value);
         }
 
-        private double _memGrazing;
+        private decimal _memGrazing;
 
-        public double MEmGrazing
+        public decimal MEmGrazing
         {
             get => _memGrazing;
             set => SetProperty(ref _memGrazing, value);
         }
 
-        private double _meG;
+        private decimal _meG;
 
-        public double MEg
+        public decimal MEg
         {
             get => _meG;
             set => SetProperty(ref _meG, value);
         }
 
-        private double _meGestation;
+        private decimal _meGestation;
 
-        public double MEGestation
+        public decimal MEGestation
         {
             get => _meGestation;
             set => SetProperty(ref _meGestation, value);
         }
 
-        private double _meLactation;
+        private decimal _meLactation;
 
-        public double MELactation
+        public decimal MELactation
         {
             get => _meLactation;
             set => SetProperty(ref _meLactation, value);
         }
 
-        private double _energyReq;
+        private decimal _energyReq;
 
-        public double EnergyReq
+        public decimal EnergyReq
         {
             get => _energyReq;
             set
@@ -232,89 +239,102 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
         }
 
-        private double _fourPercFCM;
+        private decimal _energyReqForUI;
 
-        public double FourPercFCM
+        public decimal EnergyReqForUI
+        {
+            get => _energyReqForUI;
+            set
+            {
+                if (SetProperty(ref _energyReqForUI, value))
+                {
+                }
+            }
+        }
+
+        private decimal _fourPercFCM;
+
+        public decimal FourPercFCM
         {
             get => _fourPercFCM;
             set => SetProperty(ref _fourPercFCM, value);
         }
 
-        private double _dcpMaintenance;
+        private decimal _dcpMaintenance;
 
-        public double DCPMaintenance
+        public decimal DCPMaintenance
         {
             get => _dcpMaintenance;
             set => SetProperty(ref _dcpMaintenance, value);
         }
 
-        private double _dcpLactation;
+        private decimal _dcpLactation;
 
-        public double DCPLactation
+        public decimal DCPLactation
         {
             get => _dcpLactation;
             set => SetProperty(ref _dcpLactation, value);
         }
 
-        private double _cpGain;
+        private decimal _cpGain;
 
-        public double CPGain
+        public decimal CPGain
         {
             get => _cpGain;
             set => SetProperty(ref _cpGain, value);
         }
 
-        private double _cpLactation;
+        private decimal _cpLactation;
 
-        public double CPLactation
+        public decimal CPLactation
         {
             get => _cpLactation;
             set => SetProperty(ref _cpLactation, value);
         }
 
-        private double _dcpReq;
+        private decimal _dcpReq;
 
-        public double DCPReq
+        public decimal DCPReq
         {
             get => _dcpReq;
             set => SetProperty(ref _dcpReq, value);
         }
 
-        private double _cpReq;
+        private decimal _cpReq;
 
-        public double CPReq
+        public decimal CPReq
         {
             get => _cpReq;
             set => SetProperty(ref _cpReq, value);
         }
 
-        private double _dmi;
+        private decimal _dmi;
 
-        public double DMI
+        public decimal DMI
         {
             get => _dmi;
             set => SetProperty(ref _dmi, value);
         }
 
-        private double _dmiGestation;
+        private decimal _dmiGestation;
 
-        public double DMIGestation
+        public decimal DMIGestation
         {
             get => _dmiGestation;
             set => SetProperty(ref _dmiGestation, value);
         }
 
-        private double _dmiLactation;
+        private decimal _dmiLactation;
 
-        public double DMILactation
+        public decimal DMILactation
         {
             get => _dmiLactation;
             set => SetProperty(ref _dmiLactation, value);
         }
 
-        private double _dmiReq;
+        private decimal _dmiReq;
 
-        public double DMIReq
+        public decimal DMIReq
         {
             get => _dmiReq;
             set => SetProperty(ref _dmiReq, value);
@@ -330,7 +350,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public decimal EnergyRequirementMaintenance
         {
             get => _energyRequirementMaintenance;
-            set => SetProperty(ref _energyRequirementMaintenance, value);
+            set => SetProperty(ref _energyRequirementMaintenance, Math.Round(value, 2));
         }
 
         private decimal _energyRequirementAdditional;
@@ -338,7 +358,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public decimal EnergyRequirementAdditional
         {
             get => _energyRequirementAdditional;
-            set => SetProperty(ref _energyRequirementAdditional, value);
+            set => SetProperty(ref _energyRequirementAdditional, Math.Round(value, 2));
         }
 
         private decimal _energyRequirementTotal;
@@ -346,7 +366,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public decimal EnergyRequirementTotal
         {
             get => _energyRequirementTotal;
-            set => SetProperty(ref _energyRequirementTotal, value);
+            set => SetProperty(ref _energyRequirementTotal, Math.Round(value, 2));
         }
 
         // Properties for crude protein requirements
@@ -355,7 +375,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public decimal CrudeProteinRequirementMaintenance
         {
             get => _crudeProteinRequirementMaintenance;
-            set => SetProperty(ref _crudeProteinRequirementMaintenance, value);
+            set => SetProperty(ref _crudeProteinRequirementMaintenance, Math.Round(value));
         }
 
         private decimal _crudeProteinRequirementAdditional;
@@ -363,7 +383,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public decimal CrudeProteinRequirementAdditional
         {
             get => _crudeProteinRequirementAdditional;
-            set => SetProperty(ref _crudeProteinRequirementAdditional, value);
+            set => SetProperty(ref _crudeProteinRequirementAdditional, Math.Round(value));
         }
 
         // Properties for dry matter intake estimates
@@ -372,7 +392,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public decimal DryMatterIntakeEstimateBase
         {
             get => _dryMatterIntakeEstimateBase;
-            set => SetProperty(ref _dryMatterIntakeEstimateBase, value);
+            set => SetProperty(ref _dryMatterIntakeEstimateBase, Math.Round(value));
         }
 
         private decimal _dryMatterIntakeEstimateAdditional;
@@ -380,7 +400,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public decimal DryMatterIntakeEstimateAdditional
         {
             get => _dryMatterIntakeEstimateAdditional;
-            set => SetProperty(ref _dryMatterIntakeEstimateAdditional, value);
+            set => SetProperty(ref _dryMatterIntakeEstimateAdditional, Math.Round(value));
         }
 
         #endregion Requirements Properties
@@ -391,8 +411,8 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             if (SelectedBodyWeight != null && SelectedType != null)
             {
-                double bodyWeight = double.Parse(SelectedBodyWeight.Name);
-                double maintenanceValue = SelectedType.Id switch
+                decimal bodyWeight = decimal.Parse(SelectedBodyWeight.Name);
+                decimal maintenanceValue = SelectedType.Id switch
                 {
                     1 => Constants.ME_maintenance_EWES,
                     2 => Constants.ME_maintenance_EWES_AND_LAMBS,
@@ -401,12 +421,12 @@ namespace FeedOptimizationApp.Modules.Calculations
                     _ => 0
                 };
 
-                MEm = Math.Pow(bodyWeight, 0.75) * maintenanceValue;
+                MEm = (decimal)Math.Pow((double)bodyWeight, 0.75) * maintenanceValue;
 
                 // Calculate MEmGrazing
                 if (SelectedGrazing != null)
                 {
-                    double grazingMultiplier = SelectedGrazing.Id switch
+                    decimal grazingMultiplier = SelectedGrazing.Id switch
                     {
                         1 => Constants.ME_m_GRAZING_NONE,
                         2 => Constants.ME_m_GRAZING_CLOSE_BY,
@@ -421,7 +441,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 // Calculate MEg
                 if (ADG != null)
                 {
-                    double gainValue = SelectedType.Id switch
+                    decimal gainValue = SelectedType.Id switch
                     {
                         1 => Constants.ME_gain_EWES,
                         2 => Constants.ME_gain_EWES_AND_LAMBS,
@@ -430,18 +450,18 @@ namespace FeedOptimizationApp.Modules.Calculations
                         _ => 0
                     };
 
-                    MEg = (double)ADG * gainValue;
+                    MEg = (decimal)(ADG * gainValue);
                 }
 
                 // Calculate MEGestation
-                double gestationMultiplier = IsLast8WeeksOfGestation ? Constants.ME_gestation_YES : Constants.ME_gestation_NO;
+                decimal gestationMultiplier = IsLast8WeeksOfGestation ? Constants.ME_gestation_YES : Constants.ME_gestation_NO;
                 MEGestation = MEm * gestationMultiplier;
 
                 // Calculate lactation-related properties only for EWES_AND_LAMBS
                 if (SelectedType.Id == 2 && DailyMilkYieldValue != null && FatContentValue != null)
                 {
                     // Calculate FourPercFCM
-                    FourPercFCM = (0.4 * (double)DailyMilkYieldValue) + (1.5 * (double)DailyMilkYieldValue * (double)FatContentValue * 10);
+                    FourPercFCM = (decimal)((0.4m * DailyMilkYieldValue) + (1.5m * DailyMilkYieldValue * FatContentValue * 10m));
 
                     // Calculate MELactation
                     MELactation = FourPercFCM * Constants.ME_lactation;
@@ -452,16 +472,14 @@ namespace FeedOptimizationApp.Modules.Calculations
                     MELactation = 0;
                 }
 
-                // Calculate EnergyReq
-                EnergyReq = MEm + MEmGrazing + MEg + MEGestation + MELactation;
+                EnergyReq = Math.Round(MEm + MEmGrazing + MEg + MEGestation + MELactation, 2);
 
-                // Set EnergyRequirementMaintenance
-                EnergyRequirementMaintenance = Math.Round((decimal)(MEm / 1000), 2);
-                // Set EnergyRequirementAdditional
-                EnergyRequirementAdditional = Math.Round((decimal)((EnergyReq - MEm) / 1000), 2);
-                // Set EnergyRequirementTotal
+                EnergyRequirementMaintenance = Math.Round(MEm / 1000);
+                EnergyRequirementAdditional = Math.Round((EnergyReq - MEm) / 1000);
                 var ermPLUSera = EnergyRequirementMaintenance + EnergyRequirementAdditional;
                 EnergyRequirementTotal = Math.Round(EnergyRequirementMaintenance / ermPLUSera, 2);
+
+                EnergyReqForUI = EnergyRequirementMaintenance + EnergyRequirementAdditional;
             }
         }
 
@@ -469,7 +487,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             if (SelectedType != null)
             {
-                double maintenanceValue = SelectedType.Id switch
+                decimal maintenanceValue = SelectedType.Id switch
                 {
                     1 => Constants.DCP_Maintenance_EWES,
                     2 => Constants.DCP_Maintenance_EWES_AND_LAMBS,
@@ -490,28 +508,23 @@ namespace FeedOptimizationApp.Modules.Calculations
                 }
 
                 // Calculate CPGain
-                CPGain = DCPMaintenance * 1.115 + 3.84;
+                CPGain = DCPMaintenance * 1.115m + 3.84m;
 
                 // Calculate CPLactation only for EWES_AND_LAMBS
                 if (SelectedType.Id == 2)
                 {
-                    CPLactation = DCPLactation * 1.115 + 3.84;
+                    CPLactation = (DCPLactation * 1.115m) + 3.84m;
                 }
                 else
                 {
                     CPLactation = 0;
                 }
 
-                // Calculate DCPReq
-                DCPReq = DCPMaintenance + DCPLactation;
+                DCPReq = Math.Round(DCPMaintenance + DCPLactation);
+                CPReq = Math.Round(CPGain + CPLactation);
 
-                // Calculate CPReq
-                CPReq = CPGain + CPLactation;
-
-                // Set CrudeProteinRequirementMaintenance
-                CrudeProteinRequirementMaintenance = Math.Round((decimal)(1.115 * DCPMaintenance + 3.84));
-                // Set CrudeProteinRequirementAdditional
-                CrudeProteinRequirementAdditional = Math.Round((decimal)(1.115 * (DCPReq - DCPMaintenance) + 3.84));
+                CrudeProteinRequirementMaintenance = Math.Round(1.115m * DCPMaintenance + 3.84m);
+                CrudeProteinRequirementAdditional = Math.Round(1.115m * (DCPReq - DCPMaintenance) + 3.84m);
             }
         }
 
@@ -519,8 +532,8 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             if (SelectedBodyWeight != null && SelectedDietQualityEstimate != null && SelectedType != null)
             {
-                double bodyWeight = double.Parse(SelectedBodyWeight.Name);
-                double dietQualityEstimateValue = SelectedDietQualityEstimate.Id switch
+                decimal bodyWeight = decimal.Parse(SelectedBodyWeight.Name);
+                decimal dietQualityEstimateValue = SelectedDietQualityEstimate.Id switch
                 {
                     1 => SelectedType.Id switch
                     {
@@ -549,16 +562,16 @@ namespace FeedOptimizationApp.Modules.Calculations
                     _ => 0
                 };
 
-                DMI = Math.Pow(bodyWeight, 0.75) * dietQualityEstimateValue;
+                DMI = (decimal)Math.Pow((double)bodyWeight, 0.75) * dietQualityEstimateValue;
 
                 // Calculate DMIGestation
-                double gestationMultiplier = IsLast8WeeksOfGestation ? Constants.DMI_gestation_YES : Constants.DMI_gestation_NO;
+                decimal gestationMultiplier = IsLast8WeeksOfGestation ? Constants.DMI_gestation_YES : Constants.DMI_gestation_NO;
                 DMIGestation = DMI * gestationMultiplier;
 
                 // Calculate DMILactation only for EWES_AND_LAMBS
                 if (SelectedType.Id == 2 && DailyMilkYieldValue != null)
                 {
-                    double lactationMultiplier = DailyMilkYieldValue <= 1.5m ? Constants.DMI_lactation : Constants.DMI_lactation_HIGH;
+                    decimal lactationMultiplier = DailyMilkYieldValue <= 1.5m ? Constants.DMI_lactation : Constants.DMI_lactation_HIGH;
                     DMILactation = DMI * lactationMultiplier;
                 }
                 else
@@ -566,13 +579,9 @@ namespace FeedOptimizationApp.Modules.Calculations
                     DMILactation = 0;
                 }
 
-                // Calculate DMIReq
-                DMIReq = DMI + DMIGestation + DMILactation;
-
-                // Set DryMatterIntakeEstimateBase
-                DryMatterIntakeEstimateBase = Math.Round((decimal)DMI);
-                // Set DryMatterIntakeEstimateAdditional
-                DryMatterIntakeEstimateAdditional = Math.Round((decimal)(DMIReq - DMI));
+                DMIReq = Math.Round(DMI + DMIGestation + DMILactation);
+                DryMatterIntakeEstimateBase = DMI;
+                DryMatterIntakeEstimateAdditional = Math.Round(DMIReq - DMI);
             }
         }
 
@@ -605,6 +614,14 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             get => _addFeedBoxText;
             set => SetProperty(ref _addFeedBoxText, value);
+        }
+
+        private bool _isStoredFeedEditable = false;
+
+        public bool IsStoredFeedEditable
+        {
+            get => _isStoredFeedEditable;
+            set => SetProperty(ref _isStoredFeedEditable, value);
         }
 
         // Indicates if the Add Feed section is expanded.
@@ -875,6 +892,54 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _maxLimit, value);
         }
 
+        private decimal? _balanceDMi = 0;
+
+        public decimal? BalanceDMi
+        {
+            get => _balanceDMi;
+            set => SetProperty(ref _balanceDMi, value.HasValue ? Math.Round(value.Value) : value);
+        }
+
+        private decimal? _balanceCPi = 0;
+
+        public decimal? BalanceCPi
+        {
+            get => _balanceCPi;
+            set => SetProperty(ref _balanceCPi, value.HasValue ? Math.Round(value.Value) : value);
+        }
+
+        private decimal? _balanceMEi = 0;
+
+        public decimal? BalanceMEi
+        {
+            get => _balanceMEi;
+            set => SetProperty(ref _balanceMEi, value.HasValue ? Math.Round(value.Value) : value);
+        }
+
+        private decimal? _totalDMi = 0;
+
+        public decimal? TotalDMi
+        {
+            get => _totalDMi;
+            set => SetProperty(ref _totalDMi, value.HasValue ? Math.Round(value.Value) : value);
+        }
+
+        private decimal? _totalCPi = 0;
+
+        public decimal? TotalCPi
+        {
+            get => _totalCPi;
+            set => SetProperty(ref _totalCPi, value.HasValue ? Math.Round(value.Value) : value);
+        }
+
+        private decimal? _totalMEi = 0;
+
+        public decimal? TotalMEi
+        {
+            get => _totalMEi;
+            set => SetProperty(ref _totalMEi, value.HasValue ? Math.Round(value.Value) : value);
+        }
+
         // Total ration cost or value computed from feeds.
         private decimal? _totalRation = 0;
 
@@ -1107,7 +1172,13 @@ namespace FeedOptimizationApp.Modules.Calculations
         }
 
         // Collection to store added feeds for the current calculation.
-        public ObservableCollection<StoredFeed> StoredFeeds { get; set; } = new ObservableCollection<StoredFeed>();
+        private ObservableCollection<StoredFeed> _storedFeeds = new();
+
+        public ObservableCollection<StoredFeed> StoredFeeds
+        {
+            get => _storedFeeds;
+            set => SetProperty(ref _storedFeeds, value);
+        }
 
         /// <summary>
         /// Adds the selected feed and its parameters to the stored feeds collection.
@@ -1116,6 +1187,20 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             try
             {
+                var dmig = (SelectedFeed?.DryMatterPercentage ?? 0) * (Intake ?? 0) / 100;
+                var cpig = dmig * (SelectedFeed?.CPPercentage ?? 0) / 100;
+                var meimjday = dmig * (SelectedFeed?.MEMJKg ?? 0) / 1000;
+                var cost = (Intake ?? 0) * (Price ?? 0) / 1000;
+
+                TotalDMi += Math.Round(dmig);
+                TotalCPi += Math.Round(cpig);
+                TotalMEi += Math.Round(meimjday);
+                TotalRation += cost;
+
+                BalanceDMi = Math.Round((TotalDMi ?? 0) - DMIReq);
+                BalanceCPi = Math.Round((TotalCPi ?? 0) - CPReq);
+                BalanceMEi = Math.Round((TotalMEi ?? 0) - EnergyReqForUI);
+
                 var storedFeed = new StoredFeed
                 {
                     Feed = SelectedFeed,
@@ -1126,7 +1211,11 @@ namespace FeedOptimizationApp.Modules.Calculations
                     Price = Price ?? 0,
                     Intake = Intake ?? 0,
                     MinLimit = MinLimit,
-                    MaxLimit = MaxLimit
+                    MaxLimit = MaxLimit,
+                    DMi = Math.Round(dmig),
+                    CPi = Math.Round(cpig),
+                    MEi = Math.Round(meimjday),
+                    Cost = Math.Round(cost)
                 };
 
                 // Insert new feed at the beginning of the list.
@@ -1150,6 +1239,118 @@ namespace FeedOptimizationApp.Modules.Calculations
                 // Log any error that occurs during feed addition.
                 Console.WriteLine($"An error occurred while adding the feed: {ex.Message}");
             }
+        }
+
+        /*private void OnSaveOptimisationFeed(StoredFeed feed)
+        {
+            // Find the feed in the collection
+            var existingFeed = StoredFeeds.FirstOrDefault(f => f.Feed.Id == feed.Feed.Id);
+            if (existingFeed != null)
+            {
+                var index = StoredFeeds.IndexOf(feed);
+                var index2 = StoredFeeds.IndexOf(existingFeed);
+                // Update Intake based on DMi
+                feed.Intake = Math.Round((feed.DMi / feed.DM ?? 0) * 100);
+
+                // Remove and re-add to force UI update
+                StoredFeeds.RemoveAt(index);
+                StoredFeeds.Insert(index, feed);
+                StoredFeeds.RemoveAt(index2);
+                StoredFeeds.Insert(index2, existingFeed);
+                // Recalculate totals and balances
+                RecalculateTotalsAndBalances();
+
+                // Notify UI of changes
+                OnPropertyChanged(nameof(StoredFeeds));
+            }
+        }*/
+
+        private void OnSaveOptimisationFeed(StoredFeed feed)
+        {
+            var existingFeed = StoredFeeds.FirstOrDefault(f => f.Feed.Id == feed.Feed.Id);
+            if (existingFeed != null)
+            {
+                // Update Intake based on DMi
+                existingFeed.Intake = Math.Round((feed.DMi / feed.DM ?? 0) * 100);
+
+                // Notify UI of changes
+                OnPropertyChanged(nameof(existingFeed.Intake));
+                OnPropertyChanged(nameof(StoredFeeds)); // Optional but ensures full update
+
+                // Recalculate totals and balances
+                RecalculateTotalsAndBalances();
+            }
+        }
+
+        /// <summary>
+        /// Sets the flag to indicate that the stored feed is editable and notifies the UI to update.
+        /// </summary>
+        private void OnEditStoredFeed(StoredFeed feed)
+        {
+            IsStoredFeedEditable = true;
+        }
+
+        /// <summary>
+        /// Updates the selected feed with new values, recalculates totals and balances, and notifies the UI to update.
+        /// </summary>
+        /// <param name="feed">The feed to be saved.</param>
+        /*private void OnSaveStoredFeed(StoredFeed feed)
+        {
+            // Update the selected feed with the new values
+            var existingFeed = StoredFeeds.FirstOrDefault(f => f.Feed.Id == feed.Feed.Id);
+            if (existingFeed != null)
+            {
+                var index = StoredFeeds.IndexOf(existingFeed);
+                var index2 = StoredFeeds.IndexOf(feed);
+
+                // Update values
+                existingFeed.DMi = Math.Round((feed.DM ?? 0) * (feed.Intake) / 100);
+
+                // Remove and re-add to force UI update
+                StoredFeeds.RemoveAt(index);
+                StoredFeeds.Insert(index, existingFeed);
+                StoredFeeds.RemoveAt(index2);
+                StoredFeeds.Insert(index2, feed);
+
+                // Recalculate totals and balances
+                RecalculateTotalsAndBalances();
+
+                IsStoredFeedEditable = false;
+            }
+        }*/
+
+        private void OnSaveStoredFeed(StoredFeed feed)
+        {
+            var existingFeed = StoredFeeds.FirstOrDefault(f => f.Feed.Id == feed.Feed.Id);
+            if (existingFeed != null)
+            {
+                // Update DMi based on Intake
+                existingFeed.DMi = Math.Round((feed.DM ?? 0) * (feed.Intake) / 100);
+
+                // Notify UI of changes
+                OnPropertyChanged(nameof(existingFeed.DMi));
+                OnPropertyChanged(nameof(StoredFeeds));
+
+                // Recalculate totals and balances
+                RecalculateTotalsAndBalances();
+
+                IsStoredFeedEditable = false;
+            }
+        }
+
+        /// <summary>
+        /// Recalculates the total DMi, CPi, MEi, and cost for all stored feeds, and updates the balances.
+        /// </summary>
+        private void RecalculateTotalsAndBalances()
+        {
+            TotalDMi = StoredFeeds.Sum(f => f.DMi);
+            TotalCPi = StoredFeeds.Sum(f => f.CPi);
+            TotalMEi = StoredFeeds.Sum(f => f.MEi);
+            TotalRation = Math.Round(StoredFeeds.Sum(f => f.Cost),2);
+
+            BalanceDMi = Math.Round((TotalDMi ?? 0) - DMIReq);
+            BalanceCPi = Math.Round((TotalCPi ?? 0) - CPReq);
+            BalanceMEi = Math.Round((TotalMEi ?? 0) - EnergyReqForUI);
         }
 
         /// <summary>

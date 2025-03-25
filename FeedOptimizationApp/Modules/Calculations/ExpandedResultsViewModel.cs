@@ -2,6 +2,7 @@
 using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace FeedOptimizationApp.Modules.Calculations
 {
@@ -276,93 +277,6 @@ namespace FeedOptimizationApp.Modules.Calculations
                 // Log or handle exceptions as needed.
                 Console.WriteLine($"An error occurred while loading results: {ex.Message}");
             }
-        }
-
-        /// <summary>
-        /// Represents a stored feed with its associated properties.
-        /// </summary>
-        public class StoredFeed
-        {
-            /// <summary>
-            /// Gets or sets the feed entity.
-            /// </summary>
-            public FeedEntity? Feed { get; set; }
-
-            /// <summary>
-            /// Gets or sets the Calculation ID.
-            /// </summary>
-            public int? CalculationId { get; set; }
-
-            /// <summary>
-            /// Gets or sets the dry matter (DM) value.
-            /// </summary>
-            public decimal? DM { get; set; }
-
-            /// <summary>
-            /// Gets or sets the crude protein on a DM basis (CPDM).
-            /// </summary>
-            public decimal? CPDM { get; set; }
-
-            /// <summary>
-            /// Gets or sets the metabolizable energy (MEMJKGDM).
-            /// </summary>
-            public decimal? MEMJKGDM { get; set; }
-
-            /// <summary>
-            /// Gets or sets the price of the feed.
-            /// </summary>
-            public decimal Price { get; set; }
-
-            /// <summary>
-            /// Gets or sets the intake value.
-            /// </summary>
-            public decimal Intake { get; set; }
-
-            /// <summary>
-            /// Gets or sets the minimum limit for the feed.
-            /// </summary>
-            public decimal? MinLimit { get; set; }
-
-            /// <summary>
-            /// Gets or sets the maximum limit for the feed.
-            /// </summary>
-            public decimal? MaxLimit { get; set; }
-        }
-
-        /// <summary>
-        /// Represents the stored results for a calculation including feed details and ration values.
-        /// </summary>
-        public class StoredResults
-        {
-            /// <summary>
-            /// Gets or sets the feed entity.
-            /// </summary>
-            public FeedEntity? Feed { get; set; }
-
-            /// <summary>
-            /// Gets or sets the Calculation ID.
-            /// </summary>
-            public int? CalculationId { get; set; }
-
-            /// <summary>
-            /// Gets or sets the fresh feed value (GFresh).
-            /// </summary>
-            public decimal GFresh { get; set; }
-
-            /// <summary>
-            /// Gets or sets the percentage of fresh feed.
-            /// </summary>
-            public decimal PercentFresh { get; set; }
-
-            /// <summary>
-            /// Gets or sets the percentage of dry matter.
-            /// </summary>
-            public decimal PercentDryMatter { get; set; }
-
-            /// <summary>
-            /// Gets or sets the total ration value.
-            /// </summary>
-            public decimal TotalRation { get; set; }
         }
     }
 }
