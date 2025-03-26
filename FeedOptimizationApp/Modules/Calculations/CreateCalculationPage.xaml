@@ -427,7 +427,7 @@
 
                     <!-- Animal Data Section -->
                     <StackLayout>
-                        <Label Text="Animal Data" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                        <Label Text="Animal Data" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                         <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -472,7 +472,7 @@
 
                     <!-- Requirements Section -->
                     <StackLayout>
-                        <Label Text="Requirements" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                        <Label Text="Requirements" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                         <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -492,14 +492,14 @@
                             </Grid.RowDefinitions>
 
                             <!-- Requirements Headers -->
-                            <Label Text="Energy" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
+                            <Label Text="Energy (MJ ME/day)" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
                             <Label Text="Maintenance" Grid.Row="1" Grid.Column="0" FontSize="12" />
                             <Label Text="Additional" Grid.Row="2" Grid.Column="0" FontSize="12" />
                             <Label Text="Total" Grid.Row="3" Grid.Column="0" FontSize="12" />
-                            <Label Text="Crude Protein" Grid.Row="4" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
+                            <Label Text="Crude Protein (g CP/day)" Grid.Row="4" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
                             <Label Text="Maintenance" Grid.Row="5" Grid.Column="0" FontSize="12" />
                             <Label Text="Additional" Grid.Row="6" Grid.Column="0" FontSize="12" />
-                            <Label Text="DMI estimate" Grid.Row="7" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
+                            <Label Text="DMI Estimate (g DM/day)" Grid.Row="7" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
                             <Label Text="Base" Grid.Row="8" Grid.Column="0" FontSize="12" />
                             <Label Text="Additional" Grid.Row="9" Grid.Column="0" FontSize="12" />
 
@@ -517,7 +517,7 @@
 
                     <!-- Nutrient Requirements Section -->
                     <StackLayout>
-                        <Label Text="Nutrient Requirements" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                        <Label Text="Nutrient Requirements" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                         <CollectionView ItemsSource="{Binding StoredFeeds}">
                             <CollectionView.Header>
                                 <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
@@ -528,14 +528,15 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Headers -->
-                                    <Label Text="Feed" Margin="0,5,0,0" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource Primary}" />
-                                    <Label Text="DMi" Margin="0,5,0,0" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                                    <Label Text="CPi" Margin="0,5,0,0" Grid.Row="0" Grid.Column="2" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                                    <Label Text="MEi" Margin="0,5,0,0" Grid.Row="0" Grid.Column="3" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                                    <Label Text="Cost" Margin="0,5,0,0" Grid.Row="0" Grid.Column="4" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                                    <Label Text="Feed" Margin="0,5,0,0" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" />
+                                    <Label Text="DMi/g" Margin="0,5,0,0" Grid.Row="0" Grid.Column="1"  FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                                    <Label Text="CPi/g" Margin="0,5,0,0" Grid.Row="0" Grid.Column="2" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                                    <Label Text="MEI(MJ/day)" Margin="0,5,0,0" Grid.Row="0" Grid.Column="3" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                                    <Label Text="Cost" Margin="0,5,0,0" Grid.Row="0" Grid.Column="4" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
                                 </Grid>
                             </CollectionView.Header>
                             <CollectionView.ItemTemplate>
@@ -548,20 +549,29 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
                                         <!-- Feed Values -->
-                                        <Label Text="{Binding Feed.Name}" Grid.Column="0" FontSize="12" VerticalOptions="Center"/>
-                                        <Entry Text="{Binding DMi, Mode=TwoWay}" Grid.Column="1" FontSize="12"/>
-                                        <Label Text="{Binding CPi}" Grid.Column="2" FontSize="12" VerticalOptions="Center"/>
-                                        <Label Text="{Binding MEi}" Grid.Column="3" FontSize="12" VerticalOptions="Center"/>
-                                        <Label Text="{Binding Cost}" Grid.Column="4" FontSize="12" VerticalOptions="Center"/>
+                                        <Label Text="{Binding Feed.Name}" Grid.Column="0" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                        <Editor Text="{Binding DMi, Mode=TwoWay}"
+                                                Grid.Column="1"
+                                                FontSize="12"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="Center"
+                                                BackgroundColor="Transparent"
+                                                HeightRequest="20"
+                                                VerticalTextAlignment="Center"
+                                                HorizontalTextAlignment="Center" />
+                                        <Label Text="{Binding CPi}" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                        <Label Text="{Binding MEi}" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                        <Label Text="{Binding Cost}" Grid.Column="4" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                         <Button Text="Save"
                                                 Command="{Binding Path=BindingContext.SaveOptimisationFeedCommand, Source={x:Reference OptimizationContentView}}"
                                                 CommandParameter="{Binding .}"
                                                 BackgroundColor="{StaticResource Secondary}"
-                                                Grid.Column="5" 
-                                                HeightRequest="20"/>
+                                                Grid.Column="5"
+                                                HeightRequest="20" />
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -581,38 +591,39 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Horizontal line above Total section -->
-                                    <BoxView Grid.Row="0" Grid.ColumnSpan="5" HeightRequest="1" BackgroundColor="Gray" />
+                                    <BoxView Grid.Row="0" Grid.ColumnSpan="6" HeightRequest="1" BackgroundColor="Gray" />
 
                                     <!-- Totals -->
                                     <Label Text="Total" Grid.Row="1" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                                    <Label Text="{Binding TotalDMi}" Grid.Row="1" Grid.Column="1" FontSize="12" VerticalOptions="Center" />
-                                    <Label Text="{Binding TotalCPi}" Grid.Row="1" Grid.Column="2" FontSize="12" VerticalOptions="Center" />
-                                    <Label Text="{Binding TotalMEi}" Grid.Row="1" Grid.Column="3" FontSize="12" VerticalOptions="Center" />
-                                    <Label Text="{Binding TotalRation}" Grid.Row="1" Grid.Column="4" FontSize="12" VerticalOptions="Center" />
+                                    <Label Text="{Binding TotalDMi}" Grid.Row="1" Grid.Column="1" FontSize="12" HorizontalOptions="Center" />
+                                    <Label Text="{Binding TotalCPi}" Grid.Row="1" Grid.Column="2" FontSize="12" HorizontalOptions="Center" />
+                                    <Label Text="{Binding TotalMEi}" Grid.Row="1" Grid.Column="3" FontSize="12" HorizontalOptions="Center" />
+                                    <Label Text="{Binding TotalRation}" Grid.Row="1" Grid.Column="4" FontSize="12" HorizontalOptions="Center" />
 
                                     <!-- Requirements -->
                                     <Label Text="Requirement" Grid.Row="2" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                                    <Label Text="{Binding DMIReq}" Grid.Row="2" Grid.Column="1" FontSize="12" VerticalOptions="Center" />
-                                    <Label Text="{Binding CPReq}" Grid.Row="2" Grid.Column="2" FontSize="12" VerticalOptions="Center" />
-                                    <Label Text="{Binding EnergyReqForUI}" Grid.Row="2" Grid.Column="3" FontSize="12" VerticalOptions="Center" />
+                                    <Label Text="{Binding DMIReq}" Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalOptions="Center" />
+                                    <Label Text="{Binding CPReq}" Grid.Row="2" Grid.Column="2" FontSize="12" HorizontalOptions="Center" />
+                                    <Label Text="{Binding EnergyReqForUI}" Grid.Row="2" Grid.Column="3" FontSize="12" HorizontalOptions="Center" />
 
                                     <!-- Horizontal line below Requirement section -->
-                                    <BoxView Grid.Row="3" Grid.ColumnSpan="5" HeightRequest="2" BackgroundColor="Gray" />
+                                    <BoxView Grid.Row="3" Grid.ColumnSpan="6" HeightRequest="2" BackgroundColor="Gray" />
 
                                     <!-- Balance -->
                                     <Label Text="BALANCE" Grid.Row="4" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                                     <Label Text="{Binding BalanceDMi, Converter={StaticResource AbsoluteValueConverter}}"
                                            TextColor="{Binding BalanceDMi, Converter={StaticResource NegativeValueColourConverter}}"
-                                           Grid.Row="4" Grid.Column="1" FontSize="12" VerticalOptions="Center" />
+                                           Grid.Row="4" Grid.Column="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                     <Label Text="{Binding BalanceCPi, Converter={StaticResource AbsoluteValueConverter}}"
                                            TextColor="{Binding BalanceCPi, Converter={StaticResource NegativeValueColourConverter}}"
-                                           Grid.Row="4" Grid.Column="2" FontSize="12" VerticalOptions="Center" />
+                                           Grid.Row="4" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                     <Label Text="{Binding BalanceMEi, Converter={StaticResource AbsoluteValueConverter}}"
                                            TextColor="{Binding BalanceMEi, Converter={StaticResource NegativeValueColourConverter}}"
-                                           Grid.Row="4" Grid.Column="3" FontSize="12" VerticalOptions="Center" />
+                                           Grid.Row="4" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                 </Grid>
                             </CollectionView.Footer>
                         </CollectionView>
@@ -653,85 +664,289 @@
                 <Label Text="Results" FontSize="24" FontAttributes="Bold" />
             </StackLayout>
             <ScrollView Grid.Row="2" x:Name="ResultsContentView">
-                <StackLayout>
-                    <!-- Heading -->
-                    <Label Text=" "
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Start" />
+                <StackLayout Spacing="20">
+                    <!-- Animal Data and Requirements Section -->
+                    <Grid ColumnSpacing="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                    <!-- Table -->
-                    <CollectionView ItemsSource="{Binding StoredResults}">
-                        <CollectionView.Header>
-                            <Grid>
+                        <!-- Animal Data Section -->
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Animal Data" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150" />
-                                    <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Label Text="Feed" Grid.Column="0" />
-                                <Label Text="g Fresh" Grid.Column="1" />
-                                <Label Text="% Fresh" Grid.Column="2" />
-                                <Label Text="% Dry Matter" Grid.Column="3" />
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!-- Animal Data Headers -->
+                                <Label Text="Type" Grid.Row="0" Grid.Column="0" FontSize="12" />
+                                <Label Text="Grazing" Grid.Row="1" Grid.Column="0" FontSize="12" />
+                                <Label Text="Body weight (kg)" Grid.Row="2" Grid.Column="0" FontSize="12" />
+                                <Label Text="ADG (g)" Grid.Row="3" Grid.Column="0" FontSize="12" />
+                                <Label Text="Diet quality estimate" Grid.Row="4" Grid.Column="0" FontSize="12" />
+                                <Label Text="Last 8 weeks gestation?" Grid.Row="5" Grid.Column="0" FontSize="12" />
+                                <Label Text="No. suckling kids/lambs" Grid.Row="6" Grid.Column="0" FontSize="12" IsVisible="{Binding IsNrSucklingsVisible}" />
+                                <Label Text="Daily milk yield" Grid.Row="7" Grid.Column="0" FontSize="12" />
+                                <Label Text="Fat content" Grid.Row="8" Grid.Column="0" FontSize="12" />
+
+                                <!-- Animal Data Values -->
+                                <Label Text="{Binding SelectedType.Name}" Grid.Row="0" Grid.Column="1" FontSize="12" />
+                                <Label Text="{Binding SelectedGrazing.Name}" Grid.Row="1" Grid.Column="1" FontSize="12" />
+                                <Label Text="{Binding SelectedBodyWeight.Name}" Grid.Row="2" Grid.Column="1" FontSize="12" />
+                                <Label Text="{Binding ADG}" Grid.Row="3" Grid.Column="1" FontSize="12" />
+                                <Label Text="{Binding SelectedDietQualityEstimate.Name}" Grid.Row="4" Grid.Column="1" FontSize="12" />
+                                <Label Text="{Binding IsLast8WeeksOfGestation}" Grid.Row="5" Grid.Column="1" FontSize="12" />
+                                <Label Text="{Binding SelectedNumberOfSucklingKidsLambs.Name}" Grid.Row="6" Grid.Column="1" FontSize="12" IsVisible="{Binding IsNrSucklingsVisible}" />
+                                <Label Text="{Binding DailyMilkYieldValue}" Grid.Row="7" Grid.Column="1" FontSize="12" />
+                                <Label Text="{Binding FatContentValue, Converter={StaticResource PercentageValueConverter}}"
+                               Grid.Row="8" Grid.Column="1" FontSize="12" />
                             </Grid>
-                        </CollectionView.Header>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
+                        </StackLayout>
+
+                        <!-- Requirements Section -->
+                        <StackLayout Grid.Column="1">
+                            <Label Text="Requirements" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!-- Requirements Headers -->
+                                <Label Text="Energy (MJ ME/day)" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
+                                <Label Text="Maintenance" Grid.Row="1" Grid.Column="0" FontSize="12" />
+                                <Label Text="Additional" Grid.Row="2" Grid.Column="0" FontSize="12" />
+                                <Label Text="Total" Grid.Row="3" Grid.Column="0" FontSize="12" />
+                                <Label Text="Crude Protein (g CP/day)" Grid.Row="4" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
+                                <Label Text="Maintenance" Grid.Row="5" Grid.Column="0" FontSize="12" />
+                                <Label Text="Additional" Grid.Row="6" Grid.Column="0" FontSize="12" />
+                                <Label Text="DMI Estimate (g DM/day)" Grid.Row="7" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
+                                <Label Text="Base" Grid.Row="8" Grid.Column="0" FontSize="12" />
+                                <Label Text="Additional" Grid.Row="9" Grid.Column="0" FontSize="12" />
+
+                                <!-- Requirements Values -->
+                                <Label Text="{Binding EnergyRequirementMaintenance}" Grid.Row="1" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
+                                <Label Text="{Binding EnergyRequirementAdditional}" Grid.Row="2" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
+                                <Label Text="{Binding EnergyRequirementTotal, Converter={StaticResource PercentageValueConverter}}"
+                                Grid.Row="3" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
+                                <Label Text="{Binding CrudeProteinRequirementMaintenance}" Grid.Row="5" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
+                                <Label Text="{Binding CrudeProteinRequirementAdditional}" Grid.Row="6" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
+                                <Label Text="{Binding DryMatterIntakeEstimateBase}" Grid.Row="8" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
+                                <Label Text="{Binding DryMatterIntakeEstimateAdditional}" Grid.Row="9" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
+                            </Grid>
+                        </StackLayout>
+                    </Grid>
+
+                    <!-- Nutrient Requirements Section -->
+                    <StackLayout>
+                        <Label Text="Nutrient Requirements" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                        <CollectionView ItemsSource="{Binding StoredFeeds}">
+                            <CollectionView.Header>
+                                <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="150" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Label
-                                        Text="{Binding Feed.Name}"
-                                        Grid.Column="0" />
-                                    <Label
-                                        Text="{Binding GFresh}"
-                                        Grid.Column="1" />
-                                    <Label
-                                        Text="{Binding PercentFresh}"
-                                        Grid.Column="2" />
-                                    <Label
-                                        Text="{Binding PercentDryMatter}"
-                                        Grid.Column="3" />
+
+                                    <!-- Headers -->
+                                    <Label Text="Feed" Margin="0,5,0,0" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Primary}" />
+                                    <Label Text="DMi/g" Margin="0,5,0,0" Grid.Row="0" Grid.Column="1"  FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                                    <Label Text="CPi/g" Margin="0,5,0,0" Grid.Row="0" Grid.Column="2" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                                    <Label Text="MEI(MJ/day)" Margin="0,5,0,0" Grid.Row="0" Grid.Column="3" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                                    <Label Text="Cost" Margin="0,5,0,0" Grid.Row="0" Grid.Column="4" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
                                 </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                    <Label HorizontalOptions="Center" VerticalOptions="Start" Margin="20">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="The cost of the ration is " />
-                                <Span Text="{Binding TotalRation}" />
-                                <Span Text=" br" />
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                            </CollectionView.Header>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
 
-                    <!-- Save Button -->
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                                        <!-- Feed Values -->
+                                        <Label Text="{Binding Feed.Name}" Grid.Column="0" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                        <Label Text="{Binding DMi}" Grid.Column="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                        <Label Text="{Binding CPi}" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                        <Label Text="{Binding MEi}" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                        <Label Text="{Binding Cost}" Grid.Column="4" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.Footer>
+                                <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                        <Button Text="Save"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                HorizontalOptions="End"
-                                VerticalOptions="End"
-                                Margin="10"
-                                Command="{Binding SaveResultsCommand}"
-                                BackgroundColor="{StaticResource Primary}" />
-                    </Grid>
+                                    <!-- Horizontal line above Total section -->
+                                    <BoxView Grid.Row="0" Grid.ColumnSpan="6" HeightRequest="1" BackgroundColor="Gray" />
+
+                                    <!-- Totals -->
+                                    <Label Text="Total" Grid.Row="1" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                    <Label Text="{Binding TotalDMi}" Grid.Row="1" Grid.Column="1" FontSize="12" HorizontalOptions="Center" />
+                                    <Label Text="{Binding TotalCPi}" Grid.Row="1" Grid.Column="2" FontSize="12" HorizontalOptions="Center" />
+                                    <Label Text="{Binding TotalMEi}" Grid.Row="1" Grid.Column="3" FontSize="12" HorizontalOptions="Center" />
+                                    <Label Text="{Binding TotalRation}" Grid.Row="1" Grid.Column="4" FontSize="12" HorizontalOptions="Center" />
+
+                                    <!-- Requirements -->
+                                    <Label Text="Requirement" Grid.Row="2" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                    <Label Text="{Binding DMIReq}" Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalOptions="Center" />
+                                    <Label Text="{Binding CPReq}" Grid.Row="2" Grid.Column="2" FontSize="12" HorizontalOptions="Center" />
+                                    <Label Text="{Binding EnergyReqForUI}" Grid.Row="2" Grid.Column="3" FontSize="12" HorizontalOptions="Center" />
+
+                                    <!-- Horizontal line below Requirement section -->
+                                    <BoxView Grid.Row="3" Grid.ColumnSpan="6" HeightRequest="2" BackgroundColor="Gray" />
+
+                                    <!-- Balance -->
+                                    <Label Text="BALANCE" Grid.Row="4" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                    <Label Text="{Binding BalanceDMi, Converter={StaticResource AbsoluteValueConverter}}"
+                                   TextColor="{Binding BalanceDMi, Converter={StaticResource NegativeValueColourConverter}}"
+                                   Grid.Row="4" Grid.Column="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                    <Label Text="{Binding BalanceCPi, Converter={StaticResource AbsoluteValueConverter}}"
+                                   TextColor="{Binding BalanceCPi, Converter={StaticResource NegativeValueColourConverter}}"
+                                   Grid.Row="4" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                    <Label Text="{Binding BalanceMEi, Converter={StaticResource AbsoluteValueConverter}}"
+                                   TextColor="{Binding BalanceMEi, Converter={StaticResource NegativeValueColourConverter}}"
+                                   Grid.Row="4" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                </Grid>
+                            </CollectionView.Footer>
+                        </CollectionView>
+                    </StackLayout>
+
+                    <!-- Existing Results Content -->
+                    <StackLayout>
+                        <!-- Heading -->
+                        <Label Text=" "
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Start" />
+
+                        <!-- Table -->
+                        <CollectionView ItemsSource="{Binding StoredResults}">
+                            <CollectionView.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="300" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="Feed" Grid.Column="0" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+                                    <Label Text="g Fresh" Grid.Column="1" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+                                    <Label Text="% Fresh" Grid.Column="2" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+                                    <Label Text="% Dry Matter" Grid.Column="3" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+                                </Grid>
+                            </CollectionView.Header>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="300" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label
+                                    Text="{Binding Feed.Name}"
+                                    Grid.Column="0"/>
+                                        <Label
+                                    Text="{Binding GFresh}"
+                                    Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" />
+                                        <Label
+                                    Text="{Binding PercentFresh}"
+                                    Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" />
+                                        <Label
+                                    Text="{Binding PercentDryMatter}"
+                                    Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <Label HorizontalOptions="Center" VerticalOptions="Start" Margin="0,30,0,0">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="The total feed cost is " />
+                                    <Span Text="{Binding TotalFeedCost}" />
+                                    <Span Text=" br" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label HorizontalOptions="Center" VerticalOptions="Start" Margin="0,20,0,20">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="The cost of the ration is " />
+                                    <Span Text="{Binding TotalRation}" />
+                                    <Span Text=" br" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <!-- Save Button -->
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button Text="Save"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalOptions="End"
+                            VerticalOptions="End"
+                            Margin="10"
+                            Command="{Binding SaveResultsCommand}"
+                            BackgroundColor="{StaticResource Primary}" />
+                        </Grid>
+                    </StackLayout>
                 </StackLayout>
             </ScrollView>
         </Grid>

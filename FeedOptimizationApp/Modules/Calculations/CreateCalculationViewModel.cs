@@ -949,6 +949,15 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _totalRation, value);
         }
 
+        // Total feed cost or value computed from feeds.
+        private decimal? _totalFeedCost = 0;
+
+        public decimal? TotalFeedCost
+        {
+            get => _totalFeedCost;
+            set => SetProperty(ref _totalFeedCost, value);
+        }
+
         // A string representation for the calculation result feed (if needed).
         private string? _calculationResultFeed;
 
@@ -1196,6 +1205,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 TotalCPi += Math.Round(cpig);
                 TotalMEi += Math.Round(meimjday);
                 TotalRation += cost;
+                TotalFeedCost += Price;
 
                 BalanceDMi = Math.Round((TotalDMi ?? 0) - DMIReq);
                 BalanceCPi = Math.Round((TotalCPi ?? 0) - CPReq);
@@ -1294,30 +1304,6 @@ namespace FeedOptimizationApp.Modules.Calculations
         /// Updates the selected feed with new values, recalculates totals and balances, and notifies the UI to update.
         /// </summary>
         /// <param name="feed">The feed to be saved.</param>
-        /*private void OnSaveStoredFeed(StoredFeed feed)
-        {
-            // Update the selected feed with the new values
-            var existingFeed = StoredFeeds.FirstOrDefault(f => f.Feed.Id == feed.Feed.Id);
-            if (existingFeed != null)
-            {
-                var index = StoredFeeds.IndexOf(existingFeed);
-                var index2 = StoredFeeds.IndexOf(feed);
-
-                // Update values
-                existingFeed.DMi = Math.Round((feed.DM ?? 0) * (feed.Intake) / 100);
-
-                // Remove and re-add to force UI update
-                StoredFeeds.RemoveAt(index);
-                StoredFeeds.Insert(index, existingFeed);
-                StoredFeeds.RemoveAt(index2);
-                StoredFeeds.Insert(index2, feed);
-
-                // Recalculate totals and balances
-                RecalculateTotalsAndBalances();
-
-                IsStoredFeedEditable = false;
-            }
-        }*/
 
         private void OnSaveStoredFeed(StoredFeed feed)
         {
@@ -1346,7 +1332,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             TotalDMi = StoredFeeds.Sum(f => f.DMi);
             TotalCPi = StoredFeeds.Sum(f => f.CPi);
             TotalMEi = StoredFeeds.Sum(f => f.MEi);
-            TotalRation = Math.Round(StoredFeeds.Sum(f => f.Cost),2);
+            TotalRation = Math.Round(StoredFeeds.Sum(f => f.Cost), 2);
 
             BalanceDMi = Math.Round((TotalDMi ?? 0) - DMIReq);
             BalanceCPi = Math.Round((TotalCPi ?? 0) - CPReq);
@@ -1594,7 +1580,7 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                     totalCost += cost;
 
-                    // Create a CalculationHasResultEntity (example values used for demonstration).
+                    // Create a CalculationHasResultEntity
                     var calcHasResult = new CalculationHasResultEntity
                     {
                         CalculationId = calculationId,

@@ -21,6 +21,13 @@ public class CalculationHasResultConfiguration : IEntityTypeConfiguration<Calcul
         conf.Property(c => c.PercentFresh).IsRequired().HasPrecision(18, 2);
         conf.Property(c => c.PercentDryMatter).IsRequired().HasPrecision(18, 2);
         conf.Property(c => c.TotalRation).IsRequired().HasPrecision(18, 2);
+        conf.Property(c => c.DMi).IsRequired().HasPrecision(18, 2);
+        conf.Property(c => c.CPi).IsRequired().HasPrecision(18, 2);
+        conf.Property(c => c.MEi).IsRequired().HasPrecision(18, 2);
+        conf.Property(c => c.Cost).IsRequired().HasPrecision(18, 2);
+        conf.Property(c => c.DMiRequirement).IsRequired().HasPrecision(18, 2);
+        conf.Property(c => c.CPiRequirement).IsRequired().HasPrecision(18, 2);
+        conf.Property(c => c.MEiRequirement).IsRequired().HasPrecision(18, 2);
 
         conf.HasOne(c => c.Calculation)
             .WithMany()
