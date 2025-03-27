@@ -129,11 +129,11 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Headers -->
-                            <Label Text="Feed" Margin="0,5,0,0" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Primary}" />
-                            <Label Text="DMi/g" Margin="0,5,0,0" Grid.Row="0" Grid.Column="1"  FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                            <Label Text="CPi/g" Margin="0,5,0,0" Grid.Row="0" Grid.Column="2" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                            <Label Text="MEI(MJ/day)" Margin="0,5,0,0" Grid.Row="0" Grid.Column="3" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                            <Label Text="Cost" Margin="0,5,0,0" Grid.Row="0" Grid.Column="4" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                            <Label Text="Feed" Margin="0,5,0,0" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" />
+                            <Label Text="DMi/g" Margin="0,5,0,0" Grid.Row="0" Grid.Column="1"  FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                            <Label Text="CPi/g" Margin="0,5,0,0" Grid.Row="0" Grid.Column="2" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                            <Label Text="MEI(MJ/day)" Margin="0,5,0,0" Grid.Row="0" Grid.Column="3" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                            <Label Text="Cost" Margin="0,5,0,0" Grid.Row="0" Grid.Column="4" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
                         </Grid>
                     </CollectionView.Header>
                     <CollectionView.ItemTemplate>
@@ -218,30 +218,30 @@
                     <CollectionView.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label Text="Feed" Grid.Column="0" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                            <Label Text="g Fresh" Grid.Column="1" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                            <Label Text="% Fresh" Grid.Column="2" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                            <Label Text="% Dry Matter" Grid.Column="3" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="Feed" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="g Fresh" Grid.Column="1" HorizontalOptions="Center" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="% Fresh" Grid.Column="2" HorizontalOptions="Center" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="% Dry Matter" Grid.Column="3" HorizontalOptions="Center" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                         </Grid>
                     </CollectionView.Header>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="300" />
+                                    <ColumnDefinition Width="150" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Label Text="{Binding Feed.Name}" Grid.Column="0" />
-                                <Label Text="{Binding GFresh}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" />
-                                <Label Text="{Binding PercentFresh}" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" />
-                                <Label Text="{Binding PercentDryMatter}" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" />
+                                <Label Text="{Binding Feed.Name}" FontSize="12" Grid.Column="0" />
+                                <Label Text="{Binding GFresh}" FontSize="12" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" />
+                                <Label Text="{Binding PercentFresh}" FontSize="12" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" />
+                                <Label Text="{Binding PercentDryMatter}" FontSize="12" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

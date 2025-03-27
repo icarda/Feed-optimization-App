@@ -54,5 +54,19 @@ namespace DataLibrary.Models
         public decimal CPiRequirement { get; set; }
 
         public decimal MEiRequirement { get; set; }
+
+        public decimal EnergyRequirementMaintenance { get; set; }
+
+        public decimal EnergyRequirementAdditional { get; set; }
+
+        public decimal EnergyRequirementTotal { get; set; }
+
+        public decimal CrudeProteinRequirementMaintenance { get; set; }
+
+        public decimal CrudeProteinRequirementAdditional { get; set; }
+
+        public decimal DryMatterIntakeEstimateBase { get; set; }
+
+        public decimal DryMatterIntakeEstimateAdditional { get; set; }
     }
 }

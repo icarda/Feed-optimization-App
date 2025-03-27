@@ -1594,7 +1594,14 @@ namespace FeedOptimizationApp.Modules.Calculations
                         Cost = Math.Round(cost),
                         DMiRequirement = DMIReq,
                         CPiRequirement = CPReq,
-                        MEiRequirement = EnergyReqForUI
+                        MEiRequirement = EnergyReqForUI,
+                        EnergyRequirementMaintenance = EnergyRequirementMaintenance,
+                        EnergyRequirementAdditional = EnergyRequirementAdditional,
+                        EnergyRequirementTotal = EnergyRequirementTotal,
+                        CrudeProteinRequirementMaintenance = CrudeProteinRequirementMaintenance,
+                        CrudeProteinRequirementAdditional = CrudeProteinRequirementAdditional,
+                        DryMatterIntakeEstimateBase = DryMatterIntakeEstimateBase,
+                        DryMatterIntakeEstimateAdditional = DryMatterIntakeEstimateAdditional
                     };
 
                     calcHasResultList.Add(calcHasResult);
@@ -1617,7 +1624,14 @@ namespace FeedOptimizationApp.Modules.Calculations
                         Cost = Math.Round(cost),
                         DMiRequirement = DMIReq,
                         CPiRequirement = CPReq,
-                        MEiRequirement = EnergyReqForUI
+                        MEiRequirement = EnergyReqForUI,
+                        EnergyRequirementMaintenance = EnergyRequirementMaintenance,
+                        EnergyRequirementAdditional = EnergyRequirementAdditional,
+                        EnergyRequirementTotal = EnergyRequirementTotal,
+                        CrudeProteinRequirementMaintenance = CrudeProteinRequirementMaintenance,
+                        CrudeProteinRequirementAdditional = CrudeProteinRequirementAdditional,
+                        DryMatterIntakeEstimateBase = DryMatterIntakeEstimateBase,
+                        DryMatterIntakeEstimateAdditional = DryMatterIntakeEstimateAdditional
                     };
 
                     storedResultList.Add(storedResult);

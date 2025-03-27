@@ -153,73 +153,97 @@ namespace FeedOptimizationApp.Modules.Calculations
 
         #endregion Requirements Properties
 
-        private string _dmiRequirement;
+        private decimal _dmiRequirement;
 
-        public string DMiRequirement
+        public decimal DMiRequirement
         {
             get => _dmiRequirement;
             set => SetProperty(ref _dmiRequirement, value);
         }
 
-        private string _cpiRequirement;
+        private decimal _cpiRequirement;
 
-        public string CPiRequirement
+        public decimal CPiRequirement
         {
             get => _cpiRequirement;
             set => SetProperty(ref _cpiRequirement, value);
         }
 
-        private string _meiRequirement;
+        private decimal _meiRequirement;
 
-        public string MEiRequirement
+        public decimal MEiRequirement
         {
             get => _meiRequirement;
             set => SetProperty(ref _meiRequirement, value);
         }
 
-        private string _totalDMi;
+        private decimal _totalDMi;
 
-        public string TotalDMi
+        public decimal TotalDMi
         {
             get => _totalDMi;
             set => SetProperty(ref _totalDMi, value);
         }
 
-        private string _totalCPi;
+        private decimal _totalCPi;
 
-        public string TotalCPi
+        public decimal TotalCPi
         {
             get => _totalCPi;
             set => SetProperty(ref _totalCPi, value);
         }
 
-        private string _totalMEi;
+        private decimal _totalMEi;
 
-        public string TotalMEi
+        public decimal TotalMEi
         {
             get => _totalMEi;
             set => SetProperty(ref _totalMEi, value);
         }
+        
+        private decimal _balanceDMi;
+
+        public decimal BalanceDMi
+        {
+            get => _balanceDMi;
+            set => SetProperty(ref _balanceDMi, value);
+        }
+
+        private decimal _balanceCPi;
+
+        public decimal BalanceCPi
+        {
+            get => _balanceCPi;
+            set => SetProperty(ref _balanceCPi, value);
+        }
+
+        private decimal _balanceMEi;
+
+        public decimal BalanceMEi
+        {
+            get => _balanceMEi;
+            set => SetProperty(ref _balanceMEi, value);
+        }
 
         // Total ration value to be displayed.
-        private string _totalRation;
+        private decimal _totalRation;
 
         /// <summary>
         /// Gets or sets the total ration value as a formatted string.
         /// </summary>
-        public string TotalRation
+        public decimal TotalRation
         {
             get => _totalRation;
             set => SetProperty(ref _totalRation, value);
         }
 
         // Total ration value to be displayed.
-        private string _totalFeedCost;
+        private decimal _totalFeedCost;
 
         /// <summary>
         /// Gets or sets the total feed cost value as a formatted string.
         /// </summary>
-        public string TotalFeedCost
+        public decimal TotalFeedCost
         {
             get => _totalFeedCost;
             set => SetProperty(ref _totalFeedCost, value);
@@ -379,34 +403,46 @@ namespace FeedOptimizationApp.Modules.Calculations
                             {
                                 Feed = feed.Data,
                                 CalculationId = firstResult.CalculationId,
-                                GFresh = feedEntity.Intake,
+                                GFresh = Math.Round(feedEntity.Intake, MidpointRounding.AwayFromZero),
                                 PercentFresh = Math.Round(100 * feedEntity.Intake / feedEntitiesForResult.Data.Sum(f => f.Intake), MidpointRounding.AwayFromZero),
                                 PercentDryMatter = Math.Round(100 * (feedEntity.Intake * feedEntity.DM / 100) / feedEntitiesForResult.Data.Sum(f => f.Intake * f.DM / 100), MidpointRounding.AwayFromZero),
                                 TotalRation = feedEntity.Price * feedEntity.Intake / 1000,
-                                DMi = feedEntity.Intake * feedEntity.DM / 100,
-                                CPi = (feedEntity.Intake * feedEntity.DM / 100) * feedEntity.CPDM / 100,
-                                MEi = (feedEntity.Intake * feedEntity.DM / 100) * feedEntity.MEMJKGDM / 100,
-                                Cost = feedEntity.Price
+                                DMi = Math.Round(feedEntity.Intake * feedEntity.DM / 100, MidpointRounding.AwayFromZero),
+                                CPi = Math.Round((feedEntity.Intake * feedEntity.DM / 100) * feedEntity.CPDM / 100, MidpointRounding.AwayFromZero),
+                                MEi = Math.Round((feedEntity.Intake * feedEntity.DM / 100) * feedEntity.MEMJKGDM / 100, MidpointRounding.AwayFromZero),
+                                Cost = Math.Round(feedEntity.Price, MidpointRounding.AwayFromZero)
                             };
 
                             storedResultsList.Add(resultInfo);
                         }
                         // Update the display collection with the stored results.
-                        StoredResultsForDisplay = storedResultsList;
+                        StoredResultsForDisplay = storedResultsList;                        
 
-                        DMiRequirement = firstResult.DMiRequirement.ToString("0.00");
-                        CPiRequirement = firstResult.CPiRequirement.ToString("0.00");
-                        MEiRequirement = firstResult.MEiRequirement.ToString("0.00");
+                        EnergyRequirementMaintenance = Math.Round(firstResult.EnergyRequirementMaintenance, MidpointRounding.AwayFromZero);
+                        EnergyRequirementAdditional = Math.Round(firstResult.EnergyRequirementAdditional, MidpointRounding.AwayFromZero);
+                        EnergyRequirementTotal = firstResult.EnergyRequirementTotal;
+                        CrudeProteinRequirementMaintenance = Math.Round(firstResult.CrudeProteinRequirementMaintenance, MidpointRounding.AwayFromZero);
+                        CrudeProteinRequirementAdditional = Math.Round(firstResult.CrudeProteinRequirementAdditional, MidpointRounding.AwayFromZero);
+                        DryMatterIntakeEstimateBase = Math.Round(firstResult.DryMatterIntakeEstimateBase, MidpointRounding.AwayFromZero);
+                        DryMatterIntakeEstimateAdditional = Math.Round(firstResult.DryMatterIntakeEstimateAdditional, MidpointRounding.AwayFromZero);
 
-                        TotalDMi = storedResultsList.Sum(x => x.DMi).ToString("0.00");
-                        TotalCPi = storedResultsList.Sum(x => x.CPi).ToString("0.00");
-                        TotalMEi = storedResultsList.Sum(x => x.MEi).ToString("0.00");
+                        TotalDMi = Math.Round(storedResultsList.Sum(x => x.DMi), MidpointRounding.AwayFromZero);
+                        TotalCPi = Math.Round(storedResultsList.Sum(x => x.CPi), MidpointRounding.AwayFromZero);
+                        TotalMEi = Math.Round(storedResultsList.Sum(x => x.MEi), MidpointRounding.AwayFromZero);
+
+                        DMiRequirement = Math.Round(firstResult.DMiRequirement, MidpointRounding.AwayFromZero);
+                        CPiRequirement = Math.Round(firstResult.CPiRequirement, MidpointRounding.AwayFromZero);
+                        MEiRequirement = Math.Round(firstResult.MEiRequirement, MidpointRounding.AwayFromZero);
+
+                        BalanceDMi = TotalDMi - DMiRequirement;
+                        BalanceCPi = TotalCPi - CPiRequirement;
+                        BalanceMEi = TotalMEi - MEiRequirement;
 
                         // Calculate and format the total ration value.
-                        TotalRation = storedResultsList.Sum(x => x.TotalRation).ToString("0.00");
+                        TotalRation = Math.Round(storedResultsList.Sum(x => x.TotalRation), 2);
 
                         // Calculate and format the total feed cost.
-                        TotalFeedCost = storedResultsList.Sum(x => x.Cost).ToString("0.00");
+                        TotalFeedCost = Math.Round(storedResultsList.Sum(x => x.Cost), MidpointRounding.AwayFromZero);
                     }
                 }
             }
