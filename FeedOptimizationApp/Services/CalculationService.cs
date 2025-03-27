@@ -302,7 +302,14 @@ public class CalculationService : ICalculationService
                 request.Cost,
                 request.DMiRequirement,
                 request.CPiRequirement,
-                request.MEiRequirement
+                request.MEiRequirement,
+                request.EnergyRequirementMaintenance,
+                request.EnergyRequirementAdditional,
+                request.EnergyRequirementTotal,
+                request.CrudeProteinRequirementMaintenance,
+                request.CrudeProteinRequirementAdditional,
+                request.DryMatterIntakeEstimateBase,
+                request.DryMatterIntakeEstimateAdditional
             );
 
             await _context.CalculationHasResults.AddAsync(calculationHasResult);
@@ -334,7 +341,14 @@ public class CalculationService : ICalculationService
                 request.Cost,
                 request.DMiRequirement,
                 request.CPiRequirement,
-                request.MEiRequirement
+                request.MEiRequirement,
+                request.EnergyRequirementMaintenance,
+                request.EnergyRequirementAdditional,
+                request.EnergyRequirementTotal,
+                request.CrudeProteinRequirementMaintenance,
+                request.CrudeProteinRequirementAdditional,
+                request.DryMatterIntakeEstimateBase,
+                request.DryMatterIntakeEstimateAdditional
             );
             _context.CalculationHasResults.Update(calculationHasResult);
             await _context.SaveChangesAsync();
