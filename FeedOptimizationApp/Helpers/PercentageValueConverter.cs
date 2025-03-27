@@ -10,7 +10,7 @@ public class PercentageValueConverter : IValueConverter
     {
         if (value is decimal decimalValue)
         {
-            return $"{decimalValue:P2}"; // Format as percentage with 2 decimal places
+            return $"{decimalValue:0}%"; // Format as a whole number percentage
         }
         return value;
     }
@@ -20,4 +20,3 @@ public class PercentageValueConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
-

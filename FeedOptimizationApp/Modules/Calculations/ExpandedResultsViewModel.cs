@@ -90,16 +90,163 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _storedResultsForDisplay, value);
         }
 
+        #region Requirements Properties
+
+        // Properties for energy requirements
+        private decimal _energyRequirementMaintenance;
+
+        public decimal EnergyRequirementMaintenance
+        {
+            get => _energyRequirementMaintenance;
+            set => SetProperty(ref _energyRequirementMaintenance, Math.Round(value, 2));
+        }
+
+        private decimal _energyRequirementAdditional;
+
+        public decimal EnergyRequirementAdditional
+        {
+            get => _energyRequirementAdditional;
+            set => SetProperty(ref _energyRequirementAdditional, Math.Round(value, 2));
+        }
+
+        private decimal _energyRequirementTotal;
+
+        public decimal EnergyRequirementTotal
+        {
+            get => _energyRequirementTotal;
+            set => SetProperty(ref _energyRequirementTotal, Math.Round(value, 2));
+        }
+
+        // Properties for crude protein requirements
+        private decimal _crudeProteinRequirementMaintenance;
+
+        public decimal CrudeProteinRequirementMaintenance
+        {
+            get => _crudeProteinRequirementMaintenance;
+            set => SetProperty(ref _crudeProteinRequirementMaintenance, Math.Round(value));
+        }
+
+        private decimal _crudeProteinRequirementAdditional;
+
+        public decimal CrudeProteinRequirementAdditional
+        {
+            get => _crudeProteinRequirementAdditional;
+            set => SetProperty(ref _crudeProteinRequirementAdditional, Math.Round(value));
+        }
+
+        // Properties for dry matter intake estimates
+        private decimal _dryMatterIntakeEstimateBase;
+
+        public decimal DryMatterIntakeEstimateBase
+        {
+            get => _dryMatterIntakeEstimateBase;
+            set => SetProperty(ref _dryMatterIntakeEstimateBase, Math.Round(value));
+        }
+
+        private decimal _dryMatterIntakeEstimateAdditional;
+
+        public decimal DryMatterIntakeEstimateAdditional
+        {
+            get => _dryMatterIntakeEstimateAdditional;
+            set => SetProperty(ref _dryMatterIntakeEstimateAdditional, Math.Round(value));
+        }
+
+        #endregion Requirements Properties
+
+        private decimal _dmiRequirement;
+
+        public decimal DMiRequirement
+        {
+            get => _dmiRequirement;
+            set => SetProperty(ref _dmiRequirement, value);
+        }
+
+        private decimal _cpiRequirement;
+
+        public decimal CPiRequirement
+        {
+            get => _cpiRequirement;
+            set => SetProperty(ref _cpiRequirement, value);
+        }
+
+        private decimal _meiRequirement;
+
+        public decimal MEiRequirement
+        {
+            get => _meiRequirement;
+            set => SetProperty(ref _meiRequirement, value);
+        }
+
+        private decimal _totalDMi;
+
+        public decimal TotalDMi
+        {
+            get => _totalDMi;
+            set => SetProperty(ref _totalDMi, value);
+        }
+
+        private decimal _totalCPi;
+
+        public decimal TotalCPi
+        {
+            get => _totalCPi;
+            set => SetProperty(ref _totalCPi, value);
+        }
+
+        private decimal _totalMEi;
+
+        public decimal TotalMEi
+        {
+            get => _totalMEi;
+            set => SetProperty(ref _totalMEi, value);
+        }
+        
+        private decimal _balanceDMi;
+
+        public decimal BalanceDMi
+        {
+            get => _balanceDMi;
+            set => SetProperty(ref _balanceDMi, value);
+        }
+
+        private decimal _balanceCPi;
+
+        public decimal BalanceCPi
+        {
+            get => _balanceCPi;
+            set => SetProperty(ref _balanceCPi, value);
+        }
+
+        private decimal _balanceMEi;
+
+        public decimal BalanceMEi
+        {
+            get => _balanceMEi;
+            set => SetProperty(ref _balanceMEi, value);
+        }
+
         // Total ration value to be displayed.
-        private string _totalRation;
+        private decimal _totalRation;
 
         /// <summary>
         /// Gets or sets the total ration value as a formatted string.
         /// </summary>
-        public string TotalRation
+        public decimal TotalRation
         {
             get => _totalRation;
             set => SetProperty(ref _totalRation, value);
+        }
+
+        // Total ration value to be displayed.
+        private decimal _totalFeedCost;
+
+        /// <summary>
+        /// Gets or sets the total feed cost value as a formatted string.
+        /// </summary>
+        public decimal TotalFeedCost
+        {
+            get => _totalFeedCost;
+            set => SetProperty(ref _totalFeedCost, value);
         }
 
         // Display name for grazing information.
@@ -256,19 +403,46 @@ namespace FeedOptimizationApp.Modules.Calculations
                             {
                                 Feed = feed.Data,
                                 CalculationId = firstResult.CalculationId,
-                                GFresh = feedEntity.Intake,
+                                GFresh = Math.Round(feedEntity.Intake, MidpointRounding.AwayFromZero),
                                 PercentFresh = Math.Round(100 * feedEntity.Intake / feedEntitiesForResult.Data.Sum(f => f.Intake), MidpointRounding.AwayFromZero),
                                 PercentDryMatter = Math.Round(100 * (feedEntity.Intake * feedEntity.DM / 100) / feedEntitiesForResult.Data.Sum(f => f.Intake * f.DM / 100), MidpointRounding.AwayFromZero),
-                                TotalRation = feedEntity.Price * feedEntity.Intake / 1000
+                                TotalRation = feedEntity.Price * feedEntity.Intake / 1000,
+                                DMi = Math.Round(feedEntity.Intake * feedEntity.DM / 100, MidpointRounding.AwayFromZero),
+                                CPi = Math.Round((feedEntity.Intake * feedEntity.DM / 100) * feedEntity.CPDM / 100, MidpointRounding.AwayFromZero),
+                                MEi = Math.Round((feedEntity.Intake * feedEntity.DM / 100) * feedEntity.MEMJKGDM / 100, MidpointRounding.AwayFromZero),
+                                Cost = Math.Round(feedEntity.Price, MidpointRounding.AwayFromZero)
                             };
 
                             storedResultsList.Add(resultInfo);
                         }
                         // Update the display collection with the stored results.
-                        StoredResultsForDisplay = storedResultsList;
+                        StoredResultsForDisplay = storedResultsList;                        
+
+                        EnergyRequirementMaintenance = Math.Round(firstResult.EnergyRequirementMaintenance, MidpointRounding.AwayFromZero);
+                        EnergyRequirementAdditional = Math.Round(firstResult.EnergyRequirementAdditional, MidpointRounding.AwayFromZero);
+                        EnergyRequirementTotal = firstResult.EnergyRequirementTotal;
+                        CrudeProteinRequirementMaintenance = Math.Round(firstResult.CrudeProteinRequirementMaintenance, MidpointRounding.AwayFromZero);
+                        CrudeProteinRequirementAdditional = Math.Round(firstResult.CrudeProteinRequirementAdditional, MidpointRounding.AwayFromZero);
+                        DryMatterIntakeEstimateBase = Math.Round(firstResult.DryMatterIntakeEstimateBase, MidpointRounding.AwayFromZero);
+                        DryMatterIntakeEstimateAdditional = Math.Round(firstResult.DryMatterIntakeEstimateAdditional, MidpointRounding.AwayFromZero);
+
+                        TotalDMi = Math.Round(storedResultsList.Sum(x => x.DMi), MidpointRounding.AwayFromZero);
+                        TotalCPi = Math.Round(storedResultsList.Sum(x => x.CPi), MidpointRounding.AwayFromZero);
+                        TotalMEi = Math.Round(storedResultsList.Sum(x => x.MEi), MidpointRounding.AwayFromZero);
+
+                        DMiRequirement = Math.Round(firstResult.DMiRequirement, MidpointRounding.AwayFromZero);
+                        CPiRequirement = Math.Round(firstResult.CPiRequirement, MidpointRounding.AwayFromZero);
+                        MEiRequirement = Math.Round(firstResult.MEiRequirement, MidpointRounding.AwayFromZero);
+
+                        BalanceDMi = TotalDMi - DMiRequirement;
+                        BalanceCPi = TotalCPi - CPiRequirement;
+                        BalanceMEi = TotalMEi - MEiRequirement;
 
                         // Calculate and format the total ration value.
-                        TotalRation = storedResultsList.Sum(x => x.TotalRation).ToString("0.00");
+                        TotalRation = Math.Round(storedResultsList.Sum(x => x.TotalRation), 2);
+
+                        // Calculate and format the total feed cost.
+                        TotalFeedCost = Math.Round(storedResultsList.Sum(x => x.Cost), MidpointRounding.AwayFromZero);
                     }
                 }
             }
