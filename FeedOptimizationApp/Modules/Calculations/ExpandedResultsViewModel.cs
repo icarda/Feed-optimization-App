@@ -90,6 +90,117 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _storedResultsForDisplay, value);
         }
 
+        #region Requirements Properties
+
+        // Properties for energy requirements
+        private decimal _energyRequirementMaintenance;
+
+        public decimal EnergyRequirementMaintenance
+        {
+            get => _energyRequirementMaintenance;
+            set => SetProperty(ref _energyRequirementMaintenance, Math.Round(value, 2));
+        }
+
+        private decimal _energyRequirementAdditional;
+
+        public decimal EnergyRequirementAdditional
+        {
+            get => _energyRequirementAdditional;
+            set => SetProperty(ref _energyRequirementAdditional, Math.Round(value, 2));
+        }
+
+        private decimal _energyRequirementTotal;
+
+        public decimal EnergyRequirementTotal
+        {
+            get => _energyRequirementTotal;
+            set => SetProperty(ref _energyRequirementTotal, Math.Round(value, 2));
+        }
+
+        // Properties for crude protein requirements
+        private decimal _crudeProteinRequirementMaintenance;
+
+        public decimal CrudeProteinRequirementMaintenance
+        {
+            get => _crudeProteinRequirementMaintenance;
+            set => SetProperty(ref _crudeProteinRequirementMaintenance, Math.Round(value));
+        }
+
+        private decimal _crudeProteinRequirementAdditional;
+
+        public decimal CrudeProteinRequirementAdditional
+        {
+            get => _crudeProteinRequirementAdditional;
+            set => SetProperty(ref _crudeProteinRequirementAdditional, Math.Round(value));
+        }
+
+        // Properties for dry matter intake estimates
+        private decimal _dryMatterIntakeEstimateBase;
+
+        public decimal DryMatterIntakeEstimateBase
+        {
+            get => _dryMatterIntakeEstimateBase;
+            set => SetProperty(ref _dryMatterIntakeEstimateBase, Math.Round(value));
+        }
+
+        private decimal _dryMatterIntakeEstimateAdditional;
+
+        public decimal DryMatterIntakeEstimateAdditional
+        {
+            get => _dryMatterIntakeEstimateAdditional;
+            set => SetProperty(ref _dryMatterIntakeEstimateAdditional, Math.Round(value));
+        }
+
+        #endregion Requirements Properties
+
+        private string _dmiRequirement;
+
+        public string DMiRequirement
+        {
+            get => _dmiRequirement;
+            set => SetProperty(ref _dmiRequirement, value);
+        }
+
+        private string _cpiRequirement;
+
+        public string CPiRequirement
+        {
+            get => _cpiRequirement;
+            set => SetProperty(ref _cpiRequirement, value);
+        }
+
+        private string _meiRequirement;
+
+        public string MEiRequirement
+        {
+            get => _meiRequirement;
+            set => SetProperty(ref _meiRequirement, value);
+        }
+
+        private string _totalDMi;
+
+        public string TotalDMi
+        {
+            get => _totalDMi;
+            set => SetProperty(ref _totalDMi, value);
+        }
+
+        private string _totalCPi;
+
+        public string TotalCPi
+        {
+            get => _totalCPi;
+            set => SetProperty(ref _totalCPi, value);
+        }
+
+        private string _totalMEi;
+
+        public string TotalMEi
+        {
+            get => _totalMEi;
+            set => SetProperty(ref _totalMEi, value);
+        }
+
         // Total ration value to be displayed.
         private string _totalRation;
 
@@ -100,6 +211,18 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             get => _totalRation;
             set => SetProperty(ref _totalRation, value);
+        }
+
+        // Total ration value to be displayed.
+        private string _totalFeedCost;
+
+        /// <summary>
+        /// Gets or sets the total feed cost value as a formatted string.
+        /// </summary>
+        public string TotalFeedCost
+        {
+            get => _totalFeedCost;
+            set => SetProperty(ref _totalFeedCost, value);
         }
 
         // Display name for grazing information.
@@ -259,7 +382,11 @@ namespace FeedOptimizationApp.Modules.Calculations
                                 GFresh = feedEntity.Intake,
                                 PercentFresh = Math.Round(100 * feedEntity.Intake / feedEntitiesForResult.Data.Sum(f => f.Intake), MidpointRounding.AwayFromZero),
                                 PercentDryMatter = Math.Round(100 * (feedEntity.Intake * feedEntity.DM / 100) / feedEntitiesForResult.Data.Sum(f => f.Intake * f.DM / 100), MidpointRounding.AwayFromZero),
-                                TotalRation = feedEntity.Price * feedEntity.Intake / 1000
+                                TotalRation = feedEntity.Price * feedEntity.Intake / 1000,
+                                DMi = feedEntity.Intake * feedEntity.DM / 100,
+                                CPi = (feedEntity.Intake * feedEntity.DM / 100) * feedEntity.CPDM / 100,
+                                MEi = (feedEntity.Intake * feedEntity.DM / 100) * feedEntity.MEMJKGDM / 100,
+                                Cost = feedEntity.Price
                             };
 
                             storedResultsList.Add(resultInfo);
@@ -267,8 +394,19 @@ namespace FeedOptimizationApp.Modules.Calculations
                         // Update the display collection with the stored results.
                         StoredResultsForDisplay = storedResultsList;
 
+                        DMiRequirement = firstResult.DMiRequirement.ToString("0.00");
+                        CPiRequirement = firstResult.CPiRequirement.ToString("0.00");
+                        MEiRequirement = firstResult.MEiRequirement.ToString("0.00");
+
+                        TotalDMi = storedResultsList.Sum(x => x.DMi).ToString("0.00");
+                        TotalCPi = storedResultsList.Sum(x => x.CPi).ToString("0.00");
+                        TotalMEi = storedResultsList.Sum(x => x.MEi).ToString("0.00");
+
                         // Calculate and format the total ration value.
                         TotalRation = storedResultsList.Sum(x => x.TotalRation).ToString("0.00");
+
+                        // Calculate and format the total feed cost.
+                        TotalFeedCost = storedResultsList.Sum(x => x.Cost).ToString("0.00");
                     }
                 }
             }

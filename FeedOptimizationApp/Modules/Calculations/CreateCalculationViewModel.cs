@@ -1587,7 +1587,14 @@ namespace FeedOptimizationApp.Modules.Calculations
                         GFresh = Math.Round(info.Intake),
                         PercentFresh = Math.Round(100 * info.Intake / sumOfFeedIntakes, MidpointRounding.AwayFromZero),
                         PercentDryMatter = Math.Round(100 * dmig / sumOfDMig, MidpointRounding.AwayFromZero),
-                        TotalRation = cost
+                        TotalRation = cost,
+                        DMi = Math.Round(dmig),
+                        CPi = Math.Round(cpig),
+                        MEi = Math.Round(meimjday),
+                        Cost = Math.Round(cost),
+                        DMiRequirement = DMIReq,
+                        CPiRequirement = CPReq,
+                        MEiRequirement = EnergyReqForUI
                     };
 
                     calcHasResultList.Add(calcHasResult);
@@ -1603,7 +1610,14 @@ namespace FeedOptimizationApp.Modules.Calculations
                         GFresh = Math.Round(info.Intake),
                         PercentFresh = Math.Round(100 * info.Intake / sumOfFeedIntakes, MidpointRounding.AwayFromZero),
                         PercentDryMatter = Math.Round(100 * dmig / sumOfDMig, MidpointRounding.AwayFromZero),
-                        TotalRation = cost
+                        TotalRation = cost,
+                        DMi = Math.Round(dmig),
+                        CPi = Math.Round(cpig),
+                        MEi = Math.Round(meimjday),
+                        Cost = Math.Round(cost),
+                        DMiRequirement = DMIReq,
+                        CPiRequirement = CPReq,
+                        MEiRequirement = EnergyReqForUI
                     };
 
                     storedResultList.Add(storedResult);

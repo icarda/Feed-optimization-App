@@ -876,10 +876,10 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Label Text="Feed" Grid.Column="0" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
-                                    <Label Text="g Fresh" Grid.Column="1" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
-                                    <Label Text="% Fresh" Grid.Column="2" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
-                                    <Label Text="% Dry Matter" Grid.Column="3" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+                                    <Label Text="Feed" Grid.Column="0" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                    <Label Text="g Fresh" Grid.Column="1" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                    <Label Text="% Fresh" Grid.Column="2" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                    <Label Text="% Dry Matter" Grid.Column="3" HorizontalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                                 </Grid>
                             </CollectionView.Header>
                             <CollectionView.ItemTemplate>
@@ -893,7 +893,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Label
                                     Text="{Binding Feed.Name}"
-                                    Grid.Column="0"/>
+                                    Grid.Column="0" />
                                         <Label
                                     Text="{Binding GFresh}"
                                     Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" />
@@ -912,7 +912,7 @@
                                 <FormattedString>
                                     <Span Text="The total feed cost is " />
                                     <Span Text="{Binding TotalFeedCost}" />
-                                    <Span Text=" br" />
+                                    <Span Text=" br/kg" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -921,7 +921,7 @@
                                 <FormattedString>
                                     <Span Text="The cost of the ration is " />
                                     <Span Text="{Binding TotalRation}" />
-                                    <Span Text=" br" />
+                                    <Span Text=" br/day" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

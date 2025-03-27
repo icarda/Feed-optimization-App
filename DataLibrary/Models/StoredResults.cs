@@ -40,5 +40,19 @@ namespace DataLibrary.Models
         /// Gets or sets the total ration value.
         /// </summary>
         public decimal TotalRation { get; set; }
+
+        public decimal DMi { get; set; }
+
+        public decimal CPi { get; set; }
+
+        public decimal MEi { get; set; }
+
+        public decimal Cost { get; set; }
+
+        public decimal DMiRequirement { get; set; }
+
+        public decimal CPiRequirement { get; set; }
+
+        public decimal MEiRequirement { get; set; }
     }
 }
