@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # List the root directory to verify the FeedOptimizationApp directory is present
+      # List the root directory to verify the FeedOptimizationApp is there
       - name: List Root Directory
         run: Get-ChildItem -Path .
 
@@ -37,6 +37,10 @@ jobs:
       # List the contents of Feed-optimization-App to ensure FeedOptimizationApp is there
       - name: List Feed-optimization-App Directory
         run: Get-ChildItem -Path D:\a\Feed-optimization-App\Feed-optimization-App  # List contents of this directory
+
+      # List all files to ensure FeedOptimizationApp.sln is present
+      - name: List All Files in FeedOptimizationApp Directory
+        run: Get-ChildItem -Path D:\a\Feed-optimization-App\Feed-optimization-App\  # List all files in the directory
 
       # Restore dependencies with detailed logging
       - name: Restore Dependencies (with detailed logging)
