@@ -15,9 +15,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # List the root directory to verify the FeedOptimizationApp is there
-      - name: List Root Directory
-        run: Get-ChildItem -Path .
+      # List all files and directories in the repository to verify structure
+      - name: List All Files and Directories
+        run: |
+          Get-ChildItem -Path . -Recurse | Select-Object FullName
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
@@ -27,20 +28,9 @@ jobs:
       - name: List Installed .NET SDKs
         run: dotnet --list-sdks
 
-      # List the project structure to verify everything is in place
-      - name: List Project Structure
-        run: Get-ChildItem -Path . -Recurse -Depth 3
-
+      # Install MAUI Workload
       - name: Install MAUI Workload
         run: dotnet workload install android ios maccatalyst wasm-tools maui --skip-manifest-update
-
-      # List the contents of Feed-optimization-App to ensure FeedOptimizationApp is there
-      - name: List Feed-optimization-App Directory
-        run: Get-ChildItem -Path D:\a\Feed-optimization-App\Feed-optimization-App  # List contents of this directory
-
-      # List all files to ensure FeedOptimizationApp.sln is present
-      - name: List All Files in FeedOptimizationApp Directory
-        run: Get-ChildItem -Path D:\a\Feed-optimization-App\Feed-optimization-App\  # List all files in the directory
 
       # Restore dependencies with detailed logging
       - name: Restore Dependencies (with detailed logging)
@@ -111,3 +101,4 @@ jobs:
           curl -H "Content-Type: application/json" \
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
                -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
+
