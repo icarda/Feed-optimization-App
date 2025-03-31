@@ -15,8 +15,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # List the root directory to verify the FeedOptimizationApp directory is present
       - name: List Root Directory
-        run: Get-ChildItem -Path .  # List the root directory to ensure FeedOptimizationApp is there
+        run: Get-ChildItem -Path .
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
@@ -26,25 +27,33 @@ jobs:
       - name: List Installed .NET SDKs
         run: dotnet --list-sdks
 
+      # List the project structure to verify everything is in place
       - name: List Project Structure
-        run: Get-ChildItem -Path . -Recurse -Depth 3  # List the project files to verify structure
+        run: Get-ChildItem -Path . -Recurse -Depth 3
 
       - name: Install MAUI Workload
         run: dotnet workload install android ios maccatalyst wasm-tools maui --skip-manifest-update
 
+      # List the contents of Feed-optimization-App to ensure FeedOptimizationApp is there
+      - name: List Feed-optimization-App Directory
+        run: Get-ChildItem -Path D:\a\Feed-optimization-App\Feed-optimization-App  # List contents of this directory
+
+      # Restore dependencies with detailed logging
       - name: Restore Dependencies (with detailed logging)
         run: |
-          Set-Location -Path D:\a\Feed-optimization-App\Feed-optimization-App\FeedOptimizationApp  # Use full path
+          Set-Location -Path D:\a\Feed-optimization-App\Feed-optimization-App  # Use full path
           dotnet restore FeedOptimizationApp.sln --verbosity detailed
 
+      # Build the Android App
       - name: Build Android App
         run: |
-          Set-Location -Path D:\a\Feed-optimization-App\Feed-optimization-App\FeedOptimizationApp  # Use full path
+          Set-Location -Path D:\a\Feed-optimization-App\Feed-optimization-App  # Use full path
           dotnet build FeedOptimizationApp.sln -f net9.0-android -c Release
 
+      # Create Android APK
       - name: Create Android APK
         run: |
-          Set-Location -Path D:\a\Feed-optimization-App\Feed-optimization-App\FeedOptimizationApp  # Use full path
+          Set-Location -Path D:\a\Feed-optimization-App\Feed-optimization-App  # Use full path
           dotnet publish FeedOptimizationApp.sln -f net9.0-android -c Release -o ./publish
           if (Test-Path ./publish/*.apk) { 
             Get-ChildItem ./publish/*.apk | Select-Object -First 1 | Move-Item -Destination ./publish/App.apk
@@ -53,6 +62,7 @@ jobs:
             exit 1
           }
 
+      # Upload the Android Build Artifact
       - name: Upload Android Build Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -97,5 +107,3 @@ jobs:
           curl -H "Content-Type: application/json" \
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
                -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
-
-
