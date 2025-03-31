@@ -15,6 +15,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: List Root Directory
+        run: Get-ChildItem -Path .  # List the root directory to ensure FeedOptimizationApp is there
+
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
@@ -24,24 +27,24 @@ jobs:
         run: dotnet --list-sdks
 
       - name: List Project Structure
-        run: Get-ChildItem -Path . -Recurse -Depth 3
+        run: Get-ChildItem -Path . -Recurse -Depth 3  # List the project files to verify structure
 
       - name: Install MAUI Workload
         run: dotnet workload install android ios maccatalyst wasm-tools maui --skip-manifest-update
 
       - name: Restore Dependencies (with detailed logging)
         run: |
-          cd ./FeedOptimizationApp
+          Set-Location -Path D:\a\Feed-optimization-App\Feed-optimization-App\FeedOptimizationApp  # Use full path
           dotnet restore FeedOptimizationApp.sln --verbosity detailed
 
       - name: Build Android App
         run: |
-          cd ./FeedOptimizationApp
+          Set-Location -Path D:\a\Feed-optimization-App\Feed-optimization-App\FeedOptimizationApp  # Use full path
           dotnet build FeedOptimizationApp.sln -f net9.0-android -c Release
 
       - name: Create Android APK
         run: |
-          cd ./FeedOptimizationApp
+          Set-Location -Path D:\a\Feed-optimization-App\Feed-optimization-App\FeedOptimizationApp  # Use full path
           dotnet publish FeedOptimizationApp.sln -f net9.0-android -c Release -o ./publish
           if (Test-Path ./publish/*.apk) { 
             Get-ChildItem ./publish/*.apk | Select-Object -First 1 | Move-Item -Destination ./publish/App.apk
@@ -94,4 +97,5 @@ jobs:
           curl -H "Content-Type: application/json" \
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
                -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
+
 
