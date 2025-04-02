@@ -89,5 +89,5 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
-               -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
+               -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}" 
 
