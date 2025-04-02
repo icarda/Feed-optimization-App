@@ -27,17 +27,17 @@ jobs:
 
       - name: Restore Dependencies
         run: |
-          cd D:\a\Feed-optimization-App\Feed-optimization-App  # Correct path for Windows runner
+          cd /workspaces/Feed-optimization-App  # Correct path for Windows runner
           dotnet restore FeedOptimizationApp.sln
 
       - name: Build Android App
         run: |
-          cd D:\a\Feed-optimization-App\Feed-optimization-App  # Correct path for Windows runner
+          cd /workspaces/Feed-optimization-App  # Correct path for Windows runner
           dotnet build FeedOptimizationApp.sln -f net9.0-android -c Release
 
       - name: Create Android APK
         run: |
-          cd D:\a\Feed-optimization-App\Feed-optimization-App  # Correct path for Windows runner
+          cd /workspaces/Feed-optimization-App  # Correct path for Windows runner
           dotnet publish FeedOptimizationApp.sln -f net9.0-android -c Release -o ./publish
           if (Test-Path ./publish/*.apk) { 
             Get-ChildItem ./publish/*.apk | Select-Object -First 1 | Move-Item -Destination ./publish/App.apk
@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Android-APK
-          path: D:\a\Feed-optimization-App\Feed-optimization-App\publish\App.apk  # Correct path for Windows runner
+          path: cd /workspaces/Feed-optimization-App\publish\App.apk  # Correct path for Windows runner
 
   deploy-android:
     name: Deploy to Google Play
