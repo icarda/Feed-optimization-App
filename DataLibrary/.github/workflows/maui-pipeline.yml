@@ -26,31 +26,31 @@ jobs:
         run: dotnet workload install android ios maccatalyst wasm-tools maui --skip-manifest-update
 
       - name: Restore Dependencies
-        run: dotnet restore FeedOptimizationApp.sln
-        working-directory: ${{ github.workspace }}
+        run: |
+          cd ${{ github.workspace }}
+          dotnet restore FeedOptimizationApp.sln --verbosity detailed
 
       - name: Build Android App
-        run: dotnet build FeedOptimizationApp.sln -f net9.0-android -c Release
-        working-directory: ${{ github.workspace }}
+        run: |
+          cd ${{ github.workspace }}
+          dotnet build FeedOptimizationApp.sln -f net9.0-android -c Release
 
       - name: Create Android APK
         run: |
+          cd ${{ github.workspace }}
           dotnet publish FeedOptimizationApp.sln -f net9.0-android -c Release -o ./publish
-          $apk = Get-ChildItem ./publish/*.apk | Select-Object -First 1
-          if ($apk) { 
-            Move-Item $apk.FullName ./publish/App.apk
+          if (Test-Path ./publish/*.apk) { 
+            Get-ChildItem ./publish/*.apk | Select-Object -First 1 | Move-Item -Destination ./publish/App.apk
           } else {
             Write-Error "No APK files found in publish directory"
             exit 1
           }
-        working-directory: ${{ github.workspace }}
-        shell: pwsh
 
       - name: Upload Android Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Android-APK
-          path: ${{ github.workspace }}/publish/App.apk
+          path: ${{ github.workspace }}\publish\App.apk
 
   deploy-android:
     name: Deploy to Google Play
@@ -62,7 +62,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Android-APK
-          path: ${{ github.workspace }}/publish
+          path: ./publish
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
@@ -73,9 +73,9 @@ jobs:
       - name: Deploy to Google Play Store (Beta)
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: ""  # Using workload identity, no secret needed
+          serviceAccountJson: ""  # Removed secrets for federated identity
           packageName: "com.icarda.feedapp"
-          releaseFiles: "${{ github.workspace }}/publish/App.apk"
+          releaseFiles: "./publish/App.apk"
           track: beta
           status: completed
 
@@ -90,3 +90,4 @@ jobs:
           curl -H "Content-Type: application/json" \
                -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
                -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
+
