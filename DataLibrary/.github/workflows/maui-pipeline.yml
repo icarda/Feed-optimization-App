@@ -26,20 +26,16 @@ jobs:
         run: dotnet workload install android ios maccatalyst wasm-tools maui --skip-manifest-update
 
       - name: Restore Dependencies
-        run: |
-          cd ${{ github.workspace }}
-          dotnet restore FeedOptimizationApp.sln --verbosity detailed
+        run: dotnet restore ./FeedOptimizationApp.sln --verbosity detailed
 
       - name: Build Android App
-        run: |
-          cd ${{ github.workspace }}
-          dotnet build FeedOptimizationApp.sln -f net9.0-android -c Release
+        run: dotnet build ./FeedOptimizationApp.sln -f net9.0-android -c Release
 
       - name: Create Android APK
+        shell: pwsh
         run: |
-          cd ${{ github.workspace }}
-          dotnet publish FeedOptimizationApp.sln -f net9.0-android -c Release -o ./publish
-          if (Test-Path ./publish/*.apk) { 
+          dotnet publish ./FeedOptimizationApp.sln -f net9.0-android -c Release -o ./publish
+          if (Test-Path ./publish/*.apk) {
             Get-ChildItem ./publish/*.apk | Select-Object -First 1 | Move-Item -Destination ./publish/App.apk
           } else {
             Write-Error "No APK files found in publish directory"
@@ -50,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Android-APK
-          path: ${{ github.workspace }}\publish\App.apk
+          path: ./publish/App.apk
 
   deploy-android:
     name: Deploy to Google Play
@@ -73,7 +69,6 @@ jobs:
       - name: Deploy to Google Play Store (Beta)
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: ""  # Removed secrets for federated identity
           packageName: "com.icarda.feedapp"
           releaseFiles: "./publish/App.apk"
           track: beta
@@ -87,7 +82,6 @@ jobs:
     steps:
       - name: Send Teams Notification
         run: |
-          curl -H "Content-Type: application/json" \
-               -d '{"text": "🚀 New MAUI App build deployed to Google Play! 🎉"}' \
+          curl -H "Content-Type: application/json" ^
+               -d "{\"text\": \"🚀 New MAUI App build deployed to Google Play! 🎉\"}" ^
                -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
-
