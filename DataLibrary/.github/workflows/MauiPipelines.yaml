@@ -1,0 +1,87 @@
+name: .NET MAUI CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-android:
+    name: Build Android APK
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Install MAUI Workload
+        run: dotnet workload install android ios maccatalyst wasm-tools maui --skip-manifest-update
+
+      - name: Restore Dependencies
+        run: dotnet restore $Env:GITHUB_WORKSPACE/FeedOptimizationApp.sln --verbosity detailed
+
+      - name: Build Android App
+        run: dotnet build $Env:GITHUB_WORKSPACE/FeedOptimizationApp.sln -f net9.0-android -c Release
+
+      - name: Create Android APK
+        shell: pwsh
+        run: |
+          dotnet publish $Env:GITHUB_WORKSPACE/FeedOptimizationApp.sln -f net9.0-android -c Release -o $Env:GITHUB_WORKSPACE/publish
+          if (Test-Path "$Env:GITHUB_WORKSPACE/publish/*.apk") {
+            Get-ChildItem "$Env:GITHUB_WORKSPACE/publish/*.apk" | Select-Object -First 1 | Move-Item -Destination "$Env:GITHUB_WORKSPACE/publish/App.apk"
+          } else {
+            Write-Error "No APK files found in publish directory"
+            exit 1
+          }
+
+      - name: Upload Android Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Android-APK
+          path: $Env:GITHUB_WORKSPACE/publish/App.apk
+
+  deploy-android:
+    name: Deploy to Google Play
+    runs-on: windows-latest
+    needs: build-android
+
+    steps:
+      - name: Download Android APK
+        uses: actions/download-artifact@v3
+        with:
+          name: Android-APK
+          path: $Env:GITHUB_WORKSPACE/publish
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
+      - name: Deploy to Google Play Store (Beta)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          packageName: "com.icarda.feedapp"
+          releaseFiles: "$Env:GITHUB_WORKSPACE/publish/App.apk"
+          track: beta
+          status: completed
+
+  notify-team:
+    name: Notify Team
+    runs-on: windows-latest
+    needs: [deploy-android]
+
+    steps:
+      - name: Send Teams Notification
+        run: |
+          curl -H "Content-Type: application/json" ^
+               -d "{\"text\": \"🚀 New MAUI App build deployed to Google Play! 🎉\"}" ^
+               -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
