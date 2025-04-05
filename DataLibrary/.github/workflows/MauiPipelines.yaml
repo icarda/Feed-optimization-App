@@ -25,23 +25,34 @@ jobs:
       - name: Install MAUI Workload
         run: dotnet workload install android ios maccatalyst wasm-tools maui --skip-manifest-update
 
-      - name: Restore Dependencies
+      - name: List Current Directory
         run: |
-          cd ${{ github.workspace }}  # Ensure working in the root of the repository
-          dotnet restore ./FeedOptimizationApp.sln --verbosity detailed
+          Write-Host "Current working directory:"
+          Get-Location
+          Write-Host "Listing all files in the workspace:"
+          Get-ChildItem -Recurse
+
+      - name: Check if Solution File Exists
+        run: |
+          Write-Host "Checking if FeedOptimizationApp.sln exists"
+          if (Test-Path './FeedOptimizationApp.sln') {
+            Write-Host "Solution file found!"
+          } else {
+            Write-Host "Solution file NOT found!"
+            exit 1
+          }
+
+      - name: Restore Dependencies
+        run: dotnet restore ./FeedOptimizationApp.sln --verbosity detailed
 
       - name: Build Android App
-        run: |
-          cd ${{ github.workspace }}  # Ensure working in the root of the repository
-          dotnet build ./FeedOptimizationApp.sln -f net9.0-android -c Release
+        run: dotnet build ./FeedOptimizationApp.sln -f net9.0-android -c Release
 
       - name: Create Android APK
-        shell: pwsh
         run: |
-          cd ${{ github.workspace }}  # Ensure working in the root of the repository
           dotnet publish ./FeedOptimizationApp.sln -f net9.0-android -c Release -o ./publish
-          if (Test-Path ./publish/*.apk) {
-            Get-ChildItem ./publish/*.apk | Select-Object -First 1 | Move-Item -Destination ./publish/App.apk
+          if (Test-Path './publish/*.apk') {
+            Get-ChildItem './publish/*.apk' | Select-Object -First 1 | Move-Item -Destination './publish/App.apk'
           } else {
             Write-Error "No APK files found in publish directory"
             exit 1
@@ -51,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Android-APK
-          path: ./publish/App.apk
+          path: ${{ github.workspace }}/publish/App.apk
 
   deploy-android:
     name: Deploy to Google Play
@@ -63,7 +74,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Android-APK
-          path: ./publish
+          path: ${{ github.workspace }}/publish
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
@@ -74,8 +85,8 @@ jobs:
       - name: Deploy to Google Play Store (Beta)
         uses: r0adkll/upload-google-play@v1
         with:
-          packageName: "com.icarda.feedapp"  # Your package name remains the same
-          releaseFiles: "./publish/App.apk"  # Relative path to the generated APK
+          packageName: "com.icarda.feedapp"
+          releaseFiles: "${{ github.workspace }}/publish/App.apk"
           track: beta
           status: completed
 
