@@ -24,34 +24,31 @@ jobs:
 
       - name: Install MAUI Workload
         run: dotnet workload install android ios maccatalyst wasm-tools maui --skip-manifest-update
-        working-directory: ${{ github.workspace }}
 
       - name: Restore Dependencies
-        run: dotnet restore FeedOptimizationApp.sln --verbosity detailed
-        working-directory: ${{ github.workspace }}
+        run: |
+          dotnet restore ./FeedOptimizationApp.sln --verbosity detailed
 
       - name: Build Android App
-        run: dotnet build FeedOptimizationApp.sln -f net9.0-android -c Release
-        working-directory: ${{ github.workspace }}
+        run: |
+          dotnet build ./FeedOptimizationApp.sln -f net9.0-android -c Release
 
       - name: Create Android APK
         shell: pwsh
         run: |
-          dotnet publish FeedOptimizationApp.sln -f net9.0-android -c Release -o ./publish
+          dotnet publish ./FeedOptimizationApp.sln -f net9.0-android -c Release -o ./publish
           if (Test-Path ./publish/*.apk) {
             Get-ChildItem ./publish/*.apk | Select-Object -First 1 | Move-Item -Destination ./publish/App.apk
           } else {
             Write-Error "No APK files found in publish directory"
             exit 1
           }
-        working-directory: ${{ github.workspace }}
 
       - name: Upload Android Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Android-APK
           path: ./publish/App.apk
-        working-directory: ${{ github.workspace }}
 
   deploy-android:
     name: Deploy to Google Play
@@ -63,24 +60,21 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Android-APK
-          path: ./publish
-        working-directory: ${{ github.workspace }}
+          path: ${{ github.workspace }}\publish
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-        working-directory: ${{ github.workspace }}
 
       - name: Deploy to Google Play Store (Beta)
         uses: r0adkll/upload-google-play@v1
         with:
           packageName: "com.icarda.feedapp"
-          releaseFiles: "./publish/App.apk"
+          releaseFiles: "${{ github.workspace }}\\publish\\App.apk"
           track: beta
           status: completed
-        working-directory: ${{ github.workspace }}
 
   notify-team:
     name: Notify Team
@@ -93,4 +87,3 @@ jobs:
           curl -H "Content-Type: application/json" ^
                -d "{\"text\": \"🚀 New MAUI App build deployed to Google Play! 🎉\"}" ^
                -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
-        working-directory: ${{ github.workspace }}
