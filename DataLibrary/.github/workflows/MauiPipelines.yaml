@@ -23,56 +23,59 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Install MAUI Workload
-        run: dotnet workload install android ios maccatalyst wasm-tools maui --skip-manifest-update
+        shell: pwsh
+        run: dotnet workload install maui --skip-manifest-update
 
       - name: Restore Dependencies
-        run: dotnet restore ./FeedOptimizationApp.sln --verbosity detailed
+        shell: pwsh
+        run: dotnet restore $Env:GITHUB_WORKSPACE/FeedOptimizationApp.sln --verbosity detailed
 
       - name: Build Android App
-        run: dotnet build ./FeedOptimizationApp.sln -f net9.0-android -c Release
+        shell: pwsh
+        run: dotnet build $Env:GITHUB_WORKSPACE/FeedOptimizationApp.sln -f net9.0-android -c Release
 
-      - name: Publish Android APK
+      - name: Create Android APK
         shell: pwsh
         run: |
-          dotnet publish ./FeedOptimizationApp.sln -f net9.0-android -c Release -o ./publish
-          Write-Host "Publishing complete. Verifying APK file presence..."
-          if (Test-Path './publish/*.apk') {
-            Get-ChildItem './publish/*.apk' | Select-Object -First 1 | Move-Item -Destination './publish/App.apk'
-            Write-Host "APK found and renamed to App.apk"
+          dotnet publish $Env:GITHUB_WORKSPACE/FeedOptimizationApp.sln -f net9.0-android -c Release -o $Env:GITHUB_WORKSPACE/publish
+          if (Test-Path "$Env:GITHUB_WORKSPACE/publish/*.apk") {
+              Get-ChildItem "$Env:GITHUB_WORKSPACE/publish/*.apk" | Select-Object -First 1 | Move-Item -Destination "$Env:GITHUB_WORKSPACE/publish/App.apk"
           } else {
-            Write-Host "No APK found in publish directory. Skipping APK upload."
+              Write-Error "No APK files found in publish directory"
+              exit 1
           }
 
       - name: Upload Android Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Android-APK
-          path: ${{ github.workspace }}/publish/App.apk
+          path: $Env:GITHUB_WORKSPACE/publish/App.apk
 
   deploy-android:
     name: Deploy to Google Play
     runs-on: windows-latest
     needs: build-android
-    continue-on-error: true
 
     steps:
       - name: Download Android APK
         uses: actions/download-artifact@v3
         with:
           name: Android-APK
-          path: ${{ github.workspace }}/publish
+          path: $Env:GITHUB_WORKSPACE/publish
 
       - name: Authenticate with Google Cloud
+        shell: pwsh
         uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
       - name: Deploy to Google Play Store (Beta)
+        shell: pwsh
         uses: r0adkll/upload-google-play@v1
         with:
           packageName: "com.icarda.feedapp"
-          releaseFiles: "${{ github.workspace }}/publish/App.apk"
+          releaseFiles: "$Env:GITHUB_WORKSPACE/publish/App.apk"
           track: beta
           status: completed
 
@@ -83,7 +86,11 @@ jobs:
 
     steps:
       - name: Send Teams Notification
+        shell: pwsh
         run: |
-          curl -H "Content-Type: application/json" ^
-               -d "{\"text\": \"🚀 New MAUI App build deployed to Google Play! 🎉\"}" ^
-               -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}"
+          $webhookUrl = "${{ secrets.TEAMS_WEBHOOK_URL }}"
+          $body = @{
+              text = "🚀 New MAUI App build deployed to Google Play! 🎉"
+          } | ConvertTo-Json
+          
+          Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $body -ContentType 'application/json'
