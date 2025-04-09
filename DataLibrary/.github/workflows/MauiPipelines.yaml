@@ -28,18 +28,25 @@ jobs:
 
       - name: Restore Dependencies
         shell: pwsh
-        run: dotnet restore $Env:GITHUB_WORKSPACE/FeedOptimizationApp.sln --verbosity detailed
+        run: |
+          $solution = Join-Path $Env:GITHUB_WORKSPACE 'FeedOptimizationApp.sln'
+          dotnet restore $solution --verbosity detailed
 
       - name: Build Android App
         shell: pwsh
-        run: dotnet build $Env:GITHUB_WORKSPACE/FeedOptimizationApp.sln -f net9.0-android -c Release
+        run: |
+          $solution = Join-Path $Env:GITHUB_WORKSPACE 'FeedOptimizationApp.sln'
+          dotnet build $solution -f net9.0-android -c Release
 
       - name: Create Android APK
         shell: pwsh
         run: |
-          dotnet publish $Env:GITHUB_WORKSPACE/FeedOptimizationApp.sln -f net9.0-android -c Release -o $Env:GITHUB_WORKSPACE/publish
-          if (Test-Path "$Env:GITHUB_WORKSPACE/publish/*.apk") {
-              Get-ChildItem "$Env:GITHUB_WORKSPACE/publish/*.apk" | Select-Object -First 1 | Move-Item -Destination "$Env:GITHUB_WORKSPACE/publish/App.apk"
+          $solution = Join-Path $Env:GITHUB_WORKSPACE 'FeedOptimizationApp.sln'
+          $publishDir = Join-Path $Env:GITHUB_WORKSPACE 'publish'
+          dotnet publish $solution -f net9.0-android -c Release -o $publishDir
+          $apk = Get-ChildItem "$publishDir\*.apk" | Select-Object -First 1
+          if ($apk) {
+              Move-Item $apk.FullName "$publishDir\App.apk"
           } else {
               Write-Error "No APK files found in publish directory"
               exit 1
@@ -49,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Android-APK
-          path: $Env:GITHUB_WORKSPACE/publish/App.apk
+          path: ${{ env.GITHUB_WORKSPACE }}\publish\App.apk
 
   deploy-android:
     name: Deploy to Google Play
@@ -61,21 +68,19 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Android-APK
-          path: $Env:GITHUB_WORKSPACE/publish
+          path: ${{ env.GITHUB_WORKSPACE }}\publish
 
       - name: Authenticate with Google Cloud
-        shell: pwsh
         uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
       - name: Deploy to Google Play Store (Beta)
-        shell: pwsh
         uses: r0adkll/upload-google-play@v1
         with:
           packageName: "com.icarda.feedapp"
-          releaseFiles: "$Env:GITHUB_WORKSPACE/publish/App.apk"
+          releaseFiles: "${{ env.GITHUB_WORKSPACE }}\publish\App.apk"
           track: beta
           status: completed
 
@@ -91,6 +96,6 @@ jobs:
           $webhookUrl = "${{ secrets.TEAMS_WEBHOOK_URL }}"
           $body = @{
               text = "🚀 New MAUI App build deployed to Google Play! 🎉"
-          } | ConvertTo-Json
+          } | ConvertTo-Json -Compress
           
-          Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $body -ContentType 'application/json' #
+          Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $body -ContentType 'application/json'
