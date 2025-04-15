@@ -459,7 +459,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <!-- Feed Values -->
-                                        <Label Text="{Binding Feed.Name}" Grid.Column="0" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                        <Label Text="{Binding Feed.Name}" Grid.Column="0" FontSize="12" VerticalOptions="Center" />
                                         <Editor Text="{Binding DMi, Mode=TwoWay}"
                                                 Grid.Column="1"
                                                 FontSize="12"
@@ -472,7 +472,7 @@
                                         <Label Text="{Binding CPi}" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                         <Label Text="{Binding MEi}" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                         <Label Text="{Binding Cost}" Grid.Column="4" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
-                                        <Button Text="Save" Grid.Column="5" HeightRequest="20"
+                                        <Button Text="Save" Grid.Column="5" HeightRequest="20" FontSize="Caption"
                                                 Command="{Binding Path=BindingContext.SaveOptimisationFeedCommand, Source={x:Reference OptimizationContentView}}"
                                                 CommandParameter="{Binding .}" BackgroundColor="{StaticResource Secondary}"/>
                                     </Grid>

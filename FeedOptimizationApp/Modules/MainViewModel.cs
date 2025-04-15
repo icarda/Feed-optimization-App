@@ -133,6 +133,16 @@ namespace FeedOptimizationApp.Modules
                 SharedData.SelectedSpecies = SelectedSpecies;
 
                 var databaseInitializer = App.ServiceProvider.GetRequiredService<DatabaseInitializer>();
+
+                // check if feeds are already imported using feed service
+                var feeds = await _baseService.FeedService.GetAllAsync();
+                if (feeds.Data.Count > 0)
+                {
+                    // Clear the feed table
+                    await databaseInitializer.ClearFeedsAsync();
+                }
+
+                // Import feeds from embedded CSV
                 await databaseInitializer.ImportFeedsFromEmbeddedCsvAsync(
                     SelectedCountry.Id,
                     SelectedLanguage.Id

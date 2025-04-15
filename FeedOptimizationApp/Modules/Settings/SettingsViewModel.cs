@@ -7,6 +7,7 @@ using System.Windows.Input;
 using CommunityToolkit.Maui.Alerts;
 using DataLibrary.Services;
 using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Maui.Core;
 
 namespace FeedOptimizationApp.Modules.Settings
 {
@@ -146,54 +147,71 @@ namespace FeedOptimizationApp.Modules.Settings
             if (SelectedLanguage != null && SelectedCountry != null && SelectedSpecies != null)
             {
                 // Show the custom alert popup to confirm the action.
-                var popup = new CustomAlertPopup("Save user settings", "Warning: You might lose stored calculation data.  Do you want to continue?", async () =>
-                {
-                    try
+                var popup = new CustomAlertPopup(
+                    "Save user settings",
+                    "Warning: You might lose stored calculation data. Do you want to continue?",
+                    async () =>
                     {
-                        // Retrieve the current user (assumes a single user record).
-                        var userResult = await _baseService.UserService.GetAllAsync();
-                        var user = userResult.Data.FirstOrDefault();
-
-                        if (user != null)
+                        try
                         {
-                            // Update the user's settings with the selected values.
-                            user.CountryId = SelectedCountry.Id;
-                            user.LanguageId = SelectedLanguage.Id;
-                            user.SpeciesId = SelectedSpecies.Id;
+                            // Retrieve the current user (assumes a single user record exists in the database).
+                            var userResult = await _baseService.UserService.GetAllAsync();
+                            var user = userResult.Data.FirstOrDefault();
 
-                            // Save the updated user entity.
-                            await _baseService.UserService.UpdateAsync(user);
-
-                            // Update initial values after saving.
-                            _initialSelectedLanguage = SelectedLanguage;
-                            _initialSelectedCountry = SelectedCountry;
-                            _initialSelectedSpecies = SelectedSpecies;
-
-                            // Update the shared data.
-                            SharedData.SelectedLanguage = SelectedLanguage;
-                            SharedData.SelectedCountry = SelectedCountry;
-                            SharedData.SelectedSpecies = SelectedSpecies;
-
-                            // Set the flag to indicate that the save button was clicked.
-                            _isSaveButtonClicked = true;
-
-                            // If selections have changed, clear and repopulate the FeedEntity table.
-                            if (_selectionsChanged)
+                            if (user != null)
                             {
-                                await _databaseInitializer.ClearAndRepopulateFeedsAsync(SelectedCountry.Id, SelectedLanguage.Id);
+                                // Update the user's settings with the selected values.
+                                user.CountryId = SelectedCountry.Id;
+                                user.LanguageId = SelectedLanguage.Id;
+                                user.SpeciesId = SelectedSpecies.Id;
+
+                                // Save the updated user entity to the database.
+                                await _baseService.UserService.UpdateAsync(user);
+
+                                // Update the initial values to reflect the saved selections.
+                                _initialSelectedLanguage = SelectedLanguage;
+                                _initialSelectedCountry = SelectedCountry;
+                                _initialSelectedSpecies = SelectedSpecies;
+
+                                // Update the shared data to reflect the saved selections.
+                                SharedData.SelectedLanguage = SelectedLanguage;
+                                SharedData.SelectedCountry = SelectedCountry;
+                                SharedData.SelectedSpecies = SelectedSpecies;
+
+                                // Set the flag to indicate that the save button was clicked.
+                                _isSaveButtonClicked = true;
+
+                                // If selections have changed, clear and repopulate the FeedEntity table.
+                                if (_selectionsChanged)
+                                {
+                                    // Show a toast message to indicate that changes are being saved.
+                                    var toast = Toast.Make("Saving changes...");
+                                    await toast.Show();
+
+                                    // Trigger the reset event to clear any dependent UI components (e.g., pickers).
+                                    _baseService.ResetPickerService.ResetPicker();
+                                    Console.WriteLine("Picker reset triggered from SettingsViewModel.");
+
+                                    // Clear all calculations and repopulate the feeds table with the new settings.
+                                    await _databaseInitializer.ClearAllCalculationsAsync();
+                                    await _databaseInitializer.ClearAndRepopulateFeedsAsync(SelectedCountry.Id, SelectedLanguage.Id);
+
+                                    // Dismiss the toast message after the operation is complete.
+                                    await toast.Dismiss();
+                                }
+
+                                // Show a toast message to notify the user that the settings were saved successfully.
+                                await Toast.Make("User settings saved successfully.", ToastDuration.Long).Show();
                             }
-
-                            // Add toast message to notify user.
-                            await Toast.Make("User settings saved successfully.").Show();
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Log any exceptions that occur during the update process.
-                        Debug.WriteLine($"Exception: {ex.Message}");
-                    }
-                });
+                        catch (Exception ex)
+                        {
+                            // Log any exceptions that occur during the update process.
+                            Debug.WriteLine($"Exception: {ex.Message}");
+                        }
+                    });
 
+                // Display the confirmation popup to the user.
                 Application.Current.MainPage.ShowPopup(popup);
             }
             else

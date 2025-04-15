@@ -38,10 +38,18 @@ namespace FeedOptimizationApp.Modules.Calculations
         /// </summary>
         /// <param name="baseService">Service for data operations.</param>
         /// <param name="sharedData">Shared data object across the application.</param>
-        public CreateCalculationViewModel(BaseService baseService, SharedData sharedData) : base(sharedData)
+        public CreateCalculationViewModel(BaseService baseService, SharedData sharedData)
+            : base(sharedData)
         {
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
             _validator = new CalculationValidator();
+
+            // Example usage of PickerResetService
+            _baseService.ResetPickerService.OnResetPicker += () =>
+            {
+                // Handle picker reset logic here
+                Console.WriteLine("Picker reset triggered in CreateCalculationViewModel.");
+            };
 
             // Initialize commands
             LoadFeedsCommand = new Command(async () => await LoadFeedsAsync());
@@ -1275,19 +1283,27 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
         }*/
 
+        /// <summary>
+        /// Updates the stored feed's intake value based on its DMi (Dry Matter Intake) and recalculates totals and balances.
+        /// </summary>
+        /// <param name="feed">The feed to be updated.</param>
         private void OnSaveOptimisationFeed(StoredFeed feed)
         {
+            // Find the existing feed in the stored feeds collection by matching the feed ID.
             var existingFeed = StoredFeeds.FirstOrDefault(f => f.Feed.Id == feed.Feed.Id);
             if (existingFeed != null)
             {
-                // Update Intake based on DMi
+                // Update the intake value of the existing feed based on its DMi and DM (Dry Matter) percentage.
                 existingFeed.Intake = Math.Round((feed.DMi / feed.DM ?? 0) * 100);
 
-                // Notify UI of changes
+                // Notify the UI that the intake value of the existing feed has changed.
                 OnPropertyChanged(nameof(existingFeed.Intake));
-                OnPropertyChanged(nameof(StoredFeeds)); // Optional but ensures full update
 
-                // Recalculate totals and balances
+                // Notify the UI that the stored feeds collection has been updated.
+                // This ensures that any UI elements bound to the collection are refreshed.
+                OnPropertyChanged(nameof(StoredFeeds));
+
+                // Recalculate the totals and balances for all stored feeds.
                 RecalculateTotalsAndBalances();
             }
         }
@@ -1342,7 +1358,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         /// <summary>
         /// Clears the form inputs used for adding a new feed.
         /// </summary>
-        private void ClearAddedFeedForm()
+        public void ClearAddedFeedForm()
         {
             SelectedFeed = null;
             DM = null;
@@ -1353,7 +1369,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             MinLimit = null;
             MaxLimit = null;
             //SearchText = string.Empty; // Clear the search text
-            MessagingCenter.Send(this, "ClearFeedPicker");
+            _baseService.ResetPickerService.ResetPicker();
         }
 
         /// <summary>
@@ -1369,8 +1385,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             Intake = null;
             MinLimit = null;
             MaxLimit = null;
-            //SearchText = string.Empty; // Clear the search text
-            MessagingCenter.Send(this, "ClearFeedPicker");
+            _baseService.ResetPickerService.ResetPicker();
         }
 
         /// <summary>

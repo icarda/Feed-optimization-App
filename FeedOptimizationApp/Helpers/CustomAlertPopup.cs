@@ -140,6 +140,7 @@ namespace FeedOptimizationApp.Helpers
             {
                 Orientation = StackOrientation.Horizontal,
                 HorizontalOptions = LayoutOptions.Center,
+                Spacing = 10,
                 Children = { okButton, cancelButton }
             };
 
