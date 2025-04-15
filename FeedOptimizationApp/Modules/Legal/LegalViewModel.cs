@@ -4,6 +4,7 @@ using FeedOptimizationApp.Helpers;
 using FeedOptimizationApp.Modules.Home;
 using FeedOptimizationApp.Services;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Input;
 
 namespace FeedOptimizationApp.Modules.Legal
@@ -43,9 +44,19 @@ namespace FeedOptimizationApp.Modules.Legal
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
             _databaseInitializer = databaseInitializer ?? throw new ArgumentNullException(nameof(databaseInitializer));
 
+            DisclaimerHtml = _databaseInitializer.LoadDisclaimerFromEmbeddedResource();
+
             // Initialize commands with their respective handlers.
             BackCommand = new Command(OnBackButtonClicked);
             AgreeCommand = new Command(async () => await OnAgreeButtonClicked());
+        }
+
+        private string _disclaimerHtml;
+
+        public string DisclaimerHtml
+        {
+            get => _disclaimerHtml;
+            set => SetProperty(ref _disclaimerHtml, value);
         }
 
         // Private backing field to hold the user's agreement status.

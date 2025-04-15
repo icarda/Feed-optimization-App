@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="disclaimer.docx" />
 		<EmbeddedResource Include="english_ethiopia_feeds.csv" />
 		<EmbeddedResource Include="english_tunisia_feeds.csv" />
 		<EmbeddedResource Include="french_tunisia_feeds.csv" />
@@ -14,6 +15,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CsvHelper" Version="33.0.1" />
+		<PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.4" />

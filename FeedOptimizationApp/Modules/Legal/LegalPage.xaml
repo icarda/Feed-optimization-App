@@ -10,55 +10,12 @@
                HorizontalOptions="Center"
                VerticalOptions="Start" />
 
-        <!-- ScrollView for terms and conditions -->
-        <ScrollView VerticalOptions="FillAndExpand">
-            <StackLayout Spacing="10">
-                <!-- Disclaimer Heading -->
-                <Label Text="Disclaimer:"
-               FontSize="18"
-               FontAttributes="Bold"
-               HorizontalOptions="Start"
-               VerticalOptions="Start" />
-
-                <!-- Disclaimer Content -->
-                <Label FontSize="14" HorizontalTextAlignment="Justify" VerticalOptions="Start">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="1. Geographic Availability: " FontAttributes="Bold" />
-                            <Span Text="This application is currently available in Ethiopia, Tunisia, and may also be available in Mali in the future. Availability in additional regions will be announced accordingly." />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-
-                <Label FontSize="14" HorizontalTextAlignment="Justify" VerticalOptions="Start">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="2. Personal Data: " FontAttributes="Bold" />
-                            <Span Text="The application does not collect, store, or process any personally identifiable information (PII) from its users at this time. Users may choose to store their calculations locally on their own devices. While no PII is collected, we may consider adding features that collect data related to feed calculations in the future. Any such changes will be communicated to users accordingly." />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-
-                <Label FontSize="14" HorizontalTextAlignment="Justify" VerticalOptions="Start">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="3. Data Sources and Modeling: " FontAttributes="Bold" />
-                            <Span Text="The information and models used in the background of the application are derived from trusted sources, including ICARDA (animal requirements) and two fixed feed databases—one from Tunisia and another from Sub-Saharan Africa, provided by ILRI. These databases were obtained with permission from the respective owners and are stored offline. The feed calculations are processed by a solver based on this information." />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-
-                <Label FontSize="14" HorizontalTextAlignment="Justify" VerticalOptions="Start">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="4. Recommendations and Risk: " FontAttributes="Bold" />
-                            <Span Text="The application provides feed recommendations based on the data available to it. While every effort will be made to thoroughly test the app and ensure the accuracy and robustness of the recommendations, the use of the app is at the user's own risk. Users are encouraged to verify the recommendations based on their own local knowledge and conditions. While the risk of harm to livestock is deemed to be low, the developers of the app do not accept responsibility for any loss, damage, or adverse outcomes resulting from the use of the recommendations provided by the app. Users should exercise caution and consult with relevant experts where necessary before making significant decisions based on the app's advice." />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </StackLayout>
-        </ScrollView>
-
+        <!-- WebView for displaying the disclaimer -->
+        <WebView VerticalOptions="FillAndExpand">
+            <WebView.Source>
+                <HtmlWebViewSource Html="{Binding DisclaimerHtml}" />
+            </WebView.Source>
+        </WebView>
 
         <!-- Switch control -->
         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
@@ -66,7 +23,7 @@
             <Label Text="I have read and agree to the terms and conditions"
                    VerticalOptions="Center" HorizontalOptions="EndAndExpand"
                    FontSize="14"
-                   Margin="16,0,0,0" />
+                   Margin="8,0,0,0" />
         </StackLayout>
 
         <!-- Buttons at the bottom -->

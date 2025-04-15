@@ -148,7 +148,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <!-- Feed Values -->
-                                <Label Text="{Binding Feed.Name}" Grid.Column="0" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                <Label Text="{Binding Feed.Name}" Grid.Column="0" FontSize="12" VerticalOptions="Center"/>
                                 <Label Text="{Binding DMi}" Grid.Column="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                 <Label Text="{Binding CPi}" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                 <Label Text="{Binding MEi}" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />

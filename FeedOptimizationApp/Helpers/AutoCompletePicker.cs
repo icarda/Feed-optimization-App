@@ -211,6 +211,9 @@ namespace FeedOptimizationApp.Helpers
             // Clear the search text
             Text = string.Empty;
 
+            // Clear the selected item
+            SelectedItem = null;
+
             // Clear the filtered items
             _filteredItems.Clear();
 

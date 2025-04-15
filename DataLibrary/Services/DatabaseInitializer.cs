@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
+using System.IO;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DataLibrary.Services
 {
@@ -182,6 +185,130 @@ namespace DataLibrary.Services
                 }
                 return base.ConvertFromString(text, row, memberMapData);
             }
+        }
+
+        /// <summary>
+        /// Loads a disclaimer from an embedded Word document resource and converts it to HTML.
+        /// </summary>
+        /// <returns>A string containing the disclaimer in HTML format, or an error message if the resource cannot be loaded.</returns>
+        public string LoadDisclaimerFromEmbeddedResource()
+        {
+            try
+            {
+                // Get the assembly containing the embedded resources.
+                var assembly = Assembly.GetExecutingAssembly();
+
+                // Specify the name of the embedded Word document resource.
+                var resourceName = "DataLibrary.disclaimer.docx";
+
+                // Get the embedded resource stream.
+                using var stream = assembly.GetManifestResourceStream(resourceName);
+                if (stream == null)
+                {
+                    // Log a message and return an error message if the resource is not found.
+                    Console.WriteLine("Resource not found.");
+                    return "<p>Disclaimer file not found.</p>";
+                }
+
+                // Open the Word document from the resource stream in read-only mode.
+                using (var wordDoc = WordprocessingDocument.Open(stream, false))
+                {
+                    // Get the body of the Word document.
+                    var body = wordDoc.MainDocumentPart.Document.Body;
+
+                    // Convert the Word document body to HTML and return it.
+                    return ConvertWordToHtml(body);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Return a generic error message if an exception occurs.
+                return "<p>An error occurred while loading the disclaimer.</p>";
+            }
+        }
+
+        /// <summary>
+        /// Converts the content of a Word document body to HTML format.
+        /// </summary>
+        /// <param name="body">The body of the Word document to convert.</param>
+        /// <returns>A string containing the HTML representation of the Word document body.</returns>
+        private string ConvertWordToHtml(Body body)
+        {
+            // Initialize a StringBuilder to construct the HTML content.
+            var htmlBuilder = new StringBuilder();
+
+            // Iterate through the elements in the Word document body.
+            foreach (var element in body.Elements())
+            {
+                if (element is Paragraph paragraph)
+                {
+                    // Convert a paragraph to an HTML <p> element.
+                    htmlBuilder.Append("<p>");
+                    foreach (var run in paragraph.Elements<Run>())
+                    {
+                        // Get the text content of the run.
+                        var text = run.GetFirstChild<Text>()?.Text;
+
+                        // Apply formatting based on the run's properties (e.g., bold, italic).
+                        if (run.RunProperties?.Bold != null)
+                        {
+                            htmlBuilder.Append($"<b>{text}</b>");
+                        }
+                        else if (run.RunProperties?.Italic != null)
+                        {
+                            htmlBuilder.Append($"<i>{text}</i>");
+                        }
+                        else
+                        {
+                            htmlBuilder.Append(text);
+                        }
+                    }
+                    htmlBuilder.Append("</p>");
+                }
+                else if (element is Table table)
+                {
+                    // Convert a table to an HTML <table> element.
+                    htmlBuilder.Append("<table border='1'>");
+                    foreach (var row in table.Elements<DocumentFormat.OpenXml.Wordprocessing.TableRow>())
+                    {
+                        htmlBuilder.Append("<tr>");
+                        foreach (var cell in row.Elements<DocumentFormat.OpenXml.Wordprocessing.TableCell>())
+                        {
+                            htmlBuilder.Append("<td>");
+                            // Recursively convert the content of the table cell to HTML.
+                            htmlBuilder.Append(ConvertWordToHtml(cell.GetFirstChild<Body>()));
+                            htmlBuilder.Append("</td>");
+                        }
+                        htmlBuilder.Append("</tr>");
+                    }
+                    htmlBuilder.Append("</table>");
+                }
+            }
+
+            // Return the constructed HTML content as a string.
+            return htmlBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Clears all calculation-related data from the database, including calculations, feeds, and results.
+        /// </summary>
+        public async Task ClearAllCalculationsAsync()
+        {
+            Console.WriteLine("Clearing calculations...");
+
+            // Clear the CalculationEntity table.
+            _context.Calculations.RemoveRange(_context.Calculations);
+            await _context.SaveChangesAsync();
+
+            // Clear the CalculationHasFeedEntity table.
+            _context.CalculationHasFeeds.RemoveRange(_context.CalculationHasFeeds);
+            await _context.SaveChangesAsync();
+
+            // Clear the CalculationHasResultsEntity table.
+            _context.CalculationHasResults.RemoveRange(_context.CalculationHasResults);
+            await _context.SaveChangesAsync();
+
+            Console.WriteLine("Calculations cleared successfully.");
         }
     }
 }
