@@ -197,6 +197,17 @@ namespace FeedOptimizationApp.Modules.Calculations
                     OnPropertyChanged(nameof(CreateCalculationPage_RequirementLabel));
                     OnPropertyChanged(nameof(CreateCalculationPage_BalanceLabel));
                     OnPropertyChanged(nameof(CreateCalculationPage_ResultsHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_ExistingResultsHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_GFreshLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_PercentFreshLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_PercentDryMatterLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_TotalFeedCostLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_TotalRationCostLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_CostUnitLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MilkProductionHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_DailyMilkYieldLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_FatContentLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_ResetButton));
                 }
             };
         }
@@ -1870,6 +1881,17 @@ namespace FeedOptimizationApp.Modules.Calculations
         public string CreateCalculationPage_RequirementLabel => TranslationProvider["CreateCalculationPage_RequirementLabel"];
         public string CreateCalculationPage_BalanceLabel => TranslationProvider["CreateCalculationPage_BalanceLabel"];
         public string CreateCalculationPage_ResultsHeading => TranslationProvider["CreateCalculationPage_ResultsHeading"];
+        public string CreateCalculationPage_ExistingResultsHeading => TranslationProvider["CreateCalculationPage_ExistingResultsHeading"];
+        public string CreateCalculationPage_GFreshLabel => TranslationProvider["CreateCalculationPage_GFreshLabel"];
+        public string CreateCalculationPage_PercentFreshLabel => TranslationProvider["CreateCalculationPage_PercentFreshLabel"];
+        public string CreateCalculationPage_PercentDryMatterLabel => TranslationProvider["CreateCalculationPage_PercentDryMatterLabel"];
+        public string CreateCalculationPage_TotalFeedCostLabel => TranslationProvider["CreateCalculationPage_TotalFeedCostLabel"];
+        public string CreateCalculationPage_TotalRationCostLabel => TranslationProvider["CreateCalculationPage_TotalRationCostLabel"];
+        public string CreateCalculationPage_CostUnitLabel => TranslationProvider["CreateCalculationPage_CostUnitLabel"];
+        public string CreateCalculationPage_MilkProductionHeading => TranslationProvider["CreateCalculationPage_MilkProductionHeading"];
+        public string CreateCalculationPage_DailyMilkYieldLabel => TranslationProvider["CreateCalculationPage_DailyMilkYieldLabel"];
+        public string CreateCalculationPage_FatContentLabel => TranslationProvider["CreateCalculationPage_FatContentLabel"];
+        public string CreateCalculationPage_ResetButton => TranslationProvider["CreateCalculationPage_ResetButton"];
 
         #endregion Translations
     }

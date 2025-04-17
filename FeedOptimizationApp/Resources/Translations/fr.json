@@ -130,5 +130,16 @@
   "CreateCalculationPage_CostLabel": "Coût",
   "CreateCalculationPage_RequirementLabel": "Exigence",
   "CreateCalculationPage_BalanceLabel": "Équilibre",
-  "CreateCalculationPage_ResultsHeading": "Résultats"
+  "CreateCalculationPage_ResultsHeading": "Résultats",
+  "CreateCalculationPage_ExistingResultsHeading": "Résultats existants",
+  "CreateCalculationPage_GFreshLabel": "g Frais",
+  "CreateCalculationPage_PercentFreshLabel": "% Frais",
+  "CreateCalculationPage_PercentDryMatterLabel": "% Matière sèche",
+  "CreateCalculationPage_TotalFeedCostLabel": "Le coût total de l'alimentation est ",
+  "CreateCalculationPage_TotalRationCostLabel": "Le coût de la ration est ",
+  "CreateCalculationPage_CostUnitLabel": " br/kg",
+  "CreateCalculationPage_MilkProductionHeading": "Données sur le lait et la production",
+  "CreateCalculationPage_DailyMilkYieldLabel": "Rendement laitier quotidien (kg)",
+  "CreateCalculationPage_FatContentLabel": "Teneur en matières grasses",
+  "CreateCalculationPage_ResetButton": "Tout effacer"
 }

@@ -130,5 +130,16 @@
   "CreateCalculationPage_CostLabel": "Cost",
   "CreateCalculationPage_RequirementLabel": "Requirement",
   "CreateCalculationPage_BalanceLabel": "Balance",
-  "CreateCalculationPage_ResultsHeading": "Results"
+  "CreateCalculationPage_ResultsHeading": "Results",
+  "CreateCalculationPage_ExistingResultsHeading": "Existing Results",
+  "CreateCalculationPage_GFreshLabel": "g Fresh",
+  "CreateCalculationPage_PercentFreshLabel": "% Fresh",
+  "CreateCalculationPage_PercentDryMatterLabel": "% Dry Matter",
+  "CreateCalculationPage_TotalFeedCostLabel": "The total feed cost is ",
+  "CreateCalculationPage_TotalRationCostLabel": "The cost of the ration is ",
+  "CreateCalculationPage_CostUnitLabel": " br/kg",
+  "CreateCalculationPage_MilkProductionHeading": "Milk and Production Data",
+  "CreateCalculationPage_DailyMilkYieldLabel": "Daily milk yield (kg)",
+  "CreateCalculationPage_FatContentLabel": "Fat content",
+  "CreateCalculationPage_ResetButton": "Clear All"
 }
