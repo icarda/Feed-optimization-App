@@ -116,7 +116,7 @@
 
             <!-- Nutrient Requirements Section -->
             <StackLayout>
-                <Label Text="Nutrient Requirements" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                <Label Text="{Binding ExpandedResultsPage_NutrientRequirements}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                 <CollectionView ItemsSource="{Binding StoredResultsForDisplay}">
                     <CollectionView.Header>
                         <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
@@ -129,11 +129,11 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Headers -->
-                            <Label Text="Feed" Margin="0,5,0,0" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" />
-                            <Label Text="DMi/g" Margin="0,5,0,0" Grid.Row="0" Grid.Column="1"  FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                            <Label Text="CPi/g" Margin="0,5,0,0" Grid.Row="0" Grid.Column="2" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                            <Label Text="MEI(MJ/day)" Margin="0,5,0,0" Grid.Row="0" Grid.Column="3" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                            <Label Text="Cost" Margin="0,5,0,0" Grid.Row="0" Grid.Column="4" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                            <Label Text="{Binding ExpandedResultsPage_Feed}" Margin="0,5,0,0" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" />
+                            <Label Text="{Binding ExpandedResultsPage_DMi}" Margin="0,5,0,0" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                            <Label Text="{Binding ExpandedResultsPage_CPi}" Margin="0,5,0,0" Grid.Row="0" Grid.Column="2" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                            <Label Text="{Binding ExpandedResultsPage_MEi}" Margin="0,5,0,0" Grid.Row="0" Grid.Column="3" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                            <Label Text="{Binding ExpandedResultsPage_Cost}" Margin="0,5,0,0" Grid.Row="0" Grid.Column="4" FontAttributes="Bold" FontSize="12" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
                         </Grid>
                     </CollectionView.Header>
                     <CollectionView.ItemTemplate>
@@ -177,14 +177,14 @@
                             <BoxView Grid.Row="0" Grid.ColumnSpan="6" HeightRequest="1" BackgroundColor="Gray" />
 
                             <!-- Totals -->
-                            <Label Text="Total" Grid.Row="1" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="{Binding ExpandedResultsPage_Total}" Grid.Row="1" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                             <Label Text="{Binding TotalDMi}" Grid.Row="1" Grid.Column="1" FontSize="12" HorizontalOptions="Center" />
                             <Label Text="{Binding TotalCPi}" Grid.Row="1" Grid.Column="2" FontSize="12" HorizontalOptions="Center" />
                             <Label Text="{Binding TotalMEi}" Grid.Row="1" Grid.Column="3" FontSize="12" HorizontalOptions="Center" />
                             <Label Text="{Binding TotalRation}" Grid.Row="1" Grid.Column="4" FontSize="12" HorizontalOptions="Center" />
 
                             <!-- Requirements -->
-                            <Label Text="Requirement" Grid.Row="2" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="{Binding ExpandedResultsPage_Requirement}" Grid.Row="2" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                             <Label Text="{Binding DMiRequirement}" Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalOptions="Center" />
                             <Label Text="{Binding CPiRequirement}" Grid.Row="2" Grid.Column="2" FontSize="12" HorizontalOptions="Center" />
                             <Label Text="{Binding MEiRequirement}" Grid.Row="2" Grid.Column="3" FontSize="12" HorizontalOptions="Center" />
@@ -193,16 +193,16 @@
                             <BoxView Grid.Row="3" Grid.ColumnSpan="6" HeightRequest="2" BackgroundColor="Gray" />
 
                             <!-- Balance -->
-                            <Label Text="BALANCE" Grid.Row="4" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="{Binding ExpandedResultsPage_Balance}" Grid.Row="4" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                             <Label Text="{Binding BalanceDMi, Converter={StaticResource AbsoluteValueConverter}}"
-                                   TextColor="{Binding BalanceDMi, Converter={StaticResource NegativeValueColourConverter}}"
-                                   Grid.Row="4" Grid.Column="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                       TextColor="{Binding BalanceDMi, Converter={StaticResource NegativeValueColourConverter}}"
+                       Grid.Row="4" Grid.Column="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                             <Label Text="{Binding BalanceCPi, Converter={StaticResource AbsoluteValueConverter}}"
-                                   TextColor="{Binding BalanceCPi, Converter={StaticResource NegativeValueColourConverter}}"
-                                   Grid.Row="4" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                       TextColor="{Binding BalanceCPi, Converter={StaticResource NegativeValueColourConverter}}"
+                       Grid.Row="4" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                             <Label Text="{Binding BalanceMEi, Converter={StaticResource AbsoluteValueConverter}}"
-                                   TextColor="{Binding BalanceMEi, Converter={StaticResource NegativeValueColourConverter}}"
-                                   Grid.Row="4" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                       TextColor="{Binding BalanceMEi, Converter={StaticResource NegativeValueColourConverter}}"
+                       Grid.Row="4" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                         </Grid>
                     </CollectionView.Footer>
                 </CollectionView>

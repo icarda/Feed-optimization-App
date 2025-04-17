@@ -176,6 +176,27 @@ namespace FeedOptimizationApp.Modules.Calculations
                     OnPropertyChanged(nameof(CreateCalculationPage_MaxLimitPlaceholder));
                     OnPropertyChanged(nameof(CreateCalculationPage_ClearButton));
                     OnPropertyChanged(nameof(CreateCalculationPage_AddButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_FeedLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_EditButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_SaveButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_OptimizationHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_AnimalDataHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_RequirementsHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_EnergyLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MaintenanceLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_AdditionalLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_TotalLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_CrudeProteinLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_DMIEstimateLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_BaseLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_NutrientRequirementsHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_DMiLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_CPiLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MEiLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_CostLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_RequirementLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_BalanceLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_ResultsHeading));
                 }
             };
         }
@@ -1714,7 +1735,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             try
             {
                 // Show a custom prompt page for the user to input name and description.
-                var promptPage = new SaveCalculationPrompt();
+                var promptPage = new SaveCalculationPrompt(TranslationProvider);
                 await Application.Current.MainPage.Navigation.PushModalAsync(promptPage);
 
                 // Subscribe to the MessagingCenter event from the prompt page.
@@ -1828,6 +1849,27 @@ namespace FeedOptimizationApp.Modules.Calculations
         public string CreateCalculationPage_MaxLimitPlaceholder => TranslationProvider["CreateCalculationPage_MaxLimitPlaceholder"];
         public string CreateCalculationPage_ClearButton => TranslationProvider["CreateCalculationPage_ClearButton"];
         public string CreateCalculationPage_AddButton => TranslationProvider["CreateCalculationPage_AddButton"];
+        public string CreateCalculationPage_FeedLabel => TranslationProvider["CreateCalculationPage_FeedLabel"];
+        public string CreateCalculationPage_EditButton => TranslationProvider["CreateCalculationPage_EditButton"];
+        public string CreateCalculationPage_SaveButton => TranslationProvider["CreateCalculationPage_SaveButton"];
+        public string CreateCalculationPage_OptimizationHeading => TranslationProvider["CreateCalculationPage_OptimizationHeading"];
+        public string CreateCalculationPage_AnimalDataHeading => TranslationProvider["CreateCalculationPage_AnimalDataHeading"];
+        public string CreateCalculationPage_RequirementsHeading => TranslationProvider["CreateCalculationPage_RequirementsHeading"];
+        public string CreateCalculationPage_EnergyLabel => TranslationProvider["CreateCalculationPage_EnergyLabel"];
+        public string CreateCalculationPage_MaintenanceLabel => TranslationProvider["CreateCalculationPage_MaintenanceLabel"];
+        public string CreateCalculationPage_AdditionalLabel => TranslationProvider["CreateCalculationPage_AdditionalLabel"];
+        public string CreateCalculationPage_TotalLabel => TranslationProvider["CreateCalculationPage_TotalLabel"];
+        public string CreateCalculationPage_CrudeProteinLabel => TranslationProvider["CreateCalculationPage_CrudeProteinLabel"];
+        public string CreateCalculationPage_DMIEstimateLabel => TranslationProvider["CreateCalculationPage_DMIEstimateLabel"];
+        public string CreateCalculationPage_BaseLabel => TranslationProvider["CreateCalculationPage_BaseLabel"];
+        public string CreateCalculationPage_NutrientRequirementsHeading => TranslationProvider["CreateCalculationPage_NutrientRequirementsHeading"];
+        public string CreateCalculationPage_DMiLabel => TranslationProvider["CreateCalculationPage_DMiLabel"];
+        public string CreateCalculationPage_CPiLabel => TranslationProvider["CreateCalculationPage_CPiLabel"];
+        public string CreateCalculationPage_MEiLabel => TranslationProvider["CreateCalculationPage_MEiLabel"];
+        public string CreateCalculationPage_CostLabel => TranslationProvider["CreateCalculationPage_CostLabel"];
+        public string CreateCalculationPage_RequirementLabel => TranslationProvider["CreateCalculationPage_RequirementLabel"];
+        public string CreateCalculationPage_BalanceLabel => TranslationProvider["CreateCalculationPage_BalanceLabel"];
+        public string CreateCalculationPage_ResultsHeading => TranslationProvider["CreateCalculationPage_ResultsHeading"];
 
         #endregion Translations
     }

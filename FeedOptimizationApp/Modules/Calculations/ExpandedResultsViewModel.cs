@@ -335,6 +335,14 @@ namespace FeedOptimizationApp.Modules.Calculations
                     OnPropertyChanged(nameof(ExpandedResultsPage_CrudeProtein));
                     OnPropertyChanged(nameof(ExpandedResultsPage_DMI));
                     OnPropertyChanged(nameof(ExpandedResultsPage_Base));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_NutrientRequirements));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_Feed));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_DMi));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_CPi));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_MEi));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_Cost));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_Requirement));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_Balance));
                 }
             };
         }
@@ -501,6 +509,14 @@ namespace FeedOptimizationApp.Modules.Calculations
         public string ExpandedResultsPage_CrudeProtein => TranslationProvider["ExpandedResultsPage_CrudeProtein"];
         public string ExpandedResultsPage_DMI => TranslationProvider["ExpandedResultsPage_DMI"];
         public string ExpandedResultsPage_Base => TranslationProvider["ExpandedResultsPage_Base"];
+        public string ExpandedResultsPage_NutrientRequirements => TranslationProvider["ExpandedResultsPage_NutrientRequirements"];
+        public string ExpandedResultsPage_Feed => TranslationProvider["ExpandedResultsPage_Feed"];
+        public string ExpandedResultsPage_DMi => TranslationProvider["ExpandedResultsPage_DMi"];
+        public string ExpandedResultsPage_CPi => TranslationProvider["ExpandedResultsPage_CPi"];
+        public string ExpandedResultsPage_MEi => TranslationProvider["ExpandedResultsPage_MEi"];
+        public string ExpandedResultsPage_Cost => TranslationProvider["ExpandedResultsPage_Cost"];
+        public string ExpandedResultsPage_Requirement => TranslationProvider["ExpandedResultsPage_Requirement"];
+        public string ExpandedResultsPage_Balance => TranslationProvider["ExpandedResultsPage_Balance"];
 
         #endregion TRANSLATIONS
     }
