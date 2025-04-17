@@ -1,4 +1,5 @@
 ﻿using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Localization;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -15,13 +16,16 @@ namespace FeedOptimizationApp.Modules
         /// </summary>
         protected readonly SharedData SharedData;
 
+        protected readonly TranslationProvider TranslationProvider;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseViewModel"/> class.
         /// </summary>
         /// <param name="sharedData">The shared data object to be used by the view model.</param>
-        public BaseViewModel(SharedData sharedData)
+        public BaseViewModel(SharedData sharedData, TranslationProvider translationProvider)
         {
             SharedData = sharedData;
+            TranslationProvider = translationProvider;
         }
 
         private bool isBusy = false;

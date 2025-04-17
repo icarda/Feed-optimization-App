@@ -8,6 +8,7 @@ using CommunityToolkit.Maui.Alerts;
 using DataLibrary.Services;
 using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Maui.Core;
+using FeedOptimizationApp.Localization;
 
 namespace FeedOptimizationApp.Modules.Settings
 {
@@ -106,8 +107,8 @@ namespace FeedOptimizationApp.Modules.Settings
         /// <param name="baseService">Service for accessing data.</param>
         /// <param name="sharedData">Shared data context across the application.</param>
         /// <param name="databaseInitializer">Service for initializing the database.</param>
-        public SettingsViewModel(BaseService baseService, SharedData sharedData, DatabaseInitializer databaseInitializer)
-            : base(sharedData)
+        public SettingsViewModel(BaseService baseService, SharedData sharedData, DatabaseInitializer databaseInitializer, TranslationProvider translationProvider)
+            : base(sharedData, translationProvider)
         {
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
             _databaseInitializer = databaseInitializer ?? throw new ArgumentNullException(nameof(databaseInitializer));
@@ -123,6 +124,22 @@ namespace FeedOptimizationApp.Modules.Settings
             // Initialize the Cancel and Save commands.
             CancelCommand = new Command(OnCancelButtonClicked);
             SaveCommand = new Command(async () => await OnSaveButtonClicked());
+
+            // Listen for language changes to update translations
+            TranslationProvider.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName == null)
+                {
+                    OnPropertyChanged(nameof(SettingsPage_Title));
+                    OnPropertyChanged(nameof(SettingsPage_Heading));
+                    OnPropertyChanged(nameof(SettingsPage_SelectLanguageLabel));
+                    OnPropertyChanged(nameof(SettingsPage_SelectCountryLabel));
+                    OnPropertyChanged(nameof(SettingsPage_SelectSpeciesLabel));
+                    OnPropertyChanged(nameof(SettingsPage_SelectOption));
+                    OnPropertyChanged(nameof(SettingsPage_CancelButton));
+                    OnPropertyChanged(nameof(SettingsPage_SaveButton));
+                }
+            };
         }
 
         /// <summary>
@@ -334,5 +351,25 @@ namespace FeedOptimizationApp.Modules.Settings
                 SelectedSpecies = _initialSelectedSpecies;
             }
         }
+
+        #region TRANSLATIONS
+
+        public string SettingsPage_Title => TranslationProvider["SettingsPage_Title"];
+        public string SettingsPage_Heading => TranslationProvider["SettingsPage_Heading"];
+        public string SettingsPage_SelectLanguageLabel => TranslationProvider["SettingsPage_SelectLanguageLabel"];
+        public string SettingsPage_SelectCountryLabel => TranslationProvider["SettingsPage_SelectCountryLabel"];
+        public string SettingsPage_SelectSpeciesLabel => TranslationProvider["SettingsPage_SelectSpeciesLabel"];
+        public string SettingsPage_SelectOption => TranslationProvider["SettingsPage_SelectOption"];
+        public string SettingsPage_CancelButton => TranslationProvider["SettingsPage_CancelButton"];
+        public string SettingsPage_SaveButton => TranslationProvider["SettingsPage_SaveButton"];
+        public string SettingsPage_SavePopupTitle => TranslationProvider["SettingsPage_SavePopupTitle"];
+        public string SettingsPage_SavePopupMessage => TranslationProvider["SettingsPage_SavePopupMessage"];
+        public string SettingsPage_SavingChangesToast => TranslationProvider["SettingsPage_SavingChangesToast"];
+        public string SettingsPage_SuccessToast => TranslationProvider["SettingsPage_SuccessToast"];
+        public string SettingsPage_ErrorTitle => TranslationProvider["SettingsPage_ErrorTitle"];
+        public string SettingsPage_ErrorMessage => TranslationProvider["SettingsPage_ErrorMessage"];
+        public string SettingsPage_LoadErrorMessage => TranslationProvider["SettingsPage_LoadErrorMessage"];
+
+        #endregion TRANSLATIONS
     }
 }

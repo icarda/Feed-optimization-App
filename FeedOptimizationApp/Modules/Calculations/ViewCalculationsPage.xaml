@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:FeedOptimizationApp.Modules.Calculations"
              x:Class="FeedOptimizationApp.Modules.Calculations.ViewCalculationsPage"
-             Title="View Calculations">
+             Title="{Binding ViewCalculationsPage_Title}">
 
     <Grid VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
@@ -22,11 +22,11 @@
             </Grid.ColumnDefinitions>
 
             <!-- Header content -->
-            <Label Text="Title" Grid.Column="0" FontAttributes="Bold" />
-            <Label Text="Date" Grid.Column="1" FontAttributes="Bold" />
-            <Label Text="No Feeds" Grid.Column="2" FontAttributes="Bold" />
-            <Label Text="Type" Grid.Column="3" FontAttributes="Bold" />
-            <Label Text="Action" Grid.Column="4" FontAttributes="Bold" />
+            <Label Text="{Binding ViewCalculationsPage_HeaderTitle}" Grid.Column="0" FontAttributes="Bold" />
+            <Label Text="{Binding ViewCalculationsPage_HeaderDate}" Grid.Column="1" FontAttributes="Bold" />
+            <Label Text="{Binding ViewCalculationsPage_HeaderNoFeeds}" Grid.Column="2" FontAttributes="Bold" />
+            <Label Text="{Binding ViewCalculationsPage_HeaderType}" Grid.Column="3" FontAttributes="Bold" />
+            <Label Text="{Binding ViewCalculationsPage_HeaderAction}" Grid.Column="4" FontAttributes="Bold" />
         </Grid>
 
         <!-- Scrollable content inside the border -->
@@ -51,7 +51,7 @@
                             <Label Text="{Binding CalculationDate}" Grid.Column="1" />
                             <Label Text="{Binding CalculationNrOfFeeds}" Grid.Column="2" HorizontalOptions="Center" />
                             <Label Text="{Binding CalculationSpeciesType}" Grid.Column="3" />
-                            <Label Text="Expand View" Grid.Column="4" TextColor="Blue" TextDecorations="Underline">
+                            <Label Text="{Binding ViewCalculationsPage_ExpandView}" Grid.Column="4" TextColor="Blue" TextDecorations="Underline">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ViewCalculationsViewModel}}, Path=ExpandViewCommand}" CommandParameter="{Binding CalculationId}" />
                                 </Label.GestureRecognizers>

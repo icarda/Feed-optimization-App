@@ -1,4 +1,5 @@
 using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Localization;
 using FeedOptimizationApp.Modules.Home;
 using FeedOptimizationApp.Services;
 
@@ -19,6 +20,21 @@ public partial class SponsorsPage : ContentPage
         InitializeComponent();
         _serviceProvider = serviceProvider;
         _navigateToHomePage = navigateToHomePage;
+
+        // Set the BindingContext to enable translations
+        BindingContext = this;
+
+        // Listen for language changes to update translations dynamically
+        var translationProvider = _serviceProvider.GetRequiredService<TranslationProvider>();
+        translationProvider.PropertyChanged += (sender, e) =>
+        {
+            if (e.PropertyName == null)
+            {
+                OnPropertyChanged(nameof(SponsorsPage_Title));
+                OnPropertyChanged(nameof(SponsorsPage_SponsoredBy));
+                OnPropertyChanged(nameof(SponsorsPage_CollaborationWith));
+            }
+        };
     }
 
     /// <summary>
@@ -34,7 +50,8 @@ public partial class SponsorsPage : ContentPage
             // Navigate to the home page using the AppShell and Shell navigation.
             var baseService = _serviceProvider.GetRequiredService<BaseService>();
             var sharedData = _serviceProvider.GetRequiredService<SharedData>();
-            var homeViewModel = new HomeViewModel(baseService, sharedData);
+            var translationProvider = _serviceProvider.GetRequiredService<TranslationProvider>();
+            var homeViewModel = new HomeViewModel(baseService, sharedData, translationProvider);
             Application.Current.MainPage = new AppShell(); // Navigate to AppShell
             await Shell.Current.GoToAsync("//HomePage"); // Set the route to HomePage within the shell
         }
@@ -45,4 +62,12 @@ public partial class SponsorsPage : ContentPage
             await Navigation.PushAsync(new MainPage(mainViewModel));
         }
     }
+
+    #region TRANSLATIONS
+
+    public string SponsorsPage_Title => _serviceProvider.GetRequiredService<TranslationProvider>()["SponsorsPage_Title"];
+    public string SponsorsPage_SponsoredBy => _serviceProvider.GetRequiredService<TranslationProvider>()["SponsorsPage_SponsoredBy"];
+    public string SponsorsPage_CollaborationWith => _serviceProvider.GetRequiredService<TranslationProvider>()["SponsorsPage_CollaborationWith"];
+
+    #endregion TRANSLATIONS
 }

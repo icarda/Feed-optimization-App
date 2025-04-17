@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customcontrols="clr-namespace:FeedOptimizationApp.Helpers"
              x:Class="FeedOptimizationApp.Modules.Calculations.ExpandedResultsViewPage"
-             Title="Expanded Results View">
+             Title="{Binding ExpandedResultsPage_Title}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -25,7 +25,7 @@
 
                 <!-- Animal Data Section -->
                 <StackLayout Grid.Column="0">
-                    <Label Text="Animal Data" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                    <Label Text="{Binding ExpandedResultsPage_AnimalData}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                     <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -44,15 +44,15 @@
                         </Grid.RowDefinitions>
 
                         <!-- Animal Data Headers -->
-                        <Label Text="Type" Grid.Row="0" Grid.Column="0" FontSize="12" />
-                        <Label Text="Grazing" Grid.Row="1" Grid.Column="0" FontSize="12" />
-                        <Label Text="Body weight (kg)" Grid.Row="2" Grid.Column="0" FontSize="12" />
-                        <Label Text="ADG (g)" Grid.Row="3" Grid.Column="0" FontSize="12" />
-                        <Label Text="Diet quality estimate" Grid.Row="4" Grid.Column="0" FontSize="12" />
-                        <Label Text="Last 8 weeks gestation?" Grid.Row="5" Grid.Column="0" FontSize="12" />
-                        <Label Text="No. suckling kids/lambs" Grid.Row="6" Grid.Column="0" FontSize="12" IsVisible="{Binding IsNrSucklingsVisible}" />
-                        <Label Text="Daily milk yield" Grid.Row="7" Grid.Column="0" FontSize="12" />
-                        <Label Text="Fat content" Grid.Row="8" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_Type}" Grid.Row="0" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_Grazing}" Grid.Row="1" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_BodyWeight}" Grid.Row="2" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_ADG}" Grid.Row="3" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_DietQualityEstimate}" Grid.Row="4" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_LastGestation}" Grid.Row="5" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_NoSucklingKidsLambs}" Grid.Row="6" Grid.Column="0" FontSize="12" IsVisible="{Binding IsNrSucklingsVisible}" />
+                        <Label Text="{Binding ExpandedResultsPage_DailyMilkYield}" Grid.Row="7" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_FatContent}" Grid.Row="8" Grid.Column="0" FontSize="12" />
 
                         <!-- Animal Data Values -->
                         <Label Text="{Binding AnimalInfo.Type}" Grid.Row="0" Grid.Column="1" FontSize="12" />
@@ -70,7 +70,7 @@
 
                 <!-- Requirements Section -->
                 <StackLayout Grid.Column="1">
-                    <Label Text="Requirements" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                    <Label Text="{Binding ExpandedResultsPage_Requirements}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                     <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -90,16 +90,16 @@
                         </Grid.RowDefinitions>
 
                         <!-- Requirements Headers -->
-                        <Label Text="Energy (MJ ME/day)" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
-                        <Label Text="Maintenance" Grid.Row="1" Grid.Column="0" FontSize="12" />
-                        <Label Text="Additional" Grid.Row="2" Grid.Column="0" FontSize="12" />
-                        <Label Text="Total" Grid.Row="3" Grid.Column="0" FontSize="12" />
-                        <Label Text="Crude Protein (g CP/day)" Grid.Row="4" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
-                        <Label Text="Maintenance" Grid.Row="5" Grid.Column="0" FontSize="12" />
-                        <Label Text="Additional" Grid.Row="6" Grid.Column="0" FontSize="12" />
-                        <Label Text="DMI Estimate (g DM/day)" Grid.Row="7" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
-                        <Label Text="Base" Grid.Row="8" Grid.Column="0" FontSize="12" />
-                        <Label Text="Additional" Grid.Row="9" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_Energy}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_Maintenance}" Grid.Row="1" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_Additional}" Grid.Row="2" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_Total}" Grid.Row="3" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_CrudeProtein}" Grid.Row="4" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_Maintenance}" Grid.Row="5" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_Additional}" Grid.Row="6" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_DMI}" Grid.Row="7" Grid.Column="0" FontAttributes="Bold" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_Base}" Grid.Row="8" Grid.Column="0" FontSize="12" />
+                        <Label Text="{Binding ExpandedResultsPage_Additional}" Grid.Row="9" Grid.Column="0" FontSize="12" />
 
                         <!-- Requirements Values -->
                         <Label Text="{Binding EnergyRequirementMaintenance}" Grid.Row="1" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
@@ -148,7 +148,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <!-- Feed Values -->
-                                <Label Text="{Binding Feed.Name}" Grid.Column="0" FontSize="12" VerticalOptions="Center"/>
+                                <Label Text="{Binding Feed.Name}" Grid.Column="0" FontSize="12" VerticalOptions="Center" />
                                 <Label Text="{Binding DMi}" Grid.Column="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                 <Label Text="{Binding CPi}" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                 <Label Text="{Binding MEi}" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />

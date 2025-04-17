@@ -1,5 +1,6 @@
 ﻿using DataLibrary.Services;
 using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Localization;
 using FeedOptimizationApp.Modules.Sponsors;
 using FeedOptimizationApp.Services;
 
@@ -15,6 +16,8 @@ namespace FeedOptimizationApp
             ServiceProvider = serviceProvider;
             var databaseInitializer = serviceProvider.GetRequiredService<DatabaseInitializer>();
             databaseInitializer.InitializeAsync().Wait();
+            var translationProvider = serviceProvider.GetRequiredService<TranslationProvider>();
+            translationProvider.RaiseLanguageChanged();
             var sharedData = serviceProvider.GetRequiredService<SharedData>();
             var baseService = serviceProvider.GetRequiredService<BaseService>();
 

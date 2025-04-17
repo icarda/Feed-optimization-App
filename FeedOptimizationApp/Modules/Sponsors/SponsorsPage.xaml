@@ -14,7 +14,7 @@
         <ScrollView Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
             <StackLayout Spacing="20" VerticalOptions="Center" HorizontalOptions="Center">
                 <!-- Sponsors Section -->
-                <Label Text="Sponsored By" FontSize="Large" TextColor="White" HorizontalOptions="Center" />
+                <Label Text="{Binding SponsorsPage_SponsoredBy}" FontSize="Large" TextColor="White" HorizontalOptions="Center" />
 
                 <Grid x:Name="SponsorsGrid" VerticalOptions="Center" HorizontalOptions="Center" RowSpacing="20" ColumnSpacing="20">
                     <Grid.RowDefinitions>
@@ -31,7 +31,7 @@
                 </Grid>
 
                 <!-- Collaborators Section -->
-                <Label Text="In Collaboration With" FontSize="Large" TextColor="White" HorizontalOptions="Center" Margin="20,40,20,0" />
+                <Label Text="{Binding SponsorsPage_CollaborationWith}" FontSize="Large" TextColor="White" HorizontalOptions="Center" Margin="20,40,20,0" />
 
                 <Grid x:Name="CollaboratorsGrid" VerticalOptions="Center" HorizontalOptions="Center" RowSpacing="20" ColumnSpacing="20">
                     <Grid.RowDefinitions>

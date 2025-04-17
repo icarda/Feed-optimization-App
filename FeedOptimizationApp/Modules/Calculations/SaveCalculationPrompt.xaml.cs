@@ -1,14 +1,33 @@
 using CommunityToolkit.Maui.Alerts;
 using System.Windows.Input;
+using FeedOptimizationApp.Localization;
 
 namespace FeedOptimizationApp.Modules.Calculations;
 
 public partial class SaveCalculationPrompt : ContentPage
 {
-    public SaveCalculationPrompt()
+    private readonly TranslationProvider _translationProvider;
+
+    public SaveCalculationPrompt(TranslationProvider translationProvider)
     {
         InitializeComponent();
+        _translationProvider = translationProvider;
         BindingContext = this;
+
+        // Listen for language changes to update translations dynamically
+        _translationProvider.PropertyChanged += (sender, e) =>
+        {
+            if (e.PropertyName == null)
+            {
+                OnPropertyChanged(nameof(SaveCalculationPrompt_Title));
+                OnPropertyChanged(nameof(SaveCalculationPrompt_Heading));
+                OnPropertyChanged(nameof(SaveCalculationPrompt_NamePlaceholder));
+                OnPropertyChanged(nameof(SaveCalculationPrompt_DescriptionPlaceholder));
+                OnPropertyChanged(nameof(SaveCalculationPrompt_CancelButton));
+                OnPropertyChanged(nameof(SaveCalculationPrompt_SaveButton));
+                OnPropertyChanged(nameof(SaveCalculationPrompt_ValidationMessage));
+            }
+        };
     }
 
     /// <summary>
@@ -22,7 +41,7 @@ public partial class SaveCalculationPrompt : ContentPage
         // Ensure name and description are not null or empty
         if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(description))
         {
-            await Toast.Make("Please enter a Name and Description.").Show();
+            await Toast.Make(SaveCalculationPrompt_ValidationMessage).Show();
             return; // Exit the command if validation fails
         }
 
@@ -38,4 +57,16 @@ public partial class SaveCalculationPrompt : ContentPage
     {
         await Navigation.PopModalAsync(true);
     });
+
+    #region TRANSLATIONS
+
+    public string SaveCalculationPrompt_Title => _translationProvider["SaveCalculationPrompt_Title"];
+    public string SaveCalculationPrompt_Heading => _translationProvider["SaveCalculationPrompt_Heading"];
+    public string SaveCalculationPrompt_NamePlaceholder => _translationProvider["SaveCalculationPrompt_NamePlaceholder"];
+    public string SaveCalculationPrompt_DescriptionPlaceholder => _translationProvider["SaveCalculationPrompt_DescriptionPlaceholder"];
+    public string SaveCalculationPrompt_CancelButton => _translationProvider["SaveCalculationPrompt_CancelButton"];
+    public string SaveCalculationPrompt_SaveButton => _translationProvider["SaveCalculationPrompt_SaveButton"];
+    public string SaveCalculationPrompt_ValidationMessage => _translationProvider["SaveCalculationPrompt_ValidationMessage"];
+
+    #endregion TRANSLATIONS
 }

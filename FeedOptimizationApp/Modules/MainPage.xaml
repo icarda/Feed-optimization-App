@@ -5,70 +5,50 @@
              x:Class="FeedOptimizationApp.Modules.MainPage">
 
     <StackLayout Padding="20" Spacing="20">
-        <Label Text="Feed Optimization App"
+        <Label Text="{Binding MainPage_HeadingText}"
                FontSize="24"
                HorizontalOptions="Center"
                Margin="0,0,0,20" />
 
         <!-- Language Picker -->
-        <Label Text="Select a language"
-               FontSize="18" />
-        <Label Text="Sélectionnez une langue"
+        <Label Text="{Binding MainPage_SelectLanguageLabel}"
                FontSize="18" />
         <Picker x:Name="LanguagePicker"
-                Title="Select an option"
+                Title="{Binding MainPage_SelectLanguageLabel}"
                 SelectedIndex="-1"
                 ItemsSource="{Binding Languages}"
                 ItemDisplayBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedLanguage}"
-                FontSize="16">
-            <!--<Picker.Behaviors>
-                <toolkit:EventToCommandBehavior
-                    EventName="SelectedIndexChanged"
-                    Command="{Binding PickerSelectionChangedCommand}" />
-            </Picker.Behaviors>-->
-        </Picker>
+                FontSize="16" />
 
         <!-- Country Picker -->
-        <Label Text="Select a country"
+        <Label Text="{Binding MainPage_SelectCountryLabel}"
                FontSize="18"
                IsVisible="{Binding IsLanguageSelected}" />
         <Picker x:Name="CountryPicker"
-                Title="Select an option"
+                Title="{Binding MainPage_SelectCountryLabel}"
                 SelectedIndex="-1"
                 ItemsSource="{Binding Countries}"
                 ItemDisplayBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedCountry}"
                 IsVisible="{Binding IsLanguageSelected}"
-                FontSize="16">
-            <!--<Picker.Behaviors>
-                <toolkit:EventToCommandBehavior
-                    EventName="SelectedIndexChanged"
-                    Command="{Binding PickerSelectionChangedCommand}" />
-            </Picker.Behaviors>-->
-        </Picker>
+                FontSize="16" />
 
         <!-- Species Picker -->
-        <Label Text="Select a species"
+        <Label Text="{Binding MainPage_SelectSpeciesLabel}"
                FontSize="18"
                IsVisible="{Binding IsLanguageSelected}" />
         <Picker x:Name="SpeciesPicker"
-                Title="Select an option"
+                Title="{Binding MainPage_SelectSpeciesLabel}"
                 SelectedIndex="-1"
                 ItemsSource="{Binding SpeciesList}"
                 ItemDisplayBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedSpecies}"
                 IsVisible="{Binding IsLanguageSelected}"
-                FontSize="16">
-            <!--<Picker.Behaviors>
-                <toolkit:EventToCommandBehavior
-                    EventName="SelectedIndexChanged"
-                    Command="{Binding PickerSelectionChangedCommand}" />
-            </Picker.Behaviors>-->
-        </Picker>
+                FontSize="16" />
 
         <!-- Next Button -->
-        <Button Text="Next"
+        <Button Text="{Binding MainPage_NextButtonText}"
                 Command="{Binding NextCommand}"
                 HorizontalOptions="Center"
                 VerticalOptions="EndAndExpand"

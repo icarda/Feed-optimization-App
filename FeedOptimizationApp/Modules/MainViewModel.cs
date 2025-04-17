@@ -1,6 +1,7 @@
 ﻿using DataLibrary.Models.Enums;
 using DataLibrary.Services;
 using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Localization;
 using FeedOptimizationApp.Modules.Legal;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
@@ -14,62 +15,43 @@ namespace FeedOptimizationApp.Modules
     /// </summary>
     public class MainViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        // Service for performing data operations.
         private readonly BaseService _baseService;
 
-        /// <summary>
-        /// Command for the Next button.
-        /// </summary>
         public ICommand NextCommand { get; }
 
-        /// <summary>
-        /// Command for Picker selection change.
-        /// </summary>
-        public ICommand PickerSelectionChangedCommand { get; }
-
-        /// <summary>
-        /// Gets or sets the collection of languages.
-        /// </summary>
         public ObservableCollection<LanguageEntity> Languages { get; set; } = new ObservableCollection<LanguageEntity>();
-
-        /// <summary>
-        /// Gets or sets the collection of countries.
-        /// </summary>
         public ObservableCollection<CountryEntity> Countries { get; set; } = new ObservableCollection<CountryEntity>();
-
-        /// <summary>
-        /// Gets or sets the collection of species.
-        /// </summary>
         public ObservableCollection<SpeciesEntity> SpeciesList { get; set; } = new ObservableCollection<SpeciesEntity>();
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainViewModel"/> class.
-        /// </summary>
-        /// <param name="baseService">The base service.</param>
-        /// <param name="sharedData">The shared data.</param>
-        public MainViewModel(BaseService baseService, SharedData sharedData)
-            : base(sharedData)
+        public MainViewModel(BaseService baseService, SharedData sharedData, TranslationProvider translationProvider)
+            : base(sharedData, translationProvider)
         {
             _baseService = baseService;
             LoadEnumValues();
             NextCommand = new Command(OnNextButtonClicked);
+
+            TranslationProvider.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName == null)
+                {
+                    OnPropertyChanged(nameof(MainPage_Title));
+                    OnPropertyChanged(nameof(MainPage_HeadingText));
+                    OnPropertyChanged(nameof(MainPage_SelectLanguageLabel));
+                    OnPropertyChanged(nameof(MainPage_SelectCountryLabel));
+                    OnPropertyChanged(nameof(MainPage_SelectSpeciesLabel));
+                    OnPropertyChanged(nameof(MainPage_NextButtonText));
+                }
+            };
         }
 
-        // Private field to track if a language is selected.
         private bool _isLanguageSelected = false;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the language is selected.
-        /// </summary>
         public bool IsLanguageSelected
         {
             get => _isLanguageSelected;
             set => SetProperty(ref _isLanguageSelected, value);
         }
 
-        /// <summary>
-        /// Gets or sets the selected language.
-        /// </summary>
         public LanguageEntity? SelectedLanguage
         {
             get => SharedData.SelectedLanguage;
@@ -78,16 +60,23 @@ namespace FeedOptimizationApp.Modules
                 if (SharedData.SelectedLanguage != value)
                 {
                     SharedData.SelectedLanguage = value;
-                    Console.WriteLine($"SelectedLanguage changed to: {value}"); // Log the change
-                    IsLanguageSelected = !string.IsNullOrEmpty(value?.ToString()); // Update IsLanguageSelected
+
+                    var langCode = LanguageCodeMapper.ToCode(SharedData.SelectedLanguage!);
+                    TranslationProvider.SetLanguage(langCode);
+
+                    IsLanguageSelected = value != null;
                     OnPropertyChanged(nameof(SelectedLanguage));
+
+                    OnPropertyChanged(nameof(MainPage_Title));
+                    OnPropertyChanged(nameof(MainPage_HeadingText));
+                    OnPropertyChanged(nameof(MainPage_SelectLanguageLabel));
+                    OnPropertyChanged(nameof(MainPage_SelectCountryLabel));
+                    OnPropertyChanged(nameof(MainPage_SelectSpeciesLabel));
+                    OnPropertyChanged(nameof(MainPage_NextButtonText));
                 }
             }
         }
 
-        /// <summary>
-        /// Gets or sets the selected country.
-        /// </summary>
         public CountryEntity? SelectedCountry
         {
             get => SharedData.SelectedCountry;
@@ -101,9 +90,6 @@ namespace FeedOptimizationApp.Modules
             }
         }
 
-        /// <summary>
-        /// Gets or sets the selected species.
-        /// </summary>
         public SpeciesEntity? SelectedSpecies
         {
             get => SharedData.SelectedSpecies;
@@ -117,39 +103,30 @@ namespace FeedOptimizationApp.Modules
             }
         }
 
-        /// <summary>
-        /// Handles the Next button click event.
-        /// Navigates to the LegalPage and clears the navigation stack.
-        /// </summary>
         private async void OnNextButtonClicked()
         {
             if (SelectedCountry != null &&
                 SelectedLanguage != null &&
                 SelectedSpecies != null)
             {
-                // Save the selections to SharedData
                 SharedData.SelectedCountry = SelectedCountry;
                 SharedData.SelectedLanguage = SelectedLanguage;
                 SharedData.SelectedSpecies = SelectedSpecies;
 
                 var databaseInitializer = App.ServiceProvider.GetRequiredService<DatabaseInitializer>();
 
-                // check if feeds are already imported using feed service
                 var feeds = await _baseService.FeedService.GetAllAsync();
                 if (feeds.Data.Count > 0)
                 {
-                    // Clear the feed table
                     await databaseInitializer.ClearFeedsAsync();
                 }
 
-                // Import feeds from embedded CSV
                 await databaseInitializer.ImportFeedsFromEmbeddedCsvAsync(
                     SelectedCountry.Id,
                     SelectedLanguage.Id
                 );
 
-                // Navigate to the LegalPage
-                var viewModel = new LegalViewModel(_baseService, SharedData, databaseInitializer);
+                var viewModel = new LegalViewModel(_baseService, SharedData, databaseInitializer, TranslationProvider);
                 if (Application.Current != null && Application.Current.Windows.Count > 0)
                 {
                     Application.Current.Windows[0].Page = new NavigationPage(new LegalPage(viewModel));
@@ -157,40 +134,46 @@ namespace FeedOptimizationApp.Modules
             }
             else
             {
-                // Show a message to the user to select all the options
-                await Application.Current.MainPage.DisplayAlert("Error", "Please select all the options to continue.", "OK");
+                var errorMessage = TranslationProvider["MainPage_Error_SelectAll"];
+                await Application.Current.MainPage.DisplayAlert("Error", errorMessage, "OK");
             }
         }
 
-        /// <summary>
-        /// Loads enumeration values for languages, countries, and species.
-        /// </summary>
         private async void LoadEnumValues()
         {
             Languages.Clear();
             Countries.Clear();
             SpeciesList.Clear();
 
-            // Load languages
             var languages = await _baseService.EnumEntitiesService.GetLanguagesAsync();
             foreach (var language in languages.Data)
             {
                 Languages.Add(language);
             }
 
-            // Load countries
             var countries = await _baseService.EnumEntitiesService.GetCountriesAsync();
             foreach (var country in countries.Data)
             {
                 Countries.Add(country);
             }
 
-            // Load species
             var speciesList = await _baseService.EnumEntitiesService.GetSpeciesAsync();
             foreach (var species in speciesList.Data)
             {
                 SpeciesList.Add(species);
             }
         }
+
+        #region TRANSLATIONS
+
+        public string MainPage_Title => TranslationProvider["MainPage_Title"];
+        public string MainPage_HeadingText => TranslationProvider["MainPage_Heading"];
+        public string MainPage_SelectLanguageLabel => TranslationProvider["MainPage_SelectLanguageLabel"];
+        public string MainPage_SelectCountryLabel => TranslationProvider["MainPage_SelectCountryLabel"];
+        public string MainPage_SelectSpeciesLabel => TranslationProvider["MainPage_SelectSpeciesLabel"];
+        public string MainPage_NextButtonText => TranslationProvider["MainPage_NextButton"];
+        public string MainPage_Error_SelectAll => TranslationProvider["MainPage_Error_SelectAll"];
+
+        #endregion TRANSLATIONS
     }
 }
