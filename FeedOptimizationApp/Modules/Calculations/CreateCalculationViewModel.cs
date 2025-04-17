@@ -138,6 +138,8 @@ namespace FeedOptimizationApp.Modules.Calculations
             // Observe changes to SharedData.SelectedSpecies
             SharedData.PropertyChanged += SharedData_PropertyChanged;
 
+            #region Translation PropertyChanged
+
             // Listen for language changes to update translations dynamically
             TranslationProvider.PropertyChanged += (sender, e) =>
             {
@@ -210,6 +212,8 @@ namespace FeedOptimizationApp.Modules.Calculations
                     OnPropertyChanged(nameof(CreateCalculationPage_ResetButton));
                 }
             };
+
+            #endregion Translation PropertyChanged
         }
 
         private void SharedData_PropertyChanged(object sender, PropertyChangedEventArgs e)
