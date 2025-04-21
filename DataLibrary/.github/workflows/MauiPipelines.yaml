@@ -29,24 +29,33 @@ jobs:
       - name: Restore Dependencies
         shell: pwsh
         run: |
-          $solution = Join-Path $Env:GITHUB_WORKSPACE 'FeedOptimizationApp.sln'
+          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
           dotnet restore $solution --verbosity detailed
 
       - name: Build Android App
         shell: pwsh
         run: |
-          $solution = Join-Path $Env:GITHUB_WORKSPACE 'FeedOptimizationApp.sln'
+          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
           dotnet build $solution -f net9.0-android -c Release
+
+      - name: Clean publish folder
+        shell: pwsh
+        run: |
+          $publishDir = Join-Path "${{ github.workspace }}" 'publish'
+          if (Test-Path $publishDir) {
+              Remove-Item -Recurse -Force $publishDir
+          }
+          New-Item -ItemType Directory -Path $publishDir | Out-Null
 
       - name: Create Android APK
         shell: pwsh
         run: |
-          $solution = Join-Path $Env:GITHUB_WORKSPACE 'FeedOptimizationApp.sln'
-          $publishDir = Join-Path $Env:GITHUB_WORKSPACE 'publish'
+          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
+          $publishDir = Join-Path "${{ github.workspace }}" 'publish'
           dotnet publish $solution -f net9.0-android -c Release -o $publishDir
-          $apk = Get-ChildItem "$publishDir\*.apk" | Select-Object -First 1
+          $apk = Get-ChildItem (Join-Path $publishDir '*.apk') | Select-Object -First 1
           if ($apk) {
-              Move-Item $apk.FullName "$publishDir\App.apk"
+              Move-Item $apk.FullName (Join-Path $publishDir 'App.apk')
           } else {
               Write-Error "No APK files found in publish directory"
               exit 1
@@ -56,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Android-APK
-          path: ${{ env.GITHUB_WORKSPACE }}\publish\App.apk
+          path: ${{ github.workspace }}/publish/App.apk
 
   deploy-android:
     name: Deploy to Google Play
@@ -68,7 +77,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Android-APK
-          path: ${{ env.GITHUB_WORKSPACE }}\publish
+          path: ${{ github.workspace }}/publish
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
@@ -80,7 +89,7 @@ jobs:
         uses: r0adkll/upload-google-play@v1
         with:
           packageName: "com.icarda.feedapp"
-          releaseFiles: "${{ env.GITHUB_WORKSPACE }}\publish\App.apk"
+          releaseFiles: "${{ github.workspace }}/publish/App.apk"
           track: beta
           status: completed
 
