@@ -75,7 +75,7 @@ jobs:
 
     steps:
       - name: Download Android APK
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
         with:
           name: Android-APK
           path: ${{ github.workspace }}/publish
