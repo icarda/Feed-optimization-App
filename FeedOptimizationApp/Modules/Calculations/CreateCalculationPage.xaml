@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Text="{Binding CreateCalculationPage_AddAnimalInfoButton}" LineBreakMode="WordWrap" Grid.Column="0" Padding="0" HeightRequest="50"
+            <Button Text="{Binding CreateCalculationPage_AddAnimalInfoButton}" LineBreakMode="WordWrap" Grid.Column="0"
                     Command="{Binding SetAnimalInfoActiveTab}" />
             <Button Text="{Binding CreateCalculationPage_AddFeedInfoButton}" LineBreakMode="WordWrap" Grid.Column="1"
                     Command="{Binding SetFeedInfoTabActive}" />
@@ -207,13 +207,14 @@
                                     </Grid.ColumnDefinitions>
 
                                     <customcontrols:AutoCompletePicker
-                                                    x:Name="FeedPicker"
-                                                    ItemsSource="{Binding Feeds}"
-                                                    SelectedItem="{Binding SelectedFeed, Mode=TwoWay}"
-                                                    DisplayMemberPath="Name"
-                                                    Text="{Binding SearchText, Mode=TwoWay}"
-                                                    Grid.Row="0"
-                                                    Grid.ColumnSpan="2" />
+                                        x:Name="FeedPicker"
+                                        ItemsSource="{Binding Feeds}"
+                                        SelectedItem="{Binding SelectedFeed, Mode=TwoWay}"
+                                        DisplayMemberPath="Name"
+                                        Text="{Binding SearchText, Mode=TwoWay}"
+                                        Placeholder="{Binding CreateCalculationPage_FeedPickerPlaceholder}"
+                                        Grid.Row="0"
+                                        Grid.ColumnSpan="2" />
 
                                     <Label Text="{Binding CreateCalculationPage_DMLabel}" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
                                     <Entry Placeholder="{Binding CreateCalculationPage_DMPlaceholder}" Text="{Binding SelectedFeed.DryMatterPercentage}" Grid.Row="1" Grid.Column="1" FontSize="14" />
@@ -746,7 +747,7 @@
                     <!-- Existing Results Content -->
                     <StackLayout>
                         <!-- Heading -->
-                        <Label Text="{Binding CreateCalculationPage_ExistingResultsHeading}" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Start" />
+                        <Label Text="{Binding CreateCalculationPage_ExistingResultsHeading}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
 
                         <!-- Table -->
                         <CollectionView ItemsSource="{Binding StoredResults}">

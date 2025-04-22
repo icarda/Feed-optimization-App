@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
 using FeedOptimizationApp.Shared;
-using static FeedOptimizationApp.Modules.Calculations.ExpandedResultsViewModel;
 using System.ComponentModel;
 using FeedOptimizationApp.Localization;
 
@@ -51,6 +50,9 @@ namespace FeedOptimizationApp.Modules.Calculations
                 // Handle picker reset logic here
                 Console.WriteLine("Picker reset triggered in CreateCalculationViewModel.");
             };
+
+            // Subscribe to the ClearAnimalInfoRequested event
+            sharedData.ClearAnimalInfoRequested += ClearAnimalInfo;
 
             // Initialize commands
             LoadFeedsCommand = new Command(async () => await LoadFeedsAsync());
@@ -99,7 +101,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 else
                 {
                     // Display a message if there are validation errors
-                    Toast.Make("Please correct the validation errors.").Show();
+                    Toast.Make(TranslationProvider["CreateCalculationPage_ValidationErrorToast"]).Show();
                 }
             });
 
@@ -137,6 +139,9 @@ namespace FeedOptimizationApp.Modules.Calculations
 
             // Observe changes to SharedData.SelectedSpecies
             SharedData.PropertyChanged += SharedData_PropertyChanged;
+
+            // Initialize _addFeedBoxText after TranslationProvider is available
+            _addFeedBoxText = TranslationProvider["CreateCalculationPage_AddFeedBoxText"];
 
             #region Translation PropertyChanged
 
@@ -210,6 +215,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     OnPropertyChanged(nameof(CreateCalculationPage_DailyMilkYieldLabel));
                     OnPropertyChanged(nameof(CreateCalculationPage_FatContentLabel));
                     OnPropertyChanged(nameof(CreateCalculationPage_ResetButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_FeedPickerPlaceholder));
                 }
             };
 
@@ -694,7 +700,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         }
 
         // Text displayed on the Add Feed box.
-        private string _addFeedBoxText = "Add feed";
+        private string _addFeedBoxText;
 
         public string AddFeedBoxText
         {
@@ -1318,7 +1324,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 StoredFeeds.Insert(0, storedFeed);
                 // Clear form inputs after adding.
                 ClearAddedFeedForm();
-                AddFeedBoxText = "Add additional feed";
+                AddFeedBoxText = TranslationProvider["CreateCalculationPage_AddAdditionalFeed"];
 
                 // If a minimum number of feeds are added, show the Results button.
                 if (StoredFeeds.Count >= 1)
@@ -1471,6 +1477,10 @@ namespace FeedOptimizationApp.Modules.Calculations
         /// </summary>
         private void ClearAnimalInfo()
         {
+            // Clear validation errors
+            ValidationErrors.Clear();
+            OnPropertyChanged(nameof(ValidationErrors)); // Notify the UI about the change
+
             SelectedType = null;
             SelectedGrazing = null;
             SelectedBodyWeight = null;
@@ -1491,7 +1501,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             StoredFeeds.Clear();
             ClearFeed();
-            AddFeedBoxText = "Add feed";
+            AddFeedBoxText = TranslationProvider["CreateCalculationPage_AddFeedBoxText"];
             IsResultsButtonVisible = false;
         }
 
@@ -1554,7 +1564,8 @@ namespace FeedOptimizationApp.Modules.Calculations
             {
                 foreach (var failure in results.Errors)
                 {
-                    ValidationErrors[failure.PropertyName] = failure.ErrorMessage;
+                    // Use TranslationProvider to fetch translated validation messages
+                    ValidationErrors[failure.PropertyName] = TranslationProvider[$"Validation_{failure.PropertyName}"];
                 }
             }
 
@@ -1778,13 +1789,17 @@ namespace FeedOptimizationApp.Modules.Calculations
                         }
 
                         // Notify user of successful save.
-                        await Toast.Make("Results saved successfully.").Show();
+                        await Toast.Make(TranslationProvider["CreateCalculationPage_SaveSuccessToast"]).Show();
 
                         // Unsubscribe from the MessagingCenter event.
                         MessagingCenter.Unsubscribe<SaveCalculationPrompt, Tuple<string, string>>(this, "SaveCalculation");
 
                         // Show a custom alert popup indicating save completion.
-                        var customAlertPopup = new CustomAlertPopup("Save complete!", "Please use the view calculations option to view your saved calculation.");
+                        var customAlertPopup = new CustomAlertPopup(
+                            TranslationProvider["CreateCalculationPage_SaveCompleteTitle"],
+                            TranslationProvider["CreateCalculationPage_SaveCompleteMessage"],
+                            TranslationProvider["CreateCalculationPage_SaveOKButton"]
+                            );
                         await Application.Current.MainPage.ShowPopupAsync(customAlertPopup);
 
                         // Send a message to clear the AutoCompletePicker control
@@ -1800,7 +1815,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     {
                         // Log error if saving the calculation fails.
                         Console.WriteLine($"An error occurred while saving the calculation: {ex.Message}");
-                        await Toast.Make("An error occurred while saving the calculation.").Show();
+                        await Toast.Make(TranslationProvider["CreateCalculationPage_SaveErrorToast"]).Show();
                     }
                 });
             }
@@ -1808,7 +1823,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             {
                 // Log error if the prompt page fails to show.
                 Console.WriteLine($"An error occurred while showing the prompt page: {ex.Message}");
-                await Toast.Make("An error occurred while showing the prompt page.").Show();
+                await Toast.Make(TranslationProvider["CreateCalculationPage_PromptErrorToast"]).Show();
             }
         }
 
@@ -1896,6 +1911,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public string CreateCalculationPage_DailyMilkYieldLabel => TranslationProvider["CreateCalculationPage_DailyMilkYieldLabel"];
         public string CreateCalculationPage_FatContentLabel => TranslationProvider["CreateCalculationPage_FatContentLabel"];
         public string CreateCalculationPage_ResetButton => TranslationProvider["CreateCalculationPage_ResetButton"];
+        public string CreateCalculationPage_FeedPickerPlaceholder => TranslationProvider["CreateCalculationPage_FeedPickerPlaceholder"];
 
         #endregion Translations
     }

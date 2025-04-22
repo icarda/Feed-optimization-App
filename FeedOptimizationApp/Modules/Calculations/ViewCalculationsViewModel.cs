@@ -32,7 +32,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public ICommand ExpandViewCommand { get; }
 
         public ViewCalculationsViewModel(BaseService baseService, SharedData sharedData, TranslationProvider translationProvider)
-            : base(sharedData, translationProvider)
+    : base(sharedData, translationProvider)
         {
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
             ExpandViewCommand = new Command(OnExpandView);
@@ -111,6 +111,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public string ViewCalculationsPage_HeaderType => TranslationProvider["ViewCalculationsPage_HeaderType"];
         public string ViewCalculationsPage_HeaderAction => TranslationProvider["ViewCalculationsPage_HeaderAction"];
         public string ViewCalculationsPage_ExpandView => TranslationProvider["ViewCalculationsPage_ExpandView"];
+
 
         #endregion TRANSLATIONS
 

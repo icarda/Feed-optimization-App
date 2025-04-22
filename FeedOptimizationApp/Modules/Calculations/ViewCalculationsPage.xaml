@@ -23,10 +23,10 @@
 
             <!-- Header content -->
             <Label Text="{Binding ViewCalculationsPage_HeaderTitle}" Grid.Column="0" FontAttributes="Bold" />
-            <Label Text="{Binding ViewCalculationsPage_HeaderDate}" Grid.Column="1" FontAttributes="Bold" />
-            <Label Text="{Binding ViewCalculationsPage_HeaderNoFeeds}" Grid.Column="2" FontAttributes="Bold" />
-            <Label Text="{Binding ViewCalculationsPage_HeaderType}" Grid.Column="3" FontAttributes="Bold" />
-            <Label Text="{Binding ViewCalculationsPage_HeaderAction}" Grid.Column="4" FontAttributes="Bold" />
+            <Label Text="{Binding ViewCalculationsPage_HeaderDate}" Grid.Column="1" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <Label Text="{Binding ViewCalculationsPage_HeaderNoFeeds}" Grid.Column="2" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <Label Text="{Binding ViewCalculationsPage_HeaderType}" Grid.Column="3" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <Label Text="{Binding ViewCalculationsPage_HeaderAction}" Grid.Column="4" FontAttributes="Bold" HorizontalOptions="Center"/>
         </Grid>
 
         <!-- Scrollable content inside the border -->
@@ -47,15 +47,19 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Row content -->
-                            <Label Text="{Binding CalculationTitle}" Grid.Column="0" />
-                            <Label Text="{Binding CalculationDate}" Grid.Column="1" />
-                            <Label Text="{Binding CalculationNrOfFeeds}" Grid.Column="2" HorizontalOptions="Center" />
-                            <Label Text="{Binding CalculationSpeciesType}" Grid.Column="3" />
-                            <Label Text="{Binding ViewCalculationsPage_ExpandView}" Grid.Column="4" TextColor="Blue" TextDecorations="Underline">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ViewCalculationsViewModel}}, Path=ExpandViewCommand}" CommandParameter="{Binding CalculationId}" />
-                                </Label.GestureRecognizers>
-                            </Label>
+                            <Label Text="{Binding CalculationTitle}" Grid.Column="0" VerticalOptions="Center" />
+                            <Label Text="{Binding CalculationDate}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <Label Text="{Binding CalculationNrOfFeeds}" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" />
+                            <Label Text="{Binding CalculationSpeciesType}" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <Button Grid.Column="4"
+                                    HorizontalOptions="Center"
+                                    MaximumWidthRequest="50"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ViewCalculationsViewModel}}, Path=ExpandViewCommand}"
+                                    CommandParameter="{Binding CalculationId}">
+                                <Button.ImageSource>
+                                    <FontImageSource Glyph="{StaticResource IconEye}" FontFamily="FaSolid" Color="{StaticResource White}" Size="16"/>
+                                </Button.ImageSource>
+                            </Button>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

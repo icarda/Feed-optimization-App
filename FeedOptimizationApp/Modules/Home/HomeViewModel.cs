@@ -44,7 +44,6 @@ public class HomeViewModel : BaseViewModel
 
     // Properties for translated text
     public string PageTitle => TranslationProvider["HomePage_Title"];
-
     public string HeadingText => TranslationProvider["HomePage_Heading"];
     public string SubHeadingText => TranslationProvider["HomePage_SubHeading"];
     public string CreateCalculationButtonText => TranslationProvider["HomePage_CreateCalculationButton"];

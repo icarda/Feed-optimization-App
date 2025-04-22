@@ -96,7 +96,7 @@ namespace FeedOptimizationApp.Modules.Legal
                     await _baseService.UserService.SaveAsync(userEntity);
 
                     var homeViewModel = new HomeViewModel(_baseService, SharedData, TranslationProvider);
-                    var newHomePage = new AppShell
+                    var newHomePage = new AppShell(TranslationProvider)
                     {
                         BindingContext = homeViewModel
                     };
@@ -110,7 +110,11 @@ namespace FeedOptimizationApp.Modules.Legal
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert(LegalPage_ErrorTitle, LegalPage_ErrorMessage, "OK");
+                await Application.Current.MainPage.DisplayAlert(
+                    TranslationProvider["LegalPage_ErrorTitle"],
+                    TranslationProvider["LegalPage_ErrorMessage"],
+                    "OK"
+                );
             }
         }
 

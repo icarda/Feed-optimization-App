@@ -27,6 +27,25 @@ namespace FeedOptimizationApp.Modules
             : base(sharedData, translationProvider)
         {
             _baseService = baseService;
+
+            // Listen for language changes
+            SharedData.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName == nameof(SharedData.SelectedLanguage))
+                {
+                    if (SharedData.SelectedLanguage != null)
+                    {
+                        var languageCode = SharedData.SelectedLanguage.Id == 1 ? "en" : "fr";
+                        TranslationProvider.SetLanguage(languageCode);
+                    }
+                    else
+                    {
+                        // Handle the case where SelectedLanguage is null (e.g., first use)
+                        IsLanguageSelected = false;
+                    }
+                }
+            };
+
             LoadEnumValues();
             NextCommand = new Command(OnNextButtonClicked);
 
@@ -61,18 +80,18 @@ namespace FeedOptimizationApp.Modules
                 {
                     SharedData.SelectedLanguage = value;
 
-                    var langCode = LanguageCodeMapper.ToCode(SharedData.SelectedLanguage!);
-                    TranslationProvider.SetLanguage(langCode);
+                    if (value != null)
+                    {
+                        var langCode = LanguageCodeMapper.ToCode(value);
+                        TranslationProvider.SetLanguage(langCode);
+                        IsLanguageSelected = true;
+                    }
+                    else
+                    {
+                        IsLanguageSelected = false;
+                    }
 
-                    IsLanguageSelected = value != null;
                     OnPropertyChanged(nameof(SelectedLanguage));
-
-                    OnPropertyChanged(nameof(MainPage_Title));
-                    OnPropertyChanged(nameof(MainPage_HeadingText));
-                    OnPropertyChanged(nameof(MainPage_SelectLanguageLabel));
-                    OnPropertyChanged(nameof(MainPage_SelectCountryLabel));
-                    OnPropertyChanged(nameof(MainPage_SelectSpeciesLabel));
-                    OnPropertyChanged(nameof(MainPage_NextButtonText));
                 }
             }
         }
@@ -134,8 +153,10 @@ namespace FeedOptimizationApp.Modules
             }
             else
             {
+                var errorTitle = TranslationProvider["MainPage_ErrorTitle"];
                 var errorMessage = TranslationProvider["MainPage_Error_SelectAll"];
-                await Application.Current.MainPage.DisplayAlert("Error", errorMessage, "OK");
+                var okButtonText = TranslationProvider["MainPage_OKButton"];
+                await Application.Current.MainPage.DisplayAlert(errorTitle, errorMessage, okButtonText);
             }
         }
 
