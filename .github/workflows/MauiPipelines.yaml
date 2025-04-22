@@ -30,13 +30,13 @@ jobs:
       - name: Restore Dependencies
         shell: pwsh
         run: |
-          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
+          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp\FeedOptimizationApp.sln'
           dotnet restore $solution --verbosity detailed
 
       - name: Build Android App
         shell: pwsh
         run: |
-          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
+          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp\FeedOptimizationApp.sln'
           dotnet build $solution -f net9.0-android -c Release
 
       - name: Clean publish folder
@@ -51,7 +51,7 @@ jobs:
       - name: Create Android APK
         shell: pwsh
         run: |
-          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
+          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp\FeedOptimizationApp.sln'
           $publishDir = Join-Path "${{ github.workspace }}" 'publish'
           dotnet publish $solution -f net9.0-android -c Release -o $publishDir
           $apk = Get-ChildItem (Join-Path $publishDir '*.apk') | Select-Object -First 1
