@@ -1,5 +1,3 @@
-using Android.Widget;
-using CommunityToolkit.Maui.Core;
 using FeedOptimizationApp.Services.Interfaces;
 
 namespace FeedOptimizationApp.Modules.Calculations;

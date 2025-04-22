@@ -8,6 +8,7 @@ using CommunityToolkit.Maui.Alerts;
 using DataLibrary.Services;
 using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Maui.Core;
+using FeedOptimizationApp.Localization;
 
 namespace FeedOptimizationApp.Modules.Settings
 {
@@ -53,6 +54,13 @@ namespace FeedOptimizationApp.Modules.Settings
                 if (SharedData.SelectedLanguage != value)
                 {
                     SharedData.SelectedLanguage = value;
+
+                    if (value != null)
+                    {
+                        var langCode = LanguageCodeMapper.ToCode(value);
+                        TranslationProvider.SetLanguage(langCode);
+                    }
+
                     OnPropertyChanged(nameof(SelectedLanguage));
                     _selectionsChanged = true;
                 }
@@ -106,8 +114,8 @@ namespace FeedOptimizationApp.Modules.Settings
         /// <param name="baseService">Service for accessing data.</param>
         /// <param name="sharedData">Shared data context across the application.</param>
         /// <param name="databaseInitializer">Service for initializing the database.</param>
-        public SettingsViewModel(BaseService baseService, SharedData sharedData, DatabaseInitializer databaseInitializer)
-            : base(sharedData)
+        public SettingsViewModel(BaseService baseService, SharedData sharedData, DatabaseInitializer databaseInitializer, TranslationProvider translationProvider)
+            : base(sharedData, translationProvider)
         {
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
             _databaseInitializer = databaseInitializer ?? throw new ArgumentNullException(nameof(databaseInitializer));
@@ -123,6 +131,22 @@ namespace FeedOptimizationApp.Modules.Settings
             // Initialize the Cancel and Save commands.
             CancelCommand = new Command(OnCancelButtonClicked);
             SaveCommand = new Command(async () => await OnSaveButtonClicked());
+
+            // Listen for language changes to update translations
+            TranslationProvider.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName == null)
+                {
+                    OnPropertyChanged(nameof(SettingsPage_Title));
+                    OnPropertyChanged(nameof(SettingsPage_Heading));
+                    OnPropertyChanged(nameof(SettingsPage_SelectLanguageLabel));
+                    OnPropertyChanged(nameof(SettingsPage_SelectCountryLabel));
+                    OnPropertyChanged(nameof(SettingsPage_SelectSpeciesLabel));
+                    OnPropertyChanged(nameof(SettingsPage_SelectOption));
+                    OnPropertyChanged(nameof(SettingsPage_CancelButton));
+                    OnPropertyChanged(nameof(SettingsPage_SaveButton));
+                }
+            };
         }
 
         /// <summary>
@@ -148,8 +172,10 @@ namespace FeedOptimizationApp.Modules.Settings
             {
                 // Show the custom alert popup to confirm the action.
                 var popup = new CustomAlertPopup(
-                    "Save user settings",
-                    "Warning: You might lose stored calculation data. Do you want to continue?",
+                    TranslationProvider["SettingsPage_SavePopupTitle"],
+                    TranslationProvider["SettingsPage_SavePopupMessage"],
+                    TranslationProvider["SettingsPage_ConfirmButton"],
+                    TranslationProvider["SettingsPage_CancelButton"],
                     async () =>
                     {
                         try
@@ -178,6 +204,10 @@ namespace FeedOptimizationApp.Modules.Settings
                                 SharedData.SelectedCountry = SelectedCountry;
                                 SharedData.SelectedSpecies = SelectedSpecies;
 
+                                // Update the app's translations dynamically.
+                                var languageCode = SelectedLanguage.Id == 1 ? "en" : "fr"; // Map language ID to language code
+                                TranslationProvider.SetLanguage(languageCode);
+
                                 // Set the flag to indicate that the save button was clicked.
                                 _isSaveButtonClicked = true;
 
@@ -185,12 +215,15 @@ namespace FeedOptimizationApp.Modules.Settings
                                 if (_selectionsChanged)
                                 {
                                     // Show a toast message to indicate that changes are being saved.
-                                    var toast = Toast.Make("Saving changes...");
+                                    var toast = Toast.Make(TranslationProvider["SettingsPage_SavingChangesToast"]);
                                     await toast.Show();
 
                                     // Trigger the reset event to clear any dependent UI components (e.g., pickers).
                                     _baseService.ResetPickerService.ResetPicker();
                                     Console.WriteLine("Picker reset triggered from SettingsViewModel.");
+
+                                    // Trigger the ClearAnimalInfo method in CreateCalculationViewModel
+                                    SharedData.RequestClearAnimalInfo();
 
                                     // Clear all calculations and repopulate the feeds table with the new settings.
                                     await _databaseInitializer.ClearAllCalculationsAsync();
@@ -201,7 +234,7 @@ namespace FeedOptimizationApp.Modules.Settings
                                 }
 
                                 // Show a toast message to notify the user that the settings were saved successfully.
-                                await Toast.Make("User settings saved successfully.", ToastDuration.Long).Show();
+                                await Toast.Make(TranslationProvider["SettingsPage_SuccessToast"], ToastDuration.Long).Show();
                             }
                         }
                         catch (Exception ex)
@@ -217,7 +250,11 @@ namespace FeedOptimizationApp.Modules.Settings
             else
             {
                 // Notify the user to complete all fields if any selection is missing.
-                await Application.Current.MainPage.DisplayAlert("Error", "Please fill all fields to proceed.", "OK");
+                await Application.Current.MainPage.DisplayAlert(
+                    TranslationProvider["SettingsPage_ErrorTitle"],
+                    TranslationProvider["SettingsPage_ErrorMessage"],
+                    TranslationProvider["SettingsPage_OKButton"]
+                );
             }
         }
 
@@ -317,7 +354,7 @@ namespace FeedOptimizationApp.Modules.Settings
             {
                 // Log the error and display an alert if the dropdown values fail to load.
                 Debug.WriteLine($"Error in LoadEnumValuesAsync: {ex.Message}");
-                await Application.Current.MainPage.DisplayAlert("Error", "Failed to load dropdown values.", "OK");
+                await Application.Current.MainPage.DisplayAlert(TranslationProvider["SettingsPage_ErrorTitle"], TranslationProvider["SettingsPage_LoadErrorMessage"], "OK");
             }
         }
 
@@ -334,5 +371,25 @@ namespace FeedOptimizationApp.Modules.Settings
                 SelectedSpecies = _initialSelectedSpecies;
             }
         }
+
+        #region TRANSLATIONS
+
+        public string SettingsPage_Title => TranslationProvider["SettingsPage_Title"];
+        public string SettingsPage_Heading => TranslationProvider["SettingsPage_Heading"];
+        public string SettingsPage_SelectLanguageLabel => TranslationProvider["SettingsPage_SelectLanguageLabel"];
+        public string SettingsPage_SelectCountryLabel => TranslationProvider["SettingsPage_SelectCountryLabel"];
+        public string SettingsPage_SelectSpeciesLabel => TranslationProvider["SettingsPage_SelectSpeciesLabel"];
+        public string SettingsPage_SelectOption => TranslationProvider["SettingsPage_SelectOption"];
+        public string SettingsPage_CancelButton => TranslationProvider["SettingsPage_CancelButton"];
+        public string SettingsPage_SaveButton => TranslationProvider["SettingsPage_SaveButton"];
+        public string SettingsPage_SavePopupTitle => TranslationProvider["SettingsPage_SavePopupTitle"];
+        public string SettingsPage_SavePopupMessage => TranslationProvider["SettingsPage_SavePopupMessage"];
+        public string SettingsPage_SavingChangesToast => TranslationProvider["SettingsPage_SavingChangesToast"];
+        public string SettingsPage_SuccessToast => TranslationProvider["SettingsPage_SuccessToast"];
+        public string SettingsPage_ErrorTitle => TranslationProvider["SettingsPage_ErrorTitle"];
+        public string SettingsPage_ErrorMessage => TranslationProvider["SettingsPage_ErrorMessage"];
+        public string SettingsPage_LoadErrorMessage => TranslationProvider["SettingsPage_LoadErrorMessage"];
+
+        #endregion TRANSLATIONS
     }
 }

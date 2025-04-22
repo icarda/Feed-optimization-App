@@ -1,4 +1,5 @@
 ﻿using DataLibrary.Models.Enums;
+using Microsoft.Maui.Storage;
 using System.ComponentModel;
 
 namespace FeedOptimizationApp.Helpers
@@ -13,6 +14,13 @@ namespace FeedOptimizationApp.Helpers
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event Action? ClearAnimalInfoRequested;
+
+        public void RequestClearAnimalInfo()
+        {
+            ClearAnimalInfoRequested?.Invoke();
         }
 
         /// <summary>
@@ -38,6 +46,9 @@ namespace FeedOptimizationApp.Helpers
         /// </summary>
         private LanguageEntity? _selectedLanguage;
 
+        /// <summary>
+        /// Gets or sets the selected language.
+        /// </summary>
         public LanguageEntity? SelectedLanguage
         {
             get => _selectedLanguage;

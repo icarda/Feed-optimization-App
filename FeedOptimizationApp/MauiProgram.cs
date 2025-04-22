@@ -2,6 +2,7 @@
 using DataLibrary;
 using DataLibrary.Services;
 using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Localization;
 using FeedOptimizationApp.Modules;
 using FeedOptimizationApp.Modules.Calculations;
 using FeedOptimizationApp.Modules.Home;
@@ -51,6 +52,7 @@ namespace FeedOptimizationApp
             // Register other services
             builder.Services.AddSingleton<SharedData>();
             builder.Services.AddSingleton<DatabaseInitializer>();
+            builder.Services.AddSingleton<TranslationProvider>();
             builder.Services.AddSingleton<DeviceService>();
             builder.Services.AddSingleton<BaseService>();
             builder.Services.AddSingleton<IFeedService, FeedService>();
@@ -58,6 +60,7 @@ namespace FeedOptimizationApp
             builder.Services.AddSingleton<ICalculationService, CalculationService>();
             builder.Services.AddSingleton<IEnumEntitiesService, EnumEntitiesService>();
             builder.Services.AddSingleton<IResetPickerService, ResetPickerService>();
+            builder.Services.AddSingleton<ITranslationService, TranslationService>();
 
             // Register view models
             builder.Services.AddTransient<MainViewModel>();

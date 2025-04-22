@@ -1,5 +1,6 @@
 ﻿using DataLibrary.Services;
 using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Localization;
 using FeedOptimizationApp.Modules.Sponsors;
 using FeedOptimizationApp.Services;
 
@@ -13,8 +14,13 @@ namespace FeedOptimizationApp
         {
             InitializeComponent();
             ServiceProvider = serviceProvider;
+
+            // Initialize the database
             var databaseInitializer = serviceProvider.GetRequiredService<DatabaseInitializer>();
             databaseInitializer.InitializeAsync().Wait();
+
+            // Get required services
+            var translationProvider = serviceProvider.GetRequiredService<TranslationProvider>();
             var sharedData = serviceProvider.GetRequiredService<SharedData>();
             var baseService = serviceProvider.GetRequiredService<BaseService>();
 
@@ -28,6 +34,10 @@ namespace FeedOptimizationApp
                 sharedData.SelectedCountry = ConversionHelpers.ConvertToCountryEntity(user.CountryId);
                 sharedData.SelectedLanguage = ConversionHelpers.ConvertToLanguageEntity(user.LanguageId);
                 sharedData.SelectedSpecies = ConversionHelpers.ConvertToSpeciesEntity(user.SpeciesId);
+
+                // Load the saved language from SharedData and set it in TranslationProvider
+                var languageCode = sharedData.SelectedLanguage?.Id == 1 ? "en" : "fr"; // Map language ID to language code
+                translationProvider.SetLanguage(languageCode);
 
                 // Navigate to the SponsorsPage
                 MainPage = new NavigationPage(new SponsorsPage(serviceProvider, true));

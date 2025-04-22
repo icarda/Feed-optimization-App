@@ -8,8 +8,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
 using FeedOptimizationApp.Shared;
-using static FeedOptimizationApp.Modules.Calculations.ExpandedResultsViewModel;
 using System.ComponentModel;
+using FeedOptimizationApp.Localization;
 
 namespace FeedOptimizationApp.Modules.Calculations
 {
@@ -38,8 +38,8 @@ namespace FeedOptimizationApp.Modules.Calculations
         /// </summary>
         /// <param name="baseService">Service for data operations.</param>
         /// <param name="sharedData">Shared data object across the application.</param>
-        public CreateCalculationViewModel(BaseService baseService, SharedData sharedData)
-            : base(sharedData)
+        public CreateCalculationViewModel(BaseService baseService, SharedData sharedData, TranslationProvider translationProvider)
+            : base(sharedData, translationProvider)
         {
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
             _validator = new CalculationValidator();
@@ -50,6 +50,9 @@ namespace FeedOptimizationApp.Modules.Calculations
                 // Handle picker reset logic here
                 Console.WriteLine("Picker reset triggered in CreateCalculationViewModel.");
             };
+
+            // Subscribe to the ClearAnimalInfoRequested event
+            sharedData.ClearAnimalInfoRequested += ClearAnimalInfo;
 
             // Initialize commands
             LoadFeedsCommand = new Command(async () => await LoadFeedsAsync());
@@ -98,7 +101,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 else
                 {
                     // Display a message if there are validation errors
-                    Toast.Make("Please correct the validation errors.").Show();
+                    Toast.Make(TranslationProvider["CreateCalculationPage_ValidationErrorToast"]).Show();
                 }
             });
 
@@ -136,6 +139,87 @@ namespace FeedOptimizationApp.Modules.Calculations
 
             // Observe changes to SharedData.SelectedSpecies
             SharedData.PropertyChanged += SharedData_PropertyChanged;
+
+            // Initialize _addFeedBoxText after TranslationProvider is available
+            _addFeedBoxText = TranslationProvider["CreateCalculationPage_AddFeedBoxText"];
+
+            #region Translation PropertyChanged
+
+            // Listen for language changes to update translations dynamically
+            TranslationProvider.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName == null)
+                {
+                    OnPropertyChanged(nameof(CreateCalculationPage_Title));
+                    OnPropertyChanged(nameof(CreateCalculationPage_AddAnimalInfoButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_AddFeedInfoButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_OptimizationButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_ResultsButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_AnimalInfoHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_AnimalInfoSubHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_TypeLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_GrazingLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_BodyWeightLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_ADGLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_DietQualityLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_Last8WeeksLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_NumberOfSucklingLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_SelectOption));
+                    OnPropertyChanged(nameof(CreateCalculationPage_FeedInfoHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_FeedInfoSubHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_DMLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_DMPlaceholder));
+                    OnPropertyChanged(nameof(CreateCalculationPage_CPLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_CPPlaceholder));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MELabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MEPlaceholder));
+                    OnPropertyChanged(nameof(CreateCalculationPage_PriceLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_PricePlaceholder));
+                    OnPropertyChanged(nameof(CreateCalculationPage_IntakeLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_IntakePlaceholder));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MinLimitLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MinLimitPlaceholder));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MaxLimitLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MaxLimitPlaceholder));
+                    OnPropertyChanged(nameof(CreateCalculationPage_ClearButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_AddButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_FeedLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_EditButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_SaveButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_OptimizationHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_AnimalDataHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_RequirementsHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_EnergyLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MaintenanceLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_AdditionalLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_TotalLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_CrudeProteinLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_DMIEstimateLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_BaseLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_NutrientRequirementsHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_DMiLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_CPiLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MEiLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_CostLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_RequirementLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_BalanceLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_ResultsHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_ExistingResultsHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_GFreshLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_PercentFreshLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_PercentDryMatterLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_TotalFeedCostLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_TotalRationCostLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_CostUnitLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_MilkProductionHeading));
+                    OnPropertyChanged(nameof(CreateCalculationPage_DailyMilkYieldLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_FatContentLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_ResetButton));
+                    OnPropertyChanged(nameof(CreateCalculationPage_FeedPickerPlaceholder));
+                }
+            };
+
+            #endregion Translation PropertyChanged
         }
 
         private void SharedData_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -616,7 +700,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         }
 
         // Text displayed on the Add Feed box.
-        private string _addFeedBoxText = "Add feed";
+        private string _addFeedBoxText;
 
         public string AddFeedBoxText
         {
@@ -1240,7 +1324,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                 StoredFeeds.Insert(0, storedFeed);
                 // Clear form inputs after adding.
                 ClearAddedFeedForm();
-                AddFeedBoxText = "Add additional feed";
+                AddFeedBoxText = TranslationProvider["CreateCalculationPage_AddAdditionalFeed"];
 
                 // If a minimum number of feeds are added, show the Results button.
                 if (StoredFeeds.Count >= 1)
@@ -1393,6 +1477,10 @@ namespace FeedOptimizationApp.Modules.Calculations
         /// </summary>
         private void ClearAnimalInfo()
         {
+            // Clear validation errors
+            ValidationErrors.Clear();
+            OnPropertyChanged(nameof(ValidationErrors)); // Notify the UI about the change
+
             SelectedType = null;
             SelectedGrazing = null;
             SelectedBodyWeight = null;
@@ -1413,7 +1501,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         {
             StoredFeeds.Clear();
             ClearFeed();
-            AddFeedBoxText = "Add feed";
+            AddFeedBoxText = TranslationProvider["CreateCalculationPage_AddFeedBoxText"];
             IsResultsButtonVisible = false;
         }
 
@@ -1476,7 +1564,8 @@ namespace FeedOptimizationApp.Modules.Calculations
             {
                 foreach (var failure in results.Errors)
                 {
-                    ValidationErrors[failure.PropertyName] = failure.ErrorMessage;
+                    // Use TranslationProvider to fetch translated validation messages
+                    ValidationErrors[failure.PropertyName] = TranslationProvider[$"Validation_{failure.PropertyName}"];
                 }
             }
 
@@ -1672,7 +1761,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             try
             {
                 // Show a custom prompt page for the user to input name and description.
-                var promptPage = new SaveCalculationPrompt();
+                var promptPage = new SaveCalculationPrompt(TranslationProvider);
                 await Application.Current.MainPage.Navigation.PushModalAsync(promptPage);
 
                 // Subscribe to the MessagingCenter event from the prompt page.
@@ -1700,13 +1789,17 @@ namespace FeedOptimizationApp.Modules.Calculations
                         }
 
                         // Notify user of successful save.
-                        await Toast.Make("Results saved successfully.").Show();
+                        await Toast.Make(TranslationProvider["CreateCalculationPage_SaveSuccessToast"]).Show();
 
                         // Unsubscribe from the MessagingCenter event.
                         MessagingCenter.Unsubscribe<SaveCalculationPrompt, Tuple<string, string>>(this, "SaveCalculation");
 
                         // Show a custom alert popup indicating save completion.
-                        var customAlertPopup = new CustomAlertPopup("Save complete!", "Please use the view calculations option to view your saved calculation.");
+                        var customAlertPopup = new CustomAlertPopup(
+                            TranslationProvider["CreateCalculationPage_SaveCompleteTitle"],
+                            TranslationProvider["CreateCalculationPage_SaveCompleteMessage"],
+                            TranslationProvider["CreateCalculationPage_SaveOKButton"]
+                            );
                         await Application.Current.MainPage.ShowPopupAsync(customAlertPopup);
 
                         // Send a message to clear the AutoCompletePicker control
@@ -1722,7 +1815,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     {
                         // Log error if saving the calculation fails.
                         Console.WriteLine($"An error occurred while saving the calculation: {ex.Message}");
-                        await Toast.Make("An error occurred while saving the calculation.").Show();
+                        await Toast.Make(TranslationProvider["CreateCalculationPage_SaveErrorToast"]).Show();
                     }
                 });
             }
@@ -1730,7 +1823,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             {
                 // Log error if the prompt page fails to show.
                 Console.WriteLine($"An error occurred while showing the prompt page: {ex.Message}");
-                await Toast.Make("An error occurred while showing the prompt page.").Show();
+                await Toast.Make(TranslationProvider["CreateCalculationPage_PromptErrorToast"]).Show();
             }
         }
 
@@ -1750,5 +1843,76 @@ namespace FeedOptimizationApp.Modules.Calculations
                 Feeds = new ObservableCollection<FeedEntity>(filtered);
             }
         }
+
+        #region Translations
+
+        public string CreateCalculationPage_Title => TranslationProvider["CreateCalculationPage_Title"];
+        public string CreateCalculationPage_AddAnimalInfoButton => TranslationProvider["CreateCalculationPage_AddAnimalInfoButton"];
+        public string CreateCalculationPage_AddFeedInfoButton => TranslationProvider["CreateCalculationPage_AddFeedInfoButton"];
+        public string CreateCalculationPage_OptimizationButton => TranslationProvider["CreateCalculationPage_OptimizationButton"];
+        public string CreateCalculationPage_ResultsButton => TranslationProvider["CreateCalculationPage_ResultsButton"];
+        public string CreateCalculationPage_AnimalInfoHeading => TranslationProvider["CreateCalculationPage_AnimalInfoHeading"];
+        public string CreateCalculationPage_AnimalInfoSubHeading => TranslationProvider["CreateCalculationPage_AnimalInfoSubHeading"];
+        public string CreateCalculationPage_TypeLabel => TranslationProvider["CreateCalculationPage_TypeLabel"];
+        public string CreateCalculationPage_GrazingLabel => TranslationProvider["CreateCalculationPage_GrazingLabel"];
+        public string CreateCalculationPage_BodyWeightLabel => TranslationProvider["CreateCalculationPage_BodyWeightLabel"];
+        public string CreateCalculationPage_ADGLabel => TranslationProvider["CreateCalculationPage_ADGLabel"];
+        public string CreateCalculationPage_DietQualityLabel => TranslationProvider["CreateCalculationPage_DietQualityLabel"];
+        public string CreateCalculationPage_Last8WeeksLabel => TranslationProvider["CreateCalculationPage_Last8WeeksLabel"];
+        public string CreateCalculationPage_NumberOfSucklingLabel => TranslationProvider["CreateCalculationPage_NumberOfSucklingLabel"];
+        public string CreateCalculationPage_SelectOption => TranslationProvider["CreateCalculationPage_SelectOption"];
+        public string CreateCalculationPage_FeedInfoHeading => TranslationProvider["CreateCalculationPage_FeedInfoHeading"];
+        public string CreateCalculationPage_FeedInfoSubHeading => TranslationProvider["CreateCalculationPage_FeedInfoSubHeading"];
+        public string CreateCalculationPage_DMLabel => TranslationProvider["CreateCalculationPage_DMLabel"];
+        public string CreateCalculationPage_DMPlaceholder => TranslationProvider["CreateCalculationPage_DMPlaceholder"];
+        public string CreateCalculationPage_CPLabel => TranslationProvider["CreateCalculationPage_CPLabel"];
+        public string CreateCalculationPage_CPPlaceholder => TranslationProvider["CreateCalculationPage_CPPlaceholder"];
+        public string CreateCalculationPage_MELabel => TranslationProvider["CreateCalculationPage_MELabel"];
+        public string CreateCalculationPage_MEPlaceholder => TranslationProvider["CreateCalculationPage_MEPlaceholder"];
+        public string CreateCalculationPage_PriceLabel => TranslationProvider["CreateCalculationPage_PriceLabel"];
+        public string CreateCalculationPage_PricePlaceholder => TranslationProvider["CreateCalculationPage_PricePlaceholder"];
+        public string CreateCalculationPage_IntakeLabel => TranslationProvider["CreateCalculationPage_IntakeLabel"];
+        public string CreateCalculationPage_IntakePlaceholder => TranslationProvider["CreateCalculationPage_IntakePlaceholder"];
+        public string CreateCalculationPage_MinLimitLabel => TranslationProvider["CreateCalculationPage_MinLimitLabel"];
+        public string CreateCalculationPage_MinLimitPlaceholder => TranslationProvider["CreateCalculationPage_MinLimitPlaceholder"];
+        public string CreateCalculationPage_MaxLimitLabel => TranslationProvider["CreateCalculationPage_MaxLimitLabel"];
+        public string CreateCalculationPage_MaxLimitPlaceholder => TranslationProvider["CreateCalculationPage_MaxLimitPlaceholder"];
+        public string CreateCalculationPage_ClearButton => TranslationProvider["CreateCalculationPage_ClearButton"];
+        public string CreateCalculationPage_AddButton => TranslationProvider["CreateCalculationPage_AddButton"];
+        public string CreateCalculationPage_FeedLabel => TranslationProvider["CreateCalculationPage_FeedLabel"];
+        public string CreateCalculationPage_EditButton => TranslationProvider["CreateCalculationPage_EditButton"];
+        public string CreateCalculationPage_SaveButton => TranslationProvider["CreateCalculationPage_SaveButton"];
+        public string CreateCalculationPage_OptimizationHeading => TranslationProvider["CreateCalculationPage_OptimizationHeading"];
+        public string CreateCalculationPage_AnimalDataHeading => TranslationProvider["CreateCalculationPage_AnimalDataHeading"];
+        public string CreateCalculationPage_RequirementsHeading => TranslationProvider["CreateCalculationPage_RequirementsHeading"];
+        public string CreateCalculationPage_EnergyLabel => TranslationProvider["CreateCalculationPage_EnergyLabel"];
+        public string CreateCalculationPage_MaintenanceLabel => TranslationProvider["CreateCalculationPage_MaintenanceLabel"];
+        public string CreateCalculationPage_AdditionalLabel => TranslationProvider["CreateCalculationPage_AdditionalLabel"];
+        public string CreateCalculationPage_TotalLabel => TranslationProvider["CreateCalculationPage_TotalLabel"];
+        public string CreateCalculationPage_CrudeProteinLabel => TranslationProvider["CreateCalculationPage_CrudeProteinLabel"];
+        public string CreateCalculationPage_DMIEstimateLabel => TranslationProvider["CreateCalculationPage_DMIEstimateLabel"];
+        public string CreateCalculationPage_BaseLabel => TranslationProvider["CreateCalculationPage_BaseLabel"];
+        public string CreateCalculationPage_NutrientRequirementsHeading => TranslationProvider["CreateCalculationPage_NutrientRequirementsHeading"];
+        public string CreateCalculationPage_DMiLabel => TranslationProvider["CreateCalculationPage_DMiLabel"];
+        public string CreateCalculationPage_CPiLabel => TranslationProvider["CreateCalculationPage_CPiLabel"];
+        public string CreateCalculationPage_MEiLabel => TranslationProvider["CreateCalculationPage_MEiLabel"];
+        public string CreateCalculationPage_CostLabel => TranslationProvider["CreateCalculationPage_CostLabel"];
+        public string CreateCalculationPage_RequirementLabel => TranslationProvider["CreateCalculationPage_RequirementLabel"];
+        public string CreateCalculationPage_BalanceLabel => TranslationProvider["CreateCalculationPage_BalanceLabel"];
+        public string CreateCalculationPage_ResultsHeading => TranslationProvider["CreateCalculationPage_ResultsHeading"];
+        public string CreateCalculationPage_ExistingResultsHeading => TranslationProvider["CreateCalculationPage_ExistingResultsHeading"];
+        public string CreateCalculationPage_GFreshLabel => TranslationProvider["CreateCalculationPage_GFreshLabel"];
+        public string CreateCalculationPage_PercentFreshLabel => TranslationProvider["CreateCalculationPage_PercentFreshLabel"];
+        public string CreateCalculationPage_PercentDryMatterLabel => TranslationProvider["CreateCalculationPage_PercentDryMatterLabel"];
+        public string CreateCalculationPage_TotalFeedCostLabel => TranslationProvider["CreateCalculationPage_TotalFeedCostLabel"];
+        public string CreateCalculationPage_TotalRationCostLabel => TranslationProvider["CreateCalculationPage_TotalRationCostLabel"];
+        public string CreateCalculationPage_CostUnitLabel => TranslationProvider["CreateCalculationPage_CostUnitLabel"];
+        public string CreateCalculationPage_MilkProductionHeading => TranslationProvider["CreateCalculationPage_MilkProductionHeading"];
+        public string CreateCalculationPage_DailyMilkYieldLabel => TranslationProvider["CreateCalculationPage_DailyMilkYieldLabel"];
+        public string CreateCalculationPage_FatContentLabel => TranslationProvider["CreateCalculationPage_FatContentLabel"];
+        public string CreateCalculationPage_ResetButton => TranslationProvider["CreateCalculationPage_ResetButton"];
+        public string CreateCalculationPage_FeedPickerPlaceholder => TranslationProvider["CreateCalculationPage_FeedPickerPlaceholder"];
+
+        #endregion Translations
     }
 }

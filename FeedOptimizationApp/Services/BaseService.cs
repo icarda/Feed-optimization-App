@@ -39,6 +39,12 @@ namespace FeedOptimizationApp.Services
         public IResetPickerService ResetPickerService { get; }
 
         /// <summary>
+        /// Gets the translation service.
+        /// Provides localized translations for UI labels and text.
+        /// </summary>
+        public ITranslationService TranslationService { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="BaseService"/> class.
         /// </summary>
         /// <param name="userService">The user service instance.</param>
@@ -47,18 +53,19 @@ namespace FeedOptimizationApp.Services
         /// <param name="enumEntitiesService">The enum entities service instance.</param>
         /// <param name="resetPickerService">The reset picker service instance.</param>
         public BaseService(
-            IUserService userService,
-            IFeedService feedService,
-            ICalculationService calculationService,
-            IEnumEntitiesService enumEntitiesService,
-            IResetPickerService resetPickerService)
+    IUserService userService,
+    IFeedService feedService,
+    ICalculationService calculationService,
+    IEnumEntitiesService enumEntitiesService,
+    IResetPickerService resetPickerService,
+    ITranslationService translationService)
         {
-            // Assign the provided service instances to the corresponding properties.
             UserService = userService;
             FeedService = feedService;
             CalculationService = calculationService;
             EnumEntitiesService = enumEntitiesService;
             ResetPickerService = resetPickerService;
+            TranslationService = translationService;
         }
     }
 }

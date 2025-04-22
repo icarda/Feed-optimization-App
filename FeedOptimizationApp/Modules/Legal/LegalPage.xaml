@@ -2,9 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FeedOptimizationApp.Modules.Legal.LegalPage">
+
     <StackLayout Padding="20" Spacing="20">
         <!-- Heading -->
-        <Label Text="Feed Optimization App"
+        <Label Text="{Binding LegalPage_Heading}"
                FontSize="24"
                FontAttributes="Bold"
                HorizontalOptions="Center"
@@ -20,7 +21,7 @@
         <!-- Switch control -->
         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
             <Switch IsToggled="{Binding HasAgreed}" VerticalOptions="Center" />
-            <Label Text="I have read and agree to the terms and conditions"
+            <Label Text="{Binding LegalPage_AgreeText}"
                    VerticalOptions="Center" HorizontalOptions="EndAndExpand"
                    FontSize="14"
                    Margin="8,0,0,0" />
@@ -28,11 +29,11 @@
 
         <!-- Buttons at the bottom -->
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,30,0,0">
-            <Button Text="Back"
+            <Button Text="{Binding LegalPage_BackButton}"
                     HorizontalOptions="CenterAndExpand"
                     Command="{Binding BackCommand}"
                     BackgroundColor="{StaticResource Secondary}" />
-            <Button Text="Continue"
+            <Button Text="{Binding LegalPage_ContinueButton}"
                     HorizontalOptions="CenterAndExpand"
                     Command="{Binding AgreeCommand}"
                     BackgroundColor="{StaticResource Primary}" />

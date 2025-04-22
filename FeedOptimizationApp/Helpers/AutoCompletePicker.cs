@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using FeedOptimizationApp.Localization;
 using Microsoft.Maui.Controls;
 
 namespace FeedOptimizationApp.Helpers
@@ -43,6 +44,12 @@ namespace FeedOptimizationApp.Helpers
         /// </summary>
         public static readonly BindableProperty TextProperty =
             BindableProperty.Create(nameof(Text), typeof(string), typeof(AutoCompletePicker), string.Empty, BindingMode.TwoWay, propertyChanged: OnTextPropertyChanged);
+
+        /// <summary>
+        /// Bindable property for the placeholder.
+        /// </summary>
+        public static readonly BindableProperty PlaceholderProperty =
+            BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(AutoCompletePicker), string.Empty, propertyChanged: OnPlaceholderChanged);
 
         /// <summary>
         /// Gets or sets the items source.
@@ -90,6 +97,15 @@ namespace FeedOptimizationApp.Helpers
         }
 
         /// <summary>
+        /// Gets or sets the placeholder text.
+        /// </summary>
+        public string Placeholder
+        {
+            get => (string)GetValue(PlaceholderProperty);
+            set => SetValue(PlaceholderProperty, value);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AutoCompletePicker"/> class.
         /// </summary>
         public AutoCompletePicker()
@@ -98,9 +114,9 @@ namespace FeedOptimizationApp.Helpers
 
             _entry = new Entry
             {
-                Placeholder = "Type to search...",
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
+            _entry.SetBinding(Entry.PlaceholderProperty, new Binding(nameof(Placeholder), source: this));
             _entry.TextChanged += OnEntryTextChanged;
 
             _listView = new ListView
@@ -142,6 +158,18 @@ namespace FeedOptimizationApp.Helpers
                 control._entry.Text = newText;
 
             control.FilterItems(newText);
+        }
+
+        /// <summary>
+        /// Handles changes to the placeholder property.
+        /// </summary>
+        private static void OnPlaceholderChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = (AutoCompletePicker)bindable;
+            if (control._entry != null)
+            {
+                control._entry.Placeholder = newValue?.ToString();
+            }
         }
 
         /// <summary>

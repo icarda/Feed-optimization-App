@@ -12,22 +12,22 @@
 
         <!-- Heading and SubHeading -->
         <StackLayout Grid.Row="0" Spacing="10">
-            <Label Text="Feed Optimization App"
+            <Label Text="{Binding HeadingText}"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
-                   VerticalOptions="Center"/>
-            <Label Text="Welcome,"
+                   VerticalOptions="Center" />
+            <Label Text="{Binding SubHeadingText}"
                    FontSize="16"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
-                   VerticalOptions="Start"/>
+                   VerticalOptions="Start" />
         </StackLayout>
 
         <StackLayout Grid.Row="1" VerticalOptions="Center" Spacing="50">
             <!-- Create Calculation Button -->
-            <Button 
-                    Text="Create Calculation"
+            <Button
+                    Text="{Binding CreateCalculationButtonText}"
                     FontSize="16"
                     Command="{Binding CreateCalculationCommand}"
                     HeightRequest="120"
@@ -38,8 +38,8 @@
             </Button>
 
             <!-- View Calculations Button -->
-            <Button 
-                    Text="View Calculations"
+            <Button
+                    Text="{Binding ViewCalculationsButtonText}"
                     FontSize="16"
                     Command="{Binding ViewCalculationsCommand}"
                     HeightRequest="120"
@@ -49,6 +49,5 @@
                 </Button.ImageSource>
             </Button>
         </StackLayout>
-        
     </Grid>
 </ContentPage>
