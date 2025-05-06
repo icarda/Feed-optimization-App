@@ -1322,6 +1322,7 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                 // Insert new feed at the beginning of the list.
                 StoredFeeds.Insert(0, storedFeed);
+
                 // Clear form inputs after adding.
                 ClearAddedFeedForm();
                 AddFeedBoxText = TranslationProvider["CreateCalculationPage_AddAdditionalFeed"];

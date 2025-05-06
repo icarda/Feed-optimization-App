@@ -281,31 +281,44 @@
                                                     <ColumnDefinition Width="246" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <Label Text="{Binding CreateCalculationPage_DMLabel}" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+                                                <Label Text="{Binding Path=BindingContext.CreateCalculationPage_DMLabel, Source={x:Reference FeedInfoContentView}}"
+                                                        Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
                                                 <Entry Text="{Binding DM}" Grid.Row="0" Grid.Column="1" IsEnabled="False" FontSize="14" />
-                                                <Label Text="{Binding CreateCalculationPage_CPLabel}" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+
+                                                <Label Text="{Binding Path=BindingContext.CreateCalculationPage_CPLabel, Source={x:Reference FeedInfoContentView}}"
+                                                        Grid.Row="1" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
                                                 <Entry Text="{Binding CPDM}" Grid.Row="1" Grid.Column="1" IsEnabled="False" FontSize="14" />
-                                                <Label Text="{Binding CreateCalculationPage_MELabel}" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+
+                                                <Label Text="{Binding Path=BindingContext.CreateCalculationPage_MELabel, Source={x:Reference FeedInfoContentView}}"
+                                                        Grid.Row="2" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
                                                 <Entry Text="{Binding MEMJKGDM}" Grid.Row="2" Grid.Column="1" IsEnabled="False" FontSize="14" />
-                                                <Label Text="{Binding CreateCalculationPage_PriceLabel}" Grid.Row="3" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+
+                                                <Label Text="{Binding Path=BindingContext.CreateCalculationPage_PriceLabel, Source={x:Reference FeedInfoContentView}}"
+                                                        Grid.Row="3" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
                                                 <Entry Text="{Binding Price}" Grid.Row="3" Grid.Column="1" IsEnabled="False" FontSize="14" />
-                                                <Label Text="{Binding CreateCalculationPage_IntakeLabel}" Grid.Row="4" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+
+                                                <Label Text="{Binding Path=BindingContext.CreateCalculationPage_IntakeLabel, Source={x:Reference FeedInfoContentView}}"
+                                                        Grid.Row="4" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
                                                 <Entry Text="{Binding Intake, Mode=TwoWay}"
                                                        IsEnabled="{Binding Path=BindingContext.IsStoredFeedEditable, Source={x:Reference FeedInfoContentView}}"
                                                        Grid.Row="4" Grid.Column="1" FontSize="14" />
-                                                <Label Text="{Binding CreateCalculationPage_MinLimitLabel}" Grid.Row="5" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+
+                                                <Label Text="{Binding Path=BindingContext.CreateCalculationPage_MinLimitLabel, Source={x:Reference FeedInfoContentView}}"
+                                                        Grid.Row="5" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
                                                 <Entry Text="{Binding MinLimit}" Grid.Row="5" Grid.Column="1" IsEnabled="False" FontSize="14" />
-                                                <Label Text="{Binding CreateCalculationPage_MaxLimitLabel}" Grid.Row="6" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
+
+                                                <Label Text="{Binding Path=BindingContext.CreateCalculationPage_MaxLimitLabel, Source={x:Reference FeedInfoContentView}}"
+                                                        Grid.Row="6" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
                                                 <Entry Text="{Binding MaxLimit}" Grid.Row="6" Grid.Column="1" IsEnabled="False" FontSize="14" />
 
                                                 <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Row="7" Grid.ColumnSpan="1" Spacing="10">
-                                                    <Button Text="{Binding CreateCalculationPage_EditButton}"
+                                                    <Button Text="{Binding Path=BindingContext.CreateCalculationPage_EditButton, Source={x:Reference FeedInfoContentView}}"
                                                             Command="{Binding Path=BindingContext.EditStoredFeedCommand, Source={x:Reference FeedInfoContentView}}"
                                                             CommandParameter="{Binding .}"
                                                             IsEnabled="{Binding Path=BindingContext.IsStoredFeedEditable, Source={x:Reference FeedInfoContentView}, Converter={StaticResource InverseBooleanConverter}}" />
                                                 </StackLayout>
                                                 <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Row="7" Grid.ColumnSpan="2" Spacing="10">
-                                                    <Button Text="{Binding CreateCalculationPage_SaveButton}"
+                                                    <Button Text="{Binding Path=BindingContext.CreateCalculationPage_SaveButton, Source={x:Reference FeedInfoContentView}}"
                                                             Command="{Binding Path=BindingContext.SaveStoredFeedCommand, Source={x:Reference FeedInfoContentView}}"
                                                             CommandParameter="{Binding .}"
                                                             IsEnabled="{Binding Path=BindingContext.IsStoredFeedEditable, Source={x:Reference FeedInfoContentView}}" />
