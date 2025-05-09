@@ -10,6 +10,7 @@
             <customcontrols:AbsoluteValueConverter x:Key="AbsoluteValueConverter" />
             <customcontrols:NegativeValueColourConverter x:Key="NegativeValueColourConverter" />
             <customcontrols:PercentageValueConverter x:Key="PercentageValueConverter" />
+            <customcontrols:PercentageValueConverter2 x:Key="PercentageValueConverter2" />
             <customcontrols:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -63,7 +64,7 @@
                         <Label Text="{Binding AnimalInfo.Gestation}" Grid.Row="5" Grid.Column="1" FontSize="12" />
                         <Label Text="{Binding NrKidsLambsName}" Grid.Row="6" Grid.Column="1" FontSize="12" IsVisible="{Binding IsNrSucklingsVisible}" />
                         <Label Text="{Binding AnimalInfo.MilkYield}" Grid.Row="7" Grid.Column="1" FontSize="12" />
-                        <Label Text="{Binding AnimalInfo.FatContent, Converter={StaticResource PercentageValueConverter}}"
+                        <Label Text="{Binding AnimalInfo.FatContent, Converter={StaticResource PercentageValueConverter2}}"
                                 Grid.Row="8" Grid.Column="1" FontSize="12" />
                     </Grid>
                 </StackLayout>
@@ -249,18 +250,18 @@
                 <Label HorizontalOptions="Center" VerticalOptions="Start" Margin="0,30,0,0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="The total feed cost is " />
+                            <Span Text="{Binding ExpandedResultsPage_TotalFeedCostLabel}" />
                             <Span Text="{Binding TotalFeedCost}" />
-                            <Span Text=" br/kg" />
+                            <Span Text="{Binding ExpandedResultsPage_CostUnitLabel}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
                 <Label HorizontalOptions="Center" VerticalOptions="Start" Margin="0,20,0,20">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="The cost of the ration is " />
+                            <Span Text="{Binding ExpandedResultsPage_TotalRationCostLabel}" />
                             <Span Text="{Binding TotalRation}" />
-                            <Span Text=" br/day" />
+                            <Span Text="{Binding ExpandedResultsPage_RationUnitLabel}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>

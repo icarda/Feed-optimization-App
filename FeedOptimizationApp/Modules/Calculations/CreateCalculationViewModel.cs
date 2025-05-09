@@ -211,6 +211,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                     OnPropertyChanged(nameof(CreateCalculationPage_TotalFeedCostLabel));
                     OnPropertyChanged(nameof(CreateCalculationPage_TotalRationCostLabel));
                     OnPropertyChanged(nameof(CreateCalculationPage_CostUnitLabel));
+                    OnPropertyChanged(nameof(CreateCalculationPage_RationUnitLabel));
                     OnPropertyChanged(nameof(CreateCalculationPage_MilkProductionHeading));
                     OnPropertyChanged(nameof(CreateCalculationPage_DailyMilkYieldLabel));
                     OnPropertyChanged(nameof(CreateCalculationPage_FatContentLabel));
@@ -1333,9 +1334,6 @@ namespace FeedOptimizationApp.Modules.Calculations
                     IsResultsButtonVisible = true;
                     IsAddFeedExpanded = false;
                 }
-
-                // Send a message to clear the AutoCompletePicker control
-                //MessagingCenter.Send(this, "ClearFeedPicker");
             }
             catch (Exception ex)
             {
@@ -1343,30 +1341,6 @@ namespace FeedOptimizationApp.Modules.Calculations
                 Console.WriteLine($"An error occurred while adding the feed: {ex.Message}");
             }
         }
-
-        /*private void OnSaveOptimisationFeed(StoredFeed feed)
-        {
-            // Find the feed in the collection
-            var existingFeed = StoredFeeds.FirstOrDefault(f => f.Feed.Id == feed.Feed.Id);
-            if (existingFeed != null)
-            {
-                var index = StoredFeeds.IndexOf(feed);
-                var index2 = StoredFeeds.IndexOf(existingFeed);
-                // Update Intake based on DMi
-                feed.Intake = Math.Round((feed.DMi / feed.DM ?? 0) * 100);
-
-                // Remove and re-add to force UI update
-                StoredFeeds.RemoveAt(index);
-                StoredFeeds.Insert(index, feed);
-                StoredFeeds.RemoveAt(index2);
-                StoredFeeds.Insert(index2, existingFeed);
-                // Recalculate totals and balances
-                RecalculateTotalsAndBalances();
-
-                // Notify UI of changes
-                OnPropertyChanged(nameof(StoredFeeds));
-            }
-        }*/
 
         /// <summary>
         /// Updates the stored feed's intake value based on its DMi (Dry Matter Intake) and recalculates totals and balances.
@@ -1908,6 +1882,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         public string CreateCalculationPage_TotalFeedCostLabel => TranslationProvider["CreateCalculationPage_TotalFeedCostLabel"];
         public string CreateCalculationPage_TotalRationCostLabel => TranslationProvider["CreateCalculationPage_TotalRationCostLabel"];
         public string CreateCalculationPage_CostUnitLabel => TranslationProvider["CreateCalculationPage_CostUnitLabel"];
+        public string CreateCalculationPage_RationUnitLabel => TranslationProvider["CreateCalculationPage_RationUnitLabel"];
         public string CreateCalculationPage_MilkProductionHeading => TranslationProvider["CreateCalculationPage_MilkProductionHeading"];
         public string CreateCalculationPage_DailyMilkYieldLabel => TranslationProvider["CreateCalculationPage_DailyMilkYieldLabel"];
         public string CreateCalculationPage_FatContentLabel => TranslationProvider["CreateCalculationPage_FatContentLabel"];

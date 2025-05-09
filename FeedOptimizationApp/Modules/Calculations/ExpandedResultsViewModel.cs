@@ -343,6 +343,10 @@ namespace FeedOptimizationApp.Modules.Calculations
                     OnPropertyChanged(nameof(ExpandedResultsPage_Cost));
                     OnPropertyChanged(nameof(ExpandedResultsPage_Requirement));
                     OnPropertyChanged(nameof(ExpandedResultsPage_Balance));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_TotalFeedCostLabel));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_TotalRationCostLabel));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_CostUnitLabel));
+                    OnPropertyChanged(nameof(ExpandedResultsPage_RationUnitLabel));
                 }
             };
         }
@@ -517,6 +521,11 @@ namespace FeedOptimizationApp.Modules.Calculations
         public string ExpandedResultsPage_Cost => TranslationProvider["ExpandedResultsPage_Cost"];
         public string ExpandedResultsPage_Requirement => TranslationProvider["ExpandedResultsPage_Requirement"];
         public string ExpandedResultsPage_Balance => TranslationProvider["ExpandedResultsPage_Balance"];
+        public string ExpandedResultsPage_TotalFeedCostLabel => TranslationProvider["ExpandedResultsPage_TotalFeedCostLabel"];
+        public string ExpandedResultsPage_TotalRationCostLabel => TranslationProvider["ExpandedResultsPage_TotalRationCostLabel"];
+        public string ExpandedResultsPage_CostUnitLabel => TranslationProvider["ExpandedResultsPage_CostUnitLabel"];
+        public string ExpandedResultsPage_RationUnitLabel => TranslationProvider["ExpandedResultsPage_RationUnitLabel"];
+
 
         #endregion TRANSLATIONS
     }
