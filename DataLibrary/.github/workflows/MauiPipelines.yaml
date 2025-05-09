@@ -1,0 +1,116 @@
+name: .NET MAUI CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: #This adds the run workflow button
+
+permissions: #added permissions to allow the pipeline to link with work federated identity in secerets
+  id-token: write
+  contents: read
+
+
+jobs:
+  build-android:
+    name: Build Android APK
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Install MAUI Workload
+        shell: pwsh
+        run: dotnet workload install maui --skip-manifest-update
+
+      - name: Restore Dependencies
+        shell: pwsh
+        run: |
+          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
+          dotnet restore $solution --verbosity detailed
+
+      - name: Build Android App
+        shell: pwsh
+        run: |
+          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
+          dotnet build $solution -f net9.0-android -c Release
+
+      - name: Clean publish folder
+        shell: pwsh
+        run: |
+          $publishDir = Join-Path "${{ github.workspace }}" 'publish'
+          if (Test-Path $publishDir) {
+              Remove-Item -Recurse -Force $publishDir
+          }
+          New-Item -ItemType Directory -Path $publishDir | Out-Null
+
+      - name: Create Android APK
+        shell: pwsh
+        run: |
+          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
+          $publishDir = Join-Path "${{ github.workspace }}" 'publish'
+          dotnet publish $solution -f net9.0-android -c Release -o $publishDir
+          $apk = Get-ChildItem (Join-Path $publishDir '*.apk') | Select-Object -First 1
+          if ($apk) {
+              Move-Item $apk.FullName (Join-Path $publishDir 'App.apk')
+          } else {
+              Write-Error "No APK files found in publish directory"
+              exit 1
+          }
+
+      - name: Upload Android Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Android-APK
+          path: ${{ github.workspace }}/publish/App.apk
+
+  deploy-android:
+    name: Deploy to Google Play
+    runs-on: windows-latest
+    needs: build-android
+
+    steps:
+      - name: Download Android APK
+        uses: actions/download-artifact@v3
+        with:
+          name: Android-APK
+          path: ${{ github.workspace }}/publish
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
+      - name: Deploy to Google Play Store (Beta)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          packageName: "com.icarda.feedapp"
+          releaseFiles: "${{ github.workspace }}/publish/App.apk"
+          track: beta
+          status: completed
+
+  notify-team:
+    name: Notify Team
+    runs-on: windows-latest
+    needs: [deploy-android]
+
+    steps:
+      - name: Send Teams Notification
+        shell: pwsh
+        run: |
+          $webhookUrl = "${{ secrets.TEAMS_WEBHOOK_URL }}"
+          $body = @{
+              text = "🚀 New MAUI App build deployed to Google Play! 🎉"
+          } | ConvertTo-Json -Compress
+          
+          Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $body -ContentType 'application/json'
