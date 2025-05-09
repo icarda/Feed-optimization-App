@@ -12,30 +12,84 @@
             <customcontrols:AbsoluteValueConverter x:Key="AbsoluteValueConverter" />
             <customcontrols:NegativeValueColourConverter x:Key="NegativeValueColourConverter" />
             <customcontrols:PercentageValueConverter x:Key="PercentageValueConverter" />
+            <customcontrols:PercentageValueConverter2 x:Key="PercentageValueConverter2" />
             <customcontrols:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <StackLayout Padding="20" Spacing="10">
         <!-- Navigation Buttons -->
-        <Grid ColumnSpacing="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Text="{Binding CreateCalculationPage_AddAnimalInfoButton}" LineBreakMode="WordWrap" Grid.Column="0"
-                    Command="{Binding SetAnimalInfoActiveTab}" />
-            <Button Text="{Binding CreateCalculationPage_AddFeedInfoButton}" LineBreakMode="WordWrap" Grid.Column="1"
-                    Command="{Binding SetFeedInfoTabActive}" />
-            <Button Text="{Binding CreateCalculationPage_OptimizationButton}" LineBreakMode="WordWrap" Grid.Column="2"
-                    Command="{Binding SetOptimizationTabActive}"
-                    IsEnabled="{Binding IsResultsButtonVisible}" />
-            <Button Text="{Binding CreateCalculationPage_ResultsButton}" LineBreakMode="WordWrap" Grid.Column="3"
-                    Command="{Binding SetResultsTabActive}"
-                    IsEnabled="{Binding IsResultsButtonVisible}" />
-        </Grid>
+        <ContentView>
+            <Grid>
+                <!-- Tablet Layout Grid -->
+                <Grid x:Name="TabletGrid" ColumnSpacing="20" RowSpacing="20" IsVisible="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Button Text="{Binding CreateCalculationPage_AddAnimalInfoButton}" Grid.Column="0"
+                            Command="{Binding SetAnimalInfoActiveTab}" />
+                    <Button Text="{Binding CreateCalculationPage_AddFeedInfoButton}" Grid.Column="1"
+                            Command="{Binding SetFeedInfoTabActive}" />
+                    <Button Text="{Binding CreateCalculationPage_OptimizationButton}" Grid.Column="2"
+                            Command="{Binding SetOptimizationTabActive}" IsEnabled="{Binding IsResultsButtonVisible}" />
+                    <Button Text="{Binding CreateCalculationPage_ResultsButton}" Grid.Column="3"
+                            Command="{Binding SetResultsTabActive}" IsEnabled="{Binding IsResultsButtonVisible}" />
+                </Grid>
+
+                <!-- Mobile Layout Grid -->
+                <Grid x:Name="MobileGrid" ColumnSpacing="20" RowSpacing="20" IsVisible="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Button Text="{Binding CreateCalculationPage_AddAnimalInfoButton}" Grid.Row="0" Grid.Column="0"
+                            Command="{Binding SetAnimalInfoActiveTab}" />
+                    <Button Text="{Binding CreateCalculationPage_AddFeedInfoButton}" Grid.Row="0" Grid.Column="1"
+                            Command="{Binding SetFeedInfoTabActive}" />
+                    <Button Text="{Binding CreateCalculationPage_OptimizationButton}" Grid.Row="1" Grid.Column="0"
+                            Command="{Binding SetOptimizationTabActive}" IsEnabled="{Binding IsResultsButtonVisible}" />
+                    <Button Text="{Binding CreateCalculationPage_ResultsButton}" Grid.Row="1" Grid.Column="1"
+                            Command="{Binding SetResultsTabActive}" IsEnabled="{Binding IsResultsButtonVisible}" />
+                </Grid>
+
+                <!-- VisualStateManager -->
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="ResponsiveStates">
+                        <VisualState Name="Mobile">
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="0" />
+                            </VisualState.StateTriggers>
+                            <VisualState.Setters>
+                                <Setter TargetName="MobileGrid" Property="IsVisible" Value="True" />
+                                <Setter TargetName="TabletGrid" Property="IsVisible" Value="False" />
+                            </VisualState.Setters>
+                        </VisualState>
+
+                        <VisualState Name="Tablet">
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="600" />
+                            </VisualState.StateTriggers>
+                            <VisualState.Setters>
+                                <Setter TargetName="MobileGrid" Property="IsVisible" Value="False" />
+                                <Setter TargetName="TabletGrid" Property="IsVisible" Value="True" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Grid>
+        </ContentView>
 
         <!-- Animal Info Content -->
         <Grid VerticalOptions="FillAndExpand" IsVisible="{Binding AnimalInfoTabIsActive}">
@@ -389,7 +443,7 @@
                             <Label Text="{Binding IsLast8WeeksOfGestation}" Grid.Row="5" Grid.Column="1" FontSize="12" />
                             <Label Text="{Binding SelectedNumberOfSucklingKidsLambs.Name}" Grid.Row="6" Grid.Column="1" FontSize="12" IsVisible="{Binding IsNrSucklingsVisible}" />
                             <Label Text="{Binding DailyMilkYieldValue}" Grid.Row="7" Grid.Column="1" FontSize="12" />
-                            <Label Text="{Binding FatContentValue, Converter={StaticResource PercentageValueConverter}}"
+                            <Label Text="{Binding FatContentValue, Converter={StaticResource PercentageValueConverter2}}"
                                      Grid.Row="8" Grid.Column="1" FontSize="12" />
                         </Grid>
                     </StackLayout>
@@ -430,7 +484,7 @@
                             <!-- Requirements Values -->
                             <Label Text="{Binding EnergyRequirementMaintenance}" Grid.Row="1" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
                             <Label Text="{Binding EnergyRequirementAdditional}" Grid.Row="2" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
-                            <Label Text="{Binding EnergyRequirementTotal, Converter={StaticResource PercentageValueConverter}}"
+                            <Label Text="{Binding EnergyReqForUI, Converter={StaticResource PercentageValueConverter}}"
                                     Grid.Row="3" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
                             <Label Text="{Binding CrudeProteinRequirementMaintenance}" Grid.Row="5" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
                             <Label Text="{Binding CrudeProteinRequirementAdditional}" Grid.Row="6" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
@@ -612,7 +666,7 @@
                                 <Label Text="{Binding IsLast8WeeksOfGestation}" Grid.Row="5" Grid.Column="1" FontSize="12" />
                                 <Label Text="{Binding SelectedNumberOfSucklingKidsLambs.Name}" Grid.Row="6" Grid.Column="1" FontSize="12" IsVisible="{Binding IsNrSucklingsVisible}" />
                                 <Label Text="{Binding DailyMilkYieldValue}" Grid.Row="7" Grid.Column="1" FontSize="12" />
-                                <Label Text="{Binding FatContentValue, Converter={StaticResource PercentageValueConverter}}"
+                                <Label Text="{Binding FatContentValue, Converter={StaticResource PercentageValueConverter2}}"
                                         Grid.Row="8" Grid.Column="1" FontSize="12" />
                             </Grid>
                         </StackLayout>
@@ -653,7 +707,7 @@
                                 <!-- Requirements Values -->
                                 <Label Text="{Binding EnergyRequirementMaintenance}" Grid.Row="1" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
                                 <Label Text="{Binding EnergyRequirementAdditional}" Grid.Row="2" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
-                                <Label Text="{Binding EnergyRequirementTotal, Converter={StaticResource PercentageValueConverter}}"
+                                <Label Text="{Binding EnergyReqForUI, Converter={StaticResource PercentageValueConverter}}"
                                         Grid.Row="3" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
                                 <Label Text="{Binding CrudeProteinRequirementMaintenance}" Grid.Row="5" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
                                 <Label Text="{Binding CrudeProteinRequirementAdditional}" Grid.Row="6" Grid.Column="1" VerticalOptions="Center" FontSize="12" />
@@ -809,7 +863,7 @@
                                 <FormattedString>
                                     <Span Text="{Binding CreateCalculationPage_TotalRationCostLabel}" />
                                     <Span Text="{Binding TotalRation}" />
-                                    <Span Text="{Binding CreateCalculationPage_CostUnitLabel}" />
+                                    <Span Text="{Binding CreateCalculationPage_RationUnitLabel}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
