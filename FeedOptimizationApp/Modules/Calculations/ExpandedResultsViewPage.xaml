@@ -182,7 +182,7 @@
                             <Label Text="{Binding TotalDMi}" Grid.Row="1" Grid.Column="1" FontSize="12" HorizontalOptions="Center" />
                             <Label Text="{Binding TotalCPi}" Grid.Row="1" Grid.Column="2" FontSize="12" HorizontalOptions="Center" />
                             <Label Text="{Binding TotalMEi}" Grid.Row="1" Grid.Column="3" FontSize="12" HorizontalOptions="Center" />
-                            <Label Text="{Binding TotalRation}" Grid.Row="1" Grid.Column="4" FontSize="12" HorizontalOptions="Center" />
+                            <Label Text="{Binding TotalFeedCost}" Grid.Row="1" Grid.Column="4" FontSize="12" HorizontalOptions="Center" />
 
                             <!-- Requirements -->
                             <Label Text="{Binding ExpandedResultsPage_Requirement}" Grid.Row="2" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
@@ -196,14 +196,14 @@
                             <!-- Balance -->
                             <Label Text="{Binding ExpandedResultsPage_Balance}" Grid.Row="4" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                             <Label Text="{Binding BalanceDMi, Converter={StaticResource AbsoluteValueConverter}}"
-                       TextColor="{Binding BalanceDMi, Converter={StaticResource NegativeValueColourConverter}}"
-                       Grid.Row="4" Grid.Column="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                   TextColor="{Binding BalanceDMi, Converter={StaticResource NegativeValueColourConverter}}"
+                                   Grid.Row="4" Grid.Column="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                             <Label Text="{Binding BalanceCPi, Converter={StaticResource AbsoluteValueConverter}}"
-                       TextColor="{Binding BalanceCPi, Converter={StaticResource NegativeValueColourConverter}}"
-                       Grid.Row="4" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                   TextColor="{Binding BalanceCPi, Converter={StaticResource NegativeValueColourConverter}}"
+                                   Grid.Row="4" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                             <Label Text="{Binding BalanceMEi, Converter={StaticResource AbsoluteValueConverter}}"
-                       TextColor="{Binding BalanceMEi, Converter={StaticResource NegativeValueColourConverter}}"
-                       Grid.Row="4" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                   TextColor="{Binding BalanceMEi, Converter={StaticResource NegativeValueColourConverter}}"
+                                   Grid.Row="4" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                         </Grid>
                     </CollectionView.Footer>
                 </CollectionView>
@@ -250,18 +250,18 @@
                 <Label HorizontalOptions="Center" VerticalOptions="Start" Margin="0,30,0,0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{Binding ExpandedResultsPage_TotalFeedCostLabel}" />
-                            <Span Text="{Binding TotalFeedCost}" />
-                            <Span Text="{Binding ExpandedResultsPage_CostUnitLabel}" />
+                            <Span Text="{Binding ExpandedResultsPage_TotalRationCostLabel}" />
+                            <Span Text="{Binding TotalRation}" />
+                            <Span Text="{Binding ExpandedResultsPage_RationUnitLabel}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
                 <Label HorizontalOptions="Center" VerticalOptions="Start" Margin="0,20,0,20">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{Binding ExpandedResultsPage_TotalRationCostLabel}" />
-                            <Span Text="{Binding TotalRation}" />
-                            <Span Text="{Binding ExpandedResultsPage_RationUnitLabel}" />
+                            <Span Text="{Binding ExpandedResultsPage_TotalFeedCostLabel}" />
+                            <Span Text="{Binding TotalFeedCost}" />
+                            <Span Text="{Binding ExpandedResultsPage_CostUnitLabel}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
