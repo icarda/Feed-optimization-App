@@ -445,11 +445,11 @@ namespace FeedOptimizationApp.Modules.Calculations
                                 GFresh = Math.Round(feedEntity.Intake, MidpointRounding.AwayFromZero),
                                 PercentFresh = Math.Round(100 * feedEntity.Intake / feedEntitiesForResult.Data.Sum(f => f.Intake), MidpointRounding.AwayFromZero),
                                 PercentDryMatter = Math.Round(100 * (feedEntity.Intake * feedEntity.DM / 100) / feedEntitiesForResult.Data.Sum(f => f.Intake * f.DM / 100), MidpointRounding.AwayFromZero),
-                                TotalRation = feedEntity.Price * feedEntity.Intake / 1000,
-                                DMi = Math.Round(feedEntity.Intake * feedEntity.DM / 100, MidpointRounding.AwayFromZero),
-                                CPi = Math.Round((feedEntity.Intake * feedEntity.DM / 100) * feedEntity.CPDM / 100, MidpointRounding.AwayFromZero),
-                                MEi = Math.Round((feedEntity.Intake * feedEntity.DM / 100) * feedEntity.MEMJKGDM / 100, MidpointRounding.AwayFromZero),
-                                Cost = Math.Round(feedEntity.Price, MidpointRounding.AwayFromZero)
+                                Cost = Math.Round(feedEntity.Price * feedEntity.Intake / 1000, 2),
+                                DMi = Math.Round(feedEntity.Intake * feedEntity.DM / 100, 1),
+                                CPi = Math.Round((feedEntity.Intake * feedEntity.DM / 100) * feedEntity.CPDM / 100, 1),
+                                MEi = Math.Round((feedEntity.Intake * feedEntity.DM / 100) * feedEntity.MEMJKGDM / 100, 1),
+                                TotalRation = Math.Round(feedEntity.Price, 2)
                             };
 
                             storedResultsList.Add(resultInfo);
@@ -481,7 +481,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                         TotalRation = Math.Round(storedResultsList.Sum(x => x.TotalRation), 2);
 
                         // Calculate and format the total feed cost.
-                        TotalFeedCost = Math.Round(storedResultsList.Sum(x => x.Cost), MidpointRounding.AwayFromZero);
+                        TotalFeedCost = Math.Round(storedResultsList.Sum(x => x.Cost), 2);
                     }
                 }
             }
@@ -525,7 +525,6 @@ namespace FeedOptimizationApp.Modules.Calculations
         public string ExpandedResultsPage_TotalRationCostLabel => TranslationProvider["ExpandedResultsPage_TotalRationCostLabel"];
         public string ExpandedResultsPage_CostUnitLabel => TranslationProvider["ExpandedResultsPage_CostUnitLabel"];
         public string ExpandedResultsPage_RationUnitLabel => TranslationProvider["ExpandedResultsPage_RationUnitLabel"];
-
 
         #endregion TRANSLATIONS
     }

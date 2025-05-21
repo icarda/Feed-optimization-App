@@ -67,17 +67,17 @@ namespace DataLibrary.Services
             // Determine the resource name based on the country and language IDs.
             if (countryId == 1)
             {
-                resourceName = "DataLibrary.english_ethiopia_feeds.csv";
+                resourceName = "DataLibrary.Resources.english_ethiopia_feeds.csv";
             }
             if (countryId == 2)
             {
                 if (languageId == 1)
                 {
-                    resourceName = "DataLibrary.english_tunisia_feeds.csv";
+                    resourceName = "DataLibrary.Resources.english_tunisia_feeds.csv";
                 }
                 else
                 {
-                    resourceName = "DataLibrary.french_tunisia_feeds.csv";
+                    resourceName = "DataLibrary.Resources.french_tunisia_feeds.csv";
                 }
             }
 
@@ -199,7 +199,7 @@ namespace DataLibrary.Services
                 var assembly = Assembly.GetExecutingAssembly();
 
                 // Specify the name of the embedded Word document resource.
-                var resourceName = "DataLibrary.disclaimer.docx";
+                var resourceName = "DataLibrary.Resources.disclaimer.docx";
 
                 // Get the embedded resource stream.
                 using var stream = assembly.GetManifestResourceStream(resourceName);

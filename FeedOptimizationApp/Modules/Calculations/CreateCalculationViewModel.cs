@@ -1293,12 +1293,13 @@ namespace FeedOptimizationApp.Modules.Calculations
                 var cpig = dmig * (SelectedFeed?.CPPercentage ?? 0) / 100;
                 var meimjday = dmig * (SelectedFeed?.MEMJKg ?? 0) / 1000;
                 var cost = (Intake ?? 0) * (Price ?? 0) / 1000;
+                var price = Price ?? 0;
 
                 TotalDMi += Math.Round(dmig);
                 TotalCPi += Math.Round(cpig);
                 TotalMEi += Math.Round(meimjday);
                 TotalRation += cost;
-                TotalFeedCost += Price;
+                TotalFeedCost += price;
 
                 BalanceDMi = Math.Round((TotalDMi ?? 0) - DMIReq);
                 BalanceCPi = Math.Round((TotalCPi ?? 0) - CPReq);
@@ -1311,14 +1312,14 @@ namespace FeedOptimizationApp.Modules.Calculations
                     DM = SelectedFeed?.DryMatterPercentage,
                     CPDM = SelectedFeed?.CPPercentage,
                     MEMJKGDM = SelectedFeed?.MEMJKg,
-                    Price = Price ?? 0,
-                    Intake = Intake ?? 0,
+                    Price = Math.Round(price, 2),
+                    Intake = Math.Round(Intake ?? 0, 0),
                     MinLimit = MinLimit,
                     MaxLimit = MaxLimit,
-                    DMi = Math.Round(dmig),
-                    CPi = Math.Round(cpig),
-                    MEi = Math.Round(meimjday),
-                    Cost = Math.Round(cost)
+                    DMi = Math.Round(dmig, 1),
+                    CPi = Math.Round(cpig, 1),
+                    MEi = Math.Round(meimjday, 1),
+                    Cost = Math.Round(cost, 2)
                 };
 
                 // Insert new feed at the beginning of the list.
@@ -1346,7 +1347,7 @@ namespace FeedOptimizationApp.Modules.Calculations
         /// Updates the stored feed's intake value based on its DMi (Dry Matter Intake) and recalculates totals and balances.
         /// </summary>
         /// <param name="feed">The feed to be updated.</param>
-        private void OnSaveOptimisationFeed(StoredFeed feed)
+        /*private void OnSaveOptimisationFeed(StoredFeed feed)
         {
             // Find the existing feed in the stored feeds collection by matching the feed ID.
             var existingFeed = StoredFeeds.FirstOrDefault(f => f.Feed.Id == feed.Feed.Id);
@@ -1355,12 +1356,60 @@ namespace FeedOptimizationApp.Modules.Calculations
                 // Update the intake value of the existing feed based on its DMi and DM (Dry Matter) percentage.
                 existingFeed.Intake = Math.Round((feed.DMi / feed.DM ?? 0) * 100);
 
-                // Notify the UI that the intake value of the existing feed has changed.
-                OnPropertyChanged(nameof(existingFeed.Intake));
+                // Recalculate dependent values.
+                existingFeed.DMi = Math.Round((feed.DM ?? 0) * (existingFeed.Intake) / 100);
+                existingFeed.CPi = Math.Round(existingFeed.DMi * (feed.CPDM ?? 0) / 100, 2);
+                existingFeed.MEi = Math.Round(existingFeed.DMi * (feed.MEMJKGDM ?? 0) / 1000, 2);
+                existingFeed.Cost = Math.Round((existingFeed.Intake) * (feed.Price) / 1000, 2);
 
-                // Notify the UI that the stored feeds collection has been updated.
-                // This ensures that any UI elements bound to the collection are refreshed.
-                OnPropertyChanged(nameof(StoredFeeds));
+                // Notify the UI of changes for the specific feed.
+                OnPropertyChanged(nameof(existingFeed.DMi));
+                OnPropertyChanged(nameof(existingFeed.Intake));
+                OnPropertyChanged(nameof(existingFeed.MEi));
+                OnPropertyChanged(nameof(existingFeed.CPi));
+                OnPropertyChanged(nameof(existingFeed.Cost));
+                //OnPropertyChanged(nameof(StoredFeeds));
+
+                var updatedFeeds = new ObservableCollection<StoredFeed>(StoredFeeds);
+                StoredFeeds = updatedFeeds;
+
+                // Recalculate the totals and balances for all stored feeds.
+                RecalculateTotalsAndBalances();
+            }
+        }*/
+
+        private void OnSaveOptimisationFeed(StoredFeed feed)
+        {
+            var intake = (feed.DMi / feed.DM ?? 0) * 100;
+            var dmig = (feed.DM ?? 0) * intake / 100;
+            var cpig = (feed.DMi * (feed.CPDM ?? 0)) / 100;
+            var meimjday = (feed.DMi * (feed.MEMJKGDM ?? 0)) / 1000;
+            var cost = intake * (feed.Price) / 1000;
+
+            // Find the index of the existing feed in the stored feeds collection by matching the feed ID.
+            var index = StoredFeeds.IndexOf(StoredFeeds.FirstOrDefault(f => f.Feed.Id == feed.Feed.Id));
+            if (index >= 0)
+            {
+                // Create a new instance of StoredFeed with updated values.
+                var updatedFeed = new StoredFeed
+                {
+                    Feed = feed.Feed,
+                    CalculationId = feed.CalculationId,
+                    DM = feed.DM,
+                    CPDM = feed.CPDM,
+                    MEMJKGDM = feed.MEMJKGDM,
+                    Price = feed.Price,
+                    Intake = Math.Round(intake, 0),
+                    MinLimit = feed.MinLimit,
+                    MaxLimit = feed.MaxLimit,
+                    DMi = Math.Round(dmig, 1),
+                    CPi = Math.Round(cpig, 1),
+                    MEi = Math.Round(meimjday, 1),
+                    Cost = Math.Round(cost, 2)
+                };
+
+                // Replace the existing feed with the new instance.
+                StoredFeeds[index] = updatedFeed;
 
                 // Recalculate the totals and balances for all stored feeds.
                 RecalculateTotalsAndBalances();
@@ -1386,11 +1435,25 @@ namespace FeedOptimizationApp.Modules.Calculations
             if (existingFeed != null)
             {
                 // Update DMi based on Intake
-                existingFeed.DMi = Math.Round((feed.DM ?? 0) * (feed.Intake) / 100);
+                existingFeed.DMi = Math.Round((feed.DM ?? 0) * (feed.Intake) / 100, 1);
 
-                // Notify UI of changes
+                // Recalculate dependent values.
+                existingFeed.Intake = Math.Round((existingFeed.DMi / (feed.DM ?? 0)) * 100, 0);
+                existingFeed.CPi = Math.Round(existingFeed.DMi * (feed.CPDM ?? 0) / 100, 1);
+                existingFeed.MEi = Math.Round(existingFeed.DMi * (feed.MEMJKGDM ?? 0) / 1000, 1);
+                existingFeed.Cost = Math.Round((feed.Intake) * (feed.Price) / 1000, 2);
+
+                // Notify the UI of changes for the specific feed.
                 OnPropertyChanged(nameof(existingFeed.DMi));
-                OnPropertyChanged(nameof(StoredFeeds));
+                OnPropertyChanged(nameof(existingFeed.Intake));
+                OnPropertyChanged(nameof(existingFeed.MEi));
+                OnPropertyChanged(nameof(existingFeed.CPi));
+                OnPropertyChanged(nameof(existingFeed.Cost));
+                //OnPropertyChanged(nameof(StoredFeeds));
+
+                // Refresh the entire StoredFeeds collection to ensure UI updates
+                var updatedFeeds = new ObservableCollection<StoredFeed>(StoredFeeds);
+                StoredFeeds = updatedFeeds;
 
                 // Recalculate totals and balances
                 RecalculateTotalsAndBalances();
@@ -1412,6 +1475,15 @@ namespace FeedOptimizationApp.Modules.Calculations
             BalanceDMi = Math.Round((TotalDMi ?? 0) - DMIReq);
             BalanceCPi = Math.Round((TotalCPi ?? 0) - CPReq);
             BalanceMEi = Math.Round((TotalMEi ?? 0) - EnergyReqForUI);
+
+            // Notify the UI of changes for totals and balances.
+            OnPropertyChanged(nameof(TotalDMi));
+            OnPropertyChanged(nameof(TotalCPi));
+            OnPropertyChanged(nameof(TotalMEi));
+            OnPropertyChanged(nameof(TotalRation));
+            OnPropertyChanged(nameof(BalanceDMi));
+            OnPropertyChanged(nameof(BalanceCPi));
+            OnPropertyChanged(nameof(BalanceMEi));
         }
 
         /// <summary>

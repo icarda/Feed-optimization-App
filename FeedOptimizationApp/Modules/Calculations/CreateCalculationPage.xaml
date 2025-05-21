@@ -155,7 +155,7 @@
 
                         <!-- ADG -->
                         <Label Text="{Binding CreateCalculationPage_ADGLabel}" Grid.Row="6" Grid.Column="0" VerticalOptions="Center" />
-                        <Entry Grid.Row="6" Grid.Column="1" Placeholder="0" Text="{Binding ADG}" />
+                        <Entry Grid.Row="6" Grid.Column="1" Placeholder="0" Text="{Binding ADG}" Keyboard="Numeric" />
 
                         <!-- Diet Quality Estimate -->
                         <Label Text="{Binding CreateCalculationPage_DietQualityLabel}" Grid.Row="7" Grid.Column="0" VerticalOptions="Center" />
@@ -199,11 +199,11 @@
 
                                 <!-- Daily Milk Yield -->
                                 <Label Text="{Binding CreateCalculationPage_DailyMilkYieldLabel}" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" />
-                                <Entry Grid.Row="0" Grid.Column="1" Placeholder="0" Text="{Binding DailyMilkYieldValue}" />
+                                <Entry Grid.Row="0" Grid.Column="1" Placeholder="0" Text="{Binding DailyMilkYieldValue}" Keyboard="Numeric" />
 
                                 <!-- Fat Content -->
                                 <Label Text="{Binding CreateCalculationPage_FatContentLabel}" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" />
-                                <Entry Grid.Row="1" Grid.Column="1" Placeholder="0" Text="{Binding FatContentValue}" />
+                                <Entry Grid.Row="1" Grid.Column="1" Placeholder="0" Text="{Binding FatContentValue}" Keyboard="Numeric" />
                             </Grid>
                         </StackLayout>
                     </Border>
@@ -271,25 +271,32 @@
                                         Grid.ColumnSpan="2" />
 
                                     <Label Text="{Binding CreateCalculationPage_DMLabel}" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
-                                    <Entry Placeholder="{Binding CreateCalculationPage_DMPlaceholder}" Text="{Binding SelectedFeed.DryMatterPercentage}" Grid.Row="1" Grid.Column="1" FontSize="14" />
+                                    <Entry Placeholder="{Binding CreateCalculationPage_DMPlaceholder}" Text="{Binding SelectedFeed.DryMatterPercentage}"
+                                           Grid.Row="1" Grid.Column="1" FontSize="14" Keyboard="Numeric" />
 
                                     <Label Text="{Binding CreateCalculationPage_CPLabel}" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
-                                    <Entry Placeholder="{Binding CreateCalculationPage_CPPlaceholder}" Text="{Binding SelectedFeed.CPPercentage}" Grid.Row="2" Grid.Column="1" FontSize="14" />
+                                    <Entry Placeholder="{Binding CreateCalculationPage_CPPlaceholder}" Text="{Binding SelectedFeed.CPPercentage}"
+                                           Grid.Row="2" Grid.Column="1" FontSize="14" Keyboard="Numeric" />
 
                                     <Label Text="{Binding CreateCalculationPage_MELabel}" Grid.Row="3" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
-                                    <Entry Placeholder="{Binding CreateCalculationPage_MEPlaceholder}" Text="{Binding SelectedFeed.MEMJKg}" Grid.Row="3" Grid.Column="1" FontSize="14" />
+                                    <Entry Placeholder="{Binding CreateCalculationPage_MEPlaceholder}" Text="{Binding SelectedFeed.MEMJKg}"
+                                           Grid.Row="3" Grid.Column="1" FontSize="14" Keyboard="Numeric" />
 
                                     <Label Text="{Binding CreateCalculationPage_PriceLabel}" Grid.Row="4" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
-                                    <Entry Placeholder="{Binding CreateCalculationPage_PricePlaceholder}" Text="{Binding Price}" Grid.Row="4" Grid.Column="1" FontSize="14" />
+                                    <Entry Placeholder="{Binding CreateCalculationPage_PricePlaceholder}" Text="{Binding Price}"
+                                           Grid.Row="4" Grid.Column="1" FontSize="14" Keyboard="Numeric" />
 
                                     <Label Text="{Binding CreateCalculationPage_IntakeLabel}" Grid.Row="5" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
-                                    <Entry Placeholder="{Binding CreateCalculationPage_IntakePlaceholder}" Text="{Binding Intake}" Grid.Row="5" Grid.Column="1" FontSize="14" />
+                                    <Entry Placeholder="{Binding CreateCalculationPage_IntakePlaceholder}" Text="{Binding Intake}"
+                                           Grid.Row="5" Grid.Column="1" FontSize="14" Keyboard="Numeric" />
 
                                     <Label Text="{Binding CreateCalculationPage_MinLimitLabel}" Grid.Row="6" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
-                                    <Entry Placeholder="{Binding CreateCalculationPage_MinLimitPlaceholder}" Text="{Binding MinLimit}" Grid.Row="6" Grid.Column="1" FontSize="14" />
+                                    <Entry Placeholder="{Binding CreateCalculationPage_MinLimitPlaceholder}" Text="{Binding MinLimit}"
+                                           Grid.Row="6" Grid.Column="1" FontSize="14" Keyboard="Numeric" />
 
                                     <Label Text="{Binding CreateCalculationPage_MaxLimitLabel}" Grid.Row="7" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
-                                    <Entry Placeholder="{Binding CreateCalculationPage_MaxLimitPlaceholder}" Text="{Binding MaxLimit}" Grid.Row="7" Grid.Column="1" FontSize="14" />
+                                    <Entry Placeholder="{Binding CreateCalculationPage_MaxLimitPlaceholder}" Text="{Binding MaxLimit}"
+                                           Grid.Row="7" Grid.Column="1" FontSize="14" Keyboard="Numeric" />
 
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Row="8" Grid.ColumnSpan="1" Spacing="10">
                                         <Button Text="{Binding CreateCalculationPage_ClearButton}" BackgroundColor="{StaticResource Secondary}" Command="{Binding ClearFeedCommand}" />
@@ -355,7 +362,7 @@
                                                         Grid.Row="4" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
                                                 <Entry Text="{Binding Intake, Mode=TwoWay}"
                                                        IsEnabled="{Binding Path=BindingContext.IsStoredFeedEditable, Source={x:Reference FeedInfoContentView}}"
-                                                       Grid.Row="4" Grid.Column="1" FontSize="14" />
+                                                       Grid.Row="4" Grid.Column="1" FontSize="14" Keyboard="Numeric" />
 
                                                 <Label Text="{Binding Path=BindingContext.CreateCalculationPage_MinLimitLabel, Source={x:Reference FeedInfoContentView}}"
                                                         Grid.Row="5" Grid.Column="0" VerticalOptions="Center" FontSize="14" />
@@ -540,7 +547,8 @@
                                                 BackgroundColor="Transparent"
                                                 HeightRequest="20"
                                                 VerticalTextAlignment="Center"
-                                                HorizontalTextAlignment="Center" />
+                                                HorizontalTextAlignment="Center"
+                                                Keyboard="Numeric" />
                                         <Label Text="{Binding CPi}" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                         <Label Text="{Binding MEi}" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                         <Label Text="{Binding Cost}" Grid.Column="4" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
@@ -852,18 +860,18 @@
                         <Label HorizontalOptions="Center" VerticalOptions="Start" Margin="0,30,0,0">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{Binding CreateCalculationPage_TotalFeedCostLabel}" />
+                                    <Span Text="{Binding CreateCalculationPage_TotalRationCostLabel}" />
                                     <Span Text="{Binding TotalFeedCost}" />
-                                    <Span Text="{Binding CreateCalculationPage_CostUnitLabel}" />
+                                    <Span Text="{Binding CreateCalculationPage_RationUnitLabel}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
                         <Label HorizontalOptions="Center" VerticalOptions="Start" Margin="0,20,0,20">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{Binding CreateCalculationPage_TotalRationCostLabel}" />
+                                    <Span Text="{Binding CreateCalculationPage_TotalFeedCostLabel}" />
                                     <Span Text="{Binding TotalRation}" />
-                                    <Span Text="{Binding CreateCalculationPage_RationUnitLabel}" />
+                                    <Span Text="{Binding CreateCalculationPage_CostUnitLabel}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

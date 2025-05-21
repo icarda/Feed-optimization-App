@@ -7,10 +7,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="disclaimer.docx" />
-		<EmbeddedResource Include="english_ethiopia_feeds.csv" />
-		<EmbeddedResource Include="english_tunisia_feeds.csv" />
-		<EmbeddedResource Include="french_tunisia_feeds.csv" />
+		<EmbeddedResource Include="Resources\disclaimer.docx" />
+		<EmbeddedResource Include="Resources\english_ethiopia_feeds.csv" />
+		<EmbeddedResource Include="Resources\english_tunisia_feeds.csv" />
+		<EmbeddedResource Include="Resources\french_tunisia_feeds.csv" />
 	</ItemGroup>
 
 	<ItemGroup>
