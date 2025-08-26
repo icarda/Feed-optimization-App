@@ -5,8 +5,8 @@ namespace DataLibrary.Models.Enums
 {
     public class LanguageEntity : Enumeration
     {
-        public static LanguageEntity ENGLISH = new LanguageEntity(1, "English / Anglais");
-        public static LanguageEntity FRENCH = new LanguageEntity(2, "French / Français");
+        public static LanguageEntity ENGLISH = new LanguageEntity(1, "English");
+        public static LanguageEntity FRENCH = new LanguageEntity(2, "French");
 
         public LanguageEntity()
         {

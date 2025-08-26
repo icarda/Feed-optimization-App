@@ -29,6 +29,8 @@ namespace FeedOptimizationApp.Modules.Settings
 
         public ObservableCollection<CountryEntity> Countries { get; set; } = new ObservableCollection<CountryEntity>();
         public ObservableCollection<SpeciesEntity> SpeciesList { get; set; } = new ObservableCollection<SpeciesEntity>();
+        public ObservableCollection<DisplaySpecies> DisplaySpeciesList { get; set; } = new();
+
 
         // Private fields to store initial values.
         private LanguageEntity? _initialSelectedLanguage;
@@ -98,6 +100,21 @@ namespace FeedOptimizationApp.Modules.Settings
                 {
                     SharedData.SelectedSpecies = value;
                     OnPropertyChanged(nameof(SelectedSpecies));
+                }
+            }
+        }
+
+        private DisplaySpecies _selectedDisplaySpecies;
+        public DisplaySpecies SelectedDisplaySpecies
+        {
+            get => _selectedDisplaySpecies;
+            set
+            {
+                if (_selectedDisplaySpecies != value)
+                {
+                    _selectedDisplaySpecies = value;
+                    SelectedSpecies = value?.Entity; // keep your original logic
+                    OnPropertyChanged(nameof(SelectedDisplaySpecies));
                 }
             }
         }
@@ -348,6 +365,13 @@ namespace FeedOptimizationApp.Modules.Settings
                     {
                         SpeciesList.Add(species);
                     }
+
+                    // TRANSLATIONS
+                    DisplaySpeciesList.Clear();
+                    foreach (var species in SpeciesList)
+                    {
+                        DisplaySpeciesList.Add(new DisplaySpecies(species, TranslationProvider));
+                    }
                 }
             }
             catch (Exception ex)
@@ -391,5 +415,20 @@ namespace FeedOptimizationApp.Modules.Settings
         public string SettingsPage_LoadErrorMessage => TranslationProvider["SettingsPage_LoadErrorMessage"];
 
         #endregion TRANSLATIONS
+
+        public class DisplaySpecies
+        {
+            public SpeciesEntity Entity { get; }
+            public string DisplayName { get; }
+
+            public DisplaySpecies(SpeciesEntity entity, TranslationProvider translationProvider)
+            {
+                Entity = entity;
+                DisplayName = translationProvider[$"Species_{entity.Name}"];
+            }
+
+            // Optional: override ToString for debugging
+            public override string ToString() => DisplayName;
+        }
     }
 }

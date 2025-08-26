@@ -507,13 +507,12 @@
                             <CollectionView.Header>
                                 <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="120" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="40" />
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Headers -->
@@ -528,13 +527,12 @@
                                 <DataTemplate>
                                     <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="120" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="40" />
                                         </Grid.ColumnDefinitions>
 
                                         <!-- Feed Values -->
@@ -568,13 +566,12 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="120" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="40" />
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Horizontal line above Total section -->

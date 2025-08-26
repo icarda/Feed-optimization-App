@@ -29,13 +29,20 @@
 
         <!-- Species Picker -->
         <Label Text="{Binding SettingsPage_SelectSpeciesLabel}" FontSize="18" />
-        <Picker x:Name="SpeciesPicker"
+        <!--<Picker x:Name="SpeciesPicker"
                 Title="{Binding SettingsPage_SelectOption}"
                 SelectedIndex="-1"
                 ItemsSource="{Binding SpeciesList}"
                 ItemDisplayBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedSpecies}"
-                FontSize="16" />
+                FontSize="16" />-->
+        <Picker x:Name="SpeciesPicker"
+            Title="{Binding SettingsPage_SelectOption}"
+            SelectedIndex="-1"
+            ItemsSource="{Binding DisplaySpeciesList}"
+            ItemDisplayBinding="{Binding DisplayName}"
+            SelectedItem="{Binding SelectedDisplaySpecies, Mode=TwoWay}"
+            FontSize="16" />
 
         <!-- Buttons -->
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,30,0,0">
