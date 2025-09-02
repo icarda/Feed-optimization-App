@@ -1,4 +1,5 @@
-﻿using DataLibrary.Models.Enums;
+﻿using DataLibrary.Models;
+using DataLibrary.Models.Enums;
 using DataLibrary.Seedwork;
 using System.ComponentModel;
 using System.Globalization;
@@ -25,9 +26,13 @@ namespace FeedOptimizationApp.Localization
                 LanguageEntity lang => $"Language_{lang.Name}",
                 CountryEntity country => $"Country_{country.Name}",
                 SpeciesEntity species => $"Species_{species.Name}",
+                DietQualityEstimateEntity dietQuality => $"DietQualityEstimate_{dietQuality.Name}",
+                GoatTypeEntity goatType => $"GoatType_{goatType.Name}",
+                GrazingEntity grazing => $"Grazing_{grazing.Name}",
+                SheepTypeEntity sheepType => $"SheepType_{sheepType.Name}",
                 Enumeration enumEntity => enumEntity.Name,
                 string str => str,
-                _ => value.ToString()
+                _ => value.ToString()!
             };
 
             return TranslationProvider?[key] ?? key;
