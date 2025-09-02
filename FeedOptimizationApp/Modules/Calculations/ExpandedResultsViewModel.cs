@@ -310,45 +310,6 @@ namespace FeedOptimizationApp.Modules.Calculations
 
             // Start loading results for the provided CalculationId
             LoadResults((int)CalculationId);
-
-            // Listen for language changes to update translations
-            TranslationProvider.PropertyChanged += (sender, e) =>
-            {
-                if (e.PropertyName == null)
-                {
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Title));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_AnimalData));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Requirements));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Type));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Grazing));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_BodyWeight));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_ADG));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_DietQualityEstimate));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_LastGestation));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_NoSucklingKidsLambs));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_DailyMilkYield));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_FatContent));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Energy));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Maintenance));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Additional));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Total));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_CrudeProtein));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_DMI));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Base));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_NutrientRequirements));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Feed));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_DMi));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_CPi));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_MEi));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Cost));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Requirement));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_Balance));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_TotalFeedCostLabel));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_TotalRationCostLabel));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_CostUnitLabel));
-                    OnPropertyChanged(nameof(ExpandedResultsPage_RationUnitLabel));
-                }
-            };
         }
 
         /// <summary>
@@ -492,40 +453,6 @@ namespace FeedOptimizationApp.Modules.Calculations
             }
         }
 
-        #region TRANSLATIONS
-
-        public string ExpandedResultsPage_Title => TranslationProvider["ExpandedResultsPage_Title"];
-        public string ExpandedResultsPage_AnimalData => TranslationProvider["ExpandedResultsPage_AnimalData"];
-        public string ExpandedResultsPage_Requirements => TranslationProvider["ExpandedResultsPage_Requirements"];
-        public string ExpandedResultsPage_Type => TranslationProvider["ExpandedResultsPage_Type"];
-        public string ExpandedResultsPage_Grazing => TranslationProvider["ExpandedResultsPage_Grazing"];
-        public string ExpandedResultsPage_BodyWeight => TranslationProvider["ExpandedResultsPage_BodyWeight"];
-        public string ExpandedResultsPage_ADG => TranslationProvider["ExpandedResultsPage_ADG"];
-        public string ExpandedResultsPage_DietQualityEstimate => TranslationProvider["ExpandedResultsPage_DietQualityEstimate"];
-        public string ExpandedResultsPage_LastGestation => TranslationProvider["ExpandedResultsPage_LastGestation"];
-        public string ExpandedResultsPage_NoSucklingKidsLambs => TranslationProvider["ExpandedResultsPage_NoSucklingKidsLambs"];
-        public string ExpandedResultsPage_DailyMilkYield => TranslationProvider["ExpandedResultsPage_DailyMilkYield"];
-        public string ExpandedResultsPage_FatContent => TranslationProvider["ExpandedResultsPage_FatContent"];
-        public string ExpandedResultsPage_Energy => TranslationProvider["ExpandedResultsPage_Energy"];
-        public string ExpandedResultsPage_Maintenance => TranslationProvider["ExpandedResultsPage_Maintenance"];
-        public string ExpandedResultsPage_Additional => TranslationProvider["ExpandedResultsPage_Additional"];
-        public string ExpandedResultsPage_Total => TranslationProvider["ExpandedResultsPage_Total"];
-        public string ExpandedResultsPage_CrudeProtein => TranslationProvider["ExpandedResultsPage_CrudeProtein"];
-        public string ExpandedResultsPage_DMI => TranslationProvider["ExpandedResultsPage_DMI"];
-        public string ExpandedResultsPage_Base => TranslationProvider["ExpandedResultsPage_Base"];
-        public string ExpandedResultsPage_NutrientRequirements => TranslationProvider["ExpandedResultsPage_NutrientRequirements"];
-        public string ExpandedResultsPage_Feed => TranslationProvider["ExpandedResultsPage_Feed"];
-        public string ExpandedResultsPage_DMi => TranslationProvider["ExpandedResultsPage_DMi"];
-        public string ExpandedResultsPage_CPi => TranslationProvider["ExpandedResultsPage_CPi"];
-        public string ExpandedResultsPage_MEi => TranslationProvider["ExpandedResultsPage_MEi"];
-        public string ExpandedResultsPage_Cost => TranslationProvider["ExpandedResultsPage_Cost"];
-        public string ExpandedResultsPage_Requirement => TranslationProvider["ExpandedResultsPage_Requirement"];
-        public string ExpandedResultsPage_Balance => TranslationProvider["ExpandedResultsPage_Balance"];
-        public string ExpandedResultsPage_TotalFeedCostLabel => TranslationProvider["ExpandedResultsPage_TotalFeedCostLabel"];
-        public string ExpandedResultsPage_TotalRationCostLabel => TranslationProvider["ExpandedResultsPage_TotalRationCostLabel"];
-        public string ExpandedResultsPage_CostUnitLabel => TranslationProvider["ExpandedResultsPage_CostUnitLabel"];
-        public string ExpandedResultsPage_RationUnitLabel => TranslationProvider["ExpandedResultsPage_RationUnitLabel"];
-
-        #endregion TRANSLATIONS
+        
     }
 }
