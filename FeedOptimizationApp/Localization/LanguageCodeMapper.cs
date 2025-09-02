@@ -1,6 +1,6 @@
 ﻿using DataLibrary.Models.Enums;
 
-namespace FeedOptimizationApp.Helpers;
+namespace FeedOptimizationApp.Localization;
 
 public static class LanguageCodeMapper
 {

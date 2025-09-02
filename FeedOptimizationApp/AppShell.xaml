@@ -6,34 +6,35 @@
     xmlns:home="clr-namespace:FeedOptimizationApp.Modules.Home"
     xmlns:calculations="clr-namespace:FeedOptimizationApp.Modules.Calculations"
     xmlns:settings="clr-namespace:FeedOptimizationApp.Modules.Settings"
+    xmlns:helpers="clr-namespace:FeedOptimizationApp.Localization"
     Shell.FlyoutBehavior="Disabled"
     Title="FeedOptimizationApp"
     BackgroundColor="{StaticResource Primary}"
     TitleColor="{StaticResource White}">
 
     <TabBar>
-        <ShellContent Title="{Binding Tab_Home}" x:Name="homeTab"
+        <ShellContent Title="{helpers:Translate Key=Tab_Home}" x:Name="homeTab"
                 ContentTemplate="{DataTemplate home:HomePage}"
                 Route="HomePage">
             <ShellContent.Icon>
                 <FontImageSource Glyph="{StaticResource IconHome}" FontFamily="FaSolid" Color="{StaticResource Tertiary}" />
             </ShellContent.Icon>
         </ShellContent>
-        <ShellContent Title="{Binding Tab_Create}" x:Name="createCalculationTab"
+        <ShellContent Title="{helpers:Translate Key=Tab_Create}" x:Name="createCalculationTab"
                 ContentTemplate="{DataTemplate calculations:CreateCalculationPage}"
                 Route="CreateCalculationPage">
             <ShellContent.Icon>
                 <FontImageSource Glyph="{StaticResource IconPlusCircle}" FontFamily="FaSolid" Color="{StaticResource Tertiary}" />
             </ShellContent.Icon>
         </ShellContent>
-        <ShellContent Title="{Binding Tab_View}" x:Name="viewCalculationsTab"
+        <ShellContent Title="{helpers:Translate Key=Tab_View}" x:Name="viewCalculationsTab"
                 ContentTemplate="{DataTemplate calculations:ViewCalculationsPage}"
                 Route="ViewCalculationsPage">
             <ShellContent.Icon>
                 <FontImageSource Glyph="{StaticResource IconTable}" FontFamily="FaSolid" Color="{StaticResource Tertiary}" />
             </ShellContent.Icon>
         </ShellContent>
-        <ShellContent Title="{Binding Tab_Settings}" x:Name="settingsTab"
+        <ShellContent Title="{helpers:Translate Key=Tab_Settings}" x:Name="settingsTab"
                 ContentTemplate="{DataTemplate settings:SettingsPage}"
                 Route="SettingsPage">
             <ShellContent.Icon>

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FeedOptimizationApp.Modules.Home.HomePage" Title="">
+             xmlns:helpers="clr-namespace:FeedOptimizationApp.Localization"
+             x:Class="FeedOptimizationApp.Modules.Home.HomePage"
+             Title="">
 
     <Grid Padding="20" RowSpacing="20" ColumnSpacing="20">
         <Grid.RowDefinitions>
@@ -12,12 +14,12 @@
 
         <!-- Heading and SubHeading -->
         <StackLayout Grid.Row="0" Spacing="10">
-            <Label Text="{Binding HeadingText}"
+            <Label Text="{helpers:Translate Key=HomePage_Heading}"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
                    VerticalOptions="Center" />
-            <Label Text="{Binding SubHeadingText}"
+            <Label Text="{helpers:Translate Key=HomePage_SubHeading}"
                    FontSize="16"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
@@ -27,7 +29,7 @@
         <StackLayout Grid.Row="1" VerticalOptions="Center" Spacing="50">
             <!-- Create Calculation Button -->
             <Button
-                    Text="{Binding CreateCalculationButtonText}"
+                    Text="{helpers:Translate Key=HomePage_CreateCalculationButton}"
                     FontSize="16"
                     Command="{Binding CreateCalculationCommand}"
                     HeightRequest="120"
@@ -39,7 +41,7 @@
 
             <!-- View Calculations Button -->
             <Button
-                    Text="{Binding ViewCalculationsButtonText}"
+                    Text="{helpers:Translate Key=HomePage_ViewCalculationsButton}"
                     FontSize="16"
                     Command="{Binding ViewCalculationsCommand}"
                     HeightRequest="120"

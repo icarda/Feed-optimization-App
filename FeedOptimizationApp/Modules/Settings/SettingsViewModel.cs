@@ -84,6 +84,8 @@ namespace FeedOptimizationApp.Modules.Settings
                         SelectedSpecies = SpeciesList.FirstOrDefault(x => x.Value.Id == SharedData.SelectedSpecies?.Id);
 
                         OnPropertyChanged(nameof(SelectedLanguage));
+                        OnPropertyChanged(nameof(SelectedCountry));
+                        OnPropertyChanged(nameof(SelectedSpecies));
                     }
                 }
             }

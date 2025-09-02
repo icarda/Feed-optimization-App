@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:FeedOptimizationApp.Modules.Calculations"
+             xmlns:helpers="clr-namespace:FeedOptimizationApp.Localization"
              x:Class="FeedOptimizationApp.Modules.Calculations.ViewCalculationsPage"
-             Title="{Binding ViewCalculationsPage_Title}">
+             Title="{helpers:Translate Key=ViewCalculationsPage_Title}">
 
     <Grid VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
@@ -22,11 +23,11 @@
             </Grid.ColumnDefinitions>
 
             <!-- Header content -->
-            <Label Text="{Binding ViewCalculationsPage_HeaderTitle}" Grid.Column="0" FontAttributes="Bold" />
-            <Label Text="{Binding ViewCalculationsPage_HeaderDate}" Grid.Column="1" FontAttributes="Bold" HorizontalOptions="Center"/>
-            <Label Text="{Binding ViewCalculationsPage_HeaderNoFeeds}" Grid.Column="2" FontAttributes="Bold" HorizontalOptions="Center"/>
-            <Label Text="{Binding ViewCalculationsPage_HeaderType}" Grid.Column="3" FontAttributes="Bold" HorizontalOptions="Center"/>
-            <Label Text="{Binding ViewCalculationsPage_HeaderAction}" Grid.Column="4" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <Label Text="{helpers:Translate Key=ViewCalculationsPage_HeaderTitle}" Grid.Column="0" FontAttributes="Bold" />
+            <Label Text="{helpers:Translate Key=ViewCalculationsPage_HeaderDate}" Grid.Column="1" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <Label Text="{helpers:Translate Key=ViewCalculationsPage_HeaderNoFeeds}" Grid.Column="2" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <Label Text="{helpers:Translate Key=ViewCalculationsPage_HeaderType}" Grid.Column="3" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <Label Text="{helpers:Translate Key=ViewCalculationsPage_HeaderAction}" Grid.Column="4" FontAttributes="Bold" HorizontalOptions="Center"/>
         </Grid>
 
         <!-- Scrollable content inside the border -->

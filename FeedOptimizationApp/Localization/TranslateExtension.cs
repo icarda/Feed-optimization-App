@@ -1,27 +1,40 @@
 ﻿namespace FeedOptimizationApp.Localization;
 
-public class TranslateExtension : IMarkupExtension<BindingBase>
+[ContentProperty(nameof(Key))]
+public class TranslateExtension : IMarkupExtension
 {
+    /// <summary>
+    /// The translation key to look up in TranslationProvider
+    /// </summary>
     public string Key { get; set; }
 
-    public BindingBase ProvideValue(IServiceProvider serviceProvider)
+    public object ProvideValue(IServiceProvider serviceProvider)
     {
-        Console.WriteLine($"[TranslateExtension] Providing value for key: {Key}");
-        var translationProvider = App.ServiceProvider.GetService<TranslationProvider>();
+        if (string.IsNullOrWhiteSpace(Key))
+            return $"[{Key}]";
 
-        if (translationProvider == null)
+        // Try to get the target object and property from XAML
+        var valueTargetProvider = (IProvideValueTarget?)serviceProvider.GetService(typeof(IProvideValueTarget));
+        var targetObject = valueTargetProvider?.TargetObject as BindableObject;
+        var targetProperty = valueTargetProvider?.TargetProperty as BindableProperty;
+
+        if (targetObject == null || targetProperty == null)
+            return $"[{Key}]";
+
+        // Get TranslationProvider from resources
+        if (Application.Current.Resources.TryGetValue("TranslationProvider", out var providerObj)
+            && providerObj is TranslationProvider translationProvider)
         {
-            Console.WriteLine("[TranslateExtension] TranslationProvider is null. Ensure it is registered in the service container.");
+            // Initial value
+            targetObject.SetValue(targetProperty, translationProvider[Key]);
+
+            // Subscribe to LanguageChanged to update the target automatically
+            translationProvider.LanguageChanged += (s, e) =>
+            {
+                targetObject.SetValue(targetProperty, translationProvider[Key]);
+            };
         }
 
-        return new Binding
-        {
-            Mode = BindingMode.OneWay,
-            Path = $"[{Key}]",
-            Source = translationProvider
-        };
+        return targetObject.GetValue(targetProperty);
     }
-
-    object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
-        => ProvideValue(serviceProvider);
 }

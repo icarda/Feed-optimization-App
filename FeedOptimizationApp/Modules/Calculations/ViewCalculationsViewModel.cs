@@ -37,21 +37,6 @@ namespace FeedOptimizationApp.Modules.Calculations
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
             ExpandViewCommand = new Command(OnExpandView);
             LoadCalculations();
-
-            // Listen for language changes to update translations
-            TranslationProvider.PropertyChanged += (sender, e) =>
-            {
-                if (e.PropertyName == null)
-                {
-                    OnPropertyChanged(nameof(ViewCalculationsPage_Title));
-                    OnPropertyChanged(nameof(ViewCalculationsPage_HeaderTitle));
-                    OnPropertyChanged(nameof(ViewCalculationsPage_HeaderDate));
-                    OnPropertyChanged(nameof(ViewCalculationsPage_HeaderNoFeeds));
-                    OnPropertyChanged(nameof(ViewCalculationsPage_HeaderType));
-                    OnPropertyChanged(nameof(ViewCalculationsPage_HeaderAction));
-                    OnPropertyChanged(nameof(ViewCalculationsPage_ExpandView));
-                }
-            };
         }
 
         private async void OnExpandView(object parameter)
@@ -101,19 +86,6 @@ namespace FeedOptimizationApp.Modules.Calculations
                 Console.WriteLine($"An error occurred while loading calculations: {ex.Message}");
             }
         }
-
-        #region TRANSLATIONS
-
-        public string ViewCalculationsPage_Title => TranslationProvider["ViewCalculationsPage_Title"];
-        public string ViewCalculationsPage_HeaderTitle => TranslationProvider["ViewCalculationsPage_HeaderTitle"];
-        public string ViewCalculationsPage_HeaderDate => TranslationProvider["ViewCalculationsPage_HeaderDate"];
-        public string ViewCalculationsPage_HeaderNoFeeds => TranslationProvider["ViewCalculationsPage_HeaderNoFeeds"];
-        public string ViewCalculationsPage_HeaderType => TranslationProvider["ViewCalculationsPage_HeaderType"];
-        public string ViewCalculationsPage_HeaderAction => TranslationProvider["ViewCalculationsPage_HeaderAction"];
-        public string ViewCalculationsPage_ExpandView => TranslationProvider["ViewCalculationsPage_ExpandView"];
-
-
-        #endregion TRANSLATIONS
 
         public class CalculationDisplayModel
         {
