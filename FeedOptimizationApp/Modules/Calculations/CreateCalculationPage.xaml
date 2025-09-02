@@ -130,18 +130,18 @@
                         <!-- Type -->
                         <Label Text="{helpers:Translate Key=CreateCalculationPage_TypeLabel}" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" />
                         <Picker Title="{helpers:Translate Key=CreateCalculationPage_SelectOption}" Grid.Row="0" Grid.Column="1"
-                            ItemsSource="{Binding Types}"
-                            ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding SelectedType}" />
+                            ItemsSource="{Binding TranslatedTypes}"
+                            ItemDisplayBinding="{Binding Label}"
+                            SelectedItem="{Binding SelectedTranslatedType}" />
                         <Label Text="{Binding ValidationErrors[Type]}"
                             TextColor="Red" Grid.Row="1" Grid.Column="1" />
 
                         <!-- Grazing -->
                         <Label Text="{helpers:Translate Key=CreateCalculationPage_GrazingLabel}" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" />
                         <Picker Title="{helpers:Translate Key=CreateCalculationPage_SelectOption}" Grid.Row="2" Grid.Column="1"
-                            ItemsSource="{Binding Grazings}"
-                            ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding SelectedGrazing}" />
+                            ItemsSource="{Binding TranslatedGrazings}"
+                            ItemDisplayBinding="{Binding Label}"
+                            SelectedItem="{Binding SelectedTranslatedGrazing}" />
                         <Label Text="{Binding ValidationErrors[GrazingId]}"
                             TextColor="Red" Grid.Row="3" Grid.Column="1" />
 
@@ -161,9 +161,9 @@
                         <!-- Diet Quality Estimate -->
                         <Label Text="{helpers:Translate Key=CreateCalculationPage_DietQualityLabel}" Grid.Row="7" Grid.Column="0" VerticalOptions="Center" />
                         <Picker Title="{helpers:Translate Key=CreateCalculationPage_SelectOption}" Grid.Row="7" Grid.Column="1"
-                            ItemsSource="{Binding DietQualityEstimates}"
-                            ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding SelectedDietQualityEstimate}" />
+                            ItemsSource="{Binding TranslatedDietQualityEstimates}"
+                            ItemDisplayBinding="{Binding Label}"
+                            SelectedItem="{Binding SelectedTranslatedDietQualityEstimate}" />
                         <Label Text="{Binding ValidationErrors[DietQualityEstimateId]}" TextColor="Red" Grid.Row="8" Grid.Column="1" />
 
                         <!-- Last 8 Weeks of Gestation -->

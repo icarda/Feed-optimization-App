@@ -140,6 +140,9 @@ namespace FeedOptimizationApp.Modules.Calculations
             // Observe changes to SharedData.SelectedSpecies
             SharedData.PropertyChanged += SharedData_PropertyChanged;
 
+            //Subscribe to the TranslationProvider.LanguageChanged event
+            translationProvider.LanguageChanged += OnLanguageChanged;
+
             // Initialize _addFeedBoxText after TranslationProvider is available
             _addFeedBoxText = TranslationProvider["CreateCalculationPage_AddFeedBoxText"];
             
@@ -152,6 +155,21 @@ namespace FeedOptimizationApp.Modules.Calculations
                 OnPropertyChanged(nameof(SelectedSpecies));
                 LoadAnimalInformationCommand.Execute(null);
             }
+        }
+
+        private void OnLanguageChanged(object? sender, string? newLang)
+        {
+            foreach (var item in TranslatedGrazings) item.Refresh();
+            TranslatedGrazings = new ObservableCollection<TranslatedItem<GrazingEntity>>(TranslatedGrazings);
+            OnPropertyChanged(nameof(TranslatedGrazings));
+
+            foreach (var item in TranslatedTypes) item.Refresh();
+            TranslatedTypes = new ObservableCollection<TranslatedItem<LookupDTO>>(TranslatedTypes);
+            OnPropertyChanged(nameof(TranslatedTypes));
+
+            foreach (var item in TranslatedDietQualityEstimates) item.Refresh();
+            TranslatedDietQualityEstimates = new ObservableCollection<TranslatedItem<DietQualityEstimateEntity>>(TranslatedDietQualityEstimates);
+            OnPropertyChanged(nameof(TranslatedDietQualityEstimates));
         }
 
         #region Commands
@@ -1081,21 +1099,85 @@ namespace FeedOptimizationApp.Modules.Calculations
         }
 
         // Collection of available animal types.
-        public ObservableCollection<LookupDTO> Types { get; set; } = new ObservableCollection<LookupDTO>();
+        //public ObservableCollection<LookupDTO> Types { get; set; } = new ObservableCollection<LookupDTO>();
+        private ObservableCollection<TranslatedItem<LookupDTO>> _translatedTypes = new();
+        public ObservableCollection<TranslatedItem<LookupDTO>> TranslatedTypes
+        {
+            get => _translatedTypes;
+            set => SetProperty(ref _translatedTypes, value);
+        }
 
+        private TranslatedItem<LookupDTO>? _selectedTranslatedType;
+        public TranslatedItem<LookupDTO>? SelectedTranslatedType
+        {
+            get => _selectedTranslatedType;
+            set
+            {
+                if (SetProperty(ref _selectedTranslatedType, value))
+                {
+                    SelectedType = value?.Value;
+                }
+            }
+        }
         // Separate collections for sheep and goat types.
-        public ObservableCollection<SheepTypeEntity> SheepTypes { get; set; } = new ObservableCollection<SheepTypeEntity>();
+        private ObservableCollection<TranslatedItem<SheepTypeEntity>> _translatedSheepTypes = new();
+        public ObservableCollection<TranslatedItem<SheepTypeEntity>> TranslatedSheepTypes
+        {
+            get => _translatedSheepTypes;
+            set => SetProperty(ref _translatedSheepTypes, value);
+        }
 
-        public ObservableCollection<GoatTypeEntity> GoatTypes { get; set; } = new ObservableCollection<GoatTypeEntity>();
+        private ObservableCollection<TranslatedItem<GoatTypeEntity>> _translatedGoatTypes = new();
+        public ObservableCollection<TranslatedItem<GoatTypeEntity>> TranslatedGoatTypes
+        {
+            get => _translatedGoatTypes;
+            set => SetProperty(ref _translatedGoatTypes, value);
+        }
 
         // Collection of available grazing options.
-        public ObservableCollection<GrazingEntity> Grazings { get; set; } = new ObservableCollection<GrazingEntity>();
+        private ObservableCollection<TranslatedItem<GrazingEntity>> _translatedGrazings = new();
+        public ObservableCollection<TranslatedItem<GrazingEntity>> TranslatedGrazings
+        {
+            get => _translatedGrazings;
+            set => SetProperty(ref _translatedGrazings, value);
+        }
+
+        private TranslatedItem<GrazingEntity>? _selectedTranslatedGrazing;
+        public TranslatedItem<GrazingEntity>? SelectedTranslatedGrazing
+        {
+            get => _selectedTranslatedGrazing;
+            set
+            {
+                if (SetProperty(ref _selectedTranslatedGrazing, value))
+                {
+                    SelectedGrazing = value?.Value;
+                }
+            }
+        }
 
         // Collection of available body weight options.
         public ObservableCollection<BodyWeightEntity> BodyWeights { get; set; } = new ObservableCollection<BodyWeightEntity>();
 
         // Collection of available diet quality estimates.
-        public ObservableCollection<DietQualityEstimateEntity> DietQualityEstimates { get; set; } = new ObservableCollection<DietQualityEstimateEntity>();
+        private ObservableCollection<TranslatedItem<DietQualityEstimateEntity>> _translatedDietQualityEstimates = new();
+        public ObservableCollection<TranslatedItem<DietQualityEstimateEntity>> TranslatedDietQualityEstimates
+        {
+            get => _translatedDietQualityEstimates;
+            set => SetProperty(ref _translatedDietQualityEstimates, value);
+        }
+
+        private TranslatedItem<DietQualityEstimateEntity>? _selectedTranslatedDietQualityEstimate;
+        public TranslatedItem<DietQualityEstimateEntity>? SelectedTranslatedDietQualityEstimate
+        {
+            get => _selectedTranslatedDietQualityEstimate;
+            set
+            {
+                if (SetProperty(ref _selectedTranslatedDietQualityEstimate, value))
+                {
+                    SelectedDietQualityEstimate = value?.Value;
+                }
+            }
+        }
 
         // Collection of available kids/lambs options.
         public ObservableCollection<KidsLambsEntity> NrSucklingKidsLambs { get; set; } = new ObservableCollection<KidsLambsEntity>();
@@ -1136,10 +1218,10 @@ namespace FeedOptimizationApp.Modules.Calculations
             try
             {
                 // Clear previous data
-                Types.Clear();
-                Grazings.Clear();
+                TranslatedTypes.Clear();
+                TranslatedGrazings.Clear();
                 BodyWeights.Clear();
-                DietQualityEstimates.Clear();
+                TranslatedDietQualityEstimates.Clear();
                 NrSucklingKidsLambs.Clear();
 
                 // Load animal types based on the selected species.
@@ -1148,7 +1230,11 @@ namespace FeedOptimizationApp.Modules.Calculations
                     var types = await _baseService.EnumEntitiesService.GetSheepTypesAsync();
                     foreach (var type in types.Data)
                     {
-                        Types.Add(ConversionHelpers.ConvertToLookupDTO(type));
+                        var lookup = ConversionHelpers.ConvertToLookupDTO(type);
+                        TranslatedTypes.Add(new TranslatedItem<LookupDTO>(
+                            lookup,
+                            () => TranslationProvider[$"SheepType_{type.Name}"]
+                        ));
                     }
                 }
                 else if (SelectedSpecies?.Name.ToLower() == "goat")
@@ -1156,15 +1242,19 @@ namespace FeedOptimizationApp.Modules.Calculations
                     var types = await _baseService.EnumEntitiesService.GetGoatTypesAsync();
                     foreach (var type in types.Data)
                     {
-                        Types.Add(ConversionHelpers.ConvertToLookupDTO(type));
+                        var lookup = ConversionHelpers.ConvertToLookupDTO(type);
+                        TranslatedTypes.Add(new TranslatedItem<LookupDTO>(
+                            lookup,
+                            () => TranslationProvider[$"GoatType_{type.Name}"]
+                        ));
                     }
                 }
 
-                // Load available grazing options.
+                // Load available translated grazing options.                
                 var grazings = await _baseService.EnumEntitiesService.GetGrazingsAsync();
                 foreach (var grazing in grazings.Data)
                 {
-                    Grazings.Add(grazing);
+                    TranslatedGrazings.Add(new TranslatedItem<GrazingEntity>(grazing, () => TranslationProvider[$"Grazing_{grazing.Name}"]));
                 }
 
                 // Load available body weight options.
@@ -1183,9 +1273,14 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                 // Load available diet quality estimates.
                 var dietQualityEstimates = await _baseService.EnumEntitiesService.GetDietQualityEstimatesAsync();
-                foreach (var dietQualityEstimate in dietQualityEstimates.Data)
+                foreach (var estimate in dietQualityEstimates.Data)
                 {
-                    DietQualityEstimates.Add(dietQualityEstimate);
+                    TranslatedDietQualityEstimates.Add(
+                        new TranslatedItem<DietQualityEstimateEntity>(
+                            estimate,
+                            () => TranslationProvider[$"DietQualityEstimate_{estimate.Name}"]
+                        )
+                    );
                 }
             }
             catch (Exception ex)
