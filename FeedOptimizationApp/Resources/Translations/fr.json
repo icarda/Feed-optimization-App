@@ -67,6 +67,7 @@
   "SettingsPage_ErrorTitle": "Erreur",
   "SettingsPage_ErrorMessage": "Veuillez remplir tous les champs pour continuer",
   "SettingsPage_LoadErrorMessage": "Échec du chargement des valeurs du menu déroulant",
+  "SettingsPage_OKButton": "OK",
   "LegalPage_Title": "Conditions légales",
   "LegalPage_Heading": "Application pour l’optimisation des rations",
   "LegalPage_AgreeText": "J’ai lu et j’accepte les conditions générales",

@@ -16,7 +16,7 @@ namespace FeedOptimizationApp.Modules
         /// </summary>
         protected readonly SharedData SharedData;
 
-        protected readonly TranslationProvider TranslationProvider;
+        public readonly TranslationProvider TranslationProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseViewModel"/> class.

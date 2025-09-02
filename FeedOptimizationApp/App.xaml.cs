@@ -21,6 +21,14 @@ namespace FeedOptimizationApp
 
             // Get required services
             var translationProvider = serviceProvider.GetRequiredService<TranslationProvider>();
+            Application.Current.Resources["TranslationProvider"] = translationProvider;
+
+            // After storing in resources, assign to the converter manually
+            if (Resources["TranslationConverter"] is TranslationConverter converter)
+            {
+                converter.TranslationProvider = translationProvider;
+            }
+
             var sharedData = serviceProvider.GetRequiredService<SharedData>();
             var baseService = serviceProvider.GetRequiredService<BaseService>();
 

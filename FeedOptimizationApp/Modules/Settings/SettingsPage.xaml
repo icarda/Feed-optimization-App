@@ -1,53 +1,49 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FeedOptimizationApp.Modules.Settings.SettingsPage"
-             Title="{Binding SettingsPage_Title}">
+             xmlns:helpers="clr-namespace:FeedOptimizationApp.Helpers"
+             x:Class="FeedOptimizationApp.Modules.Settings.SettingsPage">
 
     <StackLayout Padding="20" Spacing="20">
-        <Label Text="{Binding SettingsPage_Heading}" FontSize="24" HorizontalOptions="Center" Margin="0,0,0,20" />
+
+        <!-- Page Title -->
+        <Label Text="{helpers:Translate Key=SettingsPage_Heading}"
+               FontSize="24"
+               HorizontalOptions="Center"
+               Margin="0,0,0,20" />
 
         <!-- Language Picker -->
-        <Label Text="{Binding SettingsPage_SelectLanguageLabel}" FontSize="18" />
-        <Picker x:Name="LanguagePicker"
-                Title="{Binding SettingsPage_SelectOption}"
-                SelectedIndex="-1"
+        <Label Text="{helpers:Translate Key=SettingsPage_SelectLanguageLabel}" FontSize="18" />
+        <Picker Title="{helpers:Translate Key=SettingsPage_SelectOption}"
                 ItemsSource="{Binding Languages}"
-                ItemDisplayBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedLanguage}"
+                ItemDisplayBinding="{Binding Label}"
                 FontSize="16" />
 
         <!-- Country Picker -->
-        <Label Text="{Binding SettingsPage_SelectCountryLabel}" FontSize="18" />
-        <Picker x:Name="CountryPicker"
-                Title="{Binding SettingsPage_SelectOption}"
-                SelectedIndex="-1"
+        <Label Text="{helpers:Translate Key=SettingsPage_SelectCountryLabel}" FontSize="18" />
+        <Picker Title="{helpers:Translate Key=SettingsPage_SelectOption}"
                 ItemsSource="{Binding Countries}"
-                ItemDisplayBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedCountry}"
+                ItemDisplayBinding="{Binding Label}"
                 FontSize="16" />
 
         <!-- Species Picker -->
-        <Label Text="{Binding SettingsPage_SelectSpeciesLabel}" FontSize="18" />
-        <!--<Picker x:Name="SpeciesPicker"
-                Title="{Binding SettingsPage_SelectOption}"
-                SelectedIndex="-1"
+        <Label Text="{helpers:Translate Key=SettingsPage_SelectSpeciesLabel}" FontSize="18" />
+        <Picker Title="{helpers:Translate Key=SettingsPage_SelectOption}"
                 ItemsSource="{Binding SpeciesList}"
-                ItemDisplayBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedSpecies}"
-                FontSize="16" />-->
-        <Picker x:Name="SpeciesPicker"
-            Title="{Binding SettingsPage_SelectOption}"
-            SelectedIndex="-1"
-            ItemsSource="{Binding DisplaySpeciesList}"
-            ItemDisplayBinding="{Binding DisplayName}"
-            SelectedItem="{Binding SelectedDisplaySpecies, Mode=TwoWay}"
-            FontSize="16" />
+                ItemDisplayBinding="{Binding Label}"
+                FontSize="16" />
 
-        <!-- Buttons -->
+        <!-- Action Buttons -->
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,30,0,0">
-            <Button Text="{Binding SettingsPage_CancelButton}" Command="{Binding CancelCommand}" BackgroundColor="{StaticResource Secondary}" />
-            <Button Text="{Binding SettingsPage_SaveButton}" Command="{Binding SaveCommand}" BackgroundColor="{StaticResource Primary}" />
+            <Button Text="{helpers:Translate Key=SettingsPage_CancelButton}"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="{StaticResource Secondary}" />
+            <Button Text="{helpers:Translate Key=SettingsPage_SaveButton}"
+                    Command="{Binding SaveCommand}"
+                    BackgroundColor="{StaticResource Primary}" />
         </StackLayout>
+
     </StackLayout>
 </ContentPage>

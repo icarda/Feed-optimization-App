@@ -28,7 +28,7 @@ namespace DataLibrary.Models.Enums
 
             if (state == null)
             {
-                throw new GeneralDomainException($"Possible values for AssetEntity Condition: {string.Join(",", List().Select(s => s.Name))}");
+                throw new GeneralDomainException($"Possible values for SpeciesEntity Condition: {string.Join(",", List().Select(s => s.Name))}");
             }
 
             return state;
@@ -40,7 +40,7 @@ namespace DataLibrary.Models.Enums
 
             if (state == null)
             {
-                throw new GeneralDomainException($"Possible values for AssetEntity Condition: {string.Join(",", List().Select(s => s.Name))}");
+                throw new GeneralDomainException($"Possible values for SpeciesEntity Condition: {string.Join(",", List().Select(s => s.Name))}");
             }
 
             return state;

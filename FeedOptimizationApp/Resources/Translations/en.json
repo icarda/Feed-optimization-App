@@ -67,6 +67,7 @@
   "SettingsPage_ErrorTitle": "Error",
   "SettingsPage_ErrorMessage": "Please fill all fields to proceed.",
   "SettingsPage_LoadErrorMessage": "Failed to load dropdown values.",
+  "SettingsPage_OKButton": "OK",
   "LegalPage_Title": "Legal Terms",
   "LegalPage_Heading": "Feed Optimization App",
   "LegalPage_AgreeText": "I have read and agree to the terms and conditions",

@@ -1,434 +1,279 @@
-﻿using DataLibrary.Models.Enums;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Views;
+using DataLibrary.Models.Enums;
+using DataLibrary.Services;
 using FeedOptimizationApp.Helpers;
+using FeedOptimizationApp.Localization;
 using FeedOptimizationApp.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
-using CommunityToolkit.Maui.Alerts;
-using DataLibrary.Services;
-using CommunityToolkit.Maui.Views;
-using CommunityToolkit.Maui.Core;
-using FeedOptimizationApp.Localization;
 
 namespace FeedOptimizationApp.Modules.Settings
 {
-    /// <summary>
-    /// ViewModel for managing the application settings.
-    /// Handles loading and saving user preferences for language, country, and species.
-    /// </summary>
     public class SettingsViewModel : BaseViewModel
     {
-        // Service for performing data operations.
         private readonly BaseService _baseService;
-
-        // Service for initializing the database.
         private readonly DatabaseInitializer _databaseInitializer;
+        private readonly LanguageToCodeConverter _languageConverter;
 
-        // Observable collections to hold dropdown options.
-        public ObservableCollection<LanguageEntity> Languages { get; set; } = new ObservableCollection<LanguageEntity>();
-
-        public ObservableCollection<CountryEntity> Countries { get; set; } = new ObservableCollection<CountryEntity>();
-        public ObservableCollection<SpeciesEntity> SpeciesList { get; set; } = new ObservableCollection<SpeciesEntity>();
-        public ObservableCollection<DisplaySpecies> DisplaySpeciesList { get; set; } = new();
-
-
-        // Private fields to store initial values.
         private LanguageEntity? _initialSelectedLanguage;
-
         private CountryEntity? _initialSelectedCountry;
         private SpeciesEntity? _initialSelectedSpecies;
 
-        // Flag to track if the save button was clicked.
         private bool _isSaveButtonClicked;
-
-        // Flag to track if the selections have changed.
         private bool _selectionsChanged;
 
-        /// <summary>
-        /// Gets or sets the selected language.
-        /// Uses shared data to persist the selection.
-        /// </summary>
-        public LanguageEntity? SelectedLanguage
+        // Backing fields
+        private ObservableCollection<TranslatedItem<LanguageEntity>> _languages = new();
+        private ObservableCollection<TranslatedItem<CountryEntity>> _countries = new();
+        private ObservableCollection<TranslatedItem<SpeciesEntity>> _speciesList = new();
+
+        public ObservableCollection<TranslatedItem<LanguageEntity>> Languages
         {
-            get => SharedData.SelectedLanguage;
+            get => _languages;
+            private set { _languages = value; OnPropertyChanged(); }
+        }
+
+        public ObservableCollection<TranslatedItem<CountryEntity>> Countries
+        {
+            get => _countries;
+            private set { _countries = value; OnPropertyChanged(); }
+        }
+
+        public ObservableCollection<TranslatedItem<SpeciesEntity>> SpeciesList
+        {
+            get => _speciesList;
+            private set { _speciesList = value; OnPropertyChanged(); }
+        }
+
+        private TranslatedItem<LanguageEntity>? _selectedLanguage;
+        public TranslatedItem<LanguageEntity>? SelectedLanguage
+        {
+            get => _selectedLanguage;
             set
             {
-                if (SharedData.SelectedLanguage != value)
+                if (_selectedLanguage != value)
                 {
-                    SharedData.SelectedLanguage = value;
-
+                    _selectedLanguage = value;
+                    
                     if (value != null)
                     {
-                        var langCode = LanguageCodeMapper.ToCode(value);
-                        TranslationProvider.SetLanguage(langCode);
+                        SharedData.SelectedLanguage = value.Value;
+                        _selectionsChanged = true;
+                        
+                        var code = _languageConverter.Convert(value.Value);
+                        if (!TranslationProvider.IsUpdatingLanguage)
+                        {
+                            TranslationProvider.SetLanguage(code);
+                        }
+
+                        foreach (var item in Languages) item.Refresh();
+                        Languages = new ObservableCollection<TranslatedItem<LanguageEntity>>(Languages);
+                        OnPropertyChanged(nameof(Languages));
+                        foreach (var item in Countries) item.Refresh();
+                        Countries = new ObservableCollection<TranslatedItem<CountryEntity>>(Countries);
+                        OnPropertyChanged(nameof(Countries));
+                        foreach (var item in SpeciesList) item.Refresh();
+                        SpeciesList = new ObservableCollection<TranslatedItem<SpeciesEntity>>(SpeciesList);
+                        OnPropertyChanged(nameof(SpeciesList));
+
+                        SelectedLanguage = Languages.FirstOrDefault(x => x.Value.Id == SharedData.SelectedLanguage?.Id);
+                        SelectedCountry = Countries.FirstOrDefault(x => x.Value.Id == SharedData.SelectedCountry?.Id);
+                        SelectedSpecies = SpeciesList.FirstOrDefault(x => x.Value.Id == SharedData.SelectedSpecies?.Id);
+
+                        OnPropertyChanged(nameof(SelectedLanguage));
                     }
+                }
+            }
+        }
 
-                    OnPropertyChanged(nameof(SelectedLanguage));
+        private TranslatedItem<CountryEntity>? _selectedCountry;
+        public TranslatedItem<CountryEntity>? SelectedCountry
+        {
+            get => _selectedCountry;
+            set
+            {
+                if (_selectedCountry != value)
+                {
+                    _selectedCountry = value;
                     _selectionsChanged = true;
+                    OnPropertyChanged();
+
+                    if (value != null)
+                        SharedData.SelectedCountry = value.Value;
                 }
             }
         }
 
-        /// <summary>
-        /// Gets or sets the selected country.
-        /// Uses shared data to persist the selection.
-        /// </summary>
-        public CountryEntity? SelectedCountry
+        private TranslatedItem<SpeciesEntity>? _selectedSpecies;
+        public TranslatedItem<SpeciesEntity>? SelectedSpecies
         {
-            get => SharedData.SelectedCountry;
+            get => _selectedSpecies;
             set
             {
-                if (SharedData.SelectedCountry != value)
+                if (_selectedSpecies != value)
                 {
-                    SharedData.SelectedCountry = value;
-                    OnPropertyChanged(nameof(SelectedCountry));
-                    _selectionsChanged = true;
+                    _selectedSpecies = value;
+                    OnPropertyChanged();
+
+                    if (value != null)
+                        SharedData.SelectedSpecies = value.Value;
                 }
             }
         }
 
-        /// <summary>
-        /// Gets or sets the selected species.
-        /// Uses shared data to persist the selection.
-        /// </summary>
-        public SpeciesEntity? SelectedSpecies
-        {
-            get => SharedData.SelectedSpecies;
-            set
-            {
-                if (SharedData.SelectedSpecies != value)
-                {
-                    SharedData.SelectedSpecies = value;
-                    OnPropertyChanged(nameof(SelectedSpecies));
-                }
-            }
-        }
-
-        private DisplaySpecies _selectedDisplaySpecies;
-        public DisplaySpecies SelectedDisplaySpecies
-        {
-            get => _selectedDisplaySpecies;
-            set
-            {
-                if (_selectedDisplaySpecies != value)
-                {
-                    _selectedDisplaySpecies = value;
-                    SelectedSpecies = value?.Entity; // keep your original logic
-                    OnPropertyChanged(nameof(SelectedDisplaySpecies));
-                }
-            }
-        }
-
-        // Commands for canceling and saving settings.
         public ICommand CancelCommand { get; }
-
         public ICommand SaveCommand { get; }
 
-        /// <summary>
-        /// Initializes a new instance of the SettingsViewModel.
-        /// Loads available languages, countries, and species, and sets up commands.
-        /// </summary>
-        /// <param name="baseService">Service for accessing data.</param>
-        /// <param name="sharedData">Shared data context across the application.</param>
-        /// <param name="databaseInitializer">Service for initializing the database.</param>
-        public SettingsViewModel(BaseService baseService, SharedData sharedData, DatabaseInitializer databaseInitializer, TranslationProvider translationProvider)
+        public SettingsViewModel(
+            BaseService baseService,
+            SharedData sharedData,
+            DatabaseInitializer databaseInitializer,
+            TranslationProvider translationProvider,
+            LanguageToCodeConverter languageToCodeConverter)
             : base(sharedData, translationProvider)
         {
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
             _databaseInitializer = databaseInitializer ?? throw new ArgumentNullException(nameof(databaseInitializer));
+            _languageConverter = languageToCodeConverter ?? throw new ArgumentNullException(nameof(languageToCodeConverter));
 
-            // Store initial values.
             _initialSelectedLanguage = sharedData.SelectedLanguage;
             _initialSelectedCountry = sharedData.SelectedCountry;
             _initialSelectedSpecies = sharedData.SelectedSpecies;
 
-            // Load dropdown options for language, country, and species.
-            LoadEnumValuesAsync();
-
-            // Initialize the Cancel and Save commands.
             CancelCommand = new Command(OnCancelButtonClicked);
-            SaveCommand = new Command(async () => await OnSaveButtonClicked());
+            SaveCommand = new Command(async () => await OnSaveButtonClicked());                       
 
-            // Listen for language changes to update translations
-            TranslationProvider.PropertyChanged += (sender, e) =>
-            {
-                if (e.PropertyName == null)
-                {
-                    OnPropertyChanged(nameof(SettingsPage_Title));
-                    OnPropertyChanged(nameof(SettingsPage_Heading));
-                    OnPropertyChanged(nameof(SettingsPage_SelectLanguageLabel));
-                    OnPropertyChanged(nameof(SettingsPage_SelectCountryLabel));
-                    OnPropertyChanged(nameof(SettingsPage_SelectSpeciesLabel));
-                    OnPropertyChanged(nameof(SettingsPage_SelectOption));
-                    OnPropertyChanged(nameof(SettingsPage_CancelButton));
-                    OnPropertyChanged(nameof(SettingsPage_SaveButton));
-                }
-            };
+            _ = LoadEnumValuesAsync();
         }
 
-        /// <summary>
-        /// Handles the Cancel button click event.
-        /// Resets the dropdowns to their initial values.
-        /// </summary>
         private void OnCancelButtonClicked()
         {
-            // Reset the selected items to their initial values.
-            SelectedLanguage = _initialSelectedLanguage;
-            SelectedCountry = _initialSelectedCountry;
-            SelectedSpecies = _initialSelectedSpecies;
+            SelectedLanguage = Languages.FirstOrDefault(x => x.Value.Id == _initialSelectedLanguage?.Id);
+            SelectedCountry = Countries.FirstOrDefault(x => x.Value.Id == _initialSelectedCountry?.Id);
+            SelectedSpecies = SpeciesList.FirstOrDefault(x => x.Value.Id == _initialSelectedSpecies?.Id);
+
+            if (_initialSelectedLanguage != null)
+                TranslationProvider.SetLanguage(_languageConverter.Convert(_initialSelectedLanguage));
         }
 
-        /// <summary>
-        /// Handles the Save button click event.
-        /// Validates that all required fields are filled and updates the user's settings.
-        /// </summary>
-        private async Task OnSaveButtonClicked()
-        {
-            // Ensure all required settings have been selected.
-            if (SelectedLanguage != null && SelectedCountry != null && SelectedSpecies != null)
-            {
-                // Show the custom alert popup to confirm the action.
-                var popup = new CustomAlertPopup(
-                    TranslationProvider["SettingsPage_SavePopupTitle"],
-                    TranslationProvider["SettingsPage_SavePopupMessage"],
-                    TranslationProvider["SettingsPage_ConfirmButton"],
-                    TranslationProvider["SettingsPage_CancelButton"],
-                    async () =>
-                    {
-                        try
-                        {
-                            // Retrieve the current user (assumes a single user record exists in the database).
-                            var userResult = await _baseService.UserService.GetAllAsync();
-                            var user = userResult.Data.FirstOrDefault();
-
-                            if (user != null)
-                            {
-                                // Update the user's settings with the selected values.
-                                user.CountryId = SelectedCountry.Id;
-                                user.LanguageId = SelectedLanguage.Id;
-                                user.SpeciesId = SelectedSpecies.Id;
-
-                                // Save the updated user entity to the database.
-                                await _baseService.UserService.UpdateAsync(user);
-
-                                // Update the initial values to reflect the saved selections.
-                                _initialSelectedLanguage = SelectedLanguage;
-                                _initialSelectedCountry = SelectedCountry;
-                                _initialSelectedSpecies = SelectedSpecies;
-
-                                // Update the shared data to reflect the saved selections.
-                                SharedData.SelectedLanguage = SelectedLanguage;
-                                SharedData.SelectedCountry = SelectedCountry;
-                                SharedData.SelectedSpecies = SelectedSpecies;
-
-                                // Update the app's translations dynamically.
-                                var languageCode = SelectedLanguage.Id == 1 ? "en" : "fr"; // Map language ID to language code
-                                TranslationProvider.SetLanguage(languageCode);
-
-                                // Set the flag to indicate that the save button was clicked.
-                                _isSaveButtonClicked = true;
-
-                                // If selections have changed, clear and repopulate the FeedEntity table.
-                                if (_selectionsChanged)
-                                {
-                                    // Show a toast message to indicate that changes are being saved.
-                                    var toast = Toast.Make(TranslationProvider["SettingsPage_SavingChangesToast"]);
-                                    await toast.Show();
-
-                                    // Trigger the reset event to clear any dependent UI components (e.g., pickers).
-                                    _baseService.ResetPickerService.ResetPicker();
-                                    Console.WriteLine("Picker reset triggered from SettingsViewModel.");
-
-                                    // Trigger the ClearAnimalInfo method in CreateCalculationViewModel
-                                    SharedData.RequestClearAnimalInfo();
-
-                                    // Clear all calculations and repopulate the feeds table with the new settings.
-                                    await _databaseInitializer.ClearAllCalculationsAsync();
-                                    await _databaseInitializer.ClearAndRepopulateFeedsAsync(SelectedCountry.Id, SelectedLanguage.Id);
-
-                                    // Dismiss the toast message after the operation is complete.
-                                    await toast.Dismiss();
-                                }
-
-                                // Show a toast message to notify the user that the settings were saved successfully.
-                                await Toast.Make(TranslationProvider["SettingsPage_SuccessToast"], ToastDuration.Long).Show();
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            // Log any exceptions that occur during the update process.
-                            Debug.WriteLine($"Exception: {ex.Message}");
-                        }
-                    });
-
-                // Display the confirmation popup to the user.
-                Application.Current.MainPage.ShowPopup(popup);
-            }
-            else
-            {
-                // Notify the user to complete all fields if any selection is missing.
-                await Application.Current.MainPage.DisplayAlert(
-                    TranslationProvider["SettingsPage_ErrorTitle"],
-                    TranslationProvider["SettingsPage_ErrorMessage"],
-                    TranslationProvider["SettingsPage_OKButton"]
-                );
-            }
-        }
-
-        /// <summary>
-        /// (Optional) Retrieves detailed values for the selected dropdowns.
-        /// This method is currently not used but can be enabled if needed.
-        /// </summary>
-        private async Task GetDropDownNameValuesAsync()
-        {
-            try
-            {
-                // Update SelectedLanguage details if one is already selected.
-                if (SelectedLanguage != null)
-                {
-                    var languageResult = await _baseService.EnumEntitiesService.GetLanguageByIdAsync(SelectedLanguage.Id);
-                    if (languageResult.Succeeded)
-                    {
-                        SelectedLanguage = languageResult.Data;
-                        OnPropertyChanged(nameof(SelectedLanguage));
-                    }
-                }
-
-                // Update SelectedCountry details if one is already selected.
-                if (SelectedCountry != null)
-                {
-                    var countryResult = await _baseService.EnumEntitiesService.GetCountryByIdAsync(SelectedCountry.Id);
-                    if (countryResult.Succeeded)
-                    {
-                        SelectedCountry = countryResult.Data;
-                        OnPropertyChanged(nameof(SelectedCountry));
-                    }
-                }
-
-                // Update SelectedSpecies details if one is already selected.
-                if (SelectedSpecies != null)
-                {
-                    var speciesResult = await _baseService.EnumEntitiesService.GetSpeciesByIdAsync(SelectedSpecies.Id);
-                    if (speciesResult.Succeeded)
-                    {
-                        SelectedSpecies = speciesResult.Data;
-                        OnPropertyChanged(nameof(SelectedSpecies));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log the error and display an alert if the dropdown values fail to load.
-                Debug.WriteLine($"Error in GetDropDownNameValues: {ex.Message}");
-                await Application.Current.MainPage.DisplayAlert("Error", "Failed to load dropdown values.", "OK");
-            }
-        }
-
-        /// <summary>
-        /// Loads the enumeration values for languages, countries, and species asynchronously.
-        /// Populates the respective ObservableCollections with the retrieved data.
-        /// </summary>
-        private async Task LoadEnumValuesAsync()
-        {
-            try
-            {
-                // Start tasks to retrieve languages, countries, and species in parallel.
-                var languageTask = _baseService.EnumEntitiesService.GetLanguagesAsync();
-                var countryTask = _baseService.EnumEntitiesService.GetCountriesAsync();
-                var speciesTask = _baseService.EnumEntitiesService.GetSpeciesAsync();
-
-                // Process the results for languages.
-                if (languageTask.Result.Succeeded)
-                {
-                    Languages.Clear();
-                    foreach (var language in languageTask.Result.Data)
-                    {
-                        Languages.Add(language);
-                    }
-                }
-
-                // Process the results for countries.
-                if (countryTask.Result.Succeeded)
-                {
-                    Countries.Clear();
-                    foreach (var country in countryTask.Result.Data)
-                    {
-                        Countries.Add(country);
-                    }
-                }
-
-                // Process the results for species.
-                if (speciesTask.Result.Succeeded)
-                {
-                    SpeciesList.Clear();
-                    foreach (var species in speciesTask.Result.Data)
-                    {
-                        SpeciesList.Add(species);
-                    }
-
-                    // TRANSLATIONS
-                    DisplaySpeciesList.Clear();
-                    foreach (var species in SpeciesList)
-                    {
-                        DisplaySpeciesList.Add(new DisplaySpecies(species, TranslationProvider));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log the error and display an alert if the dropdown values fail to load.
-                Debug.WriteLine($"Error in LoadEnumValuesAsync: {ex.Message}");
-                await Application.Current.MainPage.DisplayAlert(TranslationProvider["SettingsPage_ErrorTitle"], TranslationProvider["SettingsPage_LoadErrorMessage"], "OK");
-            }
-        }
-
-        /// <summary>
-        /// Resets the dropdowns to their initial values if the save button was not clicked.
-        /// </summary>
         public void OnDisappearing()
         {
             if (!_isSaveButtonClicked)
             {
-                // Reset the selected items to their initial values.
-                SelectedLanguage = _initialSelectedLanguage;
-                SelectedCountry = _initialSelectedCountry;
-                SelectedSpecies = _initialSelectedSpecies;
+                SelectedLanguage = Languages.FirstOrDefault(x => x.Value.Id == _initialSelectedLanguage?.Id);
+                SelectedCountry = Countries.FirstOrDefault(x => x.Value.Id == _initialSelectedCountry?.Id);
+                SelectedSpecies = SpeciesList.FirstOrDefault(x => x.Value.Id == _initialSelectedSpecies?.Id);
+
+                if (_initialSelectedLanguage != null)
+                    TranslationProvider.SetLanguage(_languageConverter.Convert(_initialSelectedLanguage));
             }
         }
 
-        #region TRANSLATIONS
+        #region Load Enums
 
-        public string SettingsPage_Title => TranslationProvider["SettingsPage_Title"];
-        public string SettingsPage_Heading => TranslationProvider["SettingsPage_Heading"];
-        public string SettingsPage_SelectLanguageLabel => TranslationProvider["SettingsPage_SelectLanguageLabel"];
-        public string SettingsPage_SelectCountryLabel => TranslationProvider["SettingsPage_SelectCountryLabel"];
-        public string SettingsPage_SelectSpeciesLabel => TranslationProvider["SettingsPage_SelectSpeciesLabel"];
-        public string SettingsPage_SelectOption => TranslationProvider["SettingsPage_SelectOption"];
-        public string SettingsPage_CancelButton => TranslationProvider["SettingsPage_CancelButton"];
-        public string SettingsPage_SaveButton => TranslationProvider["SettingsPage_SaveButton"];
-        public string SettingsPage_SavePopupTitle => TranslationProvider["SettingsPage_SavePopupTitle"];
-        public string SettingsPage_SavePopupMessage => TranslationProvider["SettingsPage_SavePopupMessage"];
-        public string SettingsPage_SavingChangesToast => TranslationProvider["SettingsPage_SavingChangesToast"];
-        public string SettingsPage_SuccessToast => TranslationProvider["SettingsPage_SuccessToast"];
-        public string SettingsPage_ErrorTitle => TranslationProvider["SettingsPage_ErrorTitle"];
-        public string SettingsPage_ErrorMessage => TranslationProvider["SettingsPage_ErrorMessage"];
-        public string SettingsPage_LoadErrorMessage => TranslationProvider["SettingsPage_LoadErrorMessage"];
-
-        #endregion TRANSLATIONS
-
-        public class DisplaySpecies
+        private async Task LoadEnumValuesAsync()
         {
-            public SpeciesEntity Entity { get; }
-            public string DisplayName { get; }
-
-            public DisplaySpecies(SpeciesEntity entity, TranslationProvider translationProvider)
+            try
             {
-                Entity = entity;
-                DisplayName = translationProvider[$"Species_{entity.Name}"];
+                var languageTask = _baseService.EnumEntitiesService.GetLanguagesAsync();
+                var countryTask = _baseService.EnumEntitiesService.GetCountriesAsync();
+                var speciesTask = _baseService.EnumEntitiesService.GetSpeciesAsync();
+
+                await Task.WhenAll(languageTask, countryTask, speciesTask);
+
+                if (languageTask.Result.Succeeded)
+                    Languages = new ObservableCollection<TranslatedItem<LanguageEntity>>(
+                        languageTask.Result.Data.Select(l => new TranslatedItem<LanguageEntity>(l, () => TranslationProvider[$"Language_{l.Name}"])));
+
+                if (countryTask.Result.Succeeded)
+                    Countries = new ObservableCollection<TranslatedItem<CountryEntity>>(
+                        countryTask.Result.Data.Select(c => new TranslatedItem<CountryEntity>(c, () => TranslationProvider[$"Country_{c.Name}"])));
+
+                if (speciesTask.Result.Succeeded)
+                    SpeciesList = new ObservableCollection<TranslatedItem<SpeciesEntity>>(
+                        speciesTask.Result.Data.Select(s => new TranslatedItem<SpeciesEntity>(s, () => TranslationProvider[$"Species_{s.Name}"])));
+
+                SelectedLanguage = Languages.FirstOrDefault(x => x.Value.Id == SharedData.SelectedLanguage?.Id);
+                SelectedCountry = Countries.FirstOrDefault(x => x.Value.Id == SharedData.SelectedCountry?.Id);
+                SelectedSpecies = SpeciesList.FirstOrDefault(x => x.Value.Id == SharedData.SelectedSpecies?.Id);
+
+                
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error loading enums: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert(
+                    TranslationProvider["SettingsPage_ErrorTitle"],
+                    TranslationProvider["SettingsPage_LoadErrorMessage"],
+                    TranslationProvider["SettingsPage_OKButton"]);
+            }
+        }
+
+        #endregion
+
+        private async Task OnSaveButtonClicked()
+        {
+            if (SelectedLanguage?.Value == null || SelectedCountry?.Value == null || SelectedSpecies?.Value == null)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    TranslationProvider["SettingsPage_ErrorTitle"],
+                    TranslationProvider["SettingsPage_ErrorMessage"],
+                    TranslationProvider["SettingsPage_OKButton"]);
+                return;
             }
 
-            // Optional: override ToString for debugging
-            public override string ToString() => DisplayName;
+            var popup = new CustomAlertPopup(
+                TranslationProvider["SettingsPage_SavePopupTitle"],
+                TranslationProvider["SettingsPage_SavePopupMessage"],
+                TranslationProvider["SettingsPage_ConfirmButton"],
+                TranslationProvider["SettingsPage_CancelButton"],
+                async () => await SaveSettingsAsync());
+
+            Application.Current.MainPage.ShowPopup(popup);
+        }
+
+        private async Task SaveSettingsAsync()
+        {
+            try
+            {
+                var user = (await _baseService.UserService.GetAllAsync()).Data.FirstOrDefault();
+                if (user == null) return;
+
+                user.LanguageId = SelectedLanguage!.Value.Id;
+                user.CountryId = SelectedCountry!.Value.Id;
+                user.SpeciesId = SelectedSpecies!.Value.Id;
+
+                await _baseService.UserService.UpdateAsync(user);
+
+                // Update initial values
+                _initialSelectedLanguage = SelectedLanguage.Value;
+                _initialSelectedCountry = SelectedCountry.Value;
+                _initialSelectedSpecies = SelectedSpecies.Value;
+                _isSaveButtonClicked = true;
+
+                if (_selectionsChanged)
+                {
+                    var toast = Toast.Make(TranslationProvider["SettingsPage_SavingChangesToast"]);
+                    await toast.Show();
+
+                    _baseService.ResetPickerService.ResetPicker();
+                    SharedData.RequestClearAnimalInfo();
+
+                    await _databaseInitializer.ClearAllCalculationsAsync();
+                    await _databaseInitializer.ClearAndRepopulateFeedsAsync(SelectedCountry.Value.Id, SelectedLanguage.Value.Id);
+
+                    await toast.Dismiss();
+                }
+
+                await Toast.Make(TranslationProvider["SettingsPage_SuccessToast"], ToastDuration.Long).Show();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
         }
     }
 }

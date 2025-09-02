@@ -44,7 +44,7 @@ namespace DataLibrary.Models
 
             if (state == null)
             {
-                throw new GeneralDomainException($"Possible values for AssetEntity Condition: {String.Join(",", List().Select(s => s.Name))}");
+                throw new GeneralDomainException($"Possible values for BodyWeightEntity Condition: {String.Join(",", List().Select(s => s.Name))}");
             }
 
             return state;
@@ -56,7 +56,7 @@ namespace DataLibrary.Models
 
             if (state == null)
             {
-                throw new GeneralDomainException($"Possible values for AssetEntity Condition: {String.Join(",", List().Select(s => s.Name))}");
+                throw new GeneralDomainException($"Possible values for BodyWeightEntity Condition: {String.Join(",", List().Select(s => s.Name))}");
             }
 
             return state;

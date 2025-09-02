@@ -53,6 +53,7 @@ namespace FeedOptimizationApp
             builder.Services.AddSingleton<SharedData>();
             builder.Services.AddSingleton<DatabaseInitializer>();
             builder.Services.AddSingleton<TranslationProvider>();
+            builder.Services.AddSingleton<LanguageToCodeConverter>();
             builder.Services.AddSingleton<DeviceService>();
             builder.Services.AddSingleton<BaseService>();
             builder.Services.AddSingleton<IFeedService, FeedService>();
