@@ -420,7 +420,7 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                         EnergyRequirementMaintenance = Math.Round(firstResult.EnergyRequirementMaintenance, 2);
                         EnergyRequirementAdditional = Math.Round(firstResult.EnergyRequirementAdditional, 2);
-                        EnergyRequirementTotal = firstResult.EnergyRequirementTotal * 100;
+                        EnergyRequirementTotal = firstResult.EnergyRequirementTotal;
                         CrudeProteinRequirementMaintenance = Math.Round(firstResult.CrudeProteinRequirementMaintenance, MidpointRounding.AwayFromZero);
                         CrudeProteinRequirementAdditional = Math.Round(firstResult.CrudeProteinRequirementAdditional, MidpointRounding.AwayFromZero);
                         DryMatterIntakeEstimateBase = Math.Round(firstResult.DryMatterIntakeEstimateBase, MidpointRounding.AwayFromZero);
