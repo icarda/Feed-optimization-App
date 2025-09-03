@@ -297,6 +297,24 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _nrKidsLambsName, value);
         }
 
+        // Controls the visibility of the number of sucklings field.
+        private bool _isNrSucklingsVisible;
+
+        public bool IsNrSucklingsVisible
+        {
+            get => _isNrSucklingsVisible;
+            set => SetProperty(ref _isNrSucklingsVisible, value);
+        }
+
+        // Controls the visibility of the milk and production fields.
+        private bool _isMilkAndProductionVisible;
+
+        public bool IsMilkAndProductionVisible
+        {
+            get => _isMilkAndProductionVisible;
+            set => SetProperty(ref _isMilkAndProductionVisible, value);
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpandedResultsViewModel"/> class.
         /// Loads the results based on the provided CalculationId.
@@ -329,6 +347,10 @@ namespace FeedOptimizationApp.Modules.Calculations
                     return;
                 }
                 AnimalInfo = calculationResult.Data;
+                //if AnimalInfo.Type is Does or Ewes or Ewes and lambs then show milk and production fields
+                IsMilkAndProductionVisible = AnimalInfo.Type == "Does" || AnimalInfo.Type == "Ewes" || AnimalInfo.Type == "Ewes and lambs";
+                //if AnimalInfo.Type is Does or Ewes then show number of sucklings field
+                IsNrSucklingsVisible = AnimalInfo.Type == "Does" || AnimalInfo.Type == "Ewes";
 
                 // Load Grazing Information using the GrazingId from AnimalInfo.
                 var grazingResult = await _baseService.EnumEntitiesService.GetGrazingByIdAsync(AnimalInfo.GrazingId);
