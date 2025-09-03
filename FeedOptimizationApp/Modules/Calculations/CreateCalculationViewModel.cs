@@ -130,9 +130,12 @@ namespace FeedOptimizationApp.Modules.Calculations
 
             // Initialize selected values and default states
             SelectedType = null;
+            SelectedTranslatedType = null;
             SelectedGrazing = null;
+            SelectedTranslatedGrazing = null;
             SelectedBodyWeight = null;
             SelectedDietQualityEstimate = null;
+            SelectedTranslatedDietQualityEstimate = null;
             SelectedNumberOfSucklingKidsLambs = null;
             SelectedFeed = null;
             AnimalInfoTabIsActive = true;
@@ -1556,10 +1559,13 @@ namespace FeedOptimizationApp.Modules.Calculations
             OnPropertyChanged(nameof(ValidationErrors)); // Notify the UI about the change
 
             SelectedType = null;
+            SelectedTranslatedType = null;
             SelectedGrazing = null;
+            SelectedTranslatedGrazing = null;
             SelectedBodyWeight = null;
             ADG = 150;
             SelectedDietQualityEstimate = null;
+            SelectedTranslatedDietQualityEstimate = null;
             IsLast8WeeksOfGestation = false;
             SelectedNumberOfSucklingKidsLambs = null;
             DailyMilkYieldValue = null;
