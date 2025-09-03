@@ -19,9 +19,7 @@ namespace FeedOptimizationApp.Modules
 
         public ICommand NextCommand { get; }
 
-        public ObservableCollection<LanguageEntity> Languages { get; set; } = new ObservableCollection<LanguageEntity>();
-        public ObservableCollection<CountryEntity> Countries { get; set; } = new ObservableCollection<CountryEntity>();
-        public ObservableCollection<SpeciesEntity> SpeciesList { get; set; } = new ObservableCollection<SpeciesEntity>();
+        
 
         public MainViewModel(BaseService baseService, SharedData sharedData, TranslationProvider translationProvider)
             : base(sharedData, translationProvider)
@@ -49,18 +47,26 @@ namespace FeedOptimizationApp.Modules
             LoadEnumValues();
             NextCommand = new Command(OnNextButtonClicked);
 
-            TranslationProvider.PropertyChanged += (sender, e) =>
-            {
-                if (e.PropertyName == null)
-                {
-                    OnPropertyChanged(nameof(MainPage_Title));
-                    OnPropertyChanged(nameof(MainPage_HeadingText));
-                    OnPropertyChanged(nameof(MainPage_SelectLanguageLabel));
-                    OnPropertyChanged(nameof(MainPage_SelectCountryLabel));
-                    OnPropertyChanged(nameof(MainPage_SelectSpeciesLabel));
-                    OnPropertyChanged(nameof(MainPage_NextButtonText));
-                }
-            };
+            translationProvider.LanguageChanged += (s, e) => RefreshTranslations();
+        }
+
+        private void RefreshTranslations()
+        {
+            foreach (var item in Languages) item.Refresh();
+            Languages = new ObservableCollection<TranslatedItem<LanguageEntity>>(Languages);
+            OnPropertyChanged(nameof(Languages));
+
+            foreach (var item in Countries) item.Refresh();
+            Countries = new ObservableCollection<TranslatedItem<CountryEntity>>(Countries);
+            OnPropertyChanged(nameof(Countries));
+
+            foreach (var item in SpeciesList) item.Refresh();
+            SpeciesList = new ObservableCollection<TranslatedItem<SpeciesEntity>>(SpeciesList);
+            OnPropertyChanged(nameof(SpeciesList));
+
+            OnPropertyChanged(nameof(SelectedLanguage));
+            OnPropertyChanged(nameof(SelectedCountry));
+            OnPropertyChanged(nameof(SelectedSpecies));
         }
 
         private bool _isLanguageSelected = false;
@@ -71,52 +77,50 @@ namespace FeedOptimizationApp.Modules
             set => SetProperty(ref _isLanguageSelected, value);
         }
 
-        public LanguageEntity? SelectedLanguage
+        public ObservableCollection<TranslatedItem<LanguageEntity>> Languages { get; set; } = new();
+        public ObservableCollection<TranslatedItem<CountryEntity>> Countries { get; set; } = new();
+        public ObservableCollection<TranslatedItem<SpeciesEntity>> SpeciesList { get; set; } = new();
+
+        private TranslatedItem<LanguageEntity>? _selectedLanguage;
+        public TranslatedItem<LanguageEntity>? SelectedLanguage
         {
-            get => SharedData.SelectedLanguage;
+            get => Languages.FirstOrDefault(x => x.Value.Id == SharedData.SelectedLanguage?.Id);
             set
             {
-                if (SharedData.SelectedLanguage != value)
+                if (value != null && SharedData.SelectedLanguage?.Id != value.Value.Id)
                 {
-                    SharedData.SelectedLanguage = value;
-
-                    if (value != null)
-                    {
-                        var langCode = LanguageCodeMapper.ToCode(value);
-                        TranslationProvider.SetLanguage(langCode);
-                        IsLanguageSelected = true;
-                    }
-                    else
-                    {
-                        IsLanguageSelected = false;
-                    }
-
+                    SharedData.SelectedLanguage = value.Value; // <-- .Value here
+                    var langCode = LanguageCodeMapper.ToCode(value.Value);
+                    TranslationProvider.SetLanguage(langCode);
+                    IsLanguageSelected = true;
                     OnPropertyChanged(nameof(SelectedLanguage));
                 }
             }
         }
 
-        public CountryEntity? SelectedCountry
+        private TranslatedItem<CountryEntity>? _selectedCountry;
+        public TranslatedItem<CountryEntity>? SelectedCountry
         {
-            get => SharedData.SelectedCountry;
+            get => Countries.FirstOrDefault(x => x.Value.Id == SharedData.SelectedCountry?.Id);
             set
             {
-                if (SharedData.SelectedCountry != value)
+                if (value != null && SharedData.SelectedCountry?.Id != value.Value.Id)
                 {
-                    SharedData.SelectedCountry = value;
+                    SharedData.SelectedCountry = value.Value; // <-- .Value here
                     OnPropertyChanged(nameof(SelectedCountry));
                 }
             }
         }
 
-        public SpeciesEntity? SelectedSpecies
+        private TranslatedItem<SpeciesEntity>? _selectedSpecies;
+        public TranslatedItem<SpeciesEntity>? SelectedSpecies
         {
-            get => SharedData.SelectedSpecies;
+            get => SpeciesList.FirstOrDefault(x => x.Value.Id == SharedData.SelectedSpecies?.Id);
             set
             {
-                if (SharedData.SelectedSpecies != value)
+                if (value != null && SharedData.SelectedSpecies?.Id != value.Value.Id)
                 {
-                    SharedData.SelectedSpecies = value;
+                    SharedData.SelectedSpecies = value.Value; // <-- .Value here
                     OnPropertyChanged(nameof(SelectedSpecies));
                 }
             }
@@ -128,9 +132,9 @@ namespace FeedOptimizationApp.Modules
                 SelectedLanguage != null &&
                 SelectedSpecies != null)
             {
-                SharedData.SelectedCountry = SelectedCountry;
-                SharedData.SelectedLanguage = SelectedLanguage;
-                SharedData.SelectedSpecies = SelectedSpecies;
+                SharedData.SelectedCountry = SelectedCountry?.Value;
+                SharedData.SelectedLanguage = SelectedLanguage?.Value;
+                SharedData.SelectedSpecies = SelectedSpecies?.Value;
 
                 var databaseInitializer = App.ServiceProvider.GetRequiredService<DatabaseInitializer>();
 
@@ -141,8 +145,8 @@ namespace FeedOptimizationApp.Modules
                 }
 
                 await databaseInitializer.ImportFeedsFromEmbeddedCsvAsync(
-                    SelectedCountry.Id,
-                    SelectedLanguage.Id
+                    SelectedCountry.Value.Id,
+                    SelectedLanguage.Value.Id
                 );
 
                 var viewModel = new LegalViewModel(_baseService, SharedData, databaseInitializer, TranslationProvider);
@@ -169,32 +173,20 @@ namespace FeedOptimizationApp.Modules
             var languages = await _baseService.EnumEntitiesService.GetLanguagesAsync();
             foreach (var language in languages.Data)
             {
-                Languages.Add(language);
+                Languages.Add(new TranslatedItem<LanguageEntity>(language, () => TranslationProvider[$"Language_{language.Name}"]));
             }
 
             var countries = await _baseService.EnumEntitiesService.GetCountriesAsync();
             foreach (var country in countries.Data)
             {
-                Countries.Add(country);
+                Countries.Add(new TranslatedItem<CountryEntity>(country, () => TranslationProvider[$"Country_{country.Name}"]));
             }
 
             var speciesList = await _baseService.EnumEntitiesService.GetSpeciesAsync();
             foreach (var species in speciesList.Data)
             {
-                SpeciesList.Add(species);
+                SpeciesList.Add(new TranslatedItem<SpeciesEntity>(species, () => TranslationProvider[$"Species_{species.Name}"]));
             }
         }
-
-        #region TRANSLATIONS
-
-        public string MainPage_Title => TranslationProvider["MainPage_Title"];
-        public string MainPage_HeadingText => TranslationProvider["MainPage_Heading"];
-        public string MainPage_SelectLanguageLabel => TranslationProvider["MainPage_SelectLanguageLabel"];
-        public string MainPage_SelectCountryLabel => TranslationProvider["MainPage_SelectCountryLabel"];
-        public string MainPage_SelectSpeciesLabel => TranslationProvider["MainPage_SelectSpeciesLabel"];
-        public string MainPage_NextButtonText => TranslationProvider["MainPage_NextButton"];
-        public string MainPage_Error_SelectAll => TranslationProvider["MainPage_Error_SelectAll"];
-
-        #endregion TRANSLATIONS
     }
 }

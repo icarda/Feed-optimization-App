@@ -23,25 +23,10 @@ namespace FeedOptimizationApp.Modules.Legal
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
             _databaseInitializer = databaseInitializer ?? throw new ArgumentNullException(nameof(databaseInitializer));
 
-            DisclaimerHtml = _databaseInitializer.LoadDisclaimerFromEmbeddedResource();
+            DisclaimerHtml = _databaseInitializer.LoadDisclaimerFromEmbeddedResource(SharedData.SelectedLanguage!.Id);
 
             BackCommand = new Command(OnBackButtonClicked);
             AgreeCommand = new Command(async () => await OnAgreeButtonClicked());
-
-            // Listen for language changes to update translations
-            TranslationProvider.PropertyChanged += (sender, e) =>
-            {
-                if (e.PropertyName == null)
-                {
-                    OnPropertyChanged(nameof(LegalPage_Title));
-                    OnPropertyChanged(nameof(LegalPage_Heading));
-                    OnPropertyChanged(nameof(LegalPage_AgreeText));
-                    OnPropertyChanged(nameof(LegalPage_BackButton));
-                    OnPropertyChanged(nameof(LegalPage_ContinueButton));
-                    OnPropertyChanged(nameof(LegalPage_ErrorTitle));
-                    OnPropertyChanged(nameof(LegalPage_ErrorMessage));
-                }
-            };
         }
 
         private string _disclaimerHtml;
@@ -117,17 +102,5 @@ namespace FeedOptimizationApp.Modules.Legal
                 );
             }
         }
-
-        #region TRANSLATIONS
-
-        public string LegalPage_Title => TranslationProvider["LegalPage_Title"];
-        public string LegalPage_Heading => TranslationProvider["LegalPage_Heading"];
-        public string LegalPage_AgreeText => TranslationProvider["LegalPage_AgreeText"];
-        public string LegalPage_BackButton => TranslationProvider["LegalPage_BackButton"];
-        public string LegalPage_ContinueButton => TranslationProvider["LegalPage_ContinueButton"];
-        public string LegalPage_ErrorTitle => TranslationProvider["LegalPage_ErrorTitle"];
-        public string LegalPage_ErrorMessage => TranslationProvider["LegalPage_ErrorMessage"];
-
-        #endregion TRANSLATIONS
     }
 }

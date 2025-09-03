@@ -2,53 +2,54 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:helpers="clr-namespace:FeedOptimizationApp.Localization"
              x:Class="FeedOptimizationApp.Modules.MainPage">
 
     <StackLayout Padding="20" Spacing="20">
-        <Label Text="{Binding MainPage_HeadingText}"
+        <Label Text="{helpers:Translate Key=MainPage_Heading}"
                FontSize="24"
                HorizontalOptions="Center"
                Margin="0,0,0,20" />
 
         <!-- Language Picker -->
-        <Label Text="{Binding MainPage_SelectLanguageLabel}"
+        <Label Text="{helpers:Translate Key=MainPage_SelectLanguageLabel}"
                FontSize="18" />
         <Picker x:Name="LanguagePicker"
-                Title="{Binding MainPage_SelectLanguageLabel}"
+                Title="{helpers:Translate Key=MainPage_SelectLanguageLabel}"
                 SelectedIndex="-1"
                 ItemsSource="{Binding Languages}"
-                ItemDisplayBinding="{Binding Name}"
+                ItemDisplayBinding="{Binding Label}"
                 SelectedItem="{Binding SelectedLanguage}"
                 FontSize="16" />
 
         <!-- Country Picker -->
-        <Label Text="{Binding MainPage_SelectCountryLabel}"
+        <Label Text="{helpers:Translate Key=MainPage_SelectCountryLabel}"
                FontSize="18"
                IsVisible="{Binding IsLanguageSelected}" />
         <Picker x:Name="CountryPicker"
-                Title="{Binding MainPage_SelectCountryLabel}"
+                Title="{helpers:Translate Key=MainPage_SelectCountryLabel}"
                 SelectedIndex="-1"
                 ItemsSource="{Binding Countries}"
-                ItemDisplayBinding="{Binding Name}"
+                ItemDisplayBinding="{Binding Label}"
                 SelectedItem="{Binding SelectedCountry}"
                 IsVisible="{Binding IsLanguageSelected}"
                 FontSize="16" />
 
         <!-- Species Picker -->
-        <Label Text="{Binding MainPage_SelectSpeciesLabel}"
+        <Label Text="{helpers:Translate Key=MainPage_SelectSpeciesLabel}"
                FontSize="18"
                IsVisible="{Binding IsLanguageSelected}" />
         <Picker x:Name="SpeciesPicker"
-                Title="{Binding MainPage_SelectSpeciesLabel}"
+                Title="{helpers:Translate Key=MainPage_SelectSpeciesLabel}"
                 SelectedIndex="-1"
                 ItemsSource="{Binding SpeciesList}"
-                ItemDisplayBinding="{Binding Name}"
+                ItemDisplayBinding="{Binding Label}"
                 SelectedItem="{Binding SelectedSpecies}"
                 IsVisible="{Binding IsLanguageSelected}"
                 FontSize="16" />
 
         <!-- Next Button -->
-        <Button Text="{Binding MainPage_NextButtonText}"
+        <Button Text="{helpers:Translate Key=MainPage_NextButton}"
                 Command="{Binding NextCommand}"
                 HorizontalOptions="Center"
                 VerticalOptions="EndAndExpand"

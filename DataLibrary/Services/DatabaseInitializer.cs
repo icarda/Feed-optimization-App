@@ -191,15 +191,23 @@ namespace DataLibrary.Services
         /// Loads a disclaimer from an embedded Word document resource and converts it to HTML.
         /// </summary>
         /// <returns>A string containing the disclaimer in HTML format, or an error message if the resource cannot be loaded.</returns>
-        public string LoadDisclaimerFromEmbeddedResource()
+        public string LoadDisclaimerFromEmbeddedResource(int languageId)
         {
             try
             {
                 // Get the assembly containing the embedded resources.
                 var assembly = Assembly.GetExecutingAssembly();
+                var resourceName = "";
 
-                // Specify the name of the embedded Word document resource.
-                var resourceName = "DataLibrary.Resources.disclaimer.docx";
+                if (languageId == 1)
+                {
+                    // Specify the name of the embedded Word document resource.
+                    resourceName = "DataLibrary.Resources.disclaimer_en.docx";
+                }
+                else
+                {
+                    resourceName = "DataLibrary.Resources.disclaimer_fr.docx";
+                }                
 
                 // Get the embedded resource stream.
                 using var stream = assembly.GetManifestResourceStream(resourceName);

@@ -507,10 +507,10 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                 EnergyReq = Math.Round(MEm + MEmGrazing + MEg + MEGestation + MELactation, 2);
 
-                EnergyRequirementMaintenance = Math.Round(MEm / 1000);
-                EnergyRequirementAdditional = Math.Round((EnergyReq - MEm) / 1000);
+                EnergyRequirementMaintenance = Math.Round(MEm / 1000,2);
+                EnergyRequirementAdditional = Math.Round((EnergyReq - MEm) / 1000,2);
                 var ermPLUSera = EnergyRequirementMaintenance + EnergyRequirementAdditional;
-                EnergyRequirementTotal = Math.Round(EnergyRequirementMaintenance / ermPLUSera, 2);
+                EnergyRequirementTotal = Math.Round((EnergyRequirementMaintenance / ermPLUSera) * 100, 2);
 
                 EnergyReqForUI = EnergyRequirementMaintenance + EnergyRequirementAdditional;
             }
@@ -640,6 +640,15 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _isNrSucklingsVisible, value);
         }
 
+        // Controls the visibility of the milk and production fields.
+        private bool _isMilkAndProductionVisible;
+
+        public bool IsMilkAndProductionVisible
+        {
+            get => _isMilkAndProductionVisible;
+            set => SetProperty(ref _isMilkAndProductionVisible, value);
+        }
+
         // Text displayed on the Add Feed box.
         private string _addFeedBoxText;
 
@@ -721,11 +730,12 @@ namespace FeedOptimizationApp.Modules.Calculations
                     if (value == null)
                     {
                         IsNrSucklingsVisible = false;
+                        IsMilkAndProductionVisible = false;
                     }
                     else
                     {
-                        // Set the visibility of the number of sucklings field based on the selected type.
                         IsNrSucklingsVisible = value.Name == "Does" || value.Name == "Ewes";
+                        IsMilkAndProductionVisible = value.Name == "Does" || value.Name == "Ewes" || value.Name == "Ewes and lambs";
                     }
                     CalculateEnergyReq();
                     CalculateDCPReqAndCPReq();

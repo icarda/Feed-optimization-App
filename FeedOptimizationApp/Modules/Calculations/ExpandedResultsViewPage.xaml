@@ -53,8 +53,8 @@
                         <Label Text="{helpers:Translate Key=ExpandedResultsPage_DietQualityEstimate}" Grid.Row="4" Grid.Column="0" FontSize="12" />
                         <Label Text="{helpers:Translate Key=ExpandedResultsPage_LastGestation}" Grid.Row="5" Grid.Column="0" FontSize="12" />
                         <Label Text="{helpers:Translate Key=ExpandedResultsPage_NoSucklingKidsLambs}" Grid.Row="6" Grid.Column="0" FontSize="12" IsVisible="{Binding IsNrSucklingsVisible}" />
-                        <Label Text="{helpers:Translate Key=ExpandedResultsPage_DailyMilkYield}" Grid.Row="7" Grid.Column="0" FontSize="12" />
-                        <Label Text="{helpers:Translate Key=ExpandedResultsPage_FatContent}" Grid.Row="8" Grid.Column="0" FontSize="12" />
+                        <Label Text="{helpers:Translate Key=ExpandedResultsPage_DailyMilkYield}" Grid.Row="7" Grid.Column="0" FontSize="12" IsVisible="{Binding IsMilkAndProductionVisible}"/>
+                        <Label Text="{helpers:Translate Key=ExpandedResultsPage_FatContent}" Grid.Row="8" Grid.Column="0" FontSize="12" IsVisible="{Binding IsMilkAndProductionVisible}"/>
 
                         <!-- Animal Data Values -->
                         <Label Text="{Binding AnimalInfo.Type}" Grid.Row="0" Grid.Column="1" FontSize="12" />
@@ -64,9 +64,9 @@
                         <Label Text="{Binding DietQualityEstimateName}" Grid.Row="4" Grid.Column="1" FontSize="12" />
                         <Label Text="{Binding AnimalInfo.Gestation}" Grid.Row="5" Grid.Column="1" FontSize="12" />
                         <Label Text="{Binding NrKidsLambsName}" Grid.Row="6" Grid.Column="1" FontSize="12" IsVisible="{Binding IsNrSucklingsVisible}" />
-                        <Label Text="{Binding AnimalInfo.MilkYield}" Grid.Row="7" Grid.Column="1" FontSize="12" />
+                        <Label Text="{Binding AnimalInfo.MilkYield}" Grid.Row="7" Grid.Column="1" FontSize="12" IsVisible="{Binding IsMilkAndProductionVisible}"/>
                         <Label Text="{Binding AnimalInfo.FatContent, Converter={StaticResource PercentageValueConverter2}}"
-                                Grid.Row="8" Grid.Column="1" FontSize="12" />
+                                Grid.Row="8" Grid.Column="1" FontSize="12" IsVisible="{Binding IsMilkAndProductionVisible}"/>
                     </Grid>
                 </StackLayout>
 
@@ -178,18 +178,18 @@
                             <!-- Horizontal line above Total section -->
                             <BoxView Grid.Row="0" Grid.ColumnSpan="6" HeightRequest="1" BackgroundColor="Gray" />
 
-                            <!-- Totals -->
-                            <Label Text="{helpers:Translate Key=ExpandedResultsPage_Total}" Grid.Row="1" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                            <Label Text="{Binding TotalDMi}" Grid.Row="1" Grid.Column="1" FontSize="12" HorizontalOptions="Center" />
-                            <Label Text="{Binding TotalCPi}" Grid.Row="1" Grid.Column="2" FontSize="12" HorizontalOptions="Center" />
-                            <Label Text="{Binding TotalMEi}" Grid.Row="1" Grid.Column="3" FontSize="12" HorizontalOptions="Center" />
-                            <Label Text="{Binding TotalFeedCost}" Grid.Row="1" Grid.Column="4" FontSize="12" HorizontalOptions="Center" />
-
                             <!-- Requirements -->
-                            <Label Text="{helpers:Translate Key=ExpandedResultsPage_Requirement}" Grid.Row="2" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                            <Label Text="{Binding DMiRequirement}" Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalOptions="Center" />
-                            <Label Text="{Binding CPiRequirement}" Grid.Row="2" Grid.Column="2" FontSize="12" HorizontalOptions="Center" />
-                            <Label Text="{Binding MEiRequirement}" Grid.Row="2" Grid.Column="3" FontSize="12" HorizontalOptions="Center" />
+                            <Label Text="{helpers:Translate Key=ExpandedResultsPage_Requirement}" Grid.Row="1" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="{Binding DMiRequirement}" Grid.Row="1" Grid.Column="1" FontSize="12" HorizontalOptions="Center" />
+                            <Label Text="{Binding CPiRequirement}" Grid.Row="1" Grid.Column="2" FontSize="12" HorizontalOptions="Center" />
+                            <Label Text="{Binding MEiRequirement}" Grid.Row="1" Grid.Column="3" FontSize="12" HorizontalOptions="Center" />
+                            
+                            <!-- Totals -->
+                            <Label Text="{helpers:Translate Key=ExpandedResultsPage_TotalLabel}" Grid.Row="2" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="{Binding TotalDMi}" Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalOptions="Center" />
+                            <Label Text="{Binding TotalCPi}" Grid.Row="2" Grid.Column="2" FontSize="12" HorizontalOptions="Center" />
+                            <Label Text="{Binding TotalMEi}" Grid.Row="2" Grid.Column="3" FontSize="12" HorizontalOptions="Center" />
+                            <Label Text="{Binding TotalFeedCost}" Grid.Row="2" Grid.Column="4" FontSize="12" HorizontalOptions="Center" />
 
                             <!-- Horizontal line below Requirement section -->
                             <BoxView Grid.Row="3" Grid.ColumnSpan="6" HeightRequest="2" BackgroundColor="Gray" />
@@ -198,13 +198,13 @@
                             <Label Text="{helpers:Translate Key=ExpandedResultsPage_Balance}" Grid.Row="4" Grid.Column="0" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                             <Label Text="{Binding BalanceDMi, Converter={StaticResource AbsoluteValueConverter}}"
                                    TextColor="{Binding BalanceDMi, Converter={StaticResource NegativeValueColourConverter}}"
-                                   Grid.Row="4" Grid.Column="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                   Grid.Row="4" Grid.Column="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" />
                             <Label Text="{Binding BalanceCPi, Converter={StaticResource AbsoluteValueConverter}}"
                                    TextColor="{Binding BalanceCPi, Converter={StaticResource NegativeValueColourConverter}}"
-                                   Grid.Row="4" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                   Grid.Row="4" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" />
                             <Label Text="{Binding BalanceMEi, Converter={StaticResource AbsoluteValueConverter}}"
                                    TextColor="{Binding BalanceMEi, Converter={StaticResource NegativeValueColourConverter}}"
-                                   Grid.Row="4" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
+                                   Grid.Row="4" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" />
                         </Grid>
                     </CollectionView.Footer>
                 </CollectionView>

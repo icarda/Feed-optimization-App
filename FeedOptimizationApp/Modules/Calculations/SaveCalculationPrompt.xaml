@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:FeedOptimizationApp.Localization"
              x:Class="FeedOptimizationApp.Modules.Calculations.SaveCalculationPrompt"
-             Title="{Binding SaveCalculationPrompt_Title}"
+             Title="{helpers:Translate Key=SaveCalculationPrompt_Title}"
              BackgroundColor="{StaticResource Primary}">
     <StackLayout Padding="20" Spacing="15">
-        <Label Text="{Binding SaveCalculationPrompt_Heading}"
+        <Label Text="{helpers:Translate Key=SaveCalculationPrompt_Heading}"
                FontSize="Medium"
                HorizontalOptions="Center"
                VerticalOptions="Center"
                TextColor="{StaticResource White}" />
-        <Entry x:Name="NameEntry" Placeholder="{Binding SaveCalculationPrompt_NamePlaceholder}" TextColor="{StaticResource Black}" BackgroundColor="{StaticResource White}" />
-        <Entry x:Name="DescriptionEntry" Placeholder="{Binding SaveCalculationPrompt_DescriptionPlaceholder}" TextColor="{StaticResource Black}" BackgroundColor="{StaticResource White}" />
+        <Entry x:Name="NameEntry" Placeholder="{helpers:Translate Key=SaveCalculationPrompt_NamePlaceholder}" TextColor="{StaticResource Black}" BackgroundColor="{StaticResource White}" />
+        <Entry x:Name="DescriptionEntry" Placeholder="{helpers:Translate Key=SaveCalculationPrompt_DescriptionPlaceholder}" TextColor="{StaticResource Black}" BackgroundColor="{StaticResource White}" />
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-            <Button Text="{Binding SaveCalculationPrompt_CancelButton}" Command="{Binding CancelCommand}" BackgroundColor="{StaticResource Secondary}" TextColor="{StaticResource White}" />
-            <Button Text="{Binding SaveCalculationPrompt_SaveButton}" Command="{Binding SaveCommand}" BackgroundColor="{StaticResource Tertiary}" TextColor="{StaticResource White}" />
+            <Button Text="{helpers:Translate Key=SaveCalculationPrompt_CancelButton}" Command="{Binding CancelCommand}" BackgroundColor="{StaticResource Secondary}" TextColor="{StaticResource White}" />
+            <Button Text="{helpers:Translate Key=SaveCalculationPrompt_SaveButton}" Command="{Binding SaveCommand}" BackgroundColor="{StaticResource Tertiary}" TextColor="{StaticResource White}" />
         </HorizontalStackLayout>
     </StackLayout>
 </ContentPage>

@@ -309,7 +309,7 @@ namespace FeedOptimizationApp.Modules.Calculations
             _baseService = baseService ?? throw new ArgumentNullException(nameof(baseService));
 
             // Start loading results for the provided CalculationId
-            LoadResults((int)CalculationId);
+            _ = LoadResults((int)CalculationId);
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace FeedOptimizationApp.Modules.Calculations
                                 Cost = Math.Round(feedEntity.Price * feedEntity.Intake / 1000, 2),
                                 DMi = Math.Round(feedEntity.Intake * feedEntity.DM / 100, 1),
                                 CPi = Math.Round((feedEntity.Intake * feedEntity.DM / 100) * feedEntity.CPDM / 100, 1),
-                                MEi = Math.Round((feedEntity.Intake * feedEntity.DM / 100) * feedEntity.MEMJKGDM / 100, 1),
+                                MEi = Math.Round((feedEntity.Intake * feedEntity.DM / 100) * feedEntity.MEMJKGDM / 1000, 1),
                                 TotalRation = Math.Round(feedEntity.Price, 2)
                             };
 
@@ -418,9 +418,9 @@ namespace FeedOptimizationApp.Modules.Calculations
                         // Update the display collection with the stored results.
                         StoredResultsForDisplay = storedResultsList;
 
-                        EnergyRequirementMaintenance = Math.Round(firstResult.EnergyRequirementMaintenance, MidpointRounding.AwayFromZero);
-                        EnergyRequirementAdditional = Math.Round(firstResult.EnergyRequirementAdditional, MidpointRounding.AwayFromZero);
-                        EnergyRequirementTotal = firstResult.EnergyRequirementTotal;
+                        EnergyRequirementMaintenance = Math.Round(firstResult.EnergyRequirementMaintenance, 2);
+                        EnergyRequirementAdditional = Math.Round(firstResult.EnergyRequirementAdditional, 2);
+                        EnergyRequirementTotal = firstResult.EnergyRequirementTotal * 100;
                         CrudeProteinRequirementMaintenance = Math.Round(firstResult.CrudeProteinRequirementMaintenance, MidpointRounding.AwayFromZero);
                         CrudeProteinRequirementAdditional = Math.Round(firstResult.CrudeProteinRequirementAdditional, MidpointRounding.AwayFromZero);
                         DryMatterIntakeEstimateBase = Math.Round(firstResult.DryMatterIntakeEstimateBase, MidpointRounding.AwayFromZero);

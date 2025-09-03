@@ -7,7 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="Resources\disclaimer.docx" />
+		<EmbeddedResource Include="Resources\disclaimer_fr.docx" />
+		<EmbeddedResource Include="Resources\disclaimer_en.docx" />
 		<EmbeddedResource Include="Resources\english_ethiopia_feeds.csv" />
 		<EmbeddedResource Include="Resources\english_tunisia_feeds.csv" />
 		<EmbeddedResource Include="Resources\french_tunisia_feeds.csv" />

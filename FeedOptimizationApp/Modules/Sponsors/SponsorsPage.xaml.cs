@@ -26,15 +26,6 @@ public partial class SponsorsPage : ContentPage
 
         // Listen for language changes to update translations dynamically
         var translationProvider = _serviceProvider.GetRequiredService<TranslationProvider>();
-        translationProvider.PropertyChanged += (sender, e) =>
-        {
-            if (e.PropertyName == null)
-            {
-                OnPropertyChanged(nameof(SponsorsPage_Title));
-                OnPropertyChanged(nameof(SponsorsPage_SponsoredBy));
-                OnPropertyChanged(nameof(SponsorsPage_CollaborationWith));
-            }
-        };
     }
 
     /// <summary>
@@ -66,12 +57,4 @@ public partial class SponsorsPage : ContentPage
             await Navigation.PushAsync(new MainPage(mainViewModel));
         }
     }
-
-    #region TRANSLATIONS
-
-    public string SponsorsPage_Title => _serviceProvider.GetRequiredService<TranslationProvider>()["SponsorsPage_Title"];
-    public string SponsorsPage_SponsoredBy => _serviceProvider.GetRequiredService<TranslationProvider>()["SponsorsPage_SponsoredBy"];
-    public string SponsorsPage_CollaborationWith => _serviceProvider.GetRequiredService<TranslationProvider>()["SponsorsPage_CollaborationWith"];
-
-    #endregion TRANSLATIONS
 }
