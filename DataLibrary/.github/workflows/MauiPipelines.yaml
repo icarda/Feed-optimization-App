@@ -7,16 +7,15 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch: #This adds the run workflow button
+  workflow_dispatch:
 
-permissions: #added permissions to allow the pipeline to link with work federated identity in secerets
+permissions:
   id-token: write
   contents: read
 
-
 jobs:
   build-android:
-    name: Build Android APK
+    name: Build Android AAB
     runs-on: windows-latest
 
     steps:
@@ -53,25 +52,25 @@ jobs:
           }
           New-Item -ItemType Directory -Path $publishDir | Out-Null
 
-      - name: Create Android APK
+      - name: Create Android AAB
         shell: pwsh
         run: |
           $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
           $publishDir = Join-Path "${{ github.workspace }}" 'publish'
-          dotnet publish $solution -f net9.0-android -c Release -o $publishDir
-          $apk = Get-ChildItem (Join-Path $publishDir '*.apk') | Select-Object -First 1
-          if ($apk) {
-              Move-Item $apk.FullName (Join-Path $publishDir 'App.apk')
+          dotnet publish $solution -f net9.0-android -c Release -p:AndroidPackageFormat=aab -o $publishDir
+          $aab = Get-ChildItem (Join-Path $publishDir '*.aab') | Select-Object -First 1
+          if ($aab) {
+              Move-Item $aab.FullName (Join-Path $publishDir 'App.aab')
           } else {
-              Write-Error "No APK files found in publish directory"
+              Write-Error "No AAB files found in publish directory"
               exit 1
           }
 
       - name: Upload Android Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Android-APK
-          path: ${{ github.workspace }}/publish/App.apk
+          name: Android-AAB
+          path: ${{ github.workspace }}/publish/App.aab
 
   deploy-android:
     name: Deploy to Google Play
@@ -79,10 +78,10 @@ jobs:
     needs: build-android
 
     steps:
-      - name: Download Android APK
+      - name: Download Android AAB
         uses: actions/download-artifact@v3
         with:
-          name: Android-APK
+          name: Android-AAB
           path: ${{ github.workspace }}/publish
 
       - name: Authenticate with Google Cloud
@@ -94,8 +93,9 @@ jobs:
       - name: Deploy to Google Play Store (Beta)
         uses: r0adkll/upload-google-play@v1
         with:
+          serviceAccountJson: ${{ secrets.GCP_CREDENTIALS }}
           packageName: "com.icarda.feedapp"
-          releaseFiles: "${{ github.workspace }}/publish/App.apk"
+          releaseFiles: "${{ github.workspace }}/publish/App.aab"
           track: beta
           status: completed
 
@@ -110,7 +110,8 @@ jobs:
         run: |
           $webhookUrl = "${{ secrets.TEAMS_WEBHOOK_URL }}"
           $body = @{
-              text = "🚀 New MAUI App build deployed to Google Play! 🎉"
+              text = "🚀 New MAUI App Bundle (.aab) deployed to Google Play! 🎉"
           } | ConvertTo-Json -Compress
           
           Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $body -ContentType 'application/json'
+
