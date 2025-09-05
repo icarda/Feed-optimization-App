@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Maui.Extensions;
 using DataLibrary.Models.Enums;
 using DataLibrary.Services;
 using FeedOptimizationApp.Helpers;
@@ -234,7 +234,7 @@ namespace FeedOptimizationApp.Modules.Settings
                 TranslationProvider["SettingsPage_CancelButton"],
                 async () => await SaveSettingsAsync());
 
-            Application.Current.MainPage.ShowPopup(popup);
+            await Application.Current.MainPage.ShowPopupAsync(popup);
         }
 
         private async Task SaveSettingsAsync()

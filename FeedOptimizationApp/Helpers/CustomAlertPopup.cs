@@ -53,7 +53,7 @@ namespace FeedOptimizationApp.Helpers
             var okButton = new Button
             {
                 Text = okButtonText, // Set the button text.
-                Command = new Command(() => Close()) // Close the popup when the button is clicked.
+                Command = new Command(() => CloseAsync()) // Close the popup when the button is clicked.
             };
 
             // Add the title, message, and button to the grid.
@@ -124,7 +124,7 @@ namespace FeedOptimizationApp.Helpers
                 Text = confirmButtonText, // Set the button text.
                 Command = new Command(() =>
                 {
-                    Close(); // Close the popup.
+                    CloseAsync(); // Close the popup.
                     onConfirm?.Invoke(); // Invoke the confirmation action if provided.
                 })
             };
@@ -133,7 +133,7 @@ namespace FeedOptimizationApp.Helpers
             var cancelButton = new Button
             {
                 Text = cancelButtonText, // Set the button text.
-                Command = new Command(() => Close()) // Close the popup when the button is clicked.
+                Command = new Command(() => CloseAsync()) // Close the popup when the button is clicked.
             };
 
             // Create a stack layout for the buttons.

@@ -10,6 +10,7 @@ using CommunityToolkit.Maui.Views;
 using FeedOptimizationApp.Shared;
 using System.ComponentModel;
 using FeedOptimizationApp.Localization;
+using CommunityToolkit.Maui.Extensions;
 
 namespace FeedOptimizationApp.Modules.Calculations
 {
