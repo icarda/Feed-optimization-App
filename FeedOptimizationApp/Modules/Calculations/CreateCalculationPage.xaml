@@ -452,11 +452,11 @@
                             <Label Text="{helpers:Translate Key=CreateCalculationPage_FatContentLabel}" Grid.Row="8" Grid.Column="0" FontSize="12" IsVisible="{Binding IsMilkAndProductionVisible}"/>
 
                             <!-- Animal Data Values -->
-                            <Label Text="{Binding SelectedType.Name}" Grid.Row="0" Grid.Column="1" FontSize="12" />
-                            <Label Text="{Binding SelectedGrazing.Name}" Grid.Row="1" Grid.Column="1" FontSize="12" />
+                            <Label Text="{Binding SelectedTranslatedType.Label}" Grid.Row="0" Grid.Column="1" FontSize="12" />
+                            <Label Text="{Binding SelectedTranslatedGrazing.Label}" Grid.Row="1" Grid.Column="1" FontSize="12" />
                             <Label Text="{Binding SelectedBodyWeight.Name}" Grid.Row="2" Grid.Column="1" FontSize="12" />
                             <Label Text="{Binding ADG}" Grid.Row="3" Grid.Column="1" FontSize="12" />
-                            <Label Text="{Binding SelectedDietQualityEstimate.Name}" Grid.Row="4" Grid.Column="1" FontSize="12" />
+                            <Label Text="{Binding SelectedTranslatedDietQualityEstimate.Label}" Grid.Row="4" Grid.Column="1" FontSize="12" />
                             <Label Text="{Binding IsLast8WeeksOfGestation}" Grid.Row="5" Grid.Column="1" FontSize="12" />
                             <Label Text="{Binding SelectedNumberOfSucklingKidsLambs.Name}" Grid.Row="6" Grid.Column="1" FontSize="12" IsVisible="{Binding IsNrSucklingsVisible}" />
                             <Label Text="{Binding DailyMilkYieldValue}" Grid.Row="7" Grid.Column="1" FontSize="12" IsVisible="{Binding IsMilkAndProductionVisible}"/>
@@ -517,7 +517,7 @@
                             <CollectionView.Header>
                                 <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -537,7 +537,7 @@
                                 <DataTemplate>
                                     <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="100" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
@@ -552,11 +552,11 @@
                                                 FontSize="12"
                                                 VerticalOptions="Center"
                                                 HorizontalOptions="Center"
-                                                BackgroundColor="Transparent"
+                                                BackgroundColor="LightYellow"
                                                 HeightRequest="20"
                                                 VerticalTextAlignment="Center"
                                                 HorizontalTextAlignment="Center"
-                                                Keyboard="Numeric" />
+                                                Keyboard="Numeric"/>
                                         <Label Text="{Binding CPi}" Grid.Column="2" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                         <Label Text="{Binding MEi}" Grid.Column="3" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
                                         <Label Text="{Binding Cost}" Grid.Column="4" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" />
@@ -576,7 +576,7 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -673,11 +673,11 @@
                                 <Label Text="{helpers:Translate Key=CreateCalculationPage_FatContentLabel}" Grid.Row="8" Grid.Column="0" FontSize="12" IsVisible="{Binding IsMilkAndProductionVisible}"/>
 
                                 <!-- Animal Data Values -->
-                                <Label Text="{Binding SelectedType.Name}" Grid.Row="0" Grid.Column="1" FontSize="12" />
-                                <Label Text="{Binding SelectedGrazing.Name}" Grid.Row="1" Grid.Column="1" FontSize="12" />
+                                <Label Text="{Binding SelectedTranslatedType.Label}" Grid.Row="0" Grid.Column="1" FontSize="12" />
+                                <Label Text="{Binding SelectedTranslatedGrazing.Label}" Grid.Row="1" Grid.Column="1" FontSize="12" />
                                 <Label Text="{Binding SelectedBodyWeight.Name}" Grid.Row="2" Grid.Column="1" FontSize="12" />
                                 <Label Text="{Binding ADG}" Grid.Row="3" Grid.Column="1" FontSize="12" />
-                                <Label Text="{Binding SelectedDietQualityEstimate.Name}" Grid.Row="4" Grid.Column="1" FontSize="12" />
+                                <Label Text="{Binding SelectedTranslatedDietQualityEstimate.Label}" Grid.Row="4" Grid.Column="1" FontSize="12" />
                                 <Label Text="{Binding IsLast8WeeksOfGestation}" Grid.Row="5" Grid.Column="1" FontSize="12" />
                                 <Label Text="{Binding SelectedNumberOfSucklingKidsLambs.Name}" Grid.Row="6" Grid.Column="1" FontSize="12" IsVisible="{Binding IsNrSucklingsVisible}" />
                                 <Label Text="{Binding DailyMilkYieldValue}" Grid.Row="7" Grid.Column="1" FontSize="12" IsVisible="{Binding IsMilkAndProductionVisible}"/>
@@ -739,7 +739,7 @@
                             <CollectionView.Header>
                                 <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="140" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -758,7 +758,7 @@
                                 <DataTemplate>
                                     <Grid Margin="2" ColumnSpacing="10" RowSpacing="1">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="140" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
@@ -784,7 +784,7 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="140" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />

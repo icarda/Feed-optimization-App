@@ -57,7 +57,7 @@
                         <Label Text="{helpers:Translate Key=ExpandedResultsPage_FatContent}" Grid.Row="8" Grid.Column="0" FontSize="12" IsVisible="{Binding IsMilkAndProductionVisible}"/>
 
                         <!-- Animal Data Values -->
-                        <Label Text="{Binding AnimalInfo.Type}" Grid.Row="0" Grid.Column="1" FontSize="12" />
+                        <Label Text="{Binding TypeName}" Grid.Row="0" Grid.Column="1" FontSize="12" />
                         <Label Text="{Binding GrazingName}" Grid.Row="1" Grid.Column="1" FontSize="12" />
                         <Label Text="{Binding BodyWeightName}" Grid.Row="2" Grid.Column="1" FontSize="12" />
                         <Label Text="{Binding AnimalInfo.ADG}" Grid.Row="3" Grid.Column="1" FontSize="12" />

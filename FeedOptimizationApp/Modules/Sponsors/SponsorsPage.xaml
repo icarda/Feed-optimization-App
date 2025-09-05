@@ -26,7 +26,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="White" Padding="20" CornerRadius="20">
-                        <Image Source="Resources/Images/icarda_logo.png" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="150" HeightRequest="120" />
+                        <Image Source="icarda_logo.png" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="150" HeightRequest="120" />
                     </Frame>
                     <!-- Add more sponsor logos as needed -->
                 </Grid>

@@ -249,6 +249,13 @@ namespace FeedOptimizationApp.Modules.Calculations
             set => SetProperty(ref _totalFeedCost, value);
         }
 
+        private string _typeName;
+        public string TypeName
+        {
+            get => _typeName;
+            set => SetProperty(ref _typeName, value);
+        }
+
         // Display name for grazing information.
         private string _grazingName;
 
@@ -351,10 +358,14 @@ namespace FeedOptimizationApp.Modules.Calculations
                 IsMilkAndProductionVisible = AnimalInfo.Type == "Does" || AnimalInfo.Type == "Ewes" || AnimalInfo.Type == "Ewes and lambs";
                 //if AnimalInfo.Type is Does or Ewes then show number of sucklings field
                 IsNrSucklingsVisible = AnimalInfo.Type == "Does" || AnimalInfo.Type == "Ewes";
+                                
+                var typePrefix = AnimalInfo.SpeciesId == 1 ? "SheepType_" : "GoatType_";
+                TypeName = TranslationProvider[$"{typePrefix}{AnimalInfo.Type}"];
 
                 // Load Grazing Information using the GrazingId from AnimalInfo.
                 var grazingResult = await _baseService.EnumEntitiesService.GetGrazingByIdAsync(AnimalInfo.GrazingId);
-                GrazingName = grazingResult?.Data?.Name;
+                //GrazingName = grazingResult?.Data?.Name;
+                GrazingName = TranslationProvider[$"Grazing_{grazingResult?.Data?.Name}"];
 
                 // Load Body Weight Information using the BodyWeightId from AnimalInfo.
                 var bodyWeightResult = await _baseService.EnumEntitiesService.GetBodyWeightByIdAsync(AnimalInfo.BodyWeightId);
@@ -362,7 +373,9 @@ namespace FeedOptimizationApp.Modules.Calculations
 
                 // Load Diet Quality Estimate Information using the DietQualityEstimateId from AnimalInfo.
                 var dietQualityEstimateResult = await _baseService.EnumEntitiesService.GetDietQualityEstimateByIdAsync(AnimalInfo.DietQualityEstimateId);
-                DietQualityEstimateName = dietQualityEstimateResult?.Data?.Name;
+                //DietQualityEstimateName = dietQualityEstimateResult?.Data?.Name;
+                DietQualityEstimateName = TranslationProvider[$"DietQualityEstimate_{dietQualityEstimateResult?.Data?.Name}"];
+
 
                 // Load Kids/Lambs Information using the KidsLambsId from AnimalInfo.
                 var nrKidsLambsResult = await _baseService.EnumEntitiesService.GetKidsLambsByIdAsync(AnimalInfo.KidsLambsId);

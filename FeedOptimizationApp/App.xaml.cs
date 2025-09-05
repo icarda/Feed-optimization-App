@@ -15,9 +15,15 @@ namespace FeedOptimizationApp
             InitializeComponent();
             ServiceProvider = serviceProvider;
 
+            // Start async initialization
+            InitializeAppAsync(serviceProvider);
+        }
+
+        private async void InitializeAppAsync(IServiceProvider serviceProvider)
+        {
             // Initialize the database
             var databaseInitializer = serviceProvider.GetRequiredService<DatabaseInitializer>();
-            databaseInitializer.InitializeAsync().Wait();
+            await databaseInitializer.InitializeAsync();
 
             // Get required services
             var translationProvider = serviceProvider.GetRequiredService<TranslationProvider>();
@@ -33,7 +39,7 @@ namespace FeedOptimizationApp
             var baseService = serviceProvider.GetRequiredService<BaseService>();
 
             // Check if user selections exist in the database
-            var userResult = baseService?.UserService?.GetAllAsync().Result;
+            var userResult = await baseService?.UserService?.GetAllAsync();
             var user = userResult?.Data?.FirstOrDefault();
 
             if (user != null && sharedData != null && baseService != null)
@@ -44,7 +50,7 @@ namespace FeedOptimizationApp
                 sharedData.SelectedSpecies = ConversionHelpers.ConvertToSpeciesEntity(user.SpeciesId);
 
                 // Load the saved language from SharedData and set it in TranslationProvider
-                var languageCode = sharedData.SelectedLanguage?.Id == 1 ? "en" : "fr"; // Map language ID to language code
+                var languageCode = sharedData.SelectedLanguage?.Id == 1 ? "en" : "fr";
                 translationProvider.SetLanguage(languageCode);
 
                 // Navigate to the SponsorsPage

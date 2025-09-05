@@ -36,25 +36,33 @@ public partial class SponsorsPage : ContentPage
         base.OnAppearing();
         await Task.Delay(2000); // Wait for 2 seconds
 
-        if (_navigateToHomePage)
+        try
         {
-            // Navigate to the home page using the AppShell and Shell navigation.
-            var baseService = _serviceProvider.GetRequiredService<BaseService>();
-            var sharedData = _serviceProvider.GetRequiredService<SharedData>();
-            var translationProvider = _serviceProvider.GetRequiredService<TranslationProvider>();
-            var homeViewModel = new HomeViewModel(baseService, sharedData, translationProvider);
-            Application.Current.MainPage = new AppShell(translationProvider); // Navigate to AppShell
-            await Shell.Current.GoToAsync("//HomePage"); // Set the route to HomePage within the shell
-        }
-        else
-        {
-            // Ensure SelectedLanguage is null for the first use
-            var sharedData = _serviceProvider.GetRequiredService<SharedData>();
-            sharedData.SelectedLanguage = null;
+            if (_navigateToHomePage)
+            {
+                // Navigate to the home page using the AppShell and Shell navigation.
+                var baseService = _serviceProvider.GetRequiredService<BaseService>();
+                var sharedData = _serviceProvider.GetRequiredService<SharedData>();
+                var translationProvider = _serviceProvider.GetRequiredService<TranslationProvider>();
+                var homeViewModel = new HomeViewModel(baseService, sharedData, translationProvider);
+                Application.Current.MainPage = new AppShell(translationProvider); // Navigate to AppShell
+                await Shell.Current.GoToAsync("//HomePage"); // Set the route to HomePage within the shell
+            }
+            else
+            {
+                // Ensure SelectedLanguage is null for the first use
+                var sharedData = _serviceProvider.GetRequiredService<SharedData>();
+                sharedData.SelectedLanguage = null;
 
-            // Navigate to the main page.
-            var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-            await Navigation.PushAsync(new MainPage(mainViewModel));
+                // Navigate to the main page.
+                var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+                await Navigation.PushAsync(new MainPage(mainViewModel));
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Navigation Exception: {ex}");
+            await DisplayAlert("Error", ex.Message, "OK");
         }
     }
 }
