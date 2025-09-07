@@ -28,49 +28,38 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Install MAUI Workload
-        shell: pwsh
         run: dotnet workload install maui --skip-manifest-update
 
       - name: Restore Dependencies
-        shell: pwsh
-        run: |
-          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
-          dotnet restore $solution --verbosity detailed
+        run: dotnet restore ./FeedOptimizationApp.sln --verbosity detailed
 
       - name: Build Android App
-        shell: pwsh
-        run: |
-          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
-          dotnet build $solution -f net9.0-android -c Release
+        run: dotnet build ./FeedOptimizationApp.sln -f net9.0-android -c Release
 
       - name: Clean publish folder
-        shell: pwsh
         run: |
-          $publishDir = Join-Path "${{ github.workspace }}" 'publish'
-          if (Test-Path $publishDir) {
-              Remove-Item -Recurse -Force $publishDir
+          if (Test-Path ./publish) {
+              Remove-Item -Recurse -Force ./publish
           }
-          New-Item -ItemType Directory -Path $publishDir | Out-Null
+          New-Item -ItemType Directory -Path ./publish | Out-Null
 
       - name: Create Android AAB
-        shell: pwsh
         run: |
-          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
-          $publishDir = Join-Path "${{ github.workspace }}" 'publish'
-          dotnet publish $solution -f net9.0-android -c Release -p:AndroidPackageFormat=aab -o $publishDir
-          $aab = Get-ChildItem (Join-Path $publishDir '*.aab') | Select-Object -First 1
+          dotnet publish ./FeedOptimizationApp.sln -f net9.0-android -c Release -p:AndroidPackageFormat=aab -o ./publish
+          $aab = Get-ChildItem ./publish -Filter *.aab | Select-Object -First 1
           if ($aab) {
-              Move-Item $aab.FullName (Join-Path $publishDir 'App.aab')
+              Move-Item $aab.FullName ./publish/App.aab -Force
           } else {
               Write-Error "No AAB files found in publish directory"
               exit 1
           }
+        shell: pwsh
 
       - name: Upload Android Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Android-AAB
-          path: ${{ github.workspace }}/publish/App.aab
+          path: ./publish/App.aab
 
   deploy-android:
     name: Deploy to Google Play
@@ -82,7 +71,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Android-AAB
-          path: ${{ github.workspace }}/publish
+          path: ./publish
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
@@ -95,7 +84,7 @@ jobs:
         with:
           serviceAccountJson: ${{ secrets.GCP_CREDENTIALS }}
           packageName: "com.icarda.feedapp"
-          releaseFiles: "${{ github.workspace }}/publish/App.aab"
+          releaseFiles: "./publish/App.aab"
           track: beta
           status: completed
 
