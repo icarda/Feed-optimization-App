@@ -33,15 +33,11 @@ jobs:
 
       - name: Restore Dependencies
         shell: pwsh
-        run: |
-          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
-          dotnet restore $solution --verbosity detailed
+        run: dotnet restore FeedOptimizationApp/FeedOptimizationApp.sln --verbosity detailed
 
       - name: Build Android App
         shell: pwsh
-        run: |
-          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
-          dotnet build $solution -f net9.0-android -c Release
+        run: dotnet build FeedOptimizationApp/FeedOptimizationApp.sln -f net9.0-android -c Release
 
       - name: Clean publish folder
         shell: pwsh
@@ -55,9 +51,8 @@ jobs:
       - name: Create Android AAB
         shell: pwsh
         run: |
-          $solution = Join-Path "${{ github.workspace }}" 'FeedOptimizationApp.sln'
           $publishDir = Join-Path "${{ github.workspace }}" 'publish'
-          dotnet publish $solution -f net9.0-android -c Release -p:AndroidPackageFormat=aab -o $publishDir
+          dotnet publish FeedOptimizationApp/FeedOptimizationApp.sln -f net9.0-android -c Release -p:AndroidPackageFormat=aab -o $publishDir
           $aab = Get-ChildItem (Join-Path $publishDir '*.aab') | Select-Object -First 1
           if ($aab) {
               Move-Item $aab.FullName (Join-Path $publishDir 'App.aab')
