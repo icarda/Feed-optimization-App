@@ -66,6 +66,7 @@ jobs:
         with:
           name: Android-AAB
           path: ${{ github.workspace }}/publish/App.aab
+          overwrite: true   # ensures old artifacts get replaced
 
   deploy-android:
     name: Deploy to Google Play
@@ -76,8 +77,9 @@ jobs:
       - name: Download Android AAB
         uses: actions/download-artifact@v4
         with:
-          name: Android-AAB
+          pattern: Android-AAB
           path: ${{ github.workspace }}/publish
+          merge-multiple: true
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
