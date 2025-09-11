@@ -10,7 +10,6 @@ on:
   workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
 
 jobs:
@@ -35,34 +34,39 @@ jobs:
         shell: pwsh
         run: dotnet restore FeedOptimizationApp/FeedOptimizationApp.sln --verbosity detailed
 
-      - name: Build Android App
+      # 🔐 Decode keystore file from GitHub secret
+      - name: Decode Keystore
         shell: pwsh
-        run: dotnet build FeedOptimizationApp/FeedOptimizationApp.sln -f net9.0-android -c Release
+        run: |
+          $bytes = [System.Convert]::FromBase64String("${{ secrets.ANDROID_KEYSTORE_BASE64 }}")
+          [System.IO.File]::WriteAllBytes("keystore.jks", $bytes)
 
-      - name: Clean publish folder
+      - name: Build and Sign Android AAB
         shell: pwsh
         run: |
           $publishDir = Join-Path "${{ github.workspace }}" 'publish'
-          if (Test-Path $publishDir) {
-              Remove-Item -Recurse -Force $publishDir
-          }
+          if (Test-Path $publishDir) { Remove-Item -Recurse -Force $publishDir }
           New-Item -ItemType Directory -Path $publishDir | Out-Null
 
-      - name: Create Android AAB
-        shell: pwsh
-        run: |
-          $timestamp = Get-Date -Format "yyyyMMdd_HHmm"
-          $publishDir = Join-Path "${{ github.workspace }}" 'publish'
-          $aabName = "FeedApp_$timestamp.aab"
+          $versionCode = $env:GITHUB_RUN_NUMBER
+          $versionName = (Get-Date -Format "yyyy.MM.dd.HHmm")
 
           dotnet publish FeedOptimizationApp/FeedOptimizationApp.sln `
-            -f net9.0-android -c Release `
+            -f net9.0-android `
+            -c Release `
             -p:AndroidPackageFormat=aab `
+            -p:ApplicationVersion=$versionCode `
+            -p:ApplicationDisplayVersion=$versionName `
+            -p:AndroidKeyStore=true `
+            -p:AndroidSigningKeyStore=keystore.jks `
+            -p:AndroidSigningKeyAlias='${{ secrets.ANDROID_KEY_ALIAS }}' `
+            -p:AndroidSigningKeyPass='${{ secrets.ANDROID_KEY_PASSWORD }}' `
+            -p:AndroidSigningStorePass='${{ secrets.ANDROID_STORE_PASSWORD }}' `
             -o $publishDir
 
           $aab = Get-ChildItem (Join-Path $publishDir '*.aab') | Select-Object -First 1
           if ($aab) {
-              Rename-Item $aab.FullName (Join-Path $publishDir $aabName)
+              Move-Item $aab.FullName (Join-Path $publishDir 'App.aab')
           } else {
               Write-Error "No AAB files found in publish directory"
               exit 1
@@ -72,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Android-AAB
-          path: ${{ github.workspace }}/publish/*.aab
+          path: ${{ github.workspace }}/publish/App.aab
           overwrite: true
 
   deploy-android:
@@ -88,29 +92,16 @@ jobs:
           path: ${{ github.workspace }}/publish
           merge-multiple: true
 
-      - name: ✅ Verify downloaded AAB exists
+      - name: Write Service Account JSON
         shell: pwsh
-        run: |
-          $aabs = Get-ChildItem (Join-Path "${{ github.workspace }}" 'publish\*.aab')
-          if ($aabs.Count -eq 0) {
-              Write-Error "❌ No .aab file found after download"
-              exit 1
-          } else {
-              $aabs | ForEach-Object { Write-Host "✅ Found: $($_.FullName)" }
-          }
-
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+        run: echo "${{ secrets.GCP_CREDENTIALS }}" > ${{ github.workspace }}/service_account.json
 
       - name: Deploy to Google Play Store (Beta)
         uses: r0adkll/upload-google-play@v1.1.2
         with:
-          serviceAccountJson: ${{ secrets.GCP_CREDENTIALS }}
-          packageName: "com.icarda.feedapp"
-          releaseFiles: "${{ github.workspace }}/publish/*.aab"
+          serviceAccountJson: ${{ github.workspace }}/service_account.json
+          packageName: com.icarda.feedapp
+          releaseFiles: ${{ github.workspace }}/publish/App.aab
           track: beta
           status: completed
 
@@ -127,5 +118,4 @@ jobs:
           $body = @{
               text = "🚀 New MAUI App Bundle (.aab) deployed to Google Play! 🎉"
           } | ConvertTo-Json -Compress
-          
           Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $body -ContentType 'application/json'
