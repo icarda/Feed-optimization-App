@@ -2,11 +2,9 @@ name: .NET MAUI CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -66,48 +64,42 @@ jobs:
         with:
           name: Android-AAB
           path: ${{ github.workspace }}/publish/App.aab
-          overwrite: true   # ensures old artifacts get replaced
+          overwrite: true
+
 
   deploy-android:
     name: Deploy to Google Play
-    runs-on: windows-latest
+    runs-on: ubuntu-latest   # ✅ Linux is simpler for deployment
     needs: build-android
 
     steps:
       - name: Download Android AAB
         uses: actions/download-artifact@v4
         with:
-          pattern: Android-AAB
+          name: Android-AAB
           path: ${{ github.workspace }}/publish
-          merge-multiple: true
 
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+      - name: Write Service Account JSON
+        run: echo "${{ secrets.GCP_CREDENTIALS }}" > ${{ github.workspace }}/service_account.json
 
       - name: Deploy to Google Play Store (Beta)
         uses: r0adkll/upload-google-play@v1.1.2
         with:
-          serviceAccountJson: ${{ secrets.GCP_CREDENTIALS }}
-          packageName: "com.icarda.feedapp"
-          releaseFiles: "${{ github.workspace }}/publish/App.aab"
+          serviceAccountJson: ${{ github.workspace }}/service_account.json
+          packageName: com.icarda.feedapp
+          releaseFiles: ${{ github.workspace }}/publish/App.aab
           track: beta
           status: completed
 
+
   notify-team:
     name: Notify Team
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: [deploy-android]
 
     steps:
       - name: Send Teams Notification
-        shell: pwsh
         run: |
-          $webhookUrl = "${{ secrets.TEAMS_WEBHOOK_URL }}"
-          $body = @{
-              text = "🚀 New MAUI App Bundle (.aab) deployed to Google Play! 🎉"
-          } | ConvertTo-Json -Compress
-          
-          Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $body -ContentType 'application/json
+          curl -H 'Content-Type: application/json' \
+               -d '{"text":"🚀 New MAUI App Bundle (.aab) deployed to Google Play! 🎉"}' \
+               ${{ secrets.TEAMS_WEBHOOK_URL }}
