@@ -34,20 +34,21 @@ jobs:
         shell: pwsh
         run: dotnet restore FeedOptimizationApp/FeedOptimizationApp.sln --verbosity detailed
 
-      # 🔐 Decode keystore file from GitHub secret
-      - name: Decode Keystore
+      - name: Build Android App
         shell: pwsh
-        run: |
-          $bytes = [System.Convert]::FromBase64String("${{ secrets.ANDROID_KEYSTORE_BASE64 }}")
-          [System.IO.File]::WriteAllBytes("keystore.jks", $bytes)
+        run: dotnet build FeedOptimizationApp/FeedOptimizationApp.sln -f net9.0-android -c Release
 
-      - name: Build and Sign Android AAB
+      - name: Clean publish folder
         shell: pwsh
         run: |
           $publishDir = Join-Path "${{ github.workspace }}" 'publish'
           if (Test-Path $publishDir) { Remove-Item -Recurse -Force $publishDir }
           New-Item -ItemType Directory -Path $publishDir | Out-Null
 
+      - name: Create Android AAB
+        shell: pwsh
+        run: |
+          $publishDir = Join-Path "${{ github.workspace }}" 'publish'
           $versionCode = $env:GITHUB_RUN_NUMBER
           $versionName = (Get-Date -Format "yyyy.MM.dd.HHmm")
 
@@ -57,11 +58,6 @@ jobs:
             -p:AndroidPackageFormat=aab `
             -p:ApplicationVersion=$versionCode `
             -p:ApplicationDisplayVersion=$versionName `
-            -p:AndroidKeyStore=true `
-            -p:AndroidSigningKeyStore=keystore.jks `
-            -p:AndroidSigningKeyAlias='${{ secrets.ANDROID_KEY_ALIAS }}' `
-            -p:AndroidSigningKeyPass='${{ secrets.ANDROID_KEY_PASSWORD }}' `
-            -p:AndroidSigningStorePass='${{ secrets.ANDROID_STORE_PASSWORD }}' `
             -o $publishDir
 
           $aab = Get-ChildItem (Join-Path $publishDir '*.aab') | Select-Object -First 1
