@@ -10,6 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  id-token: write
   contents: read
 
 jobs:
@@ -42,27 +43,26 @@ jobs:
         shell: pwsh
         run: |
           $publishDir = Join-Path "${{ github.workspace }}" 'publish'
-          if (Test-Path $publishDir) { Remove-Item -Recurse -Force $publishDir }
+          if (Test-Path $publishDir) {
+              Remove-Item -Recurse -Force $publishDir
+          }
           New-Item -ItemType Directory -Path $publishDir | Out-Null
 
       - name: Create Android AAB
         shell: pwsh
         run: |
+          $timestamp = Get-Date -Format "yyyyMMdd_HHmm"
           $publishDir = Join-Path "${{ github.workspace }}" 'publish'
-          $versionCode = $env:GITHUB_RUN_NUMBER
-          $versionName = (Get-Date -Format "yyyy.MM.dd.HHmm")
+          $aabName = "FeedApp_$timestamp.aab"
 
           dotnet publish FeedOptimizationApp/FeedOptimizationApp.sln `
-            -f net9.0-android `
-            -c Release `
+            -f net9.0-android -c Release `
             -p:AndroidPackageFormat=aab `
-            -p:ApplicationVersion=$versionCode `
-            -p:ApplicationDisplayVersion=$versionName `
             -o $publishDir
 
           $aab = Get-ChildItem (Join-Path $publishDir '*.aab') | Select-Object -First 1
           if ($aab) {
-              Move-Item $aab.FullName (Join-Path $publishDir 'App.aab')
+              Rename-Item $aab.FullName (Join-Path $publishDir $aabName)
           } else {
               Write-Error "No AAB files found in publish directory"
               exit 1
@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Android-AAB
-          path: ${{ github.workspace }}/publish/App.aab
+          path: ${{ github.workspace }}/publish/*.aab
           overwrite: true
 
   deploy-android:
@@ -88,16 +88,29 @@ jobs:
           path: ${{ github.workspace }}/publish
           merge-multiple: true
 
-      - name: Write Service Account JSON
+      - name: ✅ Verify downloaded AAB exists
         shell: pwsh
-        run: echo "${{ secrets.GCP_CREDENTIALS }}" > ${{ github.workspace }}/service_account.json
+        run: |
+          $aabs = Get-ChildItem (Join-Path "${{ github.workspace }}" 'publish\*.aab')
+          if ($aabs.Count -eq 0) {
+              Write-Error "❌ No .aab file found after download"
+              exit 1
+          } else {
+              $aabs | ForEach-Object { Write-Host "✅ Found: $($_.FullName)" }
+          }
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
       - name: Deploy to Google Play Store (Beta)
         uses: r0adkll/upload-google-play@v1.1.2
         with:
-          serviceAccountJson: ${{ github.workspace }}/service_account.json
-          packageName: com.icarda.feedapp
-          releaseFiles: ${{ github.workspace }}/publish/App.aab
+          serviceAccountJson: ${{ secrets.GCP_CREDENTIALS }}
+          packageName: "com.icarda.feedapp"
+          releaseFiles: "${{ github.workspace }}/publish/*.aab"
           track: beta
           status: completed
 
@@ -114,4 +127,5 @@ jobs:
           $body = @{
               text = "🚀 New MAUI App Bundle (.aab) deployed to Google Play! 🎉"
           } | ConvertTo-Json -Compress
+          
           Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $body -ContentType 'application/json'
