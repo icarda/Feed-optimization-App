@@ -110,5 +110,4 @@ jobs:
               text = "🚀 New MAUI App Bundle (.aab) deployed to Google Play! 🎉"
           } | ConvertTo-Json -Compress
           
-          Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $body -ContentType 'application/json'
-          
+          Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $body -ContentType 'application/json
