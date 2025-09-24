@@ -63,6 +63,7 @@ jobs:
           $aab = Get-ChildItem (Join-Path $publishDir '*.aab') | Select-Object -First 1
           if ($aab) {
               Move-Item $aab.FullName (Join-Path $publishDir 'App.aab')
+              Write-Host "AAB file created: $(Join-Path $publishDir 'App.aab')"
           } else {
               Write-Error "No AAB files found in publish directory"
               exit 1
@@ -85,8 +86,46 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: Android-AAB
-          path: ${{ github.workspace }}/publish
+          path: ${{ github.workspace }}/artifacts
           merge-multiple: true
+
+      # Add debugging step to see the file structure
+      - name: Debug - List downloaded files
+        shell: pwsh
+        run: |
+          Write-Host "=== Artifacts directory structure ==="
+          Get-ChildItem -Recurse "${{ github.workspace }}/artifacts" | Format-Table -AutoSize
+          
+          Write-Host "=== Looking for AAB files ==="
+          $aabFiles = Get-ChildItem -Recurse "${{ github.workspace }}/artifacts" -Filter "*.aab"
+          $aabFiles | ForEach-Object { Write-Host "Found: $($_.FullName)" }
+
+      - name: Prepare AAB for upload
+        shell: pwsh
+        run: |
+          # Create publish directory
+          $publishDir = Join-Path "${{ github.workspace }}" 'publish'
+          New-Item -ItemType Directory -Path $publishDir -Force | Out-Null
+          
+          # Find and copy the AAB file
+          $aabFile = Get-ChildItem -Recurse "${{ github.workspace }}/artifacts" -Filter "*.aab" | Select-Object -First 1
+          if ($aabFile) {
+              $targetPath = Join-Path $publishDir 'App.aab'
+              Copy-Item $aabFile.FullName $targetPath
+              Write-Host "AAB file copied to: $targetPath"
+              
+              # Verify the file exists
+              if (Test-Path $targetPath) {
+                  Write-Host "✓ AAB file ready for upload at: $targetPath"
+                  Write-Host "File size: $((Get-Item $targetPath).Length) bytes"
+              } else {
+                  Write-Error "Failed to copy AAB file"
+                  exit 1
+              }
+          } else {
+              Write-Error "No AAB file found in artifacts"
+              exit 1
+          }
 
       - name: Write Service Account JSON
         shell: pwsh
