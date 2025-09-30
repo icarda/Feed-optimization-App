@@ -218,6 +218,8 @@ namespace FeedOptimizationApp.Modules.Settings
 
         private async Task OnSaveButtonClicked()
         {
+            _isSaveButtonClicked = true;
+
             if (SelectedLanguage?.Value == null || SelectedCountry?.Value == null || SelectedSpecies?.Value == null)
             {
                 await Application.Current.MainPage.DisplayAlert(
@@ -254,7 +256,6 @@ namespace FeedOptimizationApp.Modules.Settings
                 _initialSelectedLanguage = SelectedLanguage.Value;
                 _initialSelectedCountry = SelectedCountry.Value;
                 _initialSelectedSpecies = SelectedSpecies.Value;
-                _isSaveButtonClicked = true;
 
                 if (_selectionsChanged)
                 {
