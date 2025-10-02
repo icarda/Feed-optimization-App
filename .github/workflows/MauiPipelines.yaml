@@ -136,7 +136,8 @@ jobs:
         with:
           serviceAccountJson: ${{ github.workspace }}/service_account.json
           packageName: com.icarda.feedapp
-          releaseFiles: ${{ github.workspace }}/publish/App.aab
+          #releaseFiles: ${{ github.workspace }}/publish/App.aab
+          releaseFiles: ${{ github.workspace }}/artifacts/**/*.aab
           track: beta
           status: completed
 
