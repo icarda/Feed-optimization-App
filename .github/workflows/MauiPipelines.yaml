@@ -72,13 +72,13 @@ jobs:
 
       - name: Debug - List publish directory
         shell: pwsh
-        run: Get-ChildItem -Recurse "${{ github.workspace }}/publish"
+        run: Get-ChildItem -Recurse "${{ github.workspace }}\publish"
 
       - name: Upload Android Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Android-AAB
-          path: ${{ github.workspace }}/publish/App.aab
+          path: ${{ github.workspace }}\publish\App.aab  # Changed to backslashes
           overwrite: true
 
   deploy-android:
@@ -90,18 +90,17 @@ jobs:
       - name: Download Android AAB
         uses: actions/download-artifact@v4
         with:
-          pattern: Android-AAB
-          path: ${{ github.workspace }}/artifacts
-          merge-multiple: true
+          name: Android-AAB  # Changed from pattern to name
+          path: ${{ github.workspace }}\artifacts
 
       - name: Debug - List downloaded files
         shell: pwsh
         run: |
           Write-Host "=== Artifacts directory structure ==="
-          Get-ChildItem -Recurse "${{ github.workspace }}/artifacts" | Select-Object FullName
+          Get-ChildItem -Recurse "${{ github.workspace }}\artifacts" | Select-Object FullName
 
           Write-Host "=== Looking for AAB files ==="
-          $aabFiles = Get-ChildItem -Recurse "${{ github.workspace }}/artifacts" -Filter "*.aab"
+          $aabFiles = Get-ChildItem -Recurse "${{ github.workspace }}\artifacts" -Filter "*.aab"
           if ($aabFiles) {
             $aabFiles | ForEach-Object { Write-Host "Found: $($_.FullName)" }
           } else {
@@ -113,16 +112,29 @@ jobs:
         run: |
           $publishDir = Join-Path "${{ github.workspace }}" 'publish'
           if (!(Test-Path $publishDir)) { New-Item -ItemType Directory -Path $publishDir | Out-Null }
+          
           $aabFile = Get-ChildItem -Recurse "${{ github.workspace }}\artifacts" -Filter "*.aab" | Select-Object -First 1
           if ($aabFile) {
             $targetPath = Join-Path $publishDir 'App.aab'
             Copy-Item -Path $aabFile.FullName -Destination $targetPath -Force
             Write-Host "AAB file copied to: $targetPath"
+            
             # Debug the contents
             Get-ChildItem -Recurse $publishDir
+            
             if (Test-Path $targetPath) {
               Write-Host "✓ AAB file ready for upload at: $targetPath"
               Write-Host "File size: $((Get-Item $targetPath).Length) bytes"
+              
+              # Set environment variables with normalized paths for the action
+              $normalizedServiceAccount = "${{ github.workspace }}/service_account.json"
+              $normalizedAabPath = "${{ github.workspace }}/publish/App.aab"
+              
+              echo "SERVICE_ACCOUNT_PATH=$normalizedServiceAccount" >> $env:GITHUB_ENV
+              echo "AAB_FILE_PATH=$normalizedAabPath" >> $env:GITHUB_ENV
+              
+              Write-Host "Set SERVICE_ACCOUNT_PATH: $normalizedServiceAccount"
+              Write-Host "Set AAB_FILE_PATH: $normalizedAabPath"
             } else {
               Write-Error "Failed to copy AAB file"
               exit 1
@@ -134,14 +146,24 @@ jobs:
 
       - name: Write Service Account JSON
         shell: pwsh
-        run: echo "${{ secrets.GCP_CREDENTIALS }}" > ${{ github.workspace }}/service_account.json
+        run: echo "${{ secrets.GCP_CREDENTIALS }}" > "${{ github.workspace }}\service_account.json"
+
+      - name: Verify files before upload
+        shell: pwsh
+        run: |
+          Write-Host "=== Final verification ==="
+          Write-Host "Service Account JSON exists: $(Test-Path '${{ github.workspace }}\service_account.json')"
+          Write-Host "AAB file exists: $(Test-Path '${{ github.workspace }}\publish\App.aab')"
+          Write-Host "Environment variables:"
+          Write-Host "SERVICE_ACCOUNT_PATH: $env:SERVICE_ACCOUNT_PATH"
+          Write-Host "AAB_FILE_PATH: $env:AAB_FILE_PATH"
 
       - name: Deploy to Google Play Store (Beta)
         uses: r0adkll/upload-google-play@v1.1.2
         with:
-          serviceAccountJson: ${{ github.workspace }}/service_account.json
+          serviceAccountJson: ${{ env.SERVICE_ACCOUNT_PATH }}
           packageName: com.icarda.feedapp
-          releaseFiles: ${{ github.workspace }}/publish/App.aab
+          releaseFiles: ${{ env.AAB_FILE_PATH }}
           track: beta
           status: completed
 
