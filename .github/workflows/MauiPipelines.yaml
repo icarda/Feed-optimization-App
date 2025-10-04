@@ -1,4 +1,4 @@
-name: .NET MAUI CI/CD Pipeline #
+name: .NET MAUI CI/CD Pipeline
 
 on:
   push:
@@ -82,7 +82,7 @@ jobs:
           overwrite: true
 
   deploy-android:
-    name: Deploy to Google Play
+    name: Deploy to Google Play (Beta Track)
     runs-on: windows-latest
     needs: build-android
 
@@ -107,7 +107,6 @@ jobs:
             Write-Host "No AAB files found in artifacts directory."
           }
 
-      #  FIXED: Prepare files in working directory with relative paths
       - name: Prepare files for upload
         shell: pwsh
         run: |
@@ -119,14 +118,13 @@ jobs:
           $aabFile = Get-ChildItem -Recurse "${{ github.workspace }}\artifacts" -Filter "*.aab" | Select-Object -First 1
           if ($aabFile) {
             Copy-Item -Path $aabFile.FullName -Destination "publish\App.aab" -Force
-            Write-Host " AAB file copied to working directory: publish\App.aab"
+            Write-Host "✅ AAB file copied to working directory: publish\App.aab"
             Write-Host "File size: $((Get-Item 'publish\App.aab').Length) bytes"
           } else {
-            Write-Error " No AAB file found in artifacts"
+            Write-Error "❌ No AAB file found in artifacts"
             exit 1
           }
 
-      #  FIXED: Write and validate Service Account JSON
       - name: Write and Validate Service Account JSON
         shell: pwsh
         run: |
@@ -142,12 +140,12 @@ jobs:
           try {
             $jsonContent = Get-Content 'service_account.json' -Raw
             $parsed = $jsonContent | ConvertFrom-Json
-            Write-Host " Service Account JSON is valid"
+            Write-Host "✅ Service Account JSON is valid"
             Write-Host "Project ID: $($parsed.project_id)"
             Write-Host "Client Email: $($parsed.client_email)"
             Write-Host "Type: $($parsed.type)"
           } catch {
-            Write-Error " Invalid Service Account JSON format: $($_.Exception.Message)"
+            Write-Error "❌ Invalid Service Account JSON format: $($_.Exception.Message)"
             Write-Host "First 200 characters of the JSON file:"
             $content = Get-Content 'service_account.json' -Raw
             Write-Host $content.Substring(0, [Math]::Min(200, $content.Length))
@@ -156,11 +154,53 @@ jobs:
             exit 1
           }
 
-      #  FIXED: Final verification with working directory paths
+      # 🆕 NEW: Setup Google Cloud SDK for Google Play API access
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+          project_id: feed-optimisation-app
+          export_default_credentials: true
+
+      # 🆕 NEW: Enable Google Play Android Developer API
+      - name: Enable Google Play Android Developer API
+        shell: pwsh
+        run: |
+          Write-Host "=== Google Play API Configuration ==="
+          
+          # Enable the Google Play Android Developer API
+          Write-Host "Enabling Google Play Android Developer API..."
+          gcloud services enable androidpublisher.googleapis.com
+          
+          # Verify the API is enabled
+          Write-Host "Verifying API is enabled..."
+          $enabledServices = gcloud services list --enabled --filter="name:androidpublisher.googleapis.com" --format="value(config.name)"
+          if ($enabledServices -like "*androidpublisher*") {
+            Write-Host "✅ Google Play Android Developer API is enabled"
+          } else {
+            Write-Warning "⚠️ API might not be fully enabled yet (can take a few moments)"
+          }
+          
+          # Verify authentication
+          Write-Host "Verifying authentication..."
+          $authAccount = gcloud auth list --filter=status:ACTIVE --format="value(account)"
+          Write-Host "Active service account: $authAccount"
+          
+          # Test API access (optional but helpful for debugging)
+          Write-Host "Testing Google Cloud authentication..."
+          try {
+            gcloud auth application-default print-access-token | Out-Null
+            Write-Host "✅ Authentication successful"
+          } catch {
+            Write-Warning "⚠️ Authentication test failed, but may still work for Google Play upload"
+          }
+          
+          Write-Host "✅ Google Play API setup completed"
+
       - name: Verify files before upload
         shell: pwsh
         run: |
-          Write-Host "=== Final verification ==="
+          Write-Host "=== Final verification for Beta Track deployment ==="
           Write-Host "Working directory: $(Get-Location)"
           Write-Host "Working directory contents:"
           Get-ChildItem "." | Format-Table -AutoSize
@@ -177,21 +217,36 @@ jobs:
           }
           
           if (-not $serviceAccountExists -or -not $aabExists) {
-            Write-Error " Required files are missing!"
+            Write-Error "❌ Required files are missing!"
             exit 1
           }
           
-          Write-Host " All files are ready for upload"
+          Write-Host "🎯 Target: Google Play Beta Track"
+          Write-Host "📦 Package: com.icarda.feedapp"
+          Write-Host "✅ All files are ready for beta track deployment"
 
-      #  FIXED: Deploy with relative paths and updated action version
-      - name: Deploy to Google Play Store (Beta)
+      # 🔥 DEPLOY: Beta track deployment with enhanced configuration
+      - name: Deploy to Google Play Store (Beta Track)
         uses: r0adkll/upload-google-play@v1.1.3
         with:
           serviceAccountJson: service_account.json    # Relative path
           packageName: com.icarda.feedapp
           releaseFiles: publish/App.aab              # Relative path with forward slash
-          track: beta
+          track: beta                                # 🎯 BETA TRACK
           status: completed
+          releaseNotes: |
+            🚀 Beta Release Build #${{ github.run_number }}
+            📅 Deployed: ${{ github.event.head_commit.timestamp }}
+            🔧 Branch: ${{ github.ref_name }}
+            📝 Commit: ${{ github.event.head_commit.message }}
+            🔗 SHA: ${{ github.sha }}
+            
+            This is an automated deployment from GitHub Actions.
+            
+            ## Changes
+            - Latest updates from main branch
+            - Automated build and testing
+            - Ready for beta testing team review
 
   notify-team:
     name: Notify Team
@@ -204,6 +259,6 @@ jobs:
         run: |
           $webhookUrl = "${{ secrets.TEAMS_WEBHOOK_URL }}"
           $body = @{
-              text = "🚀 New MAUI App Bundle (.aab) deployed to Google Play! 🎉"
+              text = "🚀 New MAUI App Bundle (.aab) deployed to Google Play Beta Track! 🎉`n`n📱 **Feed Optimization App**`n🏷️ **Build #${{ github.run_number }}**`n🔗 **Commit:** ${{ github.sha }}`n📅 **Deployed:** $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss UTC')`n`n✅ Ready for beta testing team review!"
           } | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $body -ContentType 'application/json'
