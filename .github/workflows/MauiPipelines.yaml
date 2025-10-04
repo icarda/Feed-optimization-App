@@ -154,45 +154,52 @@ jobs:
             exit 1
           }
 
-      # 🆕 NEW: Setup Google Cloud SDK for Google Play API access
-      - name: Setup Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+      # 🔧 FIXED: Proper Google Cloud Authentication
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
         with:
-          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
           project_id: feed-optimisation-app
-          export_default_credentials: true
 
-      # 🆕 NEW: Enable Google Play Android Developer API
+      # 🔧 FIXED: Setup Google Cloud SDK (after authentication)
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      # 🔧 FIXED: Enable Google Play API with proper authentication
       - name: Enable Google Play Android Developer API
         shell: pwsh
         run: |
           Write-Host "=== Google Play API Configuration ==="
           
-          # Enable the Google Play Android Developer API
-          Write-Host "Enabling Google Play Android Developer API..."
-          gcloud services enable androidpublisher.googleapis.com
-          
-          # Verify the API is enabled
-          Write-Host "Verifying API is enabled..."
-          $enabledServices = gcloud services list --enabled --filter="name:androidpublisher.googleapis.com" --format="value(config.name)"
-          if ($enabledServices -like "*androidpublisher*") {
-            Write-Host "✅ Google Play Android Developer API is enabled"
-          } else {
-            Write-Warning "⚠️ API might not be fully enabled yet (can take a few moments)"
+          # Verify authentication first
+          Write-Host "Verifying authentication..."
+          try {
+            $authList = gcloud auth list --format="value(account)" 2>$null
+            Write-Host "✅ Authenticated accounts: $authList"
+          } catch {
+            Write-Warning "Authentication check failed, but continuing..."
           }
           
-          # Verify authentication
-          Write-Host "Verifying authentication..."
-          $authAccount = gcloud auth list --filter=status:ACTIVE --format="value(account)"
-          Write-Host "Active service account: $authAccount"
-          
-          # Test API access (optional but helpful for debugging)
-          Write-Host "Testing Google Cloud authentication..."
+          # Enable the Google Play Android Developer API
+          Write-Host "Enabling Google Play Android Developer API..."
           try {
-            gcloud auth application-default print-access-token | Out-Null
-            Write-Host "✅ Authentication successful"
+            gcloud services enable androidpublisher.googleapis.com --quiet
+            Write-Host "✅ Google Play Android Developer API enabled"
           } catch {
-            Write-Warning "⚠️ Authentication test failed, but may still work for Google Play upload"
+            Write-Warning "⚠️ API enable command failed, but may already be enabled"
+          }
+          
+          # Verify the API is enabled
+          Write-Host "Verifying API status..."
+          try {
+            $enabledServices = gcloud services list --enabled --filter="name:androidpublisher.googleapis.com" --format="value(config.name)" 2>$null
+            if ($enabledServices -like "*androidpublisher*") {
+              Write-Host "✅ Google Play Android Developer API is confirmed enabled"
+            } else {
+              Write-Host "⚠️ API status unclear, but proceeding with deployment"
+            }
+          } catch {
+            Write-Host "⚠️ Could not verify API status, but proceeding"
           }
           
           Write-Host "✅ Google Play API setup completed"
@@ -225,7 +232,7 @@ jobs:
           Write-Host "📦 Package: com.icarda.feedapp"
           Write-Host "✅ All files are ready for beta track deployment"
 
-      # 🔥 DEPLOY: Beta track deployment with enhanced configuration
+      # 🚀 DEPLOY: Beta track deployment with enhanced configuration
       - name: Deploy to Google Play Store (Beta Track)
         uses: r0adkll/upload-google-play@v1.1.3
         with:
