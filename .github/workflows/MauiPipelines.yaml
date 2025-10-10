@@ -185,7 +185,7 @@ jobs:
           packageName: com.icarda.feedapp
           releaseFiles: publish/App.aab
           track: beta
-          status: draft
+          status: complete
           releaseName: "CI Build #${{ github.run_number }}"
 
   #  Teams notification job 
