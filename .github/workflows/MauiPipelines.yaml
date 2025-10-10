@@ -78,6 +78,7 @@ jobs:
             '-p:AndroidPackageFormat=aab'
             "-p:ApplicationVersion=$versionCode"
             "-p:ApplicationDisplayVersion=$versionName"
+            "-p:AndroidKeyStore=True" # to ake sure it picks the sha keystore
             "-p:AndroidSigningKeyStore=$ks"
             "-p:AndroidSigningStorePass=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
             "-p:AndroidSigningKeyAlias=${{ secrets.ANDROID_KEY_ALIAS }}"
