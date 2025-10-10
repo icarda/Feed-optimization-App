@@ -1,4 +1,4 @@
-name: .NET MAUI CI/CD Pipeline 
+name: .NET MAUI CI/CD Pipeline #trigger service
 
 on:
   push:
