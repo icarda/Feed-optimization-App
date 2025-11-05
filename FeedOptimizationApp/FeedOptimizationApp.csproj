@@ -17,7 +17,7 @@
 		<Nullable>enable</Nullable> 
 
 		<!-- Display name -->
-		<ApplicationTitle>FeedOptimizationApp</ApplicationTitle>
+		<ApplicationTitle>Feed App</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.icarda.feedapp</ApplicationId>
@@ -40,7 +40,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#512BD4"/>
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF" BaseSize="128,128" />
