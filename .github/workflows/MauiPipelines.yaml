@@ -188,7 +188,8 @@ jobs:
           status: draft #trigger CD
           releaseName: "CI Build #${{ github.run_number }}"
 
-  #  Teams notification job 
+  #  Teams notification job
+  # Trigger pipeline for webhooks  
   notify-team:
     name: Notify Team
     runs-on: windows-latest
