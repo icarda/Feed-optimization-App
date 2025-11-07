@@ -1,279 +1,304 @@
 Feed,Dry Matter (%),ME (Mcal/kg),ME(MJ/kg),TDN (%),CP (%),DCP (%),CountryId,LanguageId
-"Alfalfa,fresh",24,0.51,8.88,14,20,3.5,1,1
-"Alfalfa hay,s-c,early bloom",90,1.82,8.45,51,18,12.7,1,1
-"Alfalfa hay,s-c,late vegetative",90,1.88,8.73,52,19.89,14.3,1,1
-"Alfalfa hay,s-c,midbloom",90,1.82,8.45,51,17,11.6,1,1
-Alfalfa silage,41,0.88,8.97,24,18.05,5.4,1,1
-"Alfalfa silage,<30% dry matter",26,0.6,9.65,17,18.85,3.3,1,1
-"Alfalfa silage,>50% dry matter",57,1.17,8.58,32,17.19,6.7,1,1
-"Alfalfa silage,30-50% dry matter",43,0.91,8.85,25,18.14,5.5,1,1
-"Alfalfa,hay,s-c,full bloom",90,1.72,7.99,47,15,9.4,1,1
-"Alfalfa,hay,s-c,mature",91,1.78,8.18,49,12.86,7.7,1,1
-"Alfalfa,meal,dehydrated,15% protein",90,1.86,8.64,52,17.33,10.9,1,1
-"Alfalfa,meal,dehydrated,17% protein",92,1.99,9.04,55,18.8,11.6,1,1
-Barley grain,88,2.74,13.02,76,13.52,9.8,1,1
-"Barley grain,Pacific coast",89,2.84,13.34,79,10.79,6.3,1,1
-"Barley hay,sun-cured",87,1.77,8.5,49,8.74,4.1,1,1
-Barley straw,91,1.58,7.26,43,4.4,0.7,1,1
-"Bean,Navy,seeds",89,2.82,13.24,78,25.39,19.9,1,1
-"Beet,Mangel,roots,fresh",11,0.32,12.16,9,11.82,0.9,1,1
-"Beet,Sugar,pulp with molasses,dehydrated",92,2.55,11.59,71,10.11,6.1,1,1
-"Beet,Sugar,pulp,dehydrated",91,2.43,11.16,67,9.67,4.5,1,1
-"Beet,Sugar,pulp,wet",11,0.3,11.4,8,10.91,0.7,1,1
-"Bermudagrass, hay,s-c,full bloom",92,1.73,7.86,48,8.15,3.5,1,1
-"Bermudagrass, hay,s-c,midbloom",93,1.81,8.14,50,9.46,4.7,1,1
-"Bermudagrass, hay,sun-cured",91,1.62,7.44,45,9.78,4.6,1,1
-"Bermudagrass,Coastal,hay,s-c,",90,1.77,8.22,49,6,3.4,1,1
-"Bermudagrass,Coastal,hay,s-c,early bloom",93,1.78,8,49,0,0,1,1
-"Bermudagrass,Coastal,hay,s-c,early vegetative",94,2.04,9.07,57,15.96,10.3,1,1
-"Bermudagrass,Coastal,hay,s-c,full bloom",94,1.77,7.87,49,0,0,1,1
-"Bermudagrass,Coastal,hay,s-c,late vegetative",91,1.78,8.18,50,16.48,10.3,1,1
-Blood meal,92,2.22,10.09,61,86.74,65,1,1
-"Bluegrass,Canada,fresh,early vegetative",26,0.62,9.97,17,18.85,3.7,1,1
-"Bluegrass,Canada,hay,sun-cured",92,2,9.09,55,10.43,4.1,1,1
-"Bluegrass,Canada,hay,sun-cured,early vegetative",91,1.97,9.05,54,17.25,11,1,1
-"Bluegrass,Kentucky,fresh,early bloom",35,0.87,10.39,24,16.57,4.2,1,1
-"Bluegrass,Kentucky,fresh,early vegetative",31,0.72,9.71,20,17.42,4.1,1,1
-"Brewers grains,dehydrated",92,2.33,10.59,65,29.46,19.8,1,1
-"Brome,fresh,early vegetative",34,0.98,12.05,27,17.94,5,1,1
-"Brome,fresh,mature",57,0,0,0,6.32,1.7,1,1
-"Brome,hay,sun-cured",91,1.8,8.27,49,9.67,4.8,1,1
-"Buffalograss,fresh",46,0.93,8.45,26,10.22,2.5,1,1
-"Canarygrass,Reed,fresh",27,0.54,8.36,15,11.48,0.4,1,1
-"Canarygrass,Reed,hay,sun-cured",91,1.61,7.4,45,10.33,5.8,1,1
-"Citrus,pomace without fines,dehydrated",91,2.77,12.72,76,6.7,3.1,1,1
-"Citrus,pomace,silage (pulp)",21,0.67,13.34,18,7.14,0.8,1,1
-"Clover, Alsike,hay,sun-cured",88,1.84,8.74,51,14.89,8.7,1,1
-"Clover,Crimson,hay,sun-cured",87,1.73,8.31,48,18.51,11,1,1
-"Clover,Ladino,hay,sun-cured",90,2.14,9.94,59,21.89,15,1,1
-"Clover,Red,fresh,early bloom",20,0.49,10.24,13,19,3,1,1
-"Clover,Red,fresh,full bloom",26,0.61,9.81,17,14.62,2.8,1,1
-"Clover,Red,fresh,late bloom",23,0.55,10,15,15.65,2.6,1,1
-"Clover,Red,fresh,midbloom",26,0.66,10.61,18,15.38,2.9,1,1
-"Clover,Red,hay,sun-cured",89,1.92,9.02,53,15.96,9,1,1
-"Clover,Red,hay,sun-cured,early bloom",86,2,9.72,55,18.6,11.4,1,1
-"Clover,Red,hay,sun-cured,early vegetative",87,2.05,9.85,57,21.49,13.8,1,1
-"Clover,Red,hay,sun-cured,full bloom",86,1.96,9.53,54,15.23,8.5,1,1
-"Clover,Red,hay,sun-cured,late vegetative",87,2.1,10.09,58,19.54,10.5,1,1
-"Clover,Red,hay,sun-cured,midbloom",88,1.98,9.41,55,18.18,10.1,1,1
-"Corn,Dent Yellow,aerial part with ears,sun-cured (fodder)",81,1.85,9.55,51,8.89,3.8,1,1
-"Corn,Dent Yellow,aerial part without ears without husks,sun-cured (stover) (straw)",85,1.82,8.95,50,6.59,2.5,1,1
-"Corn,Dent Yellow,cobs,ground",90,1.66,7.71,46,3.11,-0.5,1,1
-"Corn,Dent Yellow,distillers grains with solubles,dehydrated",92,2.89,13.13,80,25,11.2,1,1
-"Corn,Dent Yellow,distillers grains,dehydrated",94,2.94,13.07,82,22.87,15.6,1,1
-"Corn,Dent Yellow,distillers solubles,dehydrated",93,2.85,12.81,79,29.68,21.8,1,1
-"Corn,Dent Yellow,ears with husks,silage",44,1.17,11.12,32,8.86,2.1,1,1
-"Corn,Dent Yellow,ears,ground (corn and cob meal)",87,2.6,12.49,71,8.97,4.8,1,1
-"Corn,Dent Yellow,gluten with bran (corn gluten bran)",90,2.7,12.54,75,25.56,0,1,1
-"Corn,Dent Yellow,gluten, meal",91,2.9,13.32,80,46.92,36.3,1,1
-"Corn,Dent Yellow,grain,grade 2 69.5 kg/hl (54 lb/bushel)",88,2.78,13.21,77,10.11,5.7,1,1
-"Corn,Dent Yellow,grain,grade 3 66.9 kg/hl (52 lb/bushel)",86,2.71,13.17,75,10.12,5.6,1,1
-"Corn,Dent Yellow,silage,aerial part without ears without husks (stalkage)(stover)",31,0.59,7.96,16,6.13,0.5,1,1
-"Corn,Dent Yellow,silage,well eared",33,0.85,10.77,23,8.18,1.2,1,1
-"Corn,Sweet,process residue,silage (cannery residue)",32,0.72,9.41,20,7.5,1,1,1
-Cotton hulls,91,1.6,7.35,44,4.07,-0.5,1,1
-"Cotton seeds,ground",92,3.27,14.86,90,23.7,16.1,1,1
-"Cotton seeds,meal mechanical extracted",93,2.12,9.53,59,40.75,27.3,1,1
-"Cotton seeds,meal mechanical extracted,41% protein",93,2.51,11.28,70,44.09,0,1,1
-"Cotton seeds,meal solvent extracted,41% protein",91,2.34,10.75,65,45.27,0,1,1
-"Cotton,gin by-product",90,1.5,6.97,42,7.33,2.9,1,1
-"Fescue,Kentucky 31,fresh",29,0.69,9.95,19,14.48,2.8,1,1
-"Fescue,Kentucky 31,fresh,early bloom",29,0.69,9.95,19,16.55,3.6,1,1
-"Fescue,Kentucky 31,fresh,early vegetative",28,0.73,10.9,20,21.79,4.9,1,1
-"Fescue,Kentucky 31,hay,sun-cured",92,1.99,9.04,55,18.15,12,1,1
-"Fescue,Kentucky 31,hay,sun-cured, early bloom",91,2.04,9.37,56,20.22,13.9,1,1
-"Fescue,Kentucky 31,hay,sun-cured,early vegetative",92,2.53,11.5,70,20.54,14.1,1,1
-"Fescue,Kentucky 31,hay,sun-cured,full bloom",92,1.92,8.72,53,12.07,7.1,1,1
-"Fescue,Kentucky 31,hay,sun-cured,late vegetative",91,2.5,11.48,70,21.32,14.9,1,1
-"Fescue,Kentucky 31,hay,sun-cured,midbloom",92,2,9.09,55,16.52,10.3,1,1
-"Fescue,Meadow,hay,sun-cured",88,1.87,8.88,52,9.09,4.4,1,1
-"Fish,Menhaden,meal mechanical extracted",92,2.32,10.54,64,66.41,49.5,1,1
-"Fish,Menhaden,meal mechanical extracted,60% protein",91,2.55,11.71,71,66.92,0,1,1
-"Fish,Menhaden,solubles,condensed",50,1.53,12.79,42,63.2,0,1,1
-"Fish,Menhaden,solubles,dehydrated",93,2.78,12.5,77,66.67,0,1,1
-"Flax,Common,seeds,meal mechanical extracted (linseed meal)",91,2.72,12.49,75,37.69,28.9,1,1
-"Flax,Common,seeds,meal solvent extracted (linseed meal)",90,2.58,11.98,72,38.44,29.5,1,1
-"Grama,fresh,early vegetative",41,0.89,9.07,25,13.17,3.8,1,1
-"Grama,fresh,mature",63,1.28,8.49,35,6.51,1.9,1,1
-"Grass-Legume,aerial part molasses added,silage",28,0.61,9.11,17,12.14,2,1,1
-"Grass-Legume,silage",29,0.66,9.51,18,11.38,1.9,1,1
-"Hop,Common,fruit (hops),spent dehydrated",93,1.15,5.17,32,24.84,6.9,1,1
-"Lespedeza,Common,fresh",28,0.58,8.66,16,15,3.1,1,1
-"Lespedeza,Common,fresh,late vegetative",25,0.53,8.86,15,16,3,1,1
-"Lespedeza,Common,hay,sun-cured",88,1.6,7.6,44,16.82,6.4,1,1
-"Lespedeza,Common,hay,sun-cured,early vegetative",89,1.97,9.25,54,16.07,9.7,1,1
-"Lespedeza,Common,hay,sun-cured,full bloom",89,1.87,8.78,52,14.38,8.4,1,1
-"Lespedeza,Common,hay,sun-cured,late vegetative",90,1.79,8.31,50,16,9.8,1,1
-"Lespedeza,Common,hay,sun-cured,midbloom",92,1.89,8.59,52,15,9.2,1,1
-"Meadow Plants,Intermountain,hay,sun-cured",95,1.99,8.76,55,8.74,5,1,1
-"Meadow Plants,Intermountain,hay,sun-cured,early vegetative",90,2.28,10.59,63,0,0,1,1
-"Meadow Plants,Intermountain,hay,sun-cured,mature",91,1.35,6.2,37,5.6,1.5,1,1
-"Meadow Plants,Intermountain,late bloom,cut 1",94,1.56,6.94,43,8.09,3.6,1,1
-"Milk,fresh (cattle)",12,0.65,22.64,8,27.5,3.1,1,1
-"Milk,fresh (sheep)",19,1.11,24.42,31,24.74,0,1,1
-"Milk,skimmed,fresh (cattle)",10,0.39,16.3,11,30,0,1,1
-"Molasses,beet,sugar,molasses,more than 48% invert sugar,more than 79.5 degrees brix",78,2.16,11.58,60,8.46,3.4,1,1
-"Molasses,sugarcane,molasses,dehydrated",94,2.6,11.56,71,10.32,6.3,1,1
-"Molasses,sugarcane,molasses>46% invert sugars>79.5% Brix (black strap",75,2.13,11.87,59,5.87,-1.3,1,1
-"Needleandthread,fresh,early bloom",33,0.7,8.87,19,9.39,1.9,1,1
-"Needleandthread,fresh,early vegetative",29,0.62,8.94,17,10.69,2,1,1
-"Needleandthread,fresh,full bloom",38,0.77,8.47,21,8.42,1.8,1,1
-"Needleandthread,fresh,mature",57,0.93,6.82,26,5.26,0.9,1,1
-"Needleandthread,fresh,midbloom",35,0.73,8.72,20,8.86,1.9,1,1
-"Needleandthread,fresh,stem cured",92,1.43,6.5,40,4.02,1,1,1
-"Oats ,grain,grade 2, 41.2 kg/hl",89,2.44,11.46,68,12.81,8,1,1
-"Oats,cereal by-product,less than 4% fiber",91,3.18,14.61,88,16.26,11.9,1,1
-"Oats,grain",89,2.47,11.6,68,13.26,9.3,1,1
-"Oats,grain,grade 1 heavy 46.3 kg/hl",89,2.61,12.26,72,14.16,11.1,1,1
-"Oats,grain,light less than 34.7 kg/hl",91,2.16,9.92,59,13.08,8.2,1,1
-"Oats,grain,Pacific coast",91,2.56,11.76,71,10,5.8,1,1
-"Oats,groats",90,3.3,15.33,91,17.56,12,1,1
-"Oats,hay,sun-cured",91,1.75,8.04,49,9.34,5.2,1,1
-"Oats,silage",31,0.69,9.3,19,9.68,1.5,1,1
-"Oats,straw",92,1.57,7.13,44,4.46,0.3,1,1
-"Onion,garden,aerial part,fresh",91,2.18,10.01,60,12.64,8,1,1
-"Onion,garden,bulbs,fresh,mature",10,0,0,0,10,0.7,1,1
-"Orchardgrass,fresh,early bloom",25,0.55,9.2,15,16,2.2,1,1
-"Orchardgrass,fresh,early vegetative",23,0.57,10.36,16,18.7,3.1,1,1
-"Orchardgrass,fresh,full bloom",30,0.65,9.06,18,10.67,2,1,1
-"Orchardgrass,fresh,late vegetative",24,0.57,9.93,16,17.08,3.1,1,1
-"Orchardgrass,fresh,midbloom",31,0.65,8.76,18,12.58,2.7,1,1
-"Orchardgrass,hay,sun-cured",91,1.91,8.77,53,11.21,6.5,1,1
-"Orchardgrass,hay,sun-cured,early bloom",89,1.68,7.89,47,15.06,7.3,1,1
-"Orchardgrass,hay,sun-cured,early vegetative",90,2.01,9.34,56,0,0,1,1
-"Orchardgrass,hay,sun-cured,full bloom",93,1.64,7.37,45,12.37,6.6,1,1
-"Orchardgrass,hay,sun-cured,late vegetative",89,1.8,8.45,50,16.29,10,1,1
-"Peanut, kernels, meal mechanical extracted (peanut meal)",93,3.15,14.16,87,51.72,43.8,1,1
-"Peanut, kernels, meal solvent extracted (peanut meal)",92,2.56,11.63,71,52.28,0,1,1
-"Peanut, pods (hulls)",91,0.66,3.03,19,7.8,1.7,1,1
-"Prairie plants,Midwest,hay,sun-cured,early vegetative",90,2.05,9.52,57,8.67,3.9,1,1
-"Prairie plants,Midwest,hay,sun-cured,full bloom",89,1.67,7.84,46,6.07,1.8,1,1
-"Prairie plants,Midwest,hay,sun-cured,mature",91,1.58,7.26,44,5.05,2.2,1,1
-"Prairie plants,Midwest,hay,sun-cured,midbloom",95,1.86,8.18,51,7.05,2.7,1,1
-"Pricklypear,fresh",17,0.35,8.61,9,4.71,0.4,1,1
-"Rape seeds,meal mechanical extracted",92,2.49,11.31,69,38.7,30.1,1,1
-"Rape seeds,meal solvent extracted",91,2.44,11.21,67,40.66,0,1,1
-"Rape,fresh",17,0.48,11.8,13,17.06,2.4,1,1
-"Rape,fresh,early bloom",11,0.31,11.78,8,24.55,2.3,1,1
-"Rape,fresh,early vegetative",18,0.53,12.31,15,25.56,3.7,1,1
-"Redtop,fresh,full bloom",26,0.55,8.84,15,8.08,1.2,1,1
-"Redtop,fresh,midbloom",39,0.83,8.9,23,7.44,1.8,1,1
-"Redtop,hay,sun-cured",92,1.8,8.18,50,8.04,3.5,1,1
-"Redtop,hay,sun-cured, full bloom",91,1.77,8.13,49,9.34,5.3,1,1
-"Redtop,hay,sun-cured, midbloom",94,1.91,8.49,53,11.7,6.9,1,1
-"Redtop,hay,sun-cured,early bloom",91,1.88,8.64,52,12.53,7.1,1,1
-"Redtop,hay,sun-cured,early vegetative",92,1.9,8.63,52,13.8,8.2,1,1
-"Rice, bran with germs (rice, bran)",91,2.43,11.16,67,13.96,8.7,1,1
-"Rice, groats, polished (rice, polished)",89,2.92,13.71,81,8.09,3.9,1,1
-"Rye, distillers grains, dehydrated",92,2.13,9.68,59,23.48,12.9,1,1
-"Rye, grain",88,2.69,12.78,75,13.75,9.5,1,1
-"Rye, straw",90,1.46,6.78,41,3,-0.6,1,1
-"Ryegrass, italian, fresh",25,0.52,8.69,14,14,1.5,1,1
-"Ryegrass, italian, fresh, early bloom",35,0.77,9.2,21,15.14,3.9,1,1
-"Ryegrass, italian, fresh, mature",35,0.74,8.84,21,5.71,0.8,1,1
-"Ryegrass, italian, hay, sun-cured",86,1.84,8.94,51,7.56,2.7,1,1
-"Ryegrass, italian, hay, sun-cured, early bloom",88,1.81,8.6,50,12.95,7.1,1,1
-"Ryegrass, italian, hay, sun-cured, early vegetative",89,1.94,9.11,54,15.28,9.1,1,1
-"Ryegrass, italian, hay, sun-cured, full bloom",86,1.71,8.31,48,6.63,1.5,1,1
-"Safflower, seeds, meal mechanical extracted",91,2.05,9.42,57,22.2,17,1,1
-"Safflower, seeds, meal solvent extracted",92,1.87,8.5,52,25.43,0,1,1
-"Sage, Black, browse, fresh, stem cured",65,1.15,7.4,32,8.46,2.9,1,1
-"Sagebrush, big, browse, fresh, stem cured",65,1.18,7.59,33,9.38,3.2,1,1
-"Sagebrush, bud, browse, fresh, late vetetative",32,0.65,8.49,18,17.5,4.3,1,1
-"Sagebrush, bud,browse,fresh,early vegetative",23,0.42,7.63,12,17.39,3.1,1,1
-"Sagebrush, fringed, browse,fresh, mature",60,1.17,8.15,33,7.17,2.2,1,1
-"Sagebrush, fringed, browse,fresh, midbloom",43,0.92,8.94,26,9.3,2.5,1,1
-"Saltbush, nuttall, browse, fresh, stem cured",55,0.72,5.47,20,7.27,1.8,1,1
-"Saltbush, shadscale, browse, fresh, stem cured",80,0.9,4.7,25,7.63,3.5,1,1
-"Saltgrass, desert, fresh",29,0.63,9.08,17,5.86,0.7,1,1
-"Saltgrass, fresh",74,1.53,8.64,42,6.49,0.7,1,1
-"Saltgrass, fresh, post ripe",74,1.53,8.64,42,4.19,0.7,1,1
-"Saltgrass, hay, sun-cured",89,1.65,7.75,45,8.99,4.1,1,1
-"Sheep milk, aerial part, sun-cured",89,1.87,8.78,52,7.53,2.8,1,1
-"Sheep milk, aerial part, sun-cured, early vegetative",92,0,0,0,15.98,10,1,1
-"Sheep milk, aerial part, sun-cured, full bloom",90,1.81,8.41,50,6.33,2.1,1,1
-"Sheep milk, aerial part, sun-cured, mature",90,1.73,8.03,48,6.78,2.3,1,1
-"Sheep milk, aerial part, without heads, sun-cured, mature",88,0,0,0,4.43,0.5,1,1
-"Sheep milk, distillers grains, dehydrated",94,2.88,12.81,79,34.26,0,1,1
-"Sheep milk, grain",90,2.85,13.24,79,12.33,8.2,1,1
-"Sheep milk, grain, >12% protein",89,0,0,0,13.03,8.1,1,1
-"Sheep milk, grain, 9-12% protein",89,2.76,12.96,76,11.46,6.9,1,1
-"Sheep milk, grain, less than 9% protein",89,2.75,12.92,76,10,5.7,1,1
-"Sheep milk, silage",30,0.61,8.5,17,7.33,0.6,1,1
-"Sheep milk, silage, dough stage",28,0.52,7.76,14,6.07,0.3,1,1
-"Sheep milk, silage, mature",32,0.58,7.58,16,7.5,0.7,1,1
-"Sheep milk, silage, milk stage",25,0.52,8.69,14,9.6,1,1,1
-"Sorghum, Johnsongrass, fresh",24,0.54,9.41,15,15.42,2.7,1,1
-"Sorghum, Johnsongrass, fresh, early vegetative",20,0.44,9.2,12,15.5,2.3,1,1
-"Sorghum, Johnsongrass, fresh, full bloom",35,0.73,8.72,20,8,1.6,1,1
-"Sorghum, Johnsongrass, fresh, midbloom",35,0.75,8.96,21,8.86,1.9,1,1
-"Sorghum, Johnsongrass, hay, sun-cured",89,1.81,8.5,50,9.55,3.7,1,1
-"Sorghum, Johnsongrass, hay, sun-cured, early vegetative",92,1.83,8.31,51,15,9.2,1,1
-"Sorghum, Johnsongrass, hay, sun-cured, late vegetative",88,1.65,7.84,46,12.05,6.4,1,1
-"Sorghum, Johnsongrass, hay, sun-cured, midbloom",92,1.69,7.68,47,8.59,3.9,1,1
-"Sorghum, Johnsongrass, hay, sun-cured, post ripe",93,1.68,7.55,46,5.7,1.6,1,1
-"Sorghum, kafir, grain",89,2.74,12.87,75,12.25,8.8,1,1
-"Sorghum, milo, grain",89,2.82,13.24,78,11.24,7.8,1,1
-"Sorghum, milo, heads",90,2.73,12.68,76,10,6.9,1,1
-"Sorghum, sorgo, silage",27,0.6,9.29,16,6.3,0.4,1,1
-"Sorghum, sudangrass, fresh, early vegetable",18,0.41,9.52,11,16.67,2.3,1,1
-"Sorghum, sudangrass, fresh, midbloom",23,0.46,8.36,13,8.7,1.2,1,1
-"Sorghum, sudangrass, hay, sun-cured",91,1.81,8.31,50,8.02,4,1,1
-"Sorghum, sudangrass, silage",28,0.55,8.21,15,11.07,1.9,1,1
-"Soybean, hay, sun-cured",89,1.84,8.64,51,16.07,10.1,1,1
-"Soybean, seed coats (hulls)",91,1.78,8.18,49,12.09,6.7,1,1
-"Soybean, seeds",92,3.11,14.13,86,42.61,35.1,1,1
-"Soybean, seeds, meal mechanical extracted",90,2.77,12.87,77,47.67,36.8,1,1
-"Soybean, seeds, meal solvent extracted",90,2.85,13.24,79,49.78,41.6,1,1
-"Soybean, straw",88,1.36,6.46,38,5.23,1.3,1,1
-"Summercypress, gray, fresh, stem-cured",85,1.54,7.57,42,9.06,5.3,1,1
-"Sunflower, common, fresh",15,0.33,9.2,9,9.33,0.8,1,1
-"Sunflower, common, seeds without hulls, meal solvent extracted",93,2.56,11.51,70,49.78,0,1,1
-"Sunflower, common, seeds, meal solvent extracted",90,1.46,6.78,41,25.89,18.9,1,1
-"Sweetclover, yellow, hay, sun-cured",87,1.67,8.02,46,15.75,10,1,1
-"Timothy, fresh, late vegetative",26,0.58,9.32,16,18.46,2.6,1,1
-"Timothy, fresh, midbloom",29,0.66,9.51,18,9.31,1.4,1,1
-"Timothy, hay, sun-cured, early bloom",90,1.81,8.41,51,14.89,7.3,1,1
-"Timothy, hay, sun-cured, late bloom",88,1.76,8.36,49,7.84,3.1,1,1
-"Timothy, hay, sun-cured, late vegetative",89,2.1,9.86,58,17.08,10.2,1,1
-"Timothy, hay, sun-cured, mid-bloom",89,1.93,9.06,53,9.1,4.9,1,1
-"Timothy, silage",34,0.74,9.1,20,10.29,1.9,1,1
-"Trefoil, birdsfoot, fresh",24,0.55,9.58,15,21.25,4,1,1
-"Trefoil, birdsfoot, hay, sun-cured",92,1.93,8.77,53,16.3,10.3,1,1
-"Turnip, aerial part, fresh",14,0.35,10.45,10,20.71,1.1,1,1
-"Turnip, aerial part, silage",14,0.37,11.05,10,15,1.5,1,1
-"Turnip, roots, fresh",9,0.29,13.47,8,12.22,0.8,1,1
-"Vetch, fresh",22,0.49,9.31,13,21.36,3.5,1,1
-"Vetch, fresh, late vegetative",22,0.48,9.12,13,20.91,3.5,1,1
-"Vetch, hay, sun-cured",89,1.77,8.31,49,20.79,14,1,1
-"Vetch, hay, sun-cured, early bloom",83,1.77,8.91,49,23.25,14.7,1,1
-"Vetch, hay, sun-cured, early vegetative",93,2.11,9.48,59,25.16,18.8,1,1
-"Vetch, hay, sun-cured, midbloom",91,1.88,8.64,52,20.77,15.2,1,1
-"Wheat, bran",89,2.28,10.71,63,17.08,11.8,1,1
-"Wheat, flour by-product, less than 9.5%",89,2.63,12.35,72,18.43,13.2,1,1
-"Wheat, fresh, early vegetative",22,0.6,11.4,17,28.64,5,1,1
-"Wheat, grain",89,2.8,13.15,78,15.96,11.4,1,1
-"Wheat, grain screenings",89,2.42,11.37,67,15.84,10.1,1,1
-"Wheat, grain, hard red spring",88,2.85,13.54,78,17.16,11.3,1,1
-"Wheat, grain, hard red winter",88,2.81,13.35,78,14.43,9.1,1,1
-"Wheat, grain, soft red winter",88,2.81,13.35,78,13.07,8.6,1,1
-"Wheat, grain, soft white winter, Pacific coast",89,2.87,13.48,79,11.24,6.7,1,1
-"Wheat, hay, sun-cured",88,1.65,7.84,45,8.41,4,1,1
-"Wheat, straw",89,1.32,6.2,36,3.6,-3.1,1,1
-"Wheatgrass, crested, fresh, early bloom",37,0.76,8.59,21,11.89,3,1,1
-"Wheatgrass, crested, fresh, early vegetative",28,0.76,11.35,21,21.43,5.1,1,1
-"Wheatgrass, crested, fresh, full bloom",45,0.91,8.45,25,9.78,1.8,1,1
-"Wheatgrass, crested, fresh, late vegetative",34,0.75,9.22,21,14.12,3.4,1,1
-"Wheatgrass, crested, fresh, mature",60,1.17,8.15,32,5.5,1.3,1,1
-"Wheatgrass, crested, fresh, milk stage",48,0.95,8.27,26,7.92,2.1,1,1
-"Wheatgrass, crested, fresh, post ripe",80,1.56,8.15,43,3.13,-0.1,1,1
-"Wheatgrass, crested, fresh, stem-cured",81,1.55,8,43,3.33,1.2,1,1
-"Wheatgrass, crested, hay, sun-cured",93,1.78,8,49,12.37,7.4,1,1
-"Wheatgrass, crested, hay, sun-cured, early bloom",92,1.89,8.59,52,14.02,8.4,1,1
-"Wheatgrass, crested, hay, sun-cured, early vegetative",94,2.57,11.43,71,19.15,15.3,1,1
-"Wheatgrass, crested, hay, sun-cured, full bloom",95,1.89,8.32,52,8.74,4.2,1,1
-"Wheatgrass, crested, hay, sun-cured, late vegetative",92,1.96,8.91,55,21.3,14.4,1,1
-"Wheatgrass, crested, hay, sun-cured, mature",94,1.63,7.25,45,5.64,3.3,1,1
-"Wheatgrass, crested, hay, sun-cured, midbloom",96,1.95,8.49,54,13.33,8.2,1,1
-"Wheatgrass, crested, hay, sun-cured, milk stage",93,1.77,7.96,49,7.42,3.1,1,1
-"Winterfat, common, fresh, stem cured",80,1.01,5.28,28,10.88,5.4,1,1
+Aeschynomene abyssinica,94.27,2.11,8.83,58.29,23.70,14.10,1,1
+Alysicarpus glumaceus,89.86,2.07,8.67,57.23,18.88,11.83,1,1
+Alysicarpus rugosus,89.82,2.05,8.58,56.64,19.60,12.16,1,1
+Andropogon amethystinus,92.06,1.80,7.55,49.84,6.71,3.37,1,1
+Wild oats grain,90.27,1.94,8.12,53.60,9.62,5.30,1,1
+fodder beet,90.14,2.50,10.45,68.98,18.79,12.13,1,1
+Brachiaria hay,92.30,1.81,7.57,49.97,10.22,5.20,1,1
+Cenchrus geniculatus,92.39,1.86,7.78,51.36,5.12,2.59,1,1
+Napier grass leaf,91.42,2.11,8.83,58.29,10.91,6.30,1,1
+Napier grass stem,90.90,2.18,9.13,60.27,7.06,4.32,1,1
+Cenchrus sphacelatus,92.71,1.69,7.07,46.67,4.82,2.21,1,1
+Cenchrus stramineus,93.55,2.25,9.43,62.25,7.96,4.87,1,1
+Buffel grass,91.45,1.60,6.70,44.23,10.70,6.02,1,1
+Cerastium octandrum,92.08,1.99,8.31,54.86,8.26,4.55,1,1
+Tagasaste (tree lucerne),90.03,1.93,8.09,53.39,11.14,6.27,1,1
+Rhodes grass hay,90.08,1.88,7.86,51.89,14.12,8.07,1,1
+Chrysopogon aucheri,92.94,1.99,8.31,54.86,5.30,3.05,1,1
+Guria grass,91.79,2.26,9.46,62.45,7.09,4.61,1,1
+Crotalaria lachnocarpoides,89.52,2.24,9.39,61.99,24.38,16.47,1,1
+Crotalaria pallida,88.39,1.93,8.06,53.21,16.27,9.54,1,1
+Crotalaria plowdenii,87.92,1.81,7.58,50.04,16.61,9.28,1,1
+Crotalaria pycnostachya,89.35,1.99,8.34,55.05,18.22,11.03,1,1
+Crotalaria spinosa,88.67,2.02,8.45,55.78,16.45,9.69,1,1
+Cyanotis barbata,89.36,2.28,9.53,62.91,13.69,8.80,1,1
+Cynodon aethiopicus,91.31,2.73,11.42,75.39,9.85,7.56,1,1
+Cynodon dactylon,91.54,1.89,7.92,52.28,11.01,5.89,1,1
+Sedge,92.03,1.92,8.05,53.14,9.54,5.35,1,1
+Cyperus papyrus,92.50,2.80,11.72,77.37,14.62,11.52,1,1
+Cyperus rigidifolius,92.10,2.39,10.00,66.01,12.43,8.61,1,1
+Cocksfoot,91.40,2.57,10.75,70.96,12.81,9.47,1,1
+Desmodium dichotomum,90.29,1.95,8.16,53.87,17.62,10.37,1,1
+Greenleaf desmodium,92.50,1.78,7.43,49.05,15.21,8.03,1,1
+Spanish tickclover,90.49,1.90,7.93,52.35,23.56,11.89,1,1
+Silverleaf desmodium (ILRI 6765),90.13,1.79,7.47,49.33,14.32,7.73,1,1
+Pangola grass,92.06,1.92,8.03,53.01,5.13,2.91,1,1
+Digitaria milanjiana,90.93,1.82,7.60,50.17,6.38,3.27,1,1
+Eleusine floccifolia,92.21,1.73,7.23,47.73,4.48,2.16,1,1
+Eragrostis botryodes,91.07,1.90,7.97,52.61,5.40,2.85,1,1
+Weeping love grass,91.62,1.96,8.20,54.13,7.19,3.84,1,1
+Eragrostis tenuifolia,90.17,2.08,8.72,57.56,2.89,1.71,1,1
+Tall fescue,91.66,2.52,10.54,69.58,11.69,8.44,1,1
+Galinsoga sp.,91.00,1.78,7.46,49.24,11.44,5.62,1,1
+Guizotia scabra,91.02,1.83,7.65,50.50,12.80,6.29,1,1
+forb,91.53,2.02,8.47,55.91,10.97,6.35,1,1
+Helictotrichon elongatum,92.33,1.77,7.40,48.85,6.19,3.11,1,1
+Hyparrhenia dregeana,91.47,1.66,6.95,45.88,5.84,2.81,1,1
+Hyparrhenia rufa,84.78,1.65,6.89,45.48,5.31,2.70,1,1
+Indigofera spicata,88.81,2.35,9.82,64.82,19.10,13.46,1,1
+Indigofera zavattarii,89.22,2.09,8.75,57.76,19.42,12.28,1,1
+Ischaemum fasciculatum,91.19,1.82,7.62,50.30,7.87,4.07,1,1
+Lablab leaf,90.68,2.28,9.54,62.98,27.98,21.04,1,1
+Rough pea,90.78,2.16,9.04,59.67,12.92,7.57,1,1
+Grasspea,93.85,2.65,11.07,73.08,24.98,18.28,1,1
+Ryegrass,91.74,2.47,10.34,68.26,10.56,7.35,1,1
+Lotus sp.,89.41,2.19,9.18,60.60,16.87,10.89,1,1
+Sweet lupin straw,93.20,1.77,7.42,48.98,4.63,2.22,1,1
+Sweet lupin forage,90.46,2.42,10.14,66.94,22.56,15.32,1,1
+Siratro,91.52,1.65,6.89,45.48,15.98,7.58,1,1
+'Archer' axillaris,92.26,2.15,9.01,59.48,14.48,8.47,1,1
+Medicago polymorpha,89.87,2.33,9.74,64.30,16.19,10.66,1,1
+Alfalfa hay,88.88,2.25,9.42,62.18,18.70,13.14,1,1
+Alfalfa silage,90.62,2.11,8.84,58.35,16.25,9.65,1,1
+Barrel medic,88.72,2.31,9.68,63.90,18.48,12.45,1,1
+Guinea grass (ILRI 144),92.57,1.59,6.64,43.86,7.89,3.54,1,1
+Melilotus albus,90.15,2.26,9.44,62.32,23.98,15.47,1,1
+Yellow sweet clover,92.86,2.09,8.74,57.69,0.00,0.00,1,1
+Neonotonia wightii,90.99,2.31,9.66,63.77,20.67,13.45,1,1
+Olinia rochetiana,91.20,2.94,12.30,81.19,11.88,9.47,1,1
+Coloured Guinea grass,90.62,1.76,7.35,48.52,10.67,5.40,1,1
+Kleingrass,91.05,2.13,8.90,58.75,12.36,7.41,1,1
+Cow grass,90.61,2.29,9.58,63.24,12.13,7.90,1,1
+Desho grass (Pennisetum glaucifolium),90.80,1.74,7.26,47.92,7.95,3.98,1,1
+Cyperus,90.81,1.93,8.07,53.27,9.09,4.98,1,1
+Pennisetum longistylum,90.30,1.91,7.99,52.74,4.86,2.62,1,1
+Desho grass hay,90.61,1.92,8.04,53.07,13.87,7.82,1,1
+Pennisetum polystachion,91.24,1.77,7.40,48.85,12.78,6.60,1,1
+Pennisetum riparium,90.32,1.91,8.01,52.88,6.87,3.75,1,1
+Pennisetum sphacelatum,91.85,1.55,6.47,42.71,4.24,1.91,1,1
+Pennisetum thunbergii,91.18,1.79,7.50,49.51,7.12,3.60,1,1
+Pennisetum villosum,90.56,1.93,8.06,53.21,8.19,4.49,1,1
+Reed canary grass,89.74,1.64,6.85,45.22,10.22,5.00,1,1
+Poa leptoclada,91.51,1.86,7.78,51.36,6.68,3.56,1,1
+Polygonum sp.,91.55,1.72,7.21,47.59,8.50,4.05,1,1
+Sesbania leaf,93.04,2.14,8.97,59.21,20.99,13.81,1,1
+Sesbania leaf + twig,93.51,2.14,8.94,59.01,20.68,13.56,1,1
+Setaria verticillata,90.98,2.01,8.43,55.65,13.47,7.79,1,1
+Snowdenia polystachya,91.82,2.19,9.16,60.47,9.94,6.12,1,1
+Sudan grass,93.53,2.12,8.85,58.42,12.38,7.23,1,1
+Sporobolus africanus,92.45,1.78,7.45,49.18,6.30,3.19,1,1
+Sporobolus indicus var. capensis,90.43,0.00,0.00,0.00,5.94,0.00,1,1
+Sporobolus indicus var. pyramidalis,88.18,1.81,7.56,49.90,4.41,2.20,1,1
+Brazilian stylo,92.31,1.89,7.92,52.28,14.46,8.12,1,1
+Caribbean stylo (ILRI 75),90.12,1.91,7.99,52.73,15.07,8.46,1,1
+Shrubby stylo (ILRI 140),90.23,1.83,7.66,50.57,14.68,8.02,1,1
+Tephrosia pumila,89.61,2.17,9.09,60.00,23.14,15.33,1,1
+Tetrapogon roxburghiana,92.87,1.96,8.18,54.00,7.24,3.97,1,1
+Red oat grass,92.56,2.30,9.61,63.44,3.81,2.42,1,1
+Trifolium bilineatum,89.13,1.99,8.34,55.05,18.18,10.82,1,1
+Clover var. Trifolium cryptopodium,91.29,1.92,8.04,53.07,20.17,11.52,1,1
+Clover var Trifolium decorum,93.66,2.66,11.13,73.47,19.21,14.15,1,1
+Clover var Trifolium fragiferum,91.66,1.99,8.34,55.05,13.83,7.59,1,1
+Clover var. Trifolium mattirolianum,89.79,1.96,8.18,54.00,19.45,11.51,1,1
+Clover var. Trifolium pichisermollii,89.30,1.85,7.76,51.23,14.12,7.85,1,1
+Clover var. Trifolium quartinianum,91.62,2.38,9.96,65.75,18.22,11.52,1,1
+Persian clover,92.12,2.77,11.59,76.51,13.28,10.41,1,1
+Clover var. Trifolium rueppellianum,91.44,2.64,11.04,72.88,19.76,14.38,1,1
+Clover var. Trifolium simense,90.09,1.90,7.94,52.41,13.88,7.74,1,1
+Clover var. Trifolium steudner,90.56,2.31,9.65,63.70,17.11,11.65,1,1
+Clover var. Trifolium tembense,91.73,2.55,10.66,70.37,19.99,14.37,1,1
+Guatemala grass,91.25,1.65,6.91,45.61,10.60,5.05,1,1
+Uebelinia abyssinica,91.26,1.93,8.09,53.40,10.21,5.49,1,1
+Urochloa brizantha,92.32,1.84,7.71,50.90,9.58,5.07,1,1
+Urochloa decumbens,91.59,1.87,7.82,51.62,10.50,5.62,1,1
+Brachiaria mutica (ILRI 18659),92.32,1.72,7.18,47.42,8.81,4.28,1,1
+Brachiaria hybrid 'Cayman',90.36,1.52,6.38,42.12,6.95,2.99,1,1
+Urochloa hybrid 'Mulato II',93.70,1.84,7.71,50.90,10.42,6.15,1,1
+Hairy vetch,91.16,0.00,0.00,0.00,5.10,2.69,1,1
+Common vetch,90.75,2.16,9.04,59.67,19.25,12.09,1,1
+Winter vetch,90.87,2.21,9.26,61.13,21.82,14.01,1,1
+Maize fodder,93.82,1.75,7.33,48.39,7.35,3.63,1,1
+Natural pasture Hay,92.12,1.85,7.75,51.16,6.75,3.42,1,1
+Natural pasture root,95.59,1.94,8.12,53.60,4.76,2.40,1,1
+Saltbush (A. canescens),89.01,1.99,8.31,54.86,16.81,9.92,1,1
+Saltbush (A. nummularia),83.93,2.11,8.82,58.22,20.20,12.42,1,1
+Saltbush (A. rhagodioides),89.22,1.86,7.80,51.49,14.38,7.99,1,1
+Saltbush (A. undulata),89.20,1.90,7.97,52.61,20.81,11.80,1,1
+Neem,88.49,2.19,9.17,60.53,22.64,15.22,1,1
+Balanites aegyptiaca,92.76,2.28,9.52,62.84,17.99,11.06,1,1
+Buddleja polystachya,90.63,1.87,7.81,51.56,16.04,8.23,1,1
+Calliandra calothyrsus,92.47,2.12,8.86,58.49,16.51,9.57,1,1
+Combretum molle,90.95,2.76,11.55,76.24,15.24,12.09,1,1
+Commiphora africana,92.30,2.23,9.33,61.59,12.20,7.62,1,1
+Cordia africana,90.11,2.06,8.62,56.90,21.25,12.00,1,1
+Cordia sinensis,90.97,2.37,9.92,65.48,18.80,12.14,1,1
+Cytisus pulvinatus,91.37,2.32,9.71,64.10,15.25,9.30,1,1
+Dwarf koa,90.41,2.08,8.72,57.56,16.80,9.29,1,1
+Dichrostachys cinerea,92.45,2.07,8.66,57.17,14.74,8.70,1,1
+Diospyros mespiliformis,93.35,2.31,9.67,63.83,9.54,6.02,1,1
+Dombeya torrida,91.06,2.06,8.60,56.77,21.64,12.52,1,1
+Faidherbia albida,91.54,2.30,9.63,63.57,19.66,12.02,1,1
+Ficus glumosa,89.99,2.03,8.49,56.04,10.89,6.27,1,1
+Ficus thonningii,91.62,2.20,9.19,60.66,11.07,6.91,1,1
+Flueggea virosa,89.85,2.67,11.17,73.74,14.30,10.98,1,1
+Gliricidia sepium,90.39,2.13,8.90,58.75,21.63,12.93,1,1
+Grewia damine,92.06,1.96,8.22,54.26,16.34,9.24,1,1
+Grewia ferruginea,93.49,2.21,9.25,61.06,11.26,6.93,1,1
+Grewia tenax,93.43,2.51,10.50,69.31,11.61,8.17,1,1
+Gymnanthemum amygdalinum,92.21,2.83,11.84,78.16,20.73,16.52,1,1
+Gymnosporia senegalensis,92.37,2.80,11.72,77.37,14.38,11.33,1,1
+Hagenia abyssinica,88.47,2.30,9.63,63.57,15.17,9.80,1,1
+Lantana trifolia,92.16,2.46,10.29,67.93,17.18,11.86,1,1
+Leucaena diversifolia,92.37,2.03,8.49,56.04,23.49,13.01,1,1
+Leucaena leucocephala,91.01,2.33,9.76,64.43,23.15,14.83,1,1
+Leucaena pallida,90.31,1.78,7.45,49.18,23.09,11.65,1,1
+Moringa oleifera,89.63,2.69,11.24,74.20,23.21,17.89,1,1
+Moringa stenopetala,89.62,2.81,11.76,77.63,23.32,19.03,1,1
+Paulownia elongata leaf,95.51,2.08,8.71,57.50,0.00,0.00,1,1
+Philenoptera laxiflora,93.06,2.08,8.70,57.43,25.82,14.88,1,1
+Prunus africana,93.25,3.06,12.80,84.50,9.86,0.00,1,1
+Salvadora persica,80.25,2.15,8.98,59.28,14.98,10.85,1,1
+Senegalia brevispica,92.34,2.17,9.08,59.94,21.14,12.39,1,1
+Senegalia senegal,92.18,2.17,9.08,59.94,18.96,11.25,1,1
+Stereospermum kunthianum,91.44,2.38,9.96,65.75,14.70,9.90,1,1
+Teline monspessulana,93.10,2.67,11.19,73.87,19.35,13.83,1,1
+Vachellia nilotica,91.86,2.59,10.84,71.56,18.70,13.56,1,1
+Vachellia seyal,91.62,2.70,11.28,74.46,16.91,12.78,1,1
+Vachellia tortilis,94.27,2.28,9.56,63.11,13.73,8.37,1,1
+Ziziphus spina-christi,91.65,2.58,10.79,71.23,22.48,16.42,1,1
+fodder oats,92.65,2.29,9.59,63.31,10.61,7.08,1,1
+Oats silage,93.03,2.21,9.25,61.06,7.13,4.36,1,1
+Pigeonpea hay,91.39,1.83,7.64,50.43,15.22,7.40,1,1
+Barley forage,90.74,2.25,9.41,62.12,2.95,1.74,1,1
+Broken lentil,92.53,2.06,8.62,56.90,21.63,12.95,1,1
+Common bean shoot,90.32,2.32,9.71,64.10,17.65,12.80,1,1
+Foxtail millet forage,92.09,1.96,8.20,54.13,10.19,5.40,1,1
+Triticale,87.29,1.92,8.05,53.14,6.06,3.35,1,1
+Cowpea forage,90.95,2.04,8.54,56.37,20.66,14.67,1,1
+Cowpea hay,91.07,2.37,9.91,65.42,20.13,13.94,1,1
+Maize forage,90.24,2.29,9.58,63.24,6.06,3.91,1,1
+Maize silage,90.92,2.25,9.42,62.18,6.54,4.21,1,1
+Groundnut haulm ,91.48,2.28,9.56,63.11,12.58,8.15,1,1
+Oats hay,91.65,1.85,7.76,51.23,7.77,4.23,1,1
+Oats straw,91.89,2.23,9.32,61.52,7.27,4.45,1,1
+Pigeonpea edible twigs,91.07,1.69,7.06,46.60,18.29,9.15,1,1
+Pigeonpea leaf,90.58,1.94,8.12,53.60,27.82,16.74,1,1
+Pigeonpea stem,91.04,1.53,6.42,42.38,11.85,5.25,1,1
+Pigeonpea straw,94.21,1.91,7.99,52.74,16.53,8.43,1,1
+Pearl millet straw,92.55,1.89,7.91,52.22,3.16,1.64,1,1
+Chickpea stem,89.40,2.00,8.35,55.12,4.58,1.95,1,1
+Chickpea straw,90.38,1.81,7.59,50.10,4.67,2.41,1,1
+Finger millet straw ,90.34,1.91,8.01,52.88,3.92,2.10,1,1
+Teff straw ,92.34,1.67,6.98,46.08,4.90,2.33,1,1
+Soyabean straw,90.53,2.09,8.75,57.76,5.78,2.87,1,1
+Barley chaff,94.09,2.46,10.29,67.93,7.94,5.35,1,1
+Barley hull (unroasted),93.77,1.85,7.75,51.16,7.64,3.93,1,1
+Barley stem,91.38,1.23,5.16,34.06,2.75,0.98,1,1
+Barley straw,91.27,1.66,6.95,45.88,3.14,1.45,1,1
+"Barley straw (soaked in ""atela"")",91.94,2.65,11.09,73.21,0.00,0.00,1,1
+Lentil hull,89.93,1.94,8.12,53.60,12.08,6.15,1,1
+Lentil hull with fine grain (Shana) ,92.42,2.46,10.31,68.06,32.48,23.07,1,1
+Lentil stem,90.60,1.97,8.23,54.33,3.99,1.68,1,1
+Lentil straw,90.67,1.97,8.23,54.33,9.16,5.14,1,1
+Bean hull with fine grain (Duka),92.81,1.96,8.21,54.20,10.01,5.59,1,1
+Bean hull (roasted),92.31,1.96,8.18,54.00,10.31,5.67,1,1
+Bean hull (unroasted),92.31,1.97,8.25,54.46,9.72,5.35,1,1
+Common bean haulms,92.12,2.29,9.58,63.24,5.42,3.46,1,1
+Common bean hulls,88.54,2.18,9.12,60.20,7.36,4.20,1,1
+Common bean straw,91.43,2.05,8.59,56.70,6.67,3.74,1,1
+Pea hull (roasted),92.87,1.88,7.87,51.95,4.24,2.23,1,1
+Pea hull (unroasted),91.96,2.53,10.58,69.84,29.11,22.18,1,1
+Pea hull with fine grain (Duka),92.88,1.98,8.30,54.79,12.07,6.92,1,1
+Pea straw ,89.64,1.92,8.03,53.01,6.93,3.54,1,1
+Field pea hull ,91.86,2.23,9.32,61.52,11.32,6.07,1,1
+Field pea leaf ,91.86,2.23,9.32,61.52,11.32,6.07,1,1
+Field pea stem,90.64,1.91,8.00,52.81,4.59,2.01,1,1
+Sugarcane stover ,92.21,1.60,6.68,44.10,6.96,3.21,1,1
+Rye straw ,92.57,2.58,10.79,71.23,10.56,7.65,1,1
+Foxtail millet stover ,92.14,2.26,9.46,62.45,4.38,2.82,1,1
+Sorghum stover,91.91,2.06,8.60,56.77,6.72,3.86,1,1
+Wheat straw ,2.40,1.68,7.03,46.41,3.91,1.90,1,1
+"Wheat straw (soaked in ""atela"") ",92.37,2.44,10.21,67.40,0.00,0.00,1,1
+Faba bean hull,90.64,2.13,8.90,58.75,11.64,7.71,1,1
+Faba bean leaf,89.14,2.11,8.84,58.35,13.17,8.17,1,1
+Faba bean pod,88.96,2.24,9.36,61.79,8.00,4.43,1,1
+Faba bean straw ,90.14,1.67,6.99,46.14,6.45,3.02,1,1
+Cowpea haulms,91.96,2.24,9.38,61.92,13.41,8.20,1,1
+Cowpea pod,89.54,2.87,12.01,79.28,0.00,0.00,1,1
+Cowpea stem,90.14,2.51,10.49,69.25,17.73,12.57,1,1
+Maize cob,92.59,2.54,10.63,70.17,3.68,2.44,1,1
+Maize husk ,90.69,2.84,11.87,78.36,2.88,2.15,1,1
+Maize leaf,90.64,2.05,8.56,56.51,11.49,8.01,1,1
+Maize sheath,90.75,2.39,10.00,66.01,3.13,2.12,1,1
+Maize stem,91.29,2.21,9.23,60.93,3.30,1.88,1,1
+Maize stover + molasses,90.73,2.60,10.87,71.75,4.74,3.52,1,1
+Maize stover blade ,90.85,2.26,9.47,62.51,5.70,3.72,1,1
+Enset leaf ,92.53,1.85,7.74,51.09,15.30,8.00,1,1
+Enset pseudostem ,91.15,1.88,7.88,52.02,4.18,2.23,1,1
+Enset roots ,91.19,2.06,8.63,56.97,4.31,2.55,1,1
+Enset stem ,93.36,1.83,7.64,50.43,4.31,2.20,1,1
+Sweet potato vines ,90.44,2.55,10.65,70.30,15.05,11.80,1,1
+Banana leaf,94.08,1.73,7.22,47.66,10.62,5.58,1,1
+Banana pseudostem,92.17,1.76,7.37,48.65,5.18,2.64,1,1
+Coccinia abyssinica ,91.15,2.62,10.95,72.28,16.86,12.25,1,1
+Avocado leaf ,93.14,1.95,8.15,53.80,12.37,7.00,1,1
+Avocado leaf + twig ,92.34,2.01,8.42,55.58,13.04,7.63,1,1
+Sugar cane leaves + tops,93.73,1.66,6.95,45.88,7.77,3.79,1,1
+Sugar cane stem ,93.07,1.86,7.79,51.42,7.72,3.93,1,1
+Sugar cane tops ,94.21,1.82,7.63,50.37,7.35,3.58,1,1
+Sesame pod ,90.27,1.80,7.54,49.77,5.37,2.68,1,1
+Oats grain ,92.70,2.47,10.33,68.19,8.52,5.66,1,1
+Rapeseed cake ,91.20,2.52,10.55,69.64,35.60,25.70,1,1
+Pearl millet grain ,88.63,2.71,11.32,74.73,11.42,0.00,1,1
+Chickpea grain ,95.86,2.51,10.49,69.25,20.08,14.45,1,1
+"Teff straw (soaked in ""atala"") ",92.46,2.30,9.62,63.50,0.00,0.00,1,1
+Soya bean cake,93.81,2.66,11.12,73.41,47.88,39.64,1,1
+Soya bean meal,93.98,2.59,10.84,71.56,45.35,36.60,1,1
+Soyabean grain ,95.44,2.36,9.88,65.22,41.49,31.33,1,1
+Cottonseed cake ,92.93,2.05,8.57,56.57,26.43,17.27,1,1
+Noug seed cake ,93.24,1.75,7.34,48.45,31.94,18.27,1,1
+Noug straw ,92.73,2.22,9.29,61.32,3.41,2.08,1,1
+Sunflower cake ,91.92,2.07,8.68,57.30,25.89,15.34,1,1
+Barley grain ,87.96,2.39,9.99,65.95,10.73,6.69,1,1
+Roasted barley flour ,90.42,2.52,10.55,69.64,10.41,7.55,1,1
+Linseed cake ,92.69,2.19,9.16,60.47,30.61,20.47,1,1
+Sweet lupin grain (coarse ground) ,93.42,2.71,11.32,74.73,36.15,29.12,1,1
+Sweet lupin grain (soaked) ,93.31,2.71,11.32,74.73,39.27,32.08,1,1
+Sweet lupin grain (steamed) ,93.10,2.45,10.24,67.60,28.24,20.56,1,1
+Rice bran ,93.62,1.57,6.58,43.44,7.29,2.85,1,1
+Common bean seed ,92.13,2.85,11.92,78.69,24.35,20.11,1,1
+Sugar cane waste ,96.52,1.57,6.55,43.24,2.11,0.98,1,1
+Sesame cake ,91.20,2.20,9.20,60.73,30.52,20.59,1,1
+Wheat bran ,91.20,2.53,10.57,69.77,16.16,11.54,1,1
+Wheat flour ,84.95,1.88,7.87,51.95,10.63,5.70,1,1
+Wheat malt ,91.61,2.34,9.81,64.76,10.58,7.08,1,1
+Wheat middling ,89.67,2.24,9.38,61.92,15.75,9.71,1,1
+Wheat shorts ,91.80,2.39,10.01,66.08,12.97,8.80,1,1
+Brewery by-product (maize) ,91.36,2.43,10.17,67.13,22.41,14.22,1,1
+Maize bran ,92.14,2.25,9.41,62.12,7.95,4.97,1,1
+Maize flour ,90.13,2.50,10.45,68.98,8.62,6.12,1,1
+Beef cattle compound feed ,92.38,2.22,9.29,61.32,15.61,10.13,1,1
+Brewer's spent grain (from 'katikala') ,95.47,1.93,8.07,53.27,24.14,13.20,1,1
+Brewer's spent grain (from 'tela') ,90.81,2.71,11.34,74.86,19.09,14.89,1,1
+Broiler grower feed ,92.74,2.27,9.48,62.58,21.25,14.27,1,1
+Broiler starter feed ,93.16,2.12,8.89,58.68,17.97,11.13,1,1
+Broiler finisher feed ,92.69,2.20,9.19,60.66,17.48,11.25,1,1
+Calf compound feed ,92.82,2.04,8.54,56.37,17.28,10.42,1,1
+Cattle concentrate ,93.59,2.45,10.25,67.66,21.53,14.74,1,1
+Commercial layer feed ,92.85,2.23,9.35,61.72,19.43,12.71,1,1
+Commercial starter chick feed ,92.76,2.31,9.65,63.70,21.26,14.52,1,1
+Dairy feed (mesh) ,92.77,2.17,9.06,59.81,16.97,10.76,1,1
+Dairy feed (Pellet) ,93.21,2.08,8.69,57.36,16.95,9.99,1,1
+Fish meal ,92.70,1.80,7.53,49.71,46.52,37.81,1,1
+Poultry litter ,91.20,1.84,7.69,50.76,19.62,9.58,1,1
+Sheep & goat fattening compound feed ,92.35,2.21,9.23,60.93,15.68,10.08,1,1
+Khat ,92.55,1.57,6.55,43.24,13.61,6.76,1,1
+Khat by-product ,90.60,2.54,10.61,70.04,10.15,7.28,1,1
+Coffee husk ,90.65,2.43,10.17,67.13,11.83,7.84,1,1
+Impatiens tinctoria ,91.74,2.14,8.95,59.08,6.06,3.74,1,1
+Linseed straw ,92.51,1.82,7.60,50.17,5.16,2.52,1,1
+Flax straw ,91.60,1.88,7.87,51.95,3.32,1.65,1,1
+Tobacco ,91.30,2.55,10.67,70.43,23.24,17.36,1,1
+Prickly pear,92.29,2.10,8.77,57.89,8.60,5.27,1,1
+Parthenium sp. ,91.66,2.98,12.47,82.32,27.96,23.95,1,1
